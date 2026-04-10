@@ -9,7 +9,6 @@ import Orders from './pages/Orders'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
-import SampleRequestTemp from './pages/SampleRequestTemp'
 import './App.css'
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/sample-request" element={<SampleRequestTemp />} />
         </Routes>
       </main>
       <Footer />

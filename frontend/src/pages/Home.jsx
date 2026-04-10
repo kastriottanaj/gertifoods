@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import SEO from '../components/SEO';
+import Modal from '../components/Modal';
+import SampleRequestForm from '../components/SampleRequestForm';
 
 export default function Home() {
   const { t } = useLanguage();
+  const [sampleModalOpen, setSampleModalOpen] = useState(false);
 
   return (
     <div className="home">
@@ -15,15 +19,28 @@ export default function Home() {
           <p className="hero-subtitle">{t('home_hero_subtitle')}</p>
           <p className="hero-description">{t('home_hero_description')}</p>
           <div className="hero-actions">
-            <Link to="/products" className="btn btn-lg" style={{ background: 'white', color: 'var(--primary)', fontWeight: 700 }}>
+            <button
+              type="button"
+              onClick={() => setSampleModalOpen(true)}
+              className="btn btn-lg"
+              style={{ background: 'white', color: 'var(--primary)', fontWeight: 700 }}
+            >
+              {t('home_request_samples')}
+            </button>
+            <Link to="/products" className="btn btn-outline-white btn-lg">
               {t('home_browse')}
-            </Link>
-            <Link to="/register" className="btn btn-outline-white btn-lg">
-              {t('home_partner')}
             </Link>
           </div>
         </div>
       </section>
+
+      <Modal
+        isOpen={sampleModalOpen}
+        onClose={() => setSampleModalOpen(false)}
+        title={t('sample_form_title')}
+      >
+        <SampleRequestForm source="home_hero" />
+      </Modal>
 
       <section className="features">
         <div className="features-grid">
