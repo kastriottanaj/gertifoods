@@ -138,6 +138,9 @@ const translations = {
     sample_form_success_body: 'Ekipi ynë do t\'ju kontaktojë brenda një dite pune për të konfirmuar përzgjedhjen e mostrave dhe detajet e dorëzimit.',
     sample_form_error: 'Diçka shkoi keq. Ju lutemi provoni përsëri ose na kontaktoni drejtpërdrejt.',
 
+    // Modal
+    modal_close: 'Mbyll',
+
     // Common
     loading: 'Duke ngarkuar...',
     total: 'Totali',
@@ -283,6 +286,9 @@ const translations = {
     sample_form_success_body: 'Our team will reach out within one business day to confirm your sample selection and delivery details.',
     sample_form_error: 'Something went wrong. Please try again or contact us directly.',
 
+    // Modal
+    modal_close: 'Close',
+
     // Common
     loading: 'Loading...',
     total: 'Total',
@@ -427,6 +433,9 @@ const translations = {
     sample_form_success_title: 'Vielen Dank — wir melden uns bei Ihnen',
     sample_form_success_body: 'Unser Team meldet sich innerhalb eines Werktages bei Ihnen, um die Musterauswahl und Lieferdetails zu bestätigen.',
     sample_form_error: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.',
+
+    // Modal
+    modal_close: 'Schließen',
 
     // Common
     loading: 'Wird geladen...',
