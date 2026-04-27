@@ -1,7 +1,19 @@
 from rest_framework import generics, permissions
 
-from .models import SampleRequest
-from .serializers import SampleRequestSerializer
+from .models import Lead, SampleRequest
+from .serializers import LeadSerializer, SampleRequestSerializer
+
+
+class LeadCreateView(generics.CreateAPIView):
+    """
+    Public endpoint for the inline hero lead form. 5-field minimum-friction
+    capture (first name, last name, email, phone, message). Feeds into the
+    Straight Line funnel ahead of the richer SampleRequest form.
+    """
+
+    queryset = Lead.objects.all()
+    serializer_class = LeadSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class SampleRequestCreateView(generics.CreateAPIView):

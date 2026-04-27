@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import brandLogo from '../assets/gerti-foods-logo.webp';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -12,9 +13,8 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-brand">
-          <span>Gerti</span>
-          <span className="navbar-brand-green">foods</span>
+        <Link to="/" className="navbar-brand" aria-label="Gerti Foods">
+          <img src={brandLogo} alt="Gerti Foods" />
         </Link>
         <div className="navbar-links">
           <Link to="/products">{t('nav_products')}</Link>

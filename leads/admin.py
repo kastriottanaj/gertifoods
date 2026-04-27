@@ -1,6 +1,37 @@
 from django.contrib import admin
 
-from .models import SampleRequest
+from .models import Lead, SampleRequest
+
+
+@admin.register(Lead)
+class LeadAdmin(admin.ModelAdmin):
+    list_display = (
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'source',
+        'status',
+        'created_at',
+    )
+    list_filter = ('status', 'source', 'created_at')
+    list_editable = ('status',)
+    search_fields = ('first_name', 'last_name', 'email', 'phone')
+    readonly_fields = ('created_at', 'updated_at')
+    date_hierarchy = 'created_at'
+    ordering = ('-created_at',)
+
+    fieldsets = (
+        ('Contact', {
+            'fields': ('first_name', 'last_name', 'email', 'phone'),
+        }),
+        ('Message', {
+            'fields': ('message',),
+        }),
+        ('Tracking', {
+            'fields': ('source', 'status', 'created_at', 'updated_at'),
+        }),
+    )
 
 
 @admin.register(SampleRequest)

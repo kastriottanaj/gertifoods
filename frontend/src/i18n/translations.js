@@ -10,22 +10,143 @@ const translations = {
     nav_logout: 'Dil',
 
     // Home
-    home_title: 'Gerti Foods - Prodhues i Produkteve Gjysmë të Pjekura',
-    home_meta: 'Gerti Foods është prodhues lider i produkteve gjysmë të pjekura në Kosovë. Furnizues i besueshëm për furra, restorante dhe zinxhirë shitjesh.',
-    home_hero_title: 'Produktet Gjysmë të Pjekura për Biznesin Tuaj',
-    home_hero_subtitle: 'Furnizuesi i besueshëm i Kosovës për produkte ushqimore cilësore gjysmë të pjekura',
-    home_hero_description: 'Ne bashkëpunojmë me furra, restorante dhe shitës me pakicë në të gjithë rajonin për t\'u ofruar produkte cilësore me çmime konkurruese.',
-    home_browse: 'Shiko Produktet',
-    home_partner: 'Bëhu Partner',
-    home_request_samples: 'Kërkoni Mostra Falas',
-    home_quality_title: 'Produkte Cilësore',
-    home_quality_desc: 'Produkte gjysmë të pjekura të përgatitura me kujdes me përbërës premium.',
-    home_b2b_title: 'Partneritete B2B',
-    home_b2b_desc: 'Zgjidhje të përshtatura për furra, restorante dhe zinxhirë shitjesh.',
-    home_delivery_title: 'Dërgesa e Besueshme',
-    home_delivery_desc: 'Zinxhir furnizimi konsistent me dërgesa në kohë në Kosovë dhe rajon.',
-    home_bulk_title: 'Porosi në Sasi',
-    home_bulk_desc: 'Çmime konkurruese për porosi me shumicë dhe në sasi të mëdha.',
+    home_title: 'Gerti Foods — Furnizuesi juaj i produkteve gjysmë të pjekura',
+    home_meta: 'Gerti Foods furnizon furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura të çertifikuara (ISO 22000, HACCP, IFS, BRC, Halal). Mostra falas për biznesin tuaj.',
+    home_hero_eyebrow: 'Gjysmë të pjekura · Shkallë industriale · Prizren, Kosovë',
+    home_hero_title: 'Kroasantë të freskët nga furra jote çdo mëngjes. Pa bukëpjekës.',
+    home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
+    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 vjet traditë nga Hasi',
+
+    // Hero lead form + inline CTAs
+    hero_form_headline: 'A po kërkoni produkte të gatshme për biznesin tend?',
+    hero_form_subtext: 'Lër të dhënat e tua. Të kontaktojmë brenda një dite pune me ofertë dhe mostra falas.',
+    hero_form_first_name: 'Emri',
+    hero_form_last_name: 'Mbiemri',
+    hero_form_email: 'Email',
+    hero_form_phone: 'Telefoni',
+    hero_form_message: 'Mesazhi (opsional)',
+    hero_form_submit: 'Dërgo Kërkesën',
+    hero_form_loading: 'Duke dërguar...',
+    hero_form_success_title: 'Faleminderit!',
+    hero_form_success_body: 'Ekipi ynë të kontakton brenda një dite pune për ofertën dhe mostrat.',
+    hero_form_error: 'Diçka shkoi keq. Provo përsëri ose na kontakto drejtpërdrejt.',
+    hero_divider: 'OSE FOL DIREKT ME NE',
+    hero_whatsapp_inline: 'Bisedo në WhatsApp',
+    hero_phone_inline: 'Telefono 049 111 150',
+    hero_stat_certs_label: 'Çertifikata ndërkombëtare',
+    hero_stat_years_label: 'Vjet traditë buke nga Hasi',
+    hero_stat_capacity_label: 'Kroasant / Danish në orë',
+    hero_stat_baketime_label: 'Minuta në furrë',
+    hero_badge_alt: 'Çertifikata e çertifikimit të Gerti Foods',
+
+    // Segment qualifier row
+    segments_eyebrow: 'PËR CILIN BIZNES',
+    segments_title: 'Ku zihet vendi i Gerti Foods në kuzhinën tuaj',
+    segments_subtitle: 'Zgjidh segmentin tënd dhe shiko si ia dalim të tjerët e sektorit.',
+    segment_bakeries_title: 'Për Furra',
+    segment_bakeries_body: 'Kroasantë, pite e Danish gati për furrën tënde. Zero brumë, zero bukëpjekës.',
+    segment_horeca_title: 'Për Hotele & Restorante',
+    segment_horeca_body: 'Pica e byrek në 20 minuta. Menyja premium pa turn bukëpjekjeje.',
+    segment_retail_title: 'Për Supermarkete',
+    segment_retail_body: 'Paketim tërheqës në raft, qarkullim i shpejtë, marzh më i lartë.',
+    segment_catering_title: 'Për Katering',
+    segment_catering_body: 'Volume industriale, dërgesë në orar, cilësi e njëjtë për çdo event.',
+
+    // Pain / contrast section
+    pain_eyebrow: 'PËRLLOGARIT KOSTON',
+    pain_title: 'Çfarë të kushton buka e pjekur në kuzhinën tënde',
+    pain_subtitle: 'Tri kosto të fshehta që të hanë marzhin çdo muaj — dhe si i heq Gerti Foods nga ekuacioni.',
+    pain_without_label: 'PA GERTI FOODS',
+    pain_without_1_title: 'Bukëpjekës i përhershëm në pagë',
+    pain_without_1_body: 'Pagë fikse, sigurime, turne të pambuluara. Kostoja më e madhe e kuzhinës pas qirasë.',
+    pain_without_2_title: 'Cilësi që varet nga dita',
+    pain_without_2_body: 'Turn i parë i shkëlqyer, turn i mesit i dobët, turn i fundit i harruar. Kur bukëpjekësi mungon, të gjithë e ndiejnë.',
+    pain_without_3_title: 'Mbetje çdo mbrëmje',
+    pain_without_3_body: 'Piqet në mëngjes, mbetet në mbrëmje. Produktet e pashitura shkojnë direkt në plehra — dhe direkt nga marzhi yt.',
+    pain_with_label: 'ME GERTI FOODS',
+    pain_with_1_title: '5 minuta përgatitje, 20 minuta furrë',
+    pain_with_1_body: 'Nxirre nga ngrirja, fute në furrë, shite. Pa brumë, pa mbrujtje, pa bukëpjekës në pagë.',
+    pain_with_2_title: 'E njëjta cilësi në çdo turn',
+    pain_with_2_body: 'Të gjitha produktet prodhohen në fabrikë me procese të çertifikuara. Klienti merr të njëjtin kroasant në orën 7 dhe në orën 17.',
+    pain_with_3_title: 'Piq sa shet',
+    pain_with_3_body: 'Produkti qëndron i ngrirë deri në momentin që të nevojitet. Zero mbetje, marzh më i lartë, stok që nuk prishet.',
+    pain_cta: 'Ndalo humbjet — kërko mostrat falas',
+
+    // 3 Pillars — "Why GertiFoods"
+    pillars_eyebrow: 'PSE GERTI FOODS',
+    pillars_title: 'Tri arsye pse furnizuesit më të mirë zgjedhin ne',
+    pillars_subtitle: 'Produkte që shiten vetë, fabrikë që nuk të lëshon, dhe një traditë që nuk mund ta kopjojë askush.',
+    pillar_1_title: 'Kroasantë që shiten vetë',
+    pillar_1_body: 'Pa bukëpjekës në turn. Piqen për 15–20 minuta. Aroma e freskët tërheq klientin në pragun e derës.',
+    pillar_2_title: 'Fabrikë e çertifikuar, pa kompromis',
+    pillar_2_body: '5 çertifikata ndërkombëtare (ISO 22000, HACCP, IFS Foods, BRC, Halal). Gjurmueshmëri e plotë nga mielli deri te paketa.',
+    pillar_3_title: 'Traditë 600-vjeçare, teknologji europiane',
+    pillar_3_body: 'Tre partnerë nga Hasi — rajoni me 600 vjet traditë buke — me linjë prodhimi automatike dhe makineri ndërkombëtare.',
+
+    // Product categories preview
+    categories_eyebrow: 'PRODUKTET TONA',
+    categories_title: 'Çfarë piqet në fabrikën tonë në Prizren',
+    categories_subtitle: 'Gama e gjerë që mbulon çdo pikë shitjeje — nga furra lokale e restorante, te hotele, supermarkete e katering.',
+    category_pizza_title: 'Pizza',
+    category_pizza_desc: '7 shije, madhësi familjare dhe mini, gati për furrën tënde.',
+    category_croissant_title: 'Kroasant',
+    category_croissant_desc: 'Të thjeshtë, me çokollatë, me krem — deri në 6,000 copë/orë.',
+    category_pite_title: 'Pite',
+    category_pite_desc: 'Me djathë, spinaq, mish e ton — cilësi e pandryshueshme në çdo paketë.',
+    category_family_title: 'Family Pack',
+    category_family_desc: 'Paketime për shtëpinë dhe pakicën, dizajn tërheqës në raft.',
+    category_pizza_alt: 'Pizza Margherita gjysmë e pjekur nga Gerti Foods',
+    category_croissant_alt: 'Kroasant me çokollatë nga Gerti Foods',
+    category_pite_alt: 'Pite me djathë nga Gerti Foods',
+    category_family_alt: 'Family Pack nga Gerti Foods për pakicë dhe shtëpi',
+    categories_cta: 'Shiko të gjitha produktet',
+
+    // How ordering works
+    process_eyebrow: 'SI FUNKSIONON',
+    process_title: 'Tre hapa për të filluar me ne',
+    process_subtitle: 'Pa formularë të ndërlikuar, pa lista çmimesh të fshehura, pa premtime që nuk mbahen.',
+    process_step_1_title: 'Kërko mostrat falas',
+    process_step_1_body: 'Lini të dhënat e kontaktit. Mostrat vijnë në adresën tënde brenda 48 orëve. Pa detyrime, pa kartë krediti.',
+    process_step_2_title: 'Aplikoni për llogari me shumicë',
+    process_step_2_body: 'Pas miratimit të mostrave, dërgo dokumentet e biznesit. Miratim brenda 24 orëve, akses direkt në platformë.',
+    process_step_3_title: 'Porosit sa herë ke nevojë',
+    process_step_3_body: 'Çmime shumice, dërgesa e rregullt në Kosovë dhe rajon, kushte pagese të qarta. Zero surpriza në faturë.',
+    process_cta: 'Fillo me mostrat falas',
+
+    // Capacity / numbers band
+    capacity_eyebrow: 'KAPACITETI YNË',
+    capacity_title: 'Numrat që qëndrojnë pas premtimeve',
+    capacity_subtitle: 'Fabrika jonë në Prizren prodhon me shkallë industriale, pa lëshuar dorën nga cilësia artizanale.',
+    capacity_stat_croissant: 'Kroasantë në orë',
+    capacity_stat_danish: 'Danish në orë',
+    capacity_stat_tortilla: 'Tortilla në orë',
+    capacity_stat_pizza: 'Pica të ngrira në orë',
+
+    // Heritage / founder story
+    heritage_eyebrow: 'HISTORIA JONË',
+    heritage_title: 'Tre partnerë. Një fabrikë. 600 vjet bukë.',
+    heritage_body: 'Gerti Foods lindi nga traditat e Hasit — rajoni ku buka është pjekur në familje prej 6 shekujsh. Sot, kjo traditë takon teknologjinë europiane në Prizren: linjë prodhimi automatike, makineri industriale dhe një ekip i trajnuar nga ekspertët më të mirë të sektorit. Çdo kroasant, çdo pite, çdo pizza që del nga fabrika jonë e mban pak nga kjo histori.',
+    heritage_fact_partners: 'Partnerë nga Hasi',
+    heritage_fact_years: 'Vjet traditë buke',
+    heritage_fact_founded: 'Viti i hapjes së fabrikës',
+
+    // Final CTA band
+    final_cta_title: 'Provo mostrat falas. Shiko pse furrat më të mira në Kosovë po kalojnë tek ne.',
+    final_cta_body: 'Mostra falas, pa detyrime, pa kartë krediti. Dërgesë brenda 48 orëve në adresën e biznesit tënd.',
+    final_cta_primary: 'Kërko mostra falas',
+    final_cta_whatsapp: 'Fol me shitjet në WhatsApp',
+    final_cta_catalog: 'Shkarko katalogun (PDF)',
+
+    // Catalog request form (minimal email + company_name)
+    catalog_modal_title: 'Shkarko katalogun e produkteve',
+    catalog_form_subtext: 'Lër email-in dhe emrin e kompanisë. Katalogu i plotë të vjen në email brenda një dite pune.',
+    catalog_form_company: 'Emri i kompanisë',
+    catalog_form_email: 'Email',
+    catalog_form_submit: 'Dërgo kërkesën',
+    catalog_form_loading: 'Duke dërguar...',
+    catalog_form_success_title: 'Faleminderit!',
+    catalog_form_success_body: 'Katalogu i plotë të vjen në email brenda një dite pune.',
+    catalog_form_error: 'Diçka shkoi keq. Provo përsëri ose na kontakto drejtpërdrejt.',
 
     // Products
     products_title: 'Produktet Tona',
@@ -38,7 +159,6 @@ const translations = {
     products_view: 'Shiko Detajet',
 
     // Product Detail
-    product_price_per: 'për',
     product_min_order: 'Porosi minimale',
     product_quantity: 'Sasia',
     product_add_cart: 'Shto në Shportë',
@@ -108,12 +228,17 @@ const translations = {
 
     // Footer
     footer_description: 'Produkte premium gjysmë të pjekura për biznesin tuaj.',
-    footer_location: 'Kosovë',
+    footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovë',
     footer_contact: 'Kontakti',
     footer_hours: 'Orari i Punës',
     footer_mon_fri: 'Hën - Pre: 8:00 - 17:00',
     footer_sat: 'Sht: 8:00 - 13:00',
     footer_rights: 'Të gjitha të drejtat të rezervuara.',
+    footer_col_products: 'Produktet',
+    footer_col_business: 'Për bizneset',
+    footer_col_company: 'Kompania',
+    footer_home: 'Kreu',
+    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
 
     // Sample Request Form
     sample_form_title: 'Kërkoni Mostra Falas',
@@ -142,10 +267,13 @@ const translations = {
     // Modal
     modal_close: 'Mbyll',
 
+    // WhatsApp
+    whatsapp_label: 'Bisedo në WhatsApp',
+    whatsapp_greeting: 'Përshëndetje, jam i interesuar për produktet Gerti Foods.',
+
     // Common
     loading: 'Duke ngarkuar...',
     total: 'Totali',
-    required: 'E detyrueshme',
   },
 
   en: {
@@ -159,22 +287,143 @@ const translations = {
     nav_logout: 'Logout',
 
     // Home
-    home_title: 'Gerti Foods - Half-Baked Products Manufacturer',
-    home_meta: 'Gerti Foods is a leading manufacturer of half-baked products in Kosovo. Trusted supplier for bakeries, restaurants, and retail chains.',
-    home_hero_title: 'Half-Baked Products for Your Business',
-    home_hero_subtitle: 'Kosovo\'s trusted supplier of premium half-baked food products',
-    home_hero_description: 'We partner with bakeries, restaurants, and retailers across the region to deliver quality products at competitive prices.',
-    home_browse: 'Browse Products',
-    home_partner: 'Become a Partner',
-    home_request_samples: 'Request Free Samples',
-    home_quality_title: 'Quality Products',
-    home_quality_desc: 'Carefully crafted half-baked products made with premium ingredients.',
-    home_b2b_title: 'B2B Partnerships',
-    home_b2b_desc: 'Tailored solutions for bakeries, restaurants, and retail chains.',
-    home_delivery_title: 'Reliable Delivery',
-    home_delivery_desc: 'Consistent supply chain with timely deliveries across Kosovo and the region.',
-    home_bulk_title: 'Bulk Orders',
-    home_bulk_desc: 'Competitive pricing for wholesale and bulk orders.',
+    home_title: 'Gerti Foods — Your half-baked products supplier',
+    home_meta: 'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with certified half-baked products (ISO 22000, HACCP, IFS, BRC, Halal). Free samples for your business.',
+    home_hero_eyebrow: 'Half-baked · Industrial scale · Prizren, Kosovo',
+    home_hero_title: 'Fresh croissants from your oven every morning. No baker needed.',
+    home_hero_subtitle: 'We supply bakeries, hotels, restaurants and supermarkets with half-baked products that bake in 15–20 minutes — same quality every shift.',
+    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 years of Hasi tradition',
+
+    // Hero lead form + inline CTAs
+    hero_form_headline: 'Looking for ready-made products for your business?',
+    hero_form_subtext: 'Leave your details. We\'ll reach out within one business day with a quote and free samples.',
+    hero_form_first_name: 'First name',
+    hero_form_last_name: 'Last name',
+    hero_form_email: 'Email',
+    hero_form_phone: 'Phone',
+    hero_form_message: 'Message (optional)',
+    hero_form_submit: 'Send Request',
+    hero_form_loading: 'Sending...',
+    hero_form_success_title: 'Thank you!',
+    hero_form_success_body: 'Our team will contact you within one business day with a quote and samples.',
+    hero_form_error: 'Something went wrong. Please try again or contact us directly.',
+    hero_divider: 'OR TALK TO US DIRECTLY',
+    hero_whatsapp_inline: 'Chat on WhatsApp',
+    hero_phone_inline: 'Call 049 111 150',
+    hero_stat_certs_label: 'International certifications',
+    hero_stat_years_label: 'Years of Hasi baking heritage',
+    hero_stat_capacity_label: 'Croissants / Danish per hour',
+    hero_stat_baketime_label: 'Minutes in the oven',
+    hero_badge_alt: 'Gerti Foods certification badge',
+
+    // Segment qualifier row
+    segments_eyebrow: 'WHO WE SUPPLY',
+    segments_title: 'Where Gerti Foods fits in your kitchen',
+    segments_subtitle: 'Pick your segment and see how operators like you run their line with us.',
+    segment_bakeries_title: 'For Bakeries',
+    segment_bakeries_body: 'Croissants, pies and Danish pastries ready for your oven. No dough, no in-house baker.',
+    segment_horeca_title: 'For Hotels & Restaurants',
+    segment_horeca_body: 'Pizza and pies in 20 minutes. A premium menu without a baker on shift.',
+    segment_retail_title: 'For Retail',
+    segment_retail_body: 'Shelf-appeal packaging, fast turnover, higher margin per square metre.',
+    segment_catering_title: 'For Catering',
+    segment_catering_body: 'Industrial volumes, on-time delivery, the same quality at every event.',
+
+    // Pain / contrast section
+    pain_eyebrow: 'COUNT THE COST',
+    pain_title: 'What in-house baking actually costs you',
+    pain_subtitle: 'Three hidden costs eating your margin every month — and how Gerti Foods takes them off the table.',
+    pain_without_label: 'WITHOUT GERTI FOODS',
+    pain_without_1_title: 'A baker on permanent payroll',
+    pain_without_1_body: 'Fixed salary, insurance, shifts that still go uncovered. The single largest kitchen cost after rent.',
+    pain_without_2_title: 'Quality that depends on the day',
+    pain_without_2_body: 'Brilliant morning shift, weak midday, forgotten by close. When the baker is off, everyone notices.',
+    pain_without_3_title: 'Waste every evening',
+    pain_without_3_body: 'Baked in the morning, binned at night. Unsold product goes straight to the trash — and straight out of your margin.',
+    pain_with_label: 'WITH GERTI FOODS',
+    pain_with_1_title: '5 min prep, 20 min oven',
+    pain_with_1_body: 'Pull from the freezer, into the oven, on the shelf. No dough, no mixing, no baker on payroll.',
+    pain_with_2_title: 'Same quality, every shift',
+    pain_with_2_body: 'Every product is made in the factory with certified processes. The same croissant at 7am and at 5pm.',
+    pain_with_3_title: 'Bake what you sell',
+    pain_with_3_body: 'Product stays frozen until you need it. Zero waste, higher margin, stock that doesn\'t spoil.',
+    pain_cta: 'Stop the bleed — request free samples',
+
+    // 3 Pillars — "Why GertiFoods"
+    pillars_eyebrow: 'WHY GERTI FOODS',
+    pillars_title: 'Three reasons the best suppliers choose us',
+    pillars_subtitle: 'Products that sell themselves, a factory that doesn\'t let you down, and a tradition nobody can copy.',
+    pillar_1_title: 'Croissants that sell themselves',
+    pillar_1_body: 'No baker on shift. 15–20 minutes in the oven. Fresh aroma pulls customers straight to your door.',
+    pillar_2_title: 'Certified factory, zero compromise',
+    pillar_2_body: '5 international certifications (ISO 22000, HACCP, IFS Foods, BRC, Halal). Full traceability from flour to final pack.',
+    pillar_3_title: '600-year tradition, European technology',
+    pillar_3_body: 'Three partners from Hasi — the region with 600 years of bread heritage — with automated lines and international-grade machinery.',
+
+    // Product categories preview
+    categories_eyebrow: 'OUR PRODUCTS',
+    categories_title: 'What we bake in our Prizren factory',
+    categories_subtitle: 'A range wide enough for every kind of point-of-sale — local bakeries and restaurants, hotels, supermarkets and catering.',
+    category_pizza_title: 'Pizza',
+    category_pizza_desc: '7 flavours, family and mini sizes, ready for your oven.',
+    category_croissant_title: 'Croissants',
+    category_croissant_desc: 'Plain, chocolate, cream — up to 6,000 pieces per hour.',
+    category_pite_title: 'Pies',
+    category_pite_desc: 'Cheese, spinach, meat and tuna — same quality in every pack.',
+    category_family_title: 'Family Pack',
+    category_family_desc: 'Home and retail formats with shelf-appeal packaging.',
+    category_pizza_alt: 'Half-baked Margherita pizza by Gerti Foods',
+    category_croissant_alt: 'Chocolate croissant by Gerti Foods',
+    category_pite_alt: 'Cheese pie by Gerti Foods',
+    category_family_alt: 'Family Pack by Gerti Foods for retail and home',
+    categories_cta: 'See all products',
+
+    // How ordering works
+    process_eyebrow: 'HOW IT WORKS',
+    process_title: 'Three steps to start working with us',
+    process_subtitle: 'No complicated forms, no hidden price lists, no promises we don\'t keep.',
+    process_step_1_title: 'Request free samples',
+    process_step_1_body: 'Leave your contact details. Samples arrive at your address within 48 hours. No commitment, no credit card.',
+    process_step_2_title: 'Apply for a wholesale account',
+    process_step_2_body: 'Once you approve the samples, send your business documents. Approval within 24 hours, direct access to the platform.',
+    process_step_3_title: 'Order whenever you need',
+    process_step_3_body: 'Wholesale pricing, regular delivery across Kosovo and the region, clear payment terms. Zero invoice surprises.',
+    process_cta: 'Start with free samples',
+
+    // Capacity / numbers band
+    capacity_eyebrow: 'OUR CAPACITY',
+    capacity_title: 'The numbers behind the promise',
+    capacity_subtitle: 'Our Prizren factory runs at industrial scale without giving up on artisan quality.',
+    capacity_stat_croissant: 'Croissants per hour',
+    capacity_stat_danish: 'Danish pastries per hour',
+    capacity_stat_tortilla: 'Tortillas per hour',
+    capacity_stat_pizza: 'Frozen pizzas per hour',
+
+    // Heritage / founder story
+    heritage_eyebrow: 'OUR STORY',
+    heritage_title: 'Three partners. One factory. 600 years of bread.',
+    heritage_body: 'Gerti Foods was born from the traditions of Hasi — a region where bread has been baked in families for six centuries. Today that tradition meets European technology in Prizren: automated production lines, industrial machinery, and a team trained by the best in the sector. Every croissant, every pie, every pizza that leaves our factory carries a piece of that story.',
+    heritage_fact_partners: 'Partners from Hasi',
+    heritage_fact_years: 'Years of bread tradition',
+    heritage_fact_founded: 'Year our factory opened',
+
+    // Final CTA band
+    final_cta_title: 'Try free samples. See why the best bakeries in Kosovo are switching to us.',
+    final_cta_body: 'Free samples, no commitment, no credit card. Delivered to your business address within 48 hours.',
+    final_cta_primary: 'Request free samples',
+    final_cta_whatsapp: 'Talk to sales on WhatsApp',
+    final_cta_catalog: 'Download product catalog (PDF)',
+
+    // Catalog request form (minimal email + company_name)
+    catalog_modal_title: 'Download the product catalog',
+    catalog_form_subtext: 'Leave your email and company name. We\'ll email you the full catalog within 1 business day.',
+    catalog_form_company: 'Company name',
+    catalog_form_email: 'Email',
+    catalog_form_submit: 'Send request',
+    catalog_form_loading: 'Sending...',
+    catalog_form_success_title: 'Thank you!',
+    catalog_form_success_body: 'We\'ll email you the full catalog within 1 business day.',
+    catalog_form_error: 'Something went wrong. Please try again or contact us directly.',
 
     // Products
     products_title: 'Our Products',
@@ -187,7 +436,6 @@ const translations = {
     products_view: 'View Details',
 
     // Product Detail
-    product_price_per: 'per',
     product_min_order: 'Minimum order',
     product_quantity: 'Quantity',
     product_add_cart: 'Add to Cart',
@@ -257,12 +505,17 @@ const translations = {
 
     // Footer
     footer_description: 'Premium half-baked products for your business.',
-    footer_location: 'Kosovo',
+    footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovo',
     footer_contact: 'Contact',
     footer_hours: 'Business Hours',
     footer_mon_fri: 'Mon - Fri: 8:00 - 17:00',
     footer_sat: 'Sat: 8:00 - 13:00',
     footer_rights: 'All rights reserved.',
+    footer_col_products: 'Products',
+    footer_col_business: 'For businesses',
+    footer_col_company: 'Company',
+    footer_home: 'Home',
+    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
 
     // Sample Request Form
     sample_form_title: 'Request Free Samples',
@@ -291,10 +544,13 @@ const translations = {
     // Modal
     modal_close: 'Close',
 
+    // WhatsApp
+    whatsapp_label: 'Chat on WhatsApp',
+    whatsapp_greeting: 'Hello, I\'m interested in Gerti Foods products.',
+
     // Common
     loading: 'Loading...',
     total: 'Total',
-    required: 'Required',
   },
 
   de: {
@@ -308,22 +564,143 @@ const translations = {
     nav_logout: 'Abmelden',
 
     // Home
-    home_title: 'Gerti Foods - Hersteller von Halbgebackenen Produkten',
-    home_meta: 'Gerti Foods ist ein führender Hersteller von halbgebackenen Produkten im Kosovo. Zuverlässiger Lieferant für Bäckereien, Restaurants und Einzelhandelsketten.',
-    home_hero_title: 'Halbgebackene Produkte für Ihr Unternehmen',
-    home_hero_subtitle: 'Kosovos vertrauenswürdiger Lieferant für hochwertige halbgebackene Lebensmittel',
-    home_hero_description: 'Wir arbeiten mit Bäckereien, Restaurants und Einzelhändlern in der gesamten Region zusammen, um Qualitätsprodukte zu wettbewerbsfähigen Preisen zu liefern.',
-    home_browse: 'Produkte Ansehen',
-    home_partner: 'Partner Werden',
-    home_request_samples: 'Kostenlose Muster Anfordern',
-    home_quality_title: 'Qualitätsprodukte',
-    home_quality_desc: 'Sorgfältig hergestellte halbgebackene Produkte aus hochwertigen Zutaten.',
-    home_b2b_title: 'B2B-Partnerschaften',
-    home_b2b_desc: 'Maßgeschneiderte Lösungen für Bäckereien, Restaurants und Einzelhandelsketten.',
-    home_delivery_title: 'Zuverlässige Lieferung',
-    home_delivery_desc: 'Konsistente Lieferkette mit pünktlichen Lieferungen im Kosovo und der Region.',
-    home_bulk_title: 'Großbestellungen',
-    home_bulk_desc: 'Wettbewerbsfähige Preise für Groß- und Mengenbestellungen.',
+    home_title: 'Gerti Foods — Ihr Lieferant für halbgebackene Produkte',
+    home_meta: 'Gerti Foods beliefert Bäckereien, Hotels, Restaurants und Supermärkte mit zertifizierten halbgebackenen Produkten (ISO 22000, HACCP, IFS, BRC, Halal). Kostenlose Muster für Ihr Unternehmen.',
+    home_hero_eyebrow: 'Halbgebacken · Industriemaßstab · Prizren, Kosovo',
+    home_hero_title: 'Frische Croissants aus Ihrem Ofen, jeden Morgen. Ganz ohne Bäcker.',
+    home_hero_subtitle: 'Wir beliefern Bäckereien, Hotels, Restaurants und Supermärkte mit halbgebackenen Produkten, die in 15–20 Minuten backen — gleiche Qualität in jeder Schicht.',
+    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 Jahre Hasi-Tradition',
+
+    // Hero lead form + inline CTAs
+    hero_form_headline: 'Suchen Sie fertige Produkte für Ihr Unternehmen?',
+    hero_form_subtext: 'Hinterlassen Sie Ihre Daten. Wir melden uns innerhalb eines Werktages mit Angebot und kostenlosen Mustern.',
+    hero_form_first_name: 'Vorname',
+    hero_form_last_name: 'Nachname',
+    hero_form_email: 'E-Mail',
+    hero_form_phone: 'Telefon',
+    hero_form_message: 'Nachricht (optional)',
+    hero_form_submit: 'Anfrage Senden',
+    hero_form_loading: 'Wird gesendet...',
+    hero_form_success_title: 'Vielen Dank!',
+    hero_form_success_body: 'Unser Team meldet sich innerhalb eines Werktages mit Angebot und Mustern.',
+    hero_form_error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen oder direkt kontaktieren.',
+    hero_divider: 'ODER SPRECHEN SIE DIREKT MIT UNS',
+    hero_whatsapp_inline: 'Per WhatsApp chatten',
+    hero_phone_inline: '049 111 150 anrufen',
+    hero_stat_certs_label: 'Internationale Zertifizierungen',
+    hero_stat_years_label: 'Jahre Hasi-Backtradition',
+    hero_stat_capacity_label: 'Croissants / Danish pro Stunde',
+    hero_stat_baketime_label: 'Minuten im Ofen',
+    hero_badge_alt: 'Zertifizierungsabzeichen von Gerti Foods',
+
+    // Segment qualifier row
+    segments_eyebrow: 'WEN WIR BELIEFERN',
+    segments_title: 'Wo Gerti Foods in Ihrer Küche ankommt',
+    segments_subtitle: 'Wählen Sie Ihr Segment und sehen Sie, wie Betriebe wie Ihrer mit uns arbeiten.',
+    segment_bakeries_title: 'Für Bäckereien',
+    segment_bakeries_body: 'Croissants, Börek und Danish-Gebäck, bereit für Ihren Ofen. Kein Teig, kein hauseigener Bäcker.',
+    segment_horeca_title: 'Für Hotels & Restaurants',
+    segment_horeca_body: 'Pizza und Börek in 20 Minuten. Premium-Menü ohne Bäcker in der Schicht.',
+    segment_retail_title: 'Für Einzelhandel',
+    segment_retail_body: 'Regalattraktive Verpackung, schneller Umschlag, höhere Marge pro Quadratmeter.',
+    segment_catering_title: 'Für Catering',
+    segment_catering_body: 'Industrielle Volumen, pünktliche Lieferung, gleiche Qualität bei jedem Event.',
+
+    // Pain / contrast section
+    pain_eyebrow: 'RECHNEN SIE NACH',
+    pain_title: 'Was Sie das Backen im eigenen Haus wirklich kostet',
+    pain_subtitle: 'Drei versteckte Kosten, die jeden Monat Ihre Marge auffressen — und wie Gerti Foods sie aus der Gleichung nimmt.',
+    pain_without_label: 'OHNE GERTI FOODS',
+    pain_without_1_title: 'Ein fest angestellter Bäcker',
+    pain_without_1_body: 'Festes Gehalt, Versicherung, Schichten, die trotzdem unbesetzt bleiben. Der größte Küchenkostenblock nach der Miete.',
+    pain_without_2_title: 'Qualität je nach Tagesform',
+    pain_without_2_body: 'Brillante Frühschicht, schwacher Mittag, vergessener Abend. Wenn der Bäcker fehlt, merkt es jeder.',
+    pain_without_3_title: 'Verschwendung jeden Abend',
+    pain_without_3_body: 'Morgens gebacken, abends in den Müll. Unverkaufte Ware geht direkt in die Tonne — und direkt aus Ihrer Marge.',
+    pain_with_label: 'MIT GERTI FOODS',
+    pain_with_1_title: '5 Min Vorbereitung, 20 Min Ofen',
+    pain_with_1_body: 'Aus dem Gefrierer, in den Ofen, in die Vitrine. Kein Teig, kein Kneten, kein Bäcker auf der Lohnliste.',
+    pain_with_2_title: 'Gleiche Qualität, jede Schicht',
+    pain_with_2_body: 'Jedes Produkt wird in der Fabrik mit zertifizierten Prozessen hergestellt. Das gleiche Croissant um 7 Uhr und um 17 Uhr.',
+    pain_with_3_title: 'Nur backen, was Sie verkaufen',
+    pain_with_3_body: 'Die Ware bleibt gefroren, bis Sie sie brauchen. Null Verschwendung, höhere Marge, Lager, das nicht verdirbt.',
+    pain_cta: 'Stoppen Sie die Verluste — fordern Sie kostenlose Muster an',
+
+    // 3 Pillars — "Why GertiFoods"
+    pillars_eyebrow: 'WARUM GERTI FOODS',
+    pillars_title: 'Drei Gründe, warum die besten Lieferanten uns wählen',
+    pillars_subtitle: 'Produkte, die sich selbst verkaufen, eine Fabrik, die Sie nicht im Stich lässt, und eine Tradition, die niemand kopieren kann.',
+    pillar_1_title: 'Croissants, die sich selbst verkaufen',
+    pillar_1_body: 'Kein Bäcker in der Schicht. 15–20 Minuten im Ofen. Frischer Duft zieht Kunden direkt an Ihre Tür.',
+    pillar_2_title: 'Zertifizierte Fabrik, null Kompromisse',
+    pillar_2_body: '5 internationale Zertifizierungen (ISO 22000, HACCP, IFS Foods, BRC, Halal). Volle Rückverfolgbarkeit vom Mehl bis zur Packung.',
+    pillar_3_title: '600 Jahre Tradition, europäische Technologie',
+    pillar_3_body: 'Drei Partner aus Hasi — der Region mit 600 Jahren Brottradition — mit automatisierten Linien und internationaler Industrietechnik.',
+
+    // Product categories preview
+    categories_eyebrow: 'UNSERE PRODUKTE',
+    categories_title: 'Was wir in unserer Fabrik in Prizren backen',
+    categories_subtitle: 'Ein Sortiment für jeden Verkaufspunkt — lokale Bäckereien und Restaurants, Hotels, Supermärkte und Catering.',
+    category_pizza_title: 'Pizza',
+    category_pizza_desc: '7 Sorten, Familien- und Mini-Größen, bereit für Ihren Ofen.',
+    category_croissant_title: 'Croissants',
+    category_croissant_desc: 'Pur, mit Schokolade, mit Creme — bis zu 6.000 Stück pro Stunde.',
+    category_pite_title: 'Börek',
+    category_pite_desc: 'Mit Käse, Spinat, Fleisch und Thunfisch — gleiche Qualität in jeder Packung.',
+    category_family_title: 'Family Pack',
+    category_family_desc: 'Haushalts- und Einzelhandelsformate mit regalattraktiver Verpackung.',
+    category_pizza_alt: 'Halbgebackene Margherita-Pizza von Gerti Foods',
+    category_croissant_alt: 'Schoko-Croissant von Gerti Foods',
+    category_pite_alt: 'Käse-Börek von Gerti Foods',
+    category_family_alt: 'Family Pack von Gerti Foods für Einzelhandel und Zuhause',
+    categories_cta: 'Alle Produkte ansehen',
+
+    // How ordering works
+    process_eyebrow: 'SO FUNKTIONIERT ES',
+    process_title: 'Drei Schritte bis zur Zusammenarbeit',
+    process_subtitle: 'Keine komplizierten Formulare, keine versteckten Preislisten, keine Versprechen, die wir nicht halten.',
+    process_step_1_title: 'Kostenlose Muster anfordern',
+    process_step_1_body: 'Hinterlassen Sie Ihre Kontaktdaten. Muster kommen innerhalb von 48 Stunden an Ihre Adresse. Keine Verpflichtung, keine Kreditkarte.',
+    process_step_2_title: 'Großhandelskonto beantragen',
+    process_step_2_body: 'Nachdem Sie die Muster freigegeben haben, senden Sie Ihre Geschäftsdokumente. Freigabe innerhalb von 24 Stunden, direkter Plattformzugang.',
+    process_step_3_title: 'Bestellen, wann immer Sie möchten',
+    process_step_3_body: 'Großhandelspreise, regelmäßige Lieferung im Kosovo und der Region, klare Zahlungsbedingungen. Null Überraschungen auf der Rechnung.',
+    process_cta: 'Mit kostenlosen Mustern starten',
+
+    // Capacity / numbers band
+    capacity_eyebrow: 'UNSERE KAPAZITÄT',
+    capacity_title: 'Die Zahlen hinter dem Versprechen',
+    capacity_subtitle: 'Unsere Fabrik in Prizren produziert im Industriemaßstab, ohne die handwerkliche Qualität zu verlieren.',
+    capacity_stat_croissant: 'Croissants pro Stunde',
+    capacity_stat_danish: 'Danish-Gebäck pro Stunde',
+    capacity_stat_tortilla: 'Tortillas pro Stunde',
+    capacity_stat_pizza: 'Tiefkühlpizzen pro Stunde',
+
+    // Heritage / founder story
+    heritage_eyebrow: 'UNSERE GESCHICHTE',
+    heritage_title: 'Drei Partner. Eine Fabrik. 600 Jahre Brot.',
+    heritage_body: 'Gerti Foods entstand aus den Traditionen der Hasi-Region — einer Gegend, in der seit sechs Jahrhunderten Brot in den Familien gebacken wird. Heute trifft diese Tradition in Prizren auf europäische Technologie: automatisierte Produktionslinien, industrielle Maschinen und ein von den besten Fachleuten ausgebildetes Team. Jedes Croissant, jedes Stück Börek, jede Pizza, die unsere Fabrik verlässt, trägt ein Stück dieser Geschichte in sich.',
+    heritage_fact_partners: 'Partner aus Hasi',
+    heritage_fact_years: 'Jahre Brottradition',
+    heritage_fact_founded: 'Eröffnungsjahr der Fabrik',
+
+    // Final CTA band
+    final_cta_title: 'Kostenlose Muster ausprobieren. Sehen Sie, warum die besten Bäckereien im Kosovo zu uns wechseln.',
+    final_cta_body: 'Kostenlose Muster, keine Verpflichtung, keine Kreditkarte. Lieferung innerhalb von 48 Stunden an Ihre Geschäftsadresse.',
+    final_cta_primary: 'Kostenlose Muster anfordern',
+    final_cta_whatsapp: 'Mit dem Vertrieb per WhatsApp sprechen',
+    final_cta_catalog: 'Produktkatalog herunterladen (PDF)',
+
+    // Catalog request form (minimal email + company_name)
+    catalog_modal_title: 'Produktkatalog herunterladen',
+    catalog_form_subtext: 'Hinterlassen Sie E-Mail und Firmennamen. Wir senden Ihnen den vollständigen Katalog innerhalb eines Werktages per E-Mail.',
+    catalog_form_company: 'Firmenname',
+    catalog_form_email: 'E-Mail',
+    catalog_form_submit: 'Anfrage senden',
+    catalog_form_loading: 'Wird gesendet...',
+    catalog_form_success_title: 'Vielen Dank!',
+    catalog_form_success_body: 'Wir senden Ihnen den vollständigen Katalog innerhalb eines Werktages per E-Mail.',
+    catalog_form_error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen oder direkt kontaktieren.',
 
     // Products
     products_title: 'Unsere Produkte',
@@ -336,7 +713,6 @@ const translations = {
     products_view: 'Details Ansehen',
 
     // Product Detail
-    product_price_per: 'pro',
     product_min_order: 'Mindestbestellung',
     product_quantity: 'Menge',
     product_add_cart: 'In den Warenkorb',
@@ -406,12 +782,17 @@ const translations = {
 
     // Footer
     footer_description: 'Premium halbgebackene Produkte für Ihr Unternehmen.',
-    footer_location: 'Kosovo',
+    footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovo',
     footer_contact: 'Kontakt',
     footer_hours: 'Öffnungszeiten',
     footer_mon_fri: 'Mo - Fr: 8:00 - 17:00',
     footer_sat: 'Sa: 8:00 - 13:00',
     footer_rights: 'Alle Rechte vorbehalten.',
+    footer_col_products: 'Produkte',
+    footer_col_business: 'Für Unternehmen',
+    footer_col_company: 'Unternehmen',
+    footer_home: 'Startseite',
+    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
 
     // Sample Request Form
     sample_form_title: 'Kostenlose Muster Anfordern',
@@ -440,10 +821,13 @@ const translations = {
     // Modal
     modal_close: 'Schließen',
 
+    // WhatsApp
+    whatsapp_label: 'Per WhatsApp chatten',
+    whatsapp_greeting: 'Hallo, ich interessiere mich für Gerti Foods Produkte.',
+
     // Common
     loading: 'Wird geladen...',
     total: 'Gesamt',
-    required: 'Erforderlich',
   },
 };
 

@@ -1,0 +1,41 @@
+.wa-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: #25D366;
+  color: white;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.wa-btn:hover {
+  background: #1ebd5a;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.5);
+}
+
+.wa-btn-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .wa-btn {
+    padding: 12px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .wa-btn-label {
+    display: none;
+  }
+}

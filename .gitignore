@@ -34,3 +34,6 @@ frontend/build/
 *.swp
 *.swo
 .DS_Store
+
+# Claude Code (local user settings)
+.claude/

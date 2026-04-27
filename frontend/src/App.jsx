@@ -9,6 +9,8 @@ import Orders from './pages/Orders'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import ExitIntentPopup from './components/ExitIntentPopup'
+import WhatsAppButton from './components/WhatsAppButton'
 import './App.css'
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <ExitIntentPopup />
+      <WhatsAppButton />
     </div>
   )
 }
