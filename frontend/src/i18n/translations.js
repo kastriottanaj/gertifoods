@@ -33,6 +33,7 @@ const translations = {
     hero_divider: 'OSE FOL DIREKT ME NE',
     hero_whatsapp_inline: 'Bisedo në WhatsApp',
     hero_phone_inline: 'Telefono 049 111 150',
+    hero_calendly_inline: 'Kliko këtu për të rezervuar takim me ekipin e shitjeve',
     hero_stat_certs_label: 'Çertifikata ndërkombëtare',
     hero_stat_years_label: 'Vjet traditë buke nga Hasi',
     hero_stat_capacity_label: 'Kroasant / Danish në orë',
@@ -136,6 +137,7 @@ const translations = {
     final_cta_primary: 'Kërko mostra falas',
     final_cta_whatsapp: 'Fol me shitjet në WhatsApp',
     final_cta_catalog: 'Shkarko katalogun (PDF)',
+    final_cta_calendly: 'Kliko këtu për të rezervuar takim me ekipin e shitjeve',
 
     // Catalog request form (minimal email + company_name)
     catalog_modal_title: 'Shkarko katalogun e produkteve',
@@ -230,6 +232,7 @@ const translations = {
     footer_description: 'Produkte premium gjysmë të pjekura për biznesin tuaj.',
     footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovë',
     footer_contact: 'Kontakti',
+    footer_book_meeting: 'Rezervo takim falas',
     footer_hours: 'Orari i Punës',
     footer_mon_fri: 'Hën - Pre: 8:00 - 17:00',
     footer_sat: 'Sht: 8:00 - 13:00',
@@ -310,6 +313,7 @@ const translations = {
     hero_divider: 'OR TALK TO US DIRECTLY',
     hero_whatsapp_inline: 'Chat on WhatsApp',
     hero_phone_inline: 'Call 049 111 150',
+    hero_calendly_inline: 'Click here to book a meeting with our sales team',
     hero_stat_certs_label: 'International certifications',
     hero_stat_years_label: 'Years of Hasi baking heritage',
     hero_stat_capacity_label: 'Croissants / Danish per hour',
@@ -413,6 +417,7 @@ const translations = {
     final_cta_primary: 'Request free samples',
     final_cta_whatsapp: 'Talk to sales on WhatsApp',
     final_cta_catalog: 'Download product catalog (PDF)',
+    final_cta_calendly: 'Click here to book a meeting with our sales team',
 
     // Catalog request form (minimal email + company_name)
     catalog_modal_title: 'Download the product catalog',
@@ -507,6 +512,7 @@ const translations = {
     footer_description: 'Premium half-baked products for your business.',
     footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovo',
     footer_contact: 'Contact',
+    footer_book_meeting: 'Book a free meeting',
     footer_hours: 'Business Hours',
     footer_mon_fri: 'Mon - Fri: 8:00 - 17:00',
     footer_sat: 'Sat: 8:00 - 13:00',
@@ -587,6 +593,7 @@ const translations = {
     hero_divider: 'ODER SPRECHEN SIE DIREKT MIT UNS',
     hero_whatsapp_inline: 'Per WhatsApp chatten',
     hero_phone_inline: '049 111 150 anrufen',
+    hero_calendly_inline: 'Klicken Sie hier, um ein Meeting mit unserem Vertriebsteam zu buchen',
     hero_stat_certs_label: 'Internationale Zertifizierungen',
     hero_stat_years_label: 'Jahre Hasi-Backtradition',
     hero_stat_capacity_label: 'Croissants / Danish pro Stunde',
@@ -690,6 +697,7 @@ const translations = {
     final_cta_primary: 'Kostenlose Muster anfordern',
     final_cta_whatsapp: 'Mit dem Vertrieb per WhatsApp sprechen',
     final_cta_catalog: 'Produktkatalog herunterladen (PDF)',
+    final_cta_calendly: 'Klicken Sie hier, um ein Meeting mit unserem Vertriebsteam zu buchen',
 
     // Catalog request form (minimal email + company_name)
     catalog_modal_title: 'Produktkatalog herunterladen',
@@ -784,6 +792,7 @@ const translations = {
     footer_description: 'Premium halbgebackene Produkte für Ihr Unternehmen.',
     footer_address: 'Str. Kalaja e Shkupit, 20000 Prizren, Kosovo',
     footer_contact: 'Kontakt',
+    footer_book_meeting: 'Kostenloses Meeting buchen',
     footer_hours: 'Öffnungszeiten',
     footer_mon_fri: 'Mo - Fr: 8:00 - 17:00',
     footer_sat: 'Sa: 8:00 - 13:00',

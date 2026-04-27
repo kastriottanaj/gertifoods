@@ -16,6 +16,7 @@ import './Home.css';
 
 const WA_PHONE = '38349111150';
 const TEL_HREF = 'tel:+38349111150';
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -100,6 +101,7 @@ export default function Home() {
                 </svg>
                 {t('hero_phone_inline')}
               </a>
+
             </div>
           </div>
         </div>

@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import brandLogo from '../assets/gerti-foods-logo.webp';
 
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods';
+
 export default function Footer() {
   const { t } = useLanguage();
 
@@ -17,6 +19,7 @@ export default function Footer() {
         <div className="footer-section">
           <h4>{t('footer_contact')}</h4>
           <p><a href="mailto:info@gertifoods.com">info@gertifoods.com</a></p>
+          <p><a href="mailto:arlinda@gertifoods.com">arlinda@gertifoods.com</a></p>
           <p><a href="tel:+38349111150">+383 49 111 150</a></p>
         </div>
 

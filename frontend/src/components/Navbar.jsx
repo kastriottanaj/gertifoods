@@ -5,6 +5,8 @@ import { useLanguage } from '../i18n/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import brandLogo from '../assets/gerti-foods-logo.webp';
 
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods';
+
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { itemCount } = useCart();
@@ -33,6 +35,14 @@ export default function Navbar() {
               <Link to="/register">{t('nav_register')}</Link>
             </>
           )}
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="navbar-book-btn"
+          >
+            Book a Free Meeting
+          </a>
           <LanguageSwitcher />
         </div>
       </div>

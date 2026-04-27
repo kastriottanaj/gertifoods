@@ -211,6 +211,34 @@
   transform: translateY(-2px);
 }
 
+.home-hero-calendly {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 22px;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: #0066CC;
+  color: white;
+  border: none;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.45);
+}
+.home-hero-calendly:hover {
+  background: #0052a3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 102, 204, 0.55);
+}
+.home-hero-calendly svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .home-hero-wa svg,
 .home-hero-tel svg {
   width: 20px;
@@ -1312,6 +1340,36 @@
   box-shadow: 0 14px 30px rgba(37, 211, 102, 0.45);
 }
 
+.home-final-cta-calendly {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: #0066CC;
+  color: white;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
+}
+.home-final-cta-calendly svg {
+  width: 20px;
+  height: 20px;
+}
+.home-final-cta-calendly:hover {
+  background: #0052a3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 102, 204, 0.5);
+}
+
 /* ========================================
    Responsive — stack columns below 960px
    ======================================== */
@@ -1504,7 +1562,8 @@
   }
   .home-final-cta-primary,
   .home-final-cta-whatsapp,
-  .home-final-cta-catalog {
+  .home-final-cta-catalog,
+  .home-final-cta-calendly {
     width: 100%;
   }
 }
@@ -1562,14 +1621,16 @@
   }
   .home-final-cta-primary,
   .home-final-cta-whatsapp,
-  .home-final-cta-catalog {
+  .home-final-cta-catalog,
+  .home-final-cta-calendly {
     font-size: 0.92rem;
     padding: 14px 18px;
     gap: 8px;
   }
   .home-final-cta-primary svg,
   .home-final-cta-whatsapp svg,
-  .home-final-cta-catalog svg {
+  .home-final-cta-catalog svg,
+  .home-final-cta-calendly svg {
     width: 18px;
     height: 18px;
   }

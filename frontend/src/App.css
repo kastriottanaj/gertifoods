@@ -87,6 +87,32 @@
   color: var(--primary);
 }
 
+.navbar-book-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: #0066CC;
+  color: white !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35);
+  margin-left: 8px;
+}
+.navbar-book-btn::after {
+  display: none !important;
+}
+.navbar-book-btn:hover {
+  background: #0052a3 !important;
+  color: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.45);
+}
+
 .cart-link {
   position: relative;
 }
@@ -780,6 +806,21 @@
   font-size: 0.85rem;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.footer-calendly-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6fe3a1 !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.footer-calendly-link:hover {
+  color: white !important;
+  opacity: 1;
 }
 
 @media (max-width: 1024px) {
