@@ -147,7 +147,7 @@ const translations = {
     catalog_form_submit: 'Dërgo kërkesën',
     catalog_form_loading: 'Duke dërguar...',
     catalog_form_success_title: 'Faleminderit!',
-    catalog_form_success_body: 'Katalogu i plotë të vjen në email brenda një dite pune.',
+    catalog_form_success_body: 'Katalogu u dërgua në emailin tuaj. Kontrollo edhe Spam nëse nuk e sheh.',
     catalog_form_error: 'Diçka shkoi keq. Provo përsëri ose na kontakto drejtpërdrejt.',
 
     // Products
@@ -429,7 +429,7 @@ const translations = {
     catalog_form_submit: 'Send request',
     catalog_form_loading: 'Sending...',
     catalog_form_success_title: 'Thank you!',
-    catalog_form_success_body: 'We\'ll email you the full catalog within 1 business day.',
+    catalog_form_success_body: 'The catalog has been sent to your email. Check Spam if you don\'t see it.',
     catalog_form_error: 'Something went wrong. Please try again or contact us directly.',
 
     // Products
@@ -711,7 +711,7 @@ const translations = {
     catalog_form_submit: 'Anfrage senden',
     catalog_form_loading: 'Wird gesendet...',
     catalog_form_success_title: 'Vielen Dank!',
-    catalog_form_success_body: 'Wir senden Ihnen den vollständigen Katalog innerhalb eines Werktages per E-Mail.',
+    catalog_form_success_body: 'Der Katalog wurde an Ihre E-Mail gesendet. Prüfen Sie auch den Spam-Ordner.',
     catalog_form_error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen oder direkt kontaktieren.',
 
     // Products
