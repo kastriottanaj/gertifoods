@@ -175,6 +175,39 @@
   height: 24px;
 }
 
+.navbar-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px 20px;
+  background: var(--bg-white);
+  border-top: 1px solid var(--border);
+}
+
+.navbar-mobile a,
+.navbar-mobile .btn-link {
+  display: block;
+  padding: 12px 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  width: 100%;
+}
+
+.navbar-mobile a:last-child,
+.navbar-mobile .btn-link:last-child {
+  border-bottom: none;
+}
+
+.navbar-mobile .navbar-book-btn {
+  margin: 10px 0 0;
+  border-bottom: none;
+  justify-content: center;
+  text-align: center;
+}
+
 /* ========================================
    Features Section
    ======================================== */
@@ -851,16 +884,24 @@
 /* ========================================
    Responsive
    ======================================== */
+@media (max-width: 900px) {
+  .navbar-links { display: none; }
+  .navbar-toggle { display: flex; }
+}
+
 @media (max-width: 768px) {
   .product-detail-grid { grid-template-columns: 1fr; }
-  .navbar-links { gap: 12px; font-size: 0.85rem; }
-  .navbar-links a::after { display: none; }
   .form-row { flex-direction: column; gap: 0; }
   .cart-item { flex-wrap: wrap; }
-  .products-grid { grid-template-columns: 1fr; }
-  .lang-switcher { gap: 1px; }
-  .lang-btn { padding: 3px 8px; font-size: 0.75rem; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
   .modal-dialog { padding: 1.25rem; }
+  .main-content { padding: 24px 16px; }
+}
+
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .auth-card { padding: 24px 20px; }
+  .cart-item-quantity input { width: 60px; }
 }
 
 /* ========================================

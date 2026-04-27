@@ -16,7 +16,7 @@ import './Home.css';
 
 const WA_PHONE = '38349111150';
 const TEL_HREF = 'tel:+38349111150';
-const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods';
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 
 export default function Home() {
   const { t } = useLanguage();
