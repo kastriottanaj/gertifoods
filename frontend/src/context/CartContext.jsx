@@ -21,8 +21,9 @@ export function CartProvider({ children }) {
     setItems((prev) => prev.filter((i) => i.product.id !== productId));
   };
 
+  // Quantity may briefly be '' while the user is retyping a value; items are
+  // only removed via removeItem, never as a side effect of editing.
   const updateQuantity = (productId, quantity) => {
-    if (quantity <= 0) return removeItem(productId);
     setItems((prev) =>
       prev.map((i) => (i.product.id === productId ? { ...i, quantity } : i))
     );
@@ -30,8 +31,8 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setItems([]);
 
-  const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
-  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const total = items.reduce((sum, i) => sum + i.product.price * (i.quantity || 0), 0);
+  const itemCount = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
 
   return (
     <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, total, itemCount }}>

@@ -9,6 +9,10 @@ import Orders from './pages/Orders'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import About from './pages/About'
+import Areas from './pages/Areas'
+import AreaDetail from './pages/AreaDetail'
+import Imprint from './pages/Imprint'
 import ExitIntentPopup from './components/ExitIntentPopup'
 import WhatsAppButton from './components/WhatsAppButton'
 import './App.css'
@@ -27,6 +31,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/areas" element={<Areas />} />
+          <Route path="/areas/:slug" element={<AreaDetail />} />
+          <Route path="/imprint" element={<Imprint />} />
         </Routes>
       </main>
       <Footer />

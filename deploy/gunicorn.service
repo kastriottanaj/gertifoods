@@ -1,0 +1,21 @@
+[Unit]
+Description=GertiFoods Gunicorn daemon (Django/DRF backend)
+After=network.target postgresql.service
+
+[Service]
+User=gertifoods
+Group=www-data
+WorkingDirectory=/var/www/gertifoods
+# python-decouple reads the .env file in WorkingDirectory automatically,
+# so no EnvironmentFile is needed here.
+ExecStart=/var/www/gertifoods/venv/bin/gunicorn \
+    --workers 3 \
+    --bind 127.0.0.1:8000 \
+    --access-logfile - \
+    --error-logfile - \
+    config.wsgi:application
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

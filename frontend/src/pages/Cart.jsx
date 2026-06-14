@@ -66,12 +66,21 @@ export default function Cart() {
                 type="number"
                 min={item.product.min_order_quantity}
                 value={item.quantity}
-                onChange={(e) => updateQuantity(item.product.id, parseInt(e.target.value) || 0)}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value, 10);
+                  updateQuantity(item.product.id, Number.isNaN(value) ? '' : value);
+                }}
+                onBlur={() => {
+                  const min = item.product.min_order_quantity || 1;
+                  if (!item.quantity || item.quantity < min) {
+                    updateQuantity(item.product.id, min);
+                  }
+                }}
               />
               <span>{item.product.unit}</span>
             </div>
             <div className="cart-item-total">
-              &euro;{(item.product.price * item.quantity).toFixed(2)}
+              &euro;{(item.product.price * (item.quantity || 0)).toFixed(2)}
             </div>
             <button onClick={() => removeItem(item.product.id)} className="btn btn-danger btn-sm">
               {t('cart_remove')}

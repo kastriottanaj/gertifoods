@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -26,12 +26,20 @@ api.interceptors.response.use(
         try {
           const { data } = await axios.post(`${API_BASE_URL}/accounts/token/refresh/`, { refresh });
           localStorage.setItem('access_token', data.access);
+          // The backend rotates refresh tokens; keep the new one or the
+          // next refresh attempt will use a blacklisted token.
+          if (data.refresh) {
+            localStorage.setItem('refresh_token', data.refresh);
+          }
           originalRequest.headers.Authorization = `Bearer ${data.access}`;
           return api(originalRequest);
         } catch {
+          // Session expired: clear tokens and let the auth context reset.
+          // No hard redirect — anonymous visitors on public pages should
+          // never be yanked to the login screen.
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
-          window.location.href = '/login';
+          window.dispatchEvent(new Event('auth:session-expired'));
         }
       }
     }

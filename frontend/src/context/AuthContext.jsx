@@ -20,6 +20,10 @@ export function AuthProvider({ children }) {
     } else {
       setLoading(false);
     }
+
+    const onSessionExpired = () => setUser(null);
+    window.addEventListener('auth:session-expired', onSessionExpired);
+    return () => window.removeEventListener('auth:session-expired', onSessionExpired);
   }, []);
 
   const login = async (username, password) => {
@@ -31,7 +35,17 @@ export function AuthProvider({ children }) {
     return profile.data;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const refresh = localStorage.getItem('refresh_token');
+    if (refresh) {
+      // Revoke the refresh token server-side; ignore failures (e.g. token
+      // already expired) — local logout proceeds regardless.
+      try {
+        await api.post('/accounts/logout/', { refresh });
+      } catch {
+        // no-op
+      }
+    }
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     setUser(null);

@@ -87,6 +87,79 @@
   color: var(--primary);
 }
 
+/* Nav dropdown (Areas We Serve) */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-dropdown-caret {
+  background: none;
+  border: none;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.nav-dropdown-caret:hover {
+  color: var(--primary);
+}
+
+.nav-dropdown-caret[aria-expanded="true"] {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 200px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 200;
+}
+
+/* Transparent bridge so hover doesn't drop in the gap above the menu */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.nav-dropdown-menu a {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-dropdown-menu a:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+.nav-dropdown-menu a::after {
+  display: none;
+}
+
 .cart-link {
   position: relative;
 }
@@ -570,6 +643,277 @@
   font-size: 0.9rem;
   margin-top: 12px;
   font-style: italic;
+}
+
+/* ========================================
+   Imprint
+   ======================================== */
+.imprint-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.imprint-page h1 {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.imprint-intro {
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.imprint-section {
+  background: var(--bg-white);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.imprint-section h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.imprint-section p {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.imprint-section a {
+  color: var(--primary);
+}
+
+/* ========================================
+   About
+   ======================================== */
+.about-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-page h1 {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.about-intro {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.about-stat {
+  background: var(--bg-white);
+  padding: 24px 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.about-stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.about-stat-label {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.about-section {
+  margin-bottom: 36px;
+}
+
+.about-section h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.about-section > p {
+  line-height: 1.7;
+  color: var(--text-light);
+}
+
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.about-value {
+  background: var(--bg-white);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.about-value h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.about-value p {
+  line-height: 1.6;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.about-cta {
+  text-align: center;
+  background: var(--bg-light);
+  padding: 40px 24px;
+  border-radius: var(--radius-lg);
+  margin-top: 8px;
+}
+
+.about-cta h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-values {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   Areas We Serve
+   ======================================== */
+.areas-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.areas-page h1 {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.areas-intro {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.area-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--bg-white);
+  padding: 28px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.area-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.area-card h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.area-card-cta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Area detail */
+.area-detail-page {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.area-breadcrumb {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.area-breadcrumb a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.area-detail-page h1 {
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+
+.area-detail-lead {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.area-detail-soon {
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 32px;
+}
+
+.area-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.area-back {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .areas-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ========================================
