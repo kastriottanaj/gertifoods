@@ -119,6 +119,10 @@ SIMPLE_JWT = {
 # CORS
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173', cast=Csv())
 
+# CSRF: trusted origins for the Django admin login over HTTPS (the React app and
+# API are same-origin, so this only matters for the admin form).
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
+
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Berlin'
