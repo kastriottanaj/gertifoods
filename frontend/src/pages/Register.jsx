@@ -10,7 +10,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: '', email: '', password: '',
-    company_name: '', phone: '', address: '', city: '', country: 'Kosovo',
+    company_name: '', business_id: '', phone: '', address: '', city: '', country: 'Kosovo',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -64,9 +64,13 @@ export default function Register() {
               <input name="company_name" value={form.company_name} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label>{t('register_phone')}</label>
-              <input name="phone" value={form.phone} onChange={handleChange} />
+              <label>{t('register_business_id')} *</label>
+              <input name="business_id" value={form.business_id} onChange={handleChange} required placeholder={t('register_business_id_placeholder')} />
             </div>
+          </div>
+          <div className="form-group">
+            <label>{t('register_phone')}</label>
+            <input name="phone" value={form.phone} onChange={handleChange} />
           </div>
           <div className="form-group">
             <label>{t('register_address')}</label>

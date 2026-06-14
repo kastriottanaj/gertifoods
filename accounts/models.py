@@ -4,6 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     company_name = models.CharField(max_length=255, blank=True)
+    business_id = models.CharField(max_length=50, blank=True, help_text='Business identification/registration number')
     phone = models.CharField(max_length=30, blank=True)
     address = models.TextField(blank=True)
     city = models.CharField(max_length=100, blank=True)

@@ -63,4 +63,31 @@ def send_catalog_email(sample_request):
         sample_request.email,
         sample_request.pk,
     )
+
+    _notify_sales(sample_request)
     return True
+
+
+def _notify_sales(sample_request):
+    """
+    Send the sales team a heads-up about a new catalog request. Best-effort:
+    any failure is logged and swallowed so it never affects the customer-facing
+    catalog delivery or the captured lead.
+    """
+    try:
+        EmailMessage(
+            subject=f'Kërkesë e re katalog — {sample_request.company_name}',
+            body=(
+                'Kërkesë e re për katalog:\n\n'
+                f'Kompania: {sample_request.company_name}\n'
+                f'Kontakti: {sample_request.contact_name or "—"}\n'
+                f'Email: {sample_request.email}\n'
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.SALES_EMAIL],
+        ).send(fail_silently=False)
+    except Exception:
+        logger.exception(
+            'Failed to notify sales of catalog request (SampleRequest #%s)',
+            sample_request.pk,
+        )

@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'username', 'email', 'password',
-            'company_name', 'phone', 'address', 'city', 'country',
+            'company_name', 'business_id', 'phone', 'address', 'city', 'country',
         ]
 
     def validate_email(self, value):
@@ -42,7 +42,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'username', 'email', 'company_name',
-            'phone', 'address', 'city', 'country',
+            'business_id', 'phone', 'address', 'city', 'country',
             'is_approved', 'created_at',
         ]
         read_only_fields = ['is_approved', 'created_at']

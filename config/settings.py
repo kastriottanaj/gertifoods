@@ -67,6 +67,9 @@ DATABASES = {
         'PASSWORD': config('DATABASE_PASSWORD', default=''),
         'HOST': config('DATABASE_HOST', default='localhost'),
         'PORT': config('DATABASE_PORT', default='5432'),
+
+
+
     }
 }
 
@@ -148,6 +151,8 @@ DEFAULT_FROM_EMAIL = config(
     'DEFAULT_FROM_EMAIL',
     default='Gerti Foods <info@gertifoods.com>',
 )
+# Sales team inbox that receives a notification for each catalog request.
+SALES_EMAIL = config('SALES_EMAIL', default='arlinda@gertifoods.com')
 
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))

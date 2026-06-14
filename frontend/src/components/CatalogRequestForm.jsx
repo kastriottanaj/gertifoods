@@ -24,6 +24,7 @@ export default function CatalogRequestForm({ onSuccess }) {
       await api.post('/leads/sample-request/', { ...form, source: 'catalog_request' });
       setSuccess(true);
       if (onSuccess) onSuccess();
+      window.open(`${import.meta.env.VITE_API_URL}/media/catalog/Katallogu_2026.pdf`, '_blank');
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {
