@@ -1,5 +1,6 @@
 import logging
-import urllib.request
+
+from geoip2fast import GeoIP2Fast
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,14 @@ COUNTRY_TO_LANG = {
 }
 DEFAULT_LANG = 'en'
 
+# Load the bundled, offline country database once per worker process. No
+# external calls, no rate limits, no visitor IPs leaving the server.
+try:
+    _geoip = GeoIP2Fast()
+except Exception:
+    logger.exception('Failed to load GeoIP2Fast database')
+    _geoip = None
+
 
 def get_client_ip(request):
     """Real visitor IP, accounting for the nginx reverse proxy."""
@@ -25,26 +34,19 @@ def get_client_ip(request):
 
 def email_lang_for_ip(ip):
     """
-    Resolve the email language from a visitor IP via geolocation.
-    Best-effort: returns DEFAULT_LANG ('en') on any failure or unknown country,
-    so a geolocation outage can never break lead capture.
+    Resolve the email language from a visitor IP.
+    Best-effort: returns DEFAULT_LANG ('en') for unknown/private IPs or any
+    failure, so geolocation can never break lead capture.
     """
-    return COUNTRY_TO_LANG.get(_lookup_country(ip), DEFAULT_LANG)
+    return COUNTRY_TO_LANG.get(_country_for_ip(ip), DEFAULT_LANG)
 
 
-def _lookup_country(ip):
-    if not ip:
+def _country_for_ip(ip):
+    if not ip or _geoip is None:
         return None
     try:
-        req = urllib.request.Request(
-            f'https://ipapi.co/{ip}/country/',
-            headers={'User-Agent': 'gertifoods.com'},
-        )
-        with urllib.request.urlopen(req, timeout=3) as resp:
-            code = resp.read().decode('utf-8').strip().upper()
-        if len(code) == 2 and code.isalpha():
-            return code
-        logger.warning('GeoIP returned unexpected value for %s: %r', ip, code)
+        code = _geoip.lookup(ip).country_code
+        return code.upper() if code else None
     except Exception:
         logger.warning('GeoIP lookup failed for %s', ip, exc_info=True)
-    return None
+        return None
