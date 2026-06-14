@@ -248,11 +248,26 @@
   height: 24px;
 }
 
+/* Dim overlay behind the slide-in mobile panel */
+.navbar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 90;
+  animation: navbar-overlay-fade 0.2s ease-out;
+}
+
+@keyframes navbar-overlay-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .navbar-mobile {
-  display: flex;
+  display: none;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px 20px 20px;
+  gap: 2px;
+  padding: 12px 20px 24px;
   background: var(--bg-white);
   border-top: 1px solid var(--border);
 }
@@ -260,7 +275,7 @@
 .navbar-mobile a,
 .navbar-mobile .btn-link {
   display: block;
-  padding: 12px 8px;
+  padding: 14px 8px;
   font-size: 1rem;
   font-weight: 500;
   color: var(--text);
@@ -269,16 +284,65 @@
   width: 100%;
 }
 
-.navbar-mobile a:last-child,
-.navbar-mobile .btn-link:last-child {
+.navbar-mobile .btn-link {
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Areas accordion inside the mobile menu */
+.navbar-mobile-accordion {
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-mobile-accordion-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-mobile-accordion-row a {
+  border-bottom: none;
+  flex: 1;
+}
+
+.navbar-mobile-accordion-toggle {
+  background: none;
+  border: none;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.navbar-mobile-subnav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 8px 16px;
+}
+
+.navbar-mobile-subnav a {
+  padding: 10px 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-light);
   border-bottom: none;
 }
 
 .navbar-mobile .navbar-book-btn {
-  margin: 10px 0 0;
+  margin: 14px 0 4px;
   border-bottom: none;
   justify-content: center;
   text-align: center;
+}
+
+.navbar-mobile .lang-switcher {
+  margin-top: 14px;
+  align-self: flex-start;
 }
 
 /* ========================================
@@ -1231,6 +1295,19 @@
 @media (max-width: 900px) {
   .navbar-links { display: none; }
   .navbar-toggle { display: flex; }
+  .navbar-overlay { display: block; }
+  .navbar-mobile.is-open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
 }
 
 @media (max-width: 768px) {

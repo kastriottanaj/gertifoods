@@ -15,9 +15,13 @@ export default function Navbar() {
   const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [areasOpen, setAreasOpen] = useState(false);
+  const [mobileAreasOpen, setMobileAreasOpen] = useState(false);
   const areasRef = useRef(null);
 
-  const close = () => setMenuOpen(false);
+  const close = () => {
+    setMenuOpen(false);
+    setMobileAreasOpen(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -28,6 +32,14 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Lock body scroll while the mobile menu is open.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
   return (
     <nav className="navbar">
@@ -102,6 +114,8 @@ export default function Navbar() {
           className="navbar-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="navbar-mobile-menu"
         >
           {menuOpen ? (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -115,31 +129,70 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="navbar-mobile">
-          <Link to="/products" onClick={close}>{t('nav_products')}</Link>
-          {user ? (
-            <>
-              <Link to="/orders" onClick={close}>{t('nav_orders')}</Link>
-              <Link to="/cart" onClick={close}>
-                {t('nav_cart')} {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
-              </Link>
-              <Link to="/profile" onClick={close}>{t('nav_profile')}</Link>
-              <button onClick={() => { logout(); close(); }} className="btn-link">{t('nav_logout')}</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" onClick={close}>{t('nav_login')}</Link>
-              <Link to="/register" onClick={close}>{t('nav_register')}</Link>
-            </>
+      {/* Mobile / tablet menu */}
+      {menuOpen && <div className="navbar-overlay" onClick={close} aria-hidden="true" />}
+      <div
+        id="navbar-mobile-menu"
+        className={`navbar-mobile ${menuOpen ? 'is-open' : ''}`}
+      >
+        <Link to="/products" onClick={close}>{t('nav_products')}</Link>
+        <Link to="/about" onClick={close}>{t('nav_about')}</Link>
+
+        {/* Areas accordion */}
+        <div className="navbar-mobile-accordion">
+          <div className="navbar-mobile-accordion-row">
+            <Link to="/areas" onClick={close}>{t('nav_areas')}</Link>
+            <button
+              type="button"
+              className="navbar-mobile-accordion-toggle"
+              aria-label={t('nav_areas')}
+              aria-expanded={mobileAreasOpen}
+              onClick={() => setMobileAreasOpen((open) => !open)}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 12 12"
+                aria-hidden="true"
+                style={{ transform: mobileAreasOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+              >
+                <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+          {mobileAreasOpen && (
+            <div className="navbar-mobile-subnav">
+              {areas.map((area) => (
+                <Link key={area.slug} to={`/areas/${area.slug}`} onClick={close}>
+                  {t(area.nameKey)}
+                </Link>
+              ))}
+            </div>
           )}
-          <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="navbar-book-btn" onClick={close}>
-            Book a Free Meeting
-          </a>
-          <LanguageSwitcher />
         </div>
-      )}
+
+        <Link to="/imprint" onClick={close}>{t('nav_imprint')}</Link>
+
+        {user ? (
+          <>
+            <Link to="/orders" onClick={close}>{t('nav_orders')}</Link>
+            <Link to="/cart" className="cart-link" onClick={close}>
+              {t('nav_cart')} {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
+            </Link>
+            <Link to="/profile" onClick={close}>{t('nav_profile')}</Link>
+            <button onClick={() => { logout(); close(); }} className="btn-link">{t('nav_logout')}</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" onClick={close}>{t('nav_login')}</Link>
+            <Link to="/register" onClick={close}>{t('nav_register')}</Link>
+          </>
+        )}
+        <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="navbar-book-btn" onClick={close}>
+          Book a Free Meeting
+        </a>
+        <LanguageSwitcher />
+      </div>
     </nav>
   );
 }
