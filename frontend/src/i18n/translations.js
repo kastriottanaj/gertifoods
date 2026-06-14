@@ -14,11 +14,11 @@ const translations = {
 
     // Home
     home_title: 'Gerti Foods — Furnizuesi juaj i produkteve gjysmë të pjekura',
-    home_meta: 'Gerti Foods furnizon furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura të çertifikuara (ISO 22000, HACCP, IFS, BRC, Halal). Mostra falas për biznesin tuaj.',
+    home_meta: 'Gerti Foods furnizon furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura të çertifikuara sipas ISO 22000. Mostra falas për biznesin tuaj.',
     home_hero_eyebrow: 'Gjysmë të pjekura · Shkallë industriale · Prizren, Kosovë',
     home_hero_title: 'Kroasantë të freskët nga furra jote çdo mëngjes. Pa bukëpjekës.',
     home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
-    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 vjet traditë nga Hasi',
+    home_hero_trust: 'ISO 22000 · 600 vjet traditë nga Hasi',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'A po kërkoni produkte të gatshme për biznesin tend?',
@@ -83,7 +83,7 @@ const translations = {
     pillar_1_title: 'Kroasantë që shiten vetë',
     pillar_1_body: 'Pa bukëpjekës në turn. Piqen për 15–20 minuta. Aroma e freskët tërheq klientin në pragun e derës.',
     pillar_2_title: 'Fabrikë e çertifikuar, pa kompromis',
-    pillar_2_body: '5 çertifikata ndërkombëtare (ISO 22000, HACCP, IFS Foods, BRC, Halal). Gjurmueshmëri e plotë nga mielli deri te paketa.',
+    pillar_2_body: 'Çertifikuar sipas standardit ndërkombëtar ISO 22000. Gjurmueshmëri e plotë nga mielli deri te paketa.',
     pillar_3_title: 'Traditë 600-vjeçare, teknologji europiane',
     pillar_3_body: 'Tre partnerë nga Hasi — rajoni me 600 vjet traditë buke — me linjë prodhimi automatike dhe makineri ndërkombëtare.',
 
@@ -264,7 +264,7 @@ const translations = {
     about_mission_body: 'Duam që çdo furrë, hotel e restorant të ofrojë produkte të freskëta dhe cilësore pa pasur nevojë për bukëpjekës në turn. Prodhojmë produkte gjysmë të pjekura që ti i piq sa shet — të njëjtën cilësi në çdo turn, zero mbetje dhe një marzh më të lartë për biznesin tënd.',
     about_values_heading: 'Vlerat tona',
     about_value_1_title: 'Cilësi e çertifikuar',
-    about_value_1_body: '5 çertifikata ndërkombëtare (ISO 22000, HACCP, IFS Foods, BRC, Halal) dhe gjurmueshmëri e plotë nga mielli deri te paketa.',
+    about_value_1_body: 'Çertifikuar sipas standardit ndërkombëtar ISO 22000, me gjurmueshmëri të plotë nga mielli deri te paketa.',
     about_value_2_title: 'Traditë 600-vjeçare',
     about_value_2_body: 'Rrënjët tona në Hasi na japin njohuri buke që nuk mund të kopjohet — recetën, dorën dhe shijen që njeh çdo klient.',
     about_value_3_title: 'Teknologji moderne',
@@ -304,7 +304,7 @@ const translations = {
     footer_col_business: 'Për bizneset',
     footer_col_company: 'Kompania',
     footer_home: 'Kreu',
-    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
+    footer_certifications: 'ISO 22000',
 
     // Sample Request Form
     sample_form_title: 'Kërkoni Mostra Falas',
@@ -357,11 +357,11 @@ const translations = {
 
     // Home
     home_title: 'Gerti Foods — Your half-baked products supplier',
-    home_meta: 'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with certified half-baked products (ISO 22000, HACCP, IFS, BRC, Halal). Free samples for your business.',
+    home_meta: 'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with ISO 22000 certified half-baked products. Free samples for your business.',
     home_hero_eyebrow: 'Half-baked · Industrial scale · Prizren, Kosovo',
     home_hero_title: 'Fresh croissants from your oven every morning. No baker needed.',
     home_hero_subtitle: 'We supply bakeries, hotels, restaurants and supermarkets with half-baked products that bake in 15–20 minutes — same quality every shift.',
-    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 years of Hasi tradition',
+    home_hero_trust: 'ISO 22000 · 600 years of Hasi tradition',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Looking for ready-made products for your business?',
@@ -426,7 +426,7 @@ const translations = {
     pillar_1_title: 'Croissants that sell themselves',
     pillar_1_body: 'No baker on shift. 15–20 minutes in the oven. Fresh aroma pulls customers straight to your door.',
     pillar_2_title: 'Certified factory, zero compromise',
-    pillar_2_body: '5 international certifications (ISO 22000, HACCP, IFS Foods, BRC, Halal). Full traceability from flour to final pack.',
+    pillar_2_body: 'Certified to the international ISO 22000 standard. Full traceability from flour to final pack.',
     pillar_3_title: '600-year tradition, European technology',
     pillar_3_body: 'Three partners from Hasi — the region with 600 years of bread heritage — with automated lines and international-grade machinery.',
 
@@ -607,7 +607,7 @@ const translations = {
     about_mission_body: 'We want every bakery, hotel and restaurant to serve fresh, high-quality products without needing a baker on shift. We make half-baked products you bake as you sell — the same quality every shift, zero waste, and a higher margin for your business.',
     about_values_heading: 'Our values',
     about_value_1_title: 'Certified quality',
-    about_value_1_body: '5 international certifications (ISO 22000, HACCP, IFS Foods, BRC, Halal) and full traceability from flour to final pack.',
+    about_value_1_body: 'Certified to the international ISO 22000 standard, with full traceability from flour to final pack.',
     about_value_2_title: '600-year tradition',
     about_value_2_body: 'Our roots in Hasi give us baking know-how that can\'t be copied — the recipe, the craft and the taste every customer recognises.',
     about_value_3_title: 'Modern technology',
@@ -647,7 +647,7 @@ const translations = {
     footer_col_business: 'For businesses',
     footer_col_company: 'Company',
     footer_home: 'Home',
-    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
+    footer_certifications: 'ISO 22000',
 
     // Sample Request Form
     sample_form_title: 'Request Free Samples',
@@ -700,11 +700,11 @@ const translations = {
 
     // Home
     home_title: 'Gerti Foods — Ihr Lieferant für halbgebackene Produkte',
-    home_meta: 'Gerti Foods beliefert Bäckereien, Hotels, Restaurants und Supermärkte mit zertifizierten halbgebackenen Produkten (ISO 22000, HACCP, IFS, BRC, Halal). Kostenlose Muster für Ihr Unternehmen.',
+    home_meta: 'Gerti Foods beliefert Bäckereien, Hotels, Restaurants und Supermärkte mit nach ISO 22000 zertifizierten halbgebackenen Produkten. Kostenlose Muster für Ihr Unternehmen.',
     home_hero_eyebrow: 'Halbgebacken · Industriemaßstab · Prizren, Kosovo',
     home_hero_title: 'Frische Croissants aus Ihrem Ofen, jeden Morgen. Ganz ohne Bäcker.',
     home_hero_subtitle: 'Wir beliefern Bäckereien, Hotels, Restaurants und Supermärkte mit halbgebackenen Produkten, die in 15–20 Minuten backen — gleiche Qualität in jeder Schicht.',
-    home_hero_trust: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal · 600 Jahre Hasi-Tradition',
+    home_hero_trust: 'ISO 22000 · 600 Jahre Hasi-Tradition',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Suchen Sie fertige Produkte für Ihr Unternehmen?',
@@ -769,7 +769,7 @@ const translations = {
     pillar_1_title: 'Croissants, die sich selbst verkaufen',
     pillar_1_body: 'Kein Bäcker in der Schicht. 15–20 Minuten im Ofen. Frischer Duft zieht Kunden direkt an Ihre Tür.',
     pillar_2_title: 'Zertifizierte Fabrik, null Kompromisse',
-    pillar_2_body: '5 internationale Zertifizierungen (ISO 22000, HACCP, IFS Foods, BRC, Halal). Volle Rückverfolgbarkeit vom Mehl bis zur Packung.',
+    pillar_2_body: 'Zertifiziert nach dem internationalen Standard ISO 22000. Volle Rückverfolgbarkeit vom Mehl bis zur Packung.',
     pillar_3_title: '600 Jahre Tradition, europäische Technologie',
     pillar_3_body: 'Drei Partner aus Hasi — der Region mit 600 Jahren Brottradition — mit automatisierten Linien und internationaler Industrietechnik.',
 
@@ -950,7 +950,7 @@ const translations = {
     about_mission_body: 'Wir möchten, dass jede Bäckerei, jedes Hotel und jedes Restaurant frische Produkte in Premium-Qualität anbieten kann, ohne einen Bäcker in der Schicht zu brauchen. Wir stellen halbgebackene Produkte her, die Sie backen, während Sie verkaufen — gleiche Qualität in jeder Schicht, null Verschwendung und eine höhere Marge für Ihr Unternehmen.',
     about_values_heading: 'Unsere Werte',
     about_value_1_title: 'Zertifizierte Qualität',
-    about_value_1_body: '5 internationale Zertifizierungen (ISO 22000, HACCP, IFS Foods, BRC, Halal) und volle Rückverfolgbarkeit vom Mehl bis zur Packung.',
+    about_value_1_body: 'Zertifiziert nach dem internationalen Standard ISO 22000, mit voller Rückverfolgbarkeit vom Mehl bis zur Packung.',
     about_value_2_title: '600 Jahre Tradition',
     about_value_2_body: 'Unsere Wurzeln in Hasi geben uns ein Backwissen, das sich nicht kopieren lässt — das Rezept, das Handwerk und den Geschmack, den jeder Kunde erkennt.',
     about_value_3_title: 'Moderne Technologie',
@@ -990,7 +990,7 @@ const translations = {
     footer_col_business: 'Für Unternehmen',
     footer_col_company: 'Unternehmen',
     footer_home: 'Startseite',
-    footer_certifications: 'ISO 22000 · HACCP · IFS Foods · BRC · Halal',
+    footer_certifications: 'ISO 22000',
 
     // Sample Request Form
     sample_form_title: 'Kostenlose Muster Anfordern',

@@ -53,7 +53,7 @@ export default function Home() {
 
             <div className="home-hero-stats">
               <div className="home-hero-stat">
-                <span className="stat-value">5</span>
+                <span className="stat-value">ISO 22000</span>
                 <span className="stat-label">{t('hero_stat_certs_label')}</span>
               </div>
               <div className="home-hero-stat">

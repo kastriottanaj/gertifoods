@@ -21,7 +21,7 @@ export default function About() {
           <span className="about-stat-label">{t('about_stat_years')}</span>
         </div>
         <div className="about-stat">
-          <span className="about-stat-number">5</span>
+          <span className="about-stat-number">ISO 22000</span>
           <span className="about-stat-label">{t('about_stat_certs')}</span>
         </div>
         <div className="about-stat">
