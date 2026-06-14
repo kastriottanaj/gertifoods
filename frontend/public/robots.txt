@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Account / transactional pages — no SEO value, keep out of the index
+Disallow: /cart
+Disallow: /orders
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+
+# Backend (served by Django, not the SPA)
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://gertifoods.com/sitemap.xml
