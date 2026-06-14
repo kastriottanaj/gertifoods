@@ -15,6 +15,7 @@ import AreaDetail from './pages/AreaDetail'
 import Imprint from './pages/Imprint'
 import ExitIntentPopup from './components/ExitIntentPopup'
 import WhatsAppButton from './components/WhatsAppButton'
+import CookieConsent from './components/CookieConsent'
 import './App.css'
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
       <Footer />
       <ExitIntentPopup />
       <WhatsAppButton />
+      <CookieConsent />
     </div>
   )
 }
