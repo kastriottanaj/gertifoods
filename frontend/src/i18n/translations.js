@@ -13,8 +13,8 @@ const translations = {
     nav_imprint: 'Impresum',
 
     // Home
-    home_title: 'Gerti Foods — Furnizuesi juaj i produkteve gjysmë të pjekura',
-    home_meta: 'Gerti Foods furnizon furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura të çertifikuara sipas ISO 22000. Mostra falas për biznesin tuaj.',
+    home_title: 'Produkte gjysmë të pjekura për biznesin',
+    home_meta: 'Gerti Foods furnizon furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura të çertifikuara ISO 22000. Kërkoni mostra falas për biznesin tuaj sot.',
     home_hero_eyebrow: 'Gjysmë të pjekura · Shkallë industriale · Prizren, Kosovë',
     home_hero_title: 'Kroasantë të freskët nga furra jote çdo mëngjes. Pa bukëpjekës.',
     home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
@@ -42,6 +42,7 @@ const translations = {
     hero_stat_capacity_label: 'Kroasant / Danish në orë',
     hero_stat_baketime_label: 'Minuta në furrë',
     hero_badge_alt: 'Çertifikata e çertifikimit të Gerti Foods',
+    hero_bg_alt: 'Fabrika e Gerti Foods në Prizren, Kosovë',
 
     // Segment qualifier row
     segments_eyebrow: 'PËR CILIN BIZNES',
@@ -356,8 +357,8 @@ const translations = {
     nav_imprint: 'Imprint',
 
     // Home
-    home_title: 'Gerti Foods — Your half-baked products supplier',
-    home_meta: 'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with ISO 22000 certified half-baked products. Free samples for your business.',
+    home_title: 'Half-Baked Products Supplier for Business',
+    home_meta: 'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with ISO 22000 certified half-baked products. Request free samples for your business today.',
     home_hero_eyebrow: 'Half-baked · Industrial scale · Prizren, Kosovo',
     home_hero_title: 'Fresh croissants from your oven every morning. No baker needed.',
     home_hero_subtitle: 'We supply bakeries, hotels, restaurants and supermarkets with half-baked products that bake in 15–20 minutes — same quality every shift.',
@@ -385,6 +386,7 @@ const translations = {
     hero_stat_capacity_label: 'Croissants / Danish per hour',
     hero_stat_baketime_label: 'Minutes in the oven',
     hero_badge_alt: 'Gerti Foods certification badge',
+    hero_bg_alt: 'Gerti Foods factory in Prizren, Kosovo',
 
     // Segment qualifier row
     segments_eyebrow: 'WHO WE SUPPLY',
@@ -699,8 +701,8 @@ const translations = {
     nav_imprint: 'Impressum',
 
     // Home
-    home_title: 'Gerti Foods — Ihr Lieferant für halbgebackene Produkte',
-    home_meta: 'Gerti Foods beliefert Bäckereien, Hotels, Restaurants und Supermärkte mit nach ISO 22000 zertifizierten halbgebackenen Produkten. Kostenlose Muster für Ihr Unternehmen.',
+    home_title: 'Lieferant für halbgebackene Produkte',
+    home_meta: 'Gerti Foods beliefert Bäckereien, Hotels, Restaurants und Supermärkte mit nach ISO 22000 zertifizierten halbgebackenen Produkten. Fordern Sie noch heute kostenlose Muster an.',
     home_hero_eyebrow: 'Halbgebacken · Industriemaßstab · Prizren, Kosovo',
     home_hero_title: 'Frische Croissants aus Ihrem Ofen, jeden Morgen. Ganz ohne Bäcker.',
     home_hero_subtitle: 'Wir beliefern Bäckereien, Hotels, Restaurants und Supermärkte mit halbgebackenen Produkten, die in 15–20 Minuten backen — gleiche Qualität in jeder Schicht.',
@@ -728,6 +730,7 @@ const translations = {
     hero_stat_capacity_label: 'Croissants / Danish pro Stunde',
     hero_stat_baketime_label: 'Minuten im Ofen',
     hero_badge_alt: 'Zertifizierungsabzeichen von Gerti Foods',
+    hero_bg_alt: 'Gerti Foods Fabrik in Prizren, Kosovo',
 
     // Segment qualifier row
     segments_eyebrow: 'WEN WIR BELIEFERN',

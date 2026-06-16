@@ -29,11 +29,11 @@ export default function Home() {
       <SEO title={t('home_title')} description={t('home_meta')} />
 
       <section className="home-hero">
-        <div
+        <img
           className="home-hero-bg"
-          style={{ backgroundImage: `url(${factoryImg})` }}
-          role="img"
-          aria-label="Gerti Foods factory in Prizren, Kosovo"
+          src={factoryImg}
+          alt={t('hero_bg_alt')}
+          fetchPriority="high"
         />
         <div className="home-hero-overlay" />
 
