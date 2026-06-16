@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 
 from .emails import (
@@ -10,8 +11,26 @@ from .geo import get_client_ip, email_lang_for_ip
 from .models import Lead, SampleRequest
 from .serializers import LeadSerializer, SampleRequestSerializer
 
+# Name of the hidden honeypot field the public forms render. Real visitors
+# never see it; spam bots autofill every field, so a non-empty value is a
+# reliable bot signal.
+HONEYPOT_FIELD = 'website'
 
-class LeadCreateView(generics.CreateAPIView):
+
+class HoneypotCreateMixin:
+    """Silently drop submissions whose honeypot field is filled.
+
+    Returns a normal-looking 201 without saving anything or sending email, so a
+    bot can't distinguish a dropped submission from a real one and won't adapt.
+    """
+
+    def create(self, request, *args, **kwargs):
+        if str(request.data.get(HONEYPOT_FIELD, '')).strip():
+            return Response(status=status.HTTP_201_CREATED)
+        return super().create(request, *args, **kwargs)
+
+
+class LeadCreateView(HoneypotCreateMixin, generics.CreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
     permission_classes = [permissions.AllowAny]
@@ -25,7 +44,7 @@ class LeadCreateView(generics.CreateAPIView):
         notify_sales_lead(lead)
 
 
-class SampleRequestCreateView(generics.CreateAPIView):
+class SampleRequestCreateView(HoneypotCreateMixin, generics.CreateAPIView):
     queryset = SampleRequest.objects.all()
     serializer_class = SampleRequestSerializer
     permission_classes = [permissions.AllowAny]

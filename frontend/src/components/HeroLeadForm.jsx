@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import api from '../services/api';
+import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 
 const INITIAL_FORM = {
@@ -8,6 +9,7 @@ const INITIAL_FORM = {
   email: '',
   phone: '',
   message: '',
+  website: '', // honeypot — must stay empty for real users
 };
 
 export default function HeroLeadForm({ source = 'home_hero' }) {
@@ -52,6 +54,8 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
     <form onSubmit={handleSubmit} className="hero-form" noValidate>
       <h2 className="hero-form-headline">{t('hero_form_headline')}</h2>
       <p className="hero-form-subtext">{t('hero_form_subtext')}</p>
+
+      <Honeypot value={form.website} onChange={handleChange} />
 
       <div className="hero-form-row">
         <label className="hero-form-field">

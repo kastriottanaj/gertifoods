@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import api from '../services/api';
+import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 
 const BUSINESS_TYPES = [
@@ -21,6 +22,7 @@ const INITIAL_FORM = {
   business_type: 'bakery',
   products_interested: '',
   message: '',
+  website: '', // honeypot — must stay empty for real users
 };
 
 export default function SampleRequestForm({ source = 'other', onSuccess }) {
@@ -66,6 +68,8 @@ export default function SampleRequestForm({ source = 'other', onSuccess }) {
     <form onSubmit={handleSubmit} className="sample-form">
       <h2>{t('sample_form_title')}</h2>
       <p className="sample-form-subtitle">{t('sample_form_subtitle')}</p>
+
+      <Honeypot value={form.website} onChange={handleChange} />
 
       <div className="form-row">
         <div className="form-group">

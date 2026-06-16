@@ -99,6 +99,11 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
     ),
+    # Exactly one trusted proxy (nginx) sits in front of Gunicorn, so DRF must
+    # derive the throttle key from the last X-Forwarded-For entry nginx appends,
+    # not the raw header. Without this, a client can spoof X-Forwarded-For to get
+    # a fresh throttle bucket per request and bypass the login/leads rate limits.
+    'NUM_PROXIES': 1,
     'DEFAULT_THROTTLE_RATES': {
         # Generous global cap for anonymous browsing (per IP).
         'anon': '300/hour',
@@ -170,6 +175,10 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    # Start with 1 hour; raise to 31536000 once HTTPS is confirmed stable.
-    SECURE_HSTS_SECONDS = 3600
+    # HTTPS has been stable in production, so use the full one-year max-age.
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # Signals eligibility for browser preload lists. The header alone does not
+    # enrol the domain — that requires submitting to hstspreload.org, which is
+    # a long-term commitment (every subdomain must stay HTTPS-only).
+    SECURE_HSTS_PRELOAD = True

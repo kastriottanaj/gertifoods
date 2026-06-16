@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import api from '../services/api';
+import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 
 const INITIAL_FORM = {
   company_name: '',
   email: '',
+  website: '', // honeypot — must stay empty for real users
 };
 
 export default function CatalogRequestForm({ onSuccess }) {
@@ -50,6 +52,8 @@ export default function CatalogRequestForm({ onSuccess }) {
   return (
     <form onSubmit={handleSubmit} className="hero-form" noValidate>
       <p className="hero-form-subtext">{t('catalog_form_subtext')}</p>
+
+      <Honeypot value={form.website} onChange={handleChange} />
 
       <label className="hero-form-field">
         <span>{t('catalog_form_company')} *</span>
