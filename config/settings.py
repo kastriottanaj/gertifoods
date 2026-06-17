@@ -124,6 +124,10 @@ SIMPLE_JWT = {
 
 # CORS
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173', cast=Csv())
+# Allow the browser to send/receive the httpOnly refresh-token cookie on the
+# cross-origin dev setup (localhost:5173 -> localhost:8000). Production is
+# same-origin so this has no effect there.
+CORS_ALLOW_CREDENTIALS = True
 
 # CSRF: trusted origins for the Django admin login over HTTPS (the React app and
 # API are same-origin, so this only matters for the admin form).

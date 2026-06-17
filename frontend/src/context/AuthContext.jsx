@@ -14,7 +14,6 @@ export function AuthProvider({ children }) {
         .then((res) => setUser(res.data))
         .catch(() => {
           localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
         })
         .finally(() => setLoading(false));
     } else {
@@ -28,25 +27,24 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     const { data } = await api.post('/accounts/login/', { username, password });
+    // Only the short-lived access token is stored in JS; the refresh token is
+    // set by the server as an httpOnly cookie.
     localStorage.setItem('access_token', data.access);
-    localStorage.setItem('refresh_token', data.refresh);
     const profile = await api.get('/accounts/profile/');
     setUser(profile.data);
     return profile.data;
   };
 
   const logout = async () => {
-    const refresh = localStorage.getItem('refresh_token');
-    if (refresh) {
-      // Revoke the refresh token server-side; ignore failures (e.g. token
-      // already expired) — local logout proceeds regardless.
-      try {
-        await api.post('/accounts/logout/', { refresh });
-      } catch {
-        // no-op
-      }
+    // Revoke the refresh-token cookie server-side; ignore failures (e.g. token
+    // already expired) — local logout proceeds regardless.
+    try {
+      await api.post('/accounts/logout/');
+    } catch {
+      // no-op
     }
     localStorage.removeItem('access_token');
+    // Clear any stale refresh token left by the pre-cookie implementation.
     localStorage.removeItem('refresh_token');
     setUser(null);
   };
