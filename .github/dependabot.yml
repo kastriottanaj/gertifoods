@@ -1,0 +1,31 @@
+# Automated dependency-update PRs and security alerts.
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates
+version: 2
+updates:
+  # Python backend (Django/DRF/etc.)
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      python-packages:
+        patterns:
+          - "*"
+
+  # React frontend
+  - package-ecosystem: npm
+    directory: "/frontend"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-packages:
+        patterns:
+          - "*"
+
+  # GitHub Actions (if/when workflows are added)
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
