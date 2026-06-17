@@ -8,6 +8,13 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost', cast=Csv())
 
+# Django admin path. Overridable so production can hide the admin behind a
+# non-guessable URL (set DJANGO_ADMIN_URL in the server .env, e.g.
+# 'api/staff-<random>/'). Mounting it under the existing 'api/' prefix means
+# nginx already proxies it — no nginx change needed. Defaults to the standard
+# 'admin/' for local development. Must end with a trailing slash.
+ADMIN_URL = config('DJANGO_ADMIN_URL', default='admin/')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

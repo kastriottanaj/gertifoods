@@ -13,7 +13,10 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # Admin path is configurable (settings.ADMIN_URL) so production can hide it
+    # behind a non-guessable URL. Listed first so it resolves before the
+    # broader 'api/' includes when mounted under that prefix.
+    path(settings.ADMIN_URL, admin.site.urls),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     path('api/accounts/', include('accounts.urls')),
     path('api/', include('products.urls')),
