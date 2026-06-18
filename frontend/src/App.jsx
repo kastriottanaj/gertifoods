@@ -16,6 +16,7 @@ import Imprint from './pages/Imprint'
 import ExitIntentPopup from './components/ExitIntentPopup'
 import WhatsAppButton from './components/WhatsAppButton'
 import CookieConsent from './components/CookieConsent'
+import WebMCPTools from './components/WebMCPTools'
 import './App.css'
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
       <ExitIntentPopup />
       <WhatsAppButton />
       <CookieConsent />
+      <WebMCPTools />
     </div>
   )
 }

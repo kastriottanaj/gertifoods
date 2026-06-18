@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -9,7 +10,10 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [search, setSearch] = useState('');
+  // Seed the search box from the URL (?search=) so the declarative WebMCP form
+  // and shared/deep-linked search URLs land on real results.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(() => searchParams.get('search') || '');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,7 +42,11 @@ export default function Products() {
           type="text"
           placeholder={t('products_search')}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearch(value);
+            setSearchParams(value ? { search: value } : {}, { replace: true });
+          }}
           className="search-input"
         />
         <select
