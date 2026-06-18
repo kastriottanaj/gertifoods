@@ -8,18 +8,21 @@ const COPY = {
   sq: {
     message: 'Përdorim cookies për analitikë dhe marketing, që të kuptojmë vizitorët dhe të përmirësojmë ofertat tona.',
     learnMore: 'Më shumë',
+    learnMoreAria: 'Më shumë rreth cookies dhe impresumit',
     accept: 'Prano',
     reject: 'Refuzo',
   },
   en: {
     message: 'We use cookies for analytics and marketing to understand visitors and improve our offers.',
     learnMore: 'Learn more',
+    learnMoreAria: 'Learn more about cookies and our imprint',
     accept: 'Accept',
     reject: 'Decline',
   },
   de: {
     message: 'Wir verwenden Cookies für Analyse und Marketing, um Besucher zu verstehen und unsere Angebote zu verbessern.',
     learnMore: 'Mehr erfahren',
+    learnMoreAria: 'Mehr über Cookies und unser Impressum erfahren',
     accept: 'Akzeptieren',
     reject: 'Ablehnen',
   },
@@ -60,7 +63,7 @@ export default function CookieConsent() {
   return (
     <div className="cookie-consent" role="dialog" aria-live="polite" aria-label="Cookie consent">
       <p className="cookie-consent-text">
-        {c.message} <Link to="/imprint" className="cookie-consent-link">{c.learnMore}</Link>
+        {c.message} <Link to="/imprint" className="cookie-consent-link" aria-label={c.learnMoreAria}>{c.learnMore}</Link>
       </p>
       <div className="cookie-consent-actions">
         <button type="button" className="cookie-btn cookie-btn-reject" onClick={() => choose(false)}>
