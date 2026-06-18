@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+/* The DM Sans webfont was loaded here via @import but is blocked in production
+   by the Content-Security-Policy (style-src/font-src do not allow Google's
+   domains), so the site already renders with the system-ui fallback below. The
+   @import only added a render-blocking, ultimately-failing request, so it was
+   removed. Self-host the font and add it to the CSP if a custom face is wanted. */
 
 :root {
   /* Brand Colors - from GertiFoods brandbook */

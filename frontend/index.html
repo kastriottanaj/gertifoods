@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="sq">
   <head>
+    <meta charset="UTF-8" />
+    <!-- Preload the LCP hero image so it downloads in parallel with the JS
+         bundle instead of waiting for React to render the <img>. -->
+    <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
+
     <!-- Google tag (gtag.js) + Consent Mode v2 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVDQVNJ5JE"></script>
     <script>
@@ -33,7 +38,6 @@
       gtag('js', new Date());
       gtag('config', 'G-EVDQVNJ5JE');
     </script>
-    <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

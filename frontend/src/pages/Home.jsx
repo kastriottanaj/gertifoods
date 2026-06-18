@@ -6,7 +6,6 @@ import Modal from '../components/Modal';
 import SampleRequestForm from '../components/SampleRequestForm';
 import CatalogRequestForm from '../components/CatalogRequestForm';
 import HeroLeadForm from '../components/HeroLeadForm';
-import factoryImg from '../assets/gerti-foods.webp';
 import isoCertificateImg from '../assets/iso-certificate.webp';
 import pizzaImg from '../assets/products/pizza.webp';
 import croissantImg from '../assets/products/Croissant.webp';
@@ -31,7 +30,7 @@ export default function Home() {
       <section className="home-hero">
         <img
           className="home-hero-bg"
-          src={factoryImg}
+          src="/hero.webp"
           alt={t('hero_bg_alt')}
           fetchPriority="high"
         />
