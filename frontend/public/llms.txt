@@ -2,39 +2,35 @@
 
 > B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets and distributors with ISO 22000 certified half-baked products (pizza, croissants and pies) that bake fresh in 15 to 20 minutes.
 
-## About
-
 Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, founded in January 2024 in Prizren, Kosovo. Products arrive frozen and finish baking on-site in 15 to 20 minutes, so a buyer serves oven-fresh pizza, croissants and pies without an in-house bakery. Production is certified to HACCP, ISO 22000, IFS, BRC and Halal standards. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia and Germany.
 
 ## Products
 
-Browse the live catalog at https://gertifoods.com/products (searchable via the search_products agent tool).
-
-- Pizza: https://gertifoods.com/products — half-baked Margherita, Pepperoni, Four Cheese, Vegetarian and Tuna, in Family and Mini sizes.
-- Croissants (Kroasanë): https://gertifoods.com/products — butter croissants, plain or filled with chocolate or cream. Capacity up to 6,000 pcs/day.
-- Pies (Pite): https://gertifoods.com/products — cheese, spinach, meat and tuna pies.
-- Family Packs: https://gertifoods.com/products — mixed multi-piece packs of pizza, croissants and pies.
+- [Pizza](https://gertifoods.com/products): half-baked Margherita, Pepperoni, Four Cheese, Vegetarian and Tuna, in Family and Mini sizes, ready in 15 to 20 minutes.
+- [Croissants (Kroasanë)](https://gertifoods.com/products): butter croissants, plain or filled with chocolate or cream. Capacity up to 6,000 pcs/day.
+- [Pies (Pite)](https://gertifoods.com/products): cheese, spinach, meat and tuna pies.
+- [Family Packs](https://gertifoods.com/products): mixed multi-piece packs of pizza, croissants and pies.
 
 ## Key Pages
 
-- Home: https://gertifoods.com/
-- Products catalog: https://gertifoods.com/products
-- About the company: https://gertifoods.com/about
-- Areas served: https://gertifoods.com/areas
-- Imprint (legal): https://gertifoods.com/imprint
+- [Home](https://gertifoods.com/): company overview and lead capture.
+- [Products catalog](https://gertifoods.com/products): full searchable product list.
+- [About](https://gertifoods.com/about): company story, certifications and capacity.
+- [Areas served](https://gertifoods.com/areas): Kosovo, Albania, Hungary, Croatia, Slovakia and Germany.
+- [Imprint](https://gertifoods.com/imprint): legal and company details.
 
 ## Agent Tools Available
 
-This site registers WebMCP tools (see https://developer.chrome.com/docs/ai/webmcp):
+This site registers WebMCP tools (see [WebMCP documentation](https://developer.chrome.com/docs/ai/webmcp)):
 
-- search_products: Search the product catalog by keyword and return matching products with name, URL, price and description.
-- get_contact_info: Return the company's phone, WhatsApp, email and address so a buyer can reach the sales team.
-- search_products_form: Declarative search form that loads the product results page for a keyword.
+- search_products: search the product catalog by keyword and return matching products with name, URL, price and description.
+- get_contact_info: return the company's phone, WhatsApp, email and address so a buyer can reach the sales team.
+- search_products_form: declarative search form that loads the product results page for a keyword.
 
 ## Contact
 
-- Phone: +383 49 111 150
-- WhatsApp: https://wa.me/38349111150
-- Email: info@gertifoods.com (sales: arlinda@gertifoods.com)
-- Address: Str. Kalaja e Shkupit, Prizren 20000, Kosovo
-- Languages: Albanian (sq), English (en), German (de)
+- [Call +383 49 111 150](tel:+38349111150): sales line.
+- [WhatsApp](https://wa.me/38349111150): message the sales team.
+- [Email info@gertifoods.com](mailto:info@gertifoods.com): general and sales (arlinda@gertifoods.com).
+- Address: Str. Kalaja e Shkupit, Prizren 20000, Kosovo.
+- Languages: Albanian (sq), English (en), German (de).
