@@ -87,12 +87,15 @@ for (const route of routes) {
     .replace('<title>Gerti Foods</title>', `<title>${esc(title)}</title>`)
     .replace('</head>', `    ${head}\n  </head>`);
 
-  // '/' is the template itself; nested routes get their own <route>/index.html,
-  // which nginx serves via `try_files $uri $uri/ /index.html`.
+  // '/' is the template itself; every other route is written as <route>.html
+  // (e.g. dist/about.html, dist/areas/kosovo.html) and served by nginx via
+  // `try_files $uri $uri.html /index.html`. Using a flat .html file rather than
+  // <route>/index.html avoids nginx's automatic 301 redirect to a trailing
+  // slash, which would make each page's canonical point at a redirecting URL.
   const outPath =
     route.path === '/'
       ? join(DIST, 'index.html')
-      : join(DIST, route.path.replace(/^\//, ''), 'index.html');
+      : join(DIST, `${route.path.replace(/^\//, '')}.html`);
 
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, html);
