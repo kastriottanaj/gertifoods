@@ -7,7 +7,11 @@ const BASE_URL = 'https://gertifoods.com';
 export default function SEO({ title, description }) {
   const { lang } = useLanguage();
   const location = useLocation();
-  const canonicalUrl = `${BASE_URL}${location.pathname}`;
+  // Strip any trailing slash (except the root "/") so a page reachable at both
+  // /products and /products/ resolves to one canonical, matching the sitemap
+  // and the prerendered HTML (see frontend/prerender.js).
+  const path = location.pathname.replace(/(.+)\/$/, '$1');
+  const canonicalUrl = `${BASE_URL}${path}`;
   const fullTitle = title ? `${title} | Gerti Foods` : 'Gerti Foods';
 
   return (
