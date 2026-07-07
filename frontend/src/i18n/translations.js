@@ -19,6 +19,9 @@ const translations = {
     home_hero_title: 'Kroasantë të freskët nga furra jote çdo mëngjes. Pa bukëpjekës.',
     home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
     home_hero_trust: 'ISO 22000 · 600 vjet traditë nga Hasi',
+    home_hero_cta_samples: 'Kërko mostra falas',
+    home_hero_cta_products: 'Shiko produktet',
+    hero_bar_per_hour: 'orë',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'A po kërkoni produkte të gatshme për biznesin tend?',
@@ -28,6 +31,12 @@ const translations = {
     hero_form_email: 'Email',
     hero_form_phone: 'Telefoni',
     hero_form_message: 'Mesazhi (opsional)',
+    hero_form_full_name: 'Emri i plotë',
+    hero_form_business_email: 'Email biznesi',
+    hero_form_business_name: 'Emri i biznesit',
+    hero_form_business_type: 'Lloji i biznesit',
+    hero_form_business_type_placeholder: 'Zgjidh llojin e biznesit',
+    hero_form_privacy: 'Të dhënat e tua janë të sigurta. Pa spam.',
     hero_form_submit: 'Dërgo Kërkesën',
     hero_form_loading: 'Duke dërguar...',
     hero_form_success_title: 'Faleminderit!',
@@ -42,7 +51,7 @@ const translations = {
     hero_stat_capacity_label: 'Kroasant / Danish në orë',
     hero_stat_baketime_label: 'Minuta në furrë',
     hero_badge_alt: 'Çertifikata e çertifikimit të Gerti Foods',
-    hero_bg_alt: 'Fabrika e Gerti Foods në Prizren, Kosovë',
+    hero_bg_alt: 'Kroasantë të freskët e të artë të pjekur nga Gerti Foods',
 
     // Segment qualifier row
     segments_eyebrow: 'PËR CILIN BIZNES',
@@ -105,6 +114,7 @@ const translations = {
     category_pite_alt: 'Pite me djathë nga Gerti Foods',
     category_family_alt: 'Family Pack nga Gerti Foods për pakicë dhe shtëpi',
     categories_cta: 'Shiko të gjitha produktet',
+    categories_view_range: 'Shiko gamën',
 
     // How ordering works
     process_eyebrow: 'SI FUNKSIONON',
@@ -134,6 +144,8 @@ const translations = {
     heritage_fact_partners: 'Partnerë nga Hasi',
     heritage_fact_years: 'Vjet traditë buke',
     heritage_fact_founded: 'Viti i hapjes së fabrikës',
+    heritage_img_alt: 'Furrë artizanale me rafte plot bukë dhe kroasantë',
+    heritage_certs_label: 'Të çertifikuar sipas standardeve ndërkombëtare',
 
     // Final CTA band
     final_cta_title: 'Provo mostrat falas. Shiko pse furrat më të mira në Kosovë po kalojnë tek ne.',
@@ -363,6 +375,9 @@ const translations = {
     home_hero_title: 'Fresh croissants from your oven every morning. No baker needed.',
     home_hero_subtitle: 'We supply bakeries, hotels, restaurants and supermarkets with half-baked products that bake in 15–20 minutes — same quality every shift.',
     home_hero_trust: 'ISO 22000 · 600 years of Hasi tradition',
+    home_hero_cta_samples: 'Request free samples',
+    home_hero_cta_products: 'See products',
+    hero_bar_per_hour: 'hr',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Looking for ready-made products for your business?',
@@ -372,6 +387,12 @@ const translations = {
     hero_form_email: 'Email',
     hero_form_phone: 'Phone',
     hero_form_message: 'Message (optional)',
+    hero_form_full_name: 'Full name',
+    hero_form_business_email: 'Business email',
+    hero_form_business_name: 'Business name',
+    hero_form_business_type: 'Business type',
+    hero_form_business_type_placeholder: 'Select business type',
+    hero_form_privacy: 'We respect your privacy. No spam.',
     hero_form_submit: 'Send Request',
     hero_form_loading: 'Sending...',
     hero_form_success_title: 'Thank you!',
@@ -386,7 +407,7 @@ const translations = {
     hero_stat_capacity_label: 'Croissants / Danish per hour',
     hero_stat_baketime_label: 'Minutes in the oven',
     hero_badge_alt: 'Gerti Foods certification badge',
-    hero_bg_alt: 'Gerti Foods factory in Prizren, Kosovo',
+    hero_bg_alt: 'Fresh golden croissants baked by Gerti Foods',
 
     // Segment qualifier row
     segments_eyebrow: 'WHO WE SUPPLY',
@@ -449,6 +470,7 @@ const translations = {
     category_pite_alt: 'Cheese pie by Gerti Foods',
     category_family_alt: 'Family Pack by Gerti Foods for retail and home',
     categories_cta: 'See all products',
+    categories_view_range: 'View range',
 
     // How ordering works
     process_eyebrow: 'HOW IT WORKS',
@@ -478,6 +500,8 @@ const translations = {
     heritage_fact_partners: 'Partners from Hasi',
     heritage_fact_years: 'Years of bread tradition',
     heritage_fact_founded: 'Year our factory opened',
+    heritage_img_alt: 'Artisan bakery with shelves full of bread and pastries',
+    heritage_certs_label: 'Certified to international food-safety standards',
 
     // Final CTA band
     final_cta_title: 'Try free samples. See why the best bakeries in Kosovo are switching to us.',
@@ -707,6 +731,9 @@ const translations = {
     home_hero_title: 'Frische Croissants aus Ihrem Ofen, jeden Morgen. Ganz ohne Bäcker.',
     home_hero_subtitle: 'Wir beliefern Bäckereien, Hotels, Restaurants und Supermärkte mit halbgebackenen Produkten, die in 15–20 Minuten backen — gleiche Qualität in jeder Schicht.',
     home_hero_trust: 'ISO 22000 · 600 Jahre Hasi-Tradition',
+    home_hero_cta_samples: 'Kostenlose Muster anfordern',
+    home_hero_cta_products: 'Produkte ansehen',
+    hero_bar_per_hour: 'Std.',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Suchen Sie fertige Produkte für Ihr Unternehmen?',
@@ -716,6 +743,12 @@ const translations = {
     hero_form_email: 'E-Mail',
     hero_form_phone: 'Telefon',
     hero_form_message: 'Nachricht (optional)',
+    hero_form_full_name: 'Vollständiger Name',
+    hero_form_business_email: 'Geschäftliche E-Mail',
+    hero_form_business_name: 'Firmenname',
+    hero_form_business_type: 'Art des Betriebs',
+    hero_form_business_type_placeholder: 'Betriebsart wählen',
+    hero_form_privacy: 'Ihre Daten sind sicher. Kein Spam.',
     hero_form_submit: 'Anfrage Senden',
     hero_form_loading: 'Wird gesendet...',
     hero_form_success_title: 'Vielen Dank!',
@@ -730,7 +763,7 @@ const translations = {
     hero_stat_capacity_label: 'Croissants / Danish pro Stunde',
     hero_stat_baketime_label: 'Minuten im Ofen',
     hero_badge_alt: 'Zertifizierungsabzeichen von Gerti Foods',
-    hero_bg_alt: 'Gerti Foods Fabrik in Prizren, Kosovo',
+    hero_bg_alt: 'Frische goldene Croissants von Gerti Foods',
 
     // Segment qualifier row
     segments_eyebrow: 'WEN WIR BELIEFERN',
@@ -793,6 +826,7 @@ const translations = {
     category_pite_alt: 'Käse-Börek von Gerti Foods',
     category_family_alt: 'Family Pack von Gerti Foods für Einzelhandel und Zuhause',
     categories_cta: 'Alle Produkte ansehen',
+    categories_view_range: 'Sortiment ansehen',
 
     // How ordering works
     process_eyebrow: 'SO FUNKTIONIERT ES',
@@ -822,6 +856,8 @@ const translations = {
     heritage_fact_partners: 'Partner aus Hasi',
     heritage_fact_years: 'Jahre Brottradition',
     heritage_fact_founded: 'Eröffnungsjahr der Fabrik',
+    heritage_img_alt: 'Handwerksbäckerei mit Regalen voller Brot und Gebäck',
+    heritage_certs_label: 'Nach internationalen Standards zertifiziert',
 
     // Final CTA band
     final_cta_title: 'Kostenlose Muster ausprobieren. Sehen Sie, warum die besten Bäckereien im Kosovo zu uns wechseln.',

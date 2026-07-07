@@ -6,22 +6,20 @@ import Modal from '../components/Modal';
 import SampleRequestForm from '../components/SampleRequestForm';
 import CatalogRequestForm from '../components/CatalogRequestForm';
 import HeroLeadForm from '../components/HeroLeadForm';
-import isoCertificateImg from '../assets/iso-certificate.webp';
 import pizzaImg from '../assets/products/pizza.webp';
 import croissantImg from '../assets/products/Croissant.webp';
 import pieImg from '../assets/products/Pie.webp';
 import familyPackImg from '../assets/products/Family-pack.webp';
+import bakeryInteriorImg from '../assets/bakery-interior.webp';
 import './Home.css';
 
-const WA_PHONE = '38349111150';
-const TEL_HREF = 'tel:+38349111150';
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+const CERTS = ['ISO 22000', 'HACCP', 'IFS', 'BRC', 'Halal'];
 
 export default function Home() {
   const { t } = useLanguage();
   const [sampleModalOpen, setSampleModalOpen] = useState(false);
   const [catalogModalOpen, setCatalogModalOpen] = useState(false);
-  const waHref = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(t('whatsapp_greeting'))}`;
 
   return (
     <div className="home">
@@ -41,32 +39,21 @@ export default function Home() {
             <span className="home-hero-eyebrow">{t('home_hero_eyebrow')}</span>
             <h1 className="home-hero-title">{t('home_hero_title')}</h1>
             <p className="home-hero-subtitle">{t('home_hero_subtitle')}</p>
-            <p className="home-hero-trust">{t('home_hero_trust')}</p>
 
-            <img
-              className="home-hero-badge"
-              src={isoCertificateImg}
-              alt={t('hero_badge_alt')}
-              loading="lazy"
-            />
-
-            <div className="home-hero-stats">
-              <div className="home-hero-stat">
-                <span className="stat-value">ISO 22000</span>
-                <span className="stat-label">{t('hero_stat_certs_label')}</span>
-              </div>
-              <div className="home-hero-stat">
-                <span className="stat-value">600+</span>
-                <span className="stat-label">{t('hero_stat_years_label')}</span>
-              </div>
-              <div className="home-hero-stat">
-                <span className="stat-value">6,000</span>
-                <span className="stat-label">{t('hero_stat_capacity_label')}</span>
-              </div>
-              <div className="home-hero-stat">
-                <span className="stat-value">15–20</span>
-                <span className="stat-label">{t('hero_stat_baketime_label')}</span>
-              </div>
+            <div className="home-hero-actions">
+              <button
+                type="button"
+                className="home-hero-btn-primary"
+                onClick={() => setSampleModalOpen(true)}
+              >
+                {t('home_hero_cta_samples')}
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+              </button>
+              <Link to="/products" className="home-hero-btn-secondary">
+                {t('home_hero_cta_products')}
+              </Link>
             </div>
           </div>
 
@@ -74,34 +61,53 @@ export default function Home() {
             <div className="home-hero-card">
               <HeroLeadForm source="home_hero" />
             </div>
+          </div>
+        </div>
 
-            <div className="home-hero-direct">
-              <span className="home-hero-divider">{t('hero_divider')}</span>
-              <a
-                className="home-hero-wa"
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    fill="currentColor"
-                    d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.33 4.97L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02zM12.04 20.13h-.01a8.2 8.2 0 01-4.18-1.14l-.3-.18-3.12.82.83-3.04-.19-.31a8.18 8.18 0 01-1.26-4.37c0-4.54 3.7-8.23 8.23-8.23 2.2 0 4.27.86 5.82 2.41a8.17 8.17 0 012.41 5.82c0 4.54-3.69 8.23-8.23 8.23zm4.51-6.16c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.17.25-.64.8-.79.97-.15.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.46-1.37-1.71-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.77-1.84-.2-.48-.41-.42-.56-.42-.15-.01-.31-.01-.48-.01-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.02 2.6.12.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.17 1.59.1.49-.07 1.5-.61 1.71-1.21.21-.6.21-1.11.15-1.21-.06-.1-.23-.17-.48-.29z"
-                  />
-                </svg>
-                {t('hero_whatsapp_inline')}
-              </a>
-              <a className="home-hero-tel" href={TEL_HREF}>
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    fill="currentColor"
-                    d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2a15.05 15.05 0 01-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.4 11.4 0 018.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"
-                  />
-                </svg>
-                {t('hero_phone_inline')}
-              </a>
-
-            </div>
+        <div className="home-hero-bar">
+          <div className="home-hero-baritem">
+            <span className="home-hero-baricon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+              </svg>
+            </span>
+            <span className="home-hero-bartext">
+              <span className="home-hero-barvalue">ISO 22000</span>
+              <span className="home-hero-barlabel">{t('hero_stat_certs_label')}</span>
+            </span>
+          </div>
+          <div className="home-hero-baritem">
+            <span className="home-hero-baricon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C9.5 6 8 9 8 12a4 4 0 008 0c0-3-1.5-6-4-10zm-6.5 8C4 12.5 3.5 14.5 4 17c2.2.3 4.2-.6 5.2-2.3-1.4-.8-2.6-2.2-3.7-4.7zm13 0c-1.1 2.5-2.3 3.9-3.7 4.7 1 1.7 3 2.6 5.2 2.3.5-2.5 0-4.5-1.5-7z"/>
+              </svg>
+            </span>
+            <span className="home-hero-bartext">
+              <span className="home-hero-barvalue">600</span>
+              <span className="home-hero-barlabel">{t('hero_stat_years_label')}</span>
+            </span>
+          </div>
+          <div className="home-hero-baritem">
+            <span className="home-hero-baricon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66.19-.34.05-.08.07-.12C8.48 10.94 10.42 7.54 13 3h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 17.55 11 21 11 21z"/>
+              </svg>
+            </span>
+            <span className="home-hero-bartext">
+              <span className="home-hero-barvalue">6,000<span className="home-hero-barunit">/{t('hero_bar_per_hour')}</span></span>
+              <span className="home-hero-barlabel">{t('hero_stat_capacity_label')}</span>
+            </span>
+          </div>
+          <div className="home-hero-baritem">
+            <span className="home-hero-baricon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+            </span>
+            <span className="home-hero-bartext">
+              <span className="home-hero-barvalue">15–20 min</span>
+              <span className="home-hero-barlabel">{t('hero_stat_baketime_label')}</span>
+            </span>
           </div>
         </div>
       </section>
@@ -254,9 +260,10 @@ export default function Home() {
                   <path d="M13.5 0.67c.74 2.65 3.25 4.73 3.25 7.33 0 2.09-1.67 3.78-3.75 3.78-1.23 0-2.37-.61-3.05-1.64-.4.63-1.1 1.05-1.89 1.05-1.22 0-2.23-1-2.23-2.22 0-.8.4-1.5 1.02-1.91-.48 3.77 2.12 7.43 5.96 7.43 4.07 0 6.19-3.27 6.19-6.75 0-3.16-2-5.97-5.5-7.07z"/>
                 </svg>
               </div>
-              <span className="home-pillar-number">01</span>
-              <h3 className="home-pillar-title">{t('pillar_1_title')}</h3>
-              <p className="home-pillar-body">{t('pillar_1_body')}</p>
+              <div className="home-pillar-text">
+                <h3 className="home-pillar-title">{t('pillar_1_title')}</h3>
+                <p className="home-pillar-body">{t('pillar_1_body')}</p>
+              </div>
             </article>
 
             <article className="home-pillar">
@@ -265,9 +272,10 @@ export default function Home() {
                   <path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
                 </svg>
               </div>
-              <span className="home-pillar-number">02</span>
-              <h3 className="home-pillar-title">{t('pillar_2_title')}</h3>
-              <p className="home-pillar-body">{t('pillar_2_body')}</p>
+              <div className="home-pillar-text">
+                <h3 className="home-pillar-title">{t('pillar_2_title')}</h3>
+                <p className="home-pillar-body">{t('pillar_2_body')}</p>
+              </div>
             </article>
 
             <article className="home-pillar">
@@ -276,9 +284,10 @@ export default function Home() {
                   <path d="M12 1 2 6v2h20V6L12 1zm-7 9v7H3v2h18v-2h-2v-7h-2v7h-3v-7h-2v7h-2v-7H8v7H5v-7z"/>
                 </svg>
               </div>
-              <span className="home-pillar-number">03</span>
-              <h3 className="home-pillar-title">{t('pillar_3_title')}</h3>
-              <p className="home-pillar-body">{t('pillar_3_body')}</p>
+              <div className="home-pillar-text">
+                <h3 className="home-pillar-title">{t('pillar_3_title')}</h3>
+                <p className="home-pillar-body">{t('pillar_3_body')}</p>
+              </div>
             </article>
           </div>
         </div>
@@ -286,74 +295,81 @@ export default function Home() {
 
       <section className="home-categories" id="products">
         <div className="home-categories-inner">
-          <span className="home-categories-eyebrow">{t('categories_eyebrow')}</span>
-          <h2 className="home-categories-title">{t('categories_title')}</h2>
-          <p className="home-categories-subtitle">{t('categories_subtitle')}</p>
-
-          <div className="home-categories-grid">
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
-                <img
-                  src={pizzaImg}
-                  alt={t('category_pizza_alt')}
-                  loading="lazy"
-                />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_pizza_title')}</h3>
-                <p>{t('category_pizza_desc')}</p>
-              </div>
-            </Link>
-
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
-                <img
-                  src={croissantImg}
-                  alt={t('category_croissant_alt')}
-                  loading="lazy"
-                />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_croissant_title')}</h3>
-                <p>{t('category_croissant_desc')}</p>
-              </div>
-            </Link>
-
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
-                <img
-                  src={pieImg}
-                  alt={t('category_pite_alt')}
-                  loading="lazy"
-                />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_pite_title')}</h3>
-                <p>{t('category_pite_desc')}</p>
-              </div>
-            </Link>
-
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
-                <img
-                  src={familyPackImg}
-                  alt={t('category_family_alt')}
-                  loading="lazy"
-                />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_family_title')}</h3>
-                <p>{t('category_family_desc')}</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="home-categories-footer">
+          <div className="home-categories-intro">
+            <span className="home-categories-eyebrow">{t('categories_eyebrow')}</span>
+            <h2 className="home-categories-title">{t('categories_title')}</h2>
+            <p className="home-categories-subtitle">{t('categories_subtitle')}</p>
             <Link to="/products" className="home-categories-cta">
               {t('categories_cta')}
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
               </svg>
+            </Link>
+          </div>
+
+          <div className="home-categories-grid">
+            <Link to="/products" className="home-category">
+              <div className="home-category-image">
+                <img src={pizzaImg} alt={t('category_pizza_alt')} loading="lazy" />
+              </div>
+              <div className="home-category-body">
+                <h3>{t('category_pizza_title')}</h3>
+                <p>{t('category_pizza_desc')}</p>
+                <span className="home-category-cta">
+                  {t('categories_view_range')}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            <Link to="/products" className="home-category">
+              <div className="home-category-image">
+                <img src={croissantImg} alt={t('category_croissant_alt')} loading="lazy" />
+              </div>
+              <div className="home-category-body">
+                <h3>{t('category_croissant_title')}</h3>
+                <p>{t('category_croissant_desc')}</p>
+                <span className="home-category-cta">
+                  {t('categories_view_range')}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            <Link to="/products" className="home-category">
+              <div className="home-category-image">
+                <img src={pieImg} alt={t('category_pite_alt')} loading="lazy" />
+              </div>
+              <div className="home-category-body">
+                <h3>{t('category_pite_title')}</h3>
+                <p>{t('category_pite_desc')}</p>
+                <span className="home-category-cta">
+                  {t('categories_view_range')}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            <Link to="/products" className="home-category">
+              <div className="home-category-image">
+                <img src={familyPackImg} alt={t('category_family_alt')} loading="lazy" />
+              </div>
+              <div className="home-category-body">
+                <h3>{t('category_family_title')}</h3>
+                <p>{t('category_family_desc')}</p>
+                <span className="home-category-cta">
+                  {t('categories_view_range')}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                  </svg>
+                </span>
+              </div>
             </Link>
           </div>
         </div>
@@ -425,22 +441,43 @@ export default function Home() {
 
       <section className="home-heritage">
         <div className="home-heritage-inner">
-          <span className="home-heritage-eyebrow">{t('heritage_eyebrow')}</span>
-          <h2 className="home-heritage-title">{t('heritage_title')}</h2>
-          <p className="home-heritage-body">{t('heritage_body')}</p>
+          <div className="home-heritage-copy">
+            <span className="home-heritage-eyebrow">{t('heritage_eyebrow')}</span>
+            <h2 className="home-heritage-title">{t('heritage_title')}</h2>
+            <p className="home-heritage-body">{t('heritage_body')}</p>
 
-          <div className="home-heritage-facts">
-            <div className="home-heritage-fact">
-              <span className="home-heritage-fact-value">3</span>
-              <span className="home-heritage-fact-label">{t('heritage_fact_partners')}</span>
+            <div className="home-heritage-facts">
+              <div className="home-heritage-fact">
+                <span className="home-heritage-fact-value">3</span>
+                <span className="home-heritage-fact-label">{t('heritage_fact_partners')}</span>
+              </div>
+              <div className="home-heritage-fact">
+                <span className="home-heritage-fact-value">600</span>
+                <span className="home-heritage-fact-label">{t('heritage_fact_years')}</span>
+              </div>
+              <div className="home-heritage-fact">
+                <span className="home-heritage-fact-value">2024</span>
+                <span className="home-heritage-fact-label">{t('heritage_fact_founded')}</span>
+              </div>
             </div>
-            <div className="home-heritage-fact">
-              <span className="home-heritage-fact-value">600</span>
-              <span className="home-heritage-fact-label">{t('heritage_fact_years')}</span>
-            </div>
-            <div className="home-heritage-fact">
-              <span className="home-heritage-fact-value">2024</span>
-              <span className="home-heritage-fact-label">{t('heritage_fact_founded')}</span>
+          </div>
+
+          <div className="home-heritage-media">
+            <img
+              className="home-heritage-img"
+              src={bakeryInteriorImg}
+              alt={t('heritage_img_alt')}
+              loading="lazy"
+              width="900"
+              height="1350"
+            />
+            <div className="home-heritage-certs">
+              <span className="home-heritage-certs-label">{t('heritage_certs_label')}</span>
+              <div className="home-heritage-certs-row">
+                {CERTS.map((cert) => (
+                  <span key={cert} className="home-heritage-cert-badge">{cert}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -448,8 +485,10 @@ export default function Home() {
 
       <section className="home-final">
         <div className="home-final-inner">
-          <h2 className="home-final-title">{t('final_cta_title')}</h2>
-          <p className="home-final-body">{t('final_cta_body')}</p>
+          <div className="home-final-text">
+            <h2 className="home-final-title">{t('final_cta_title')}</h2>
+            <p className="home-final-body">{t('final_cta_body')}</p>
+          </div>
 
           <div className="home-final-ctas">
             <button
@@ -472,20 +511,6 @@ export default function Home() {
               </svg>
               {t('final_cta_catalog')}
             </button>
-            <a
-              className="home-final-cta-whatsapp"
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path
-                  fill="currentColor"
-                  d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.33 4.97L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02zM12.04 20.13h-.01a8.2 8.2 0 01-4.18-1.14l-.3-.18-3.12.82.83-3.04-.19-.31a8.18 8.18 0 01-1.26-4.37c0-4.54 3.7-8.23 8.23-8.23 2.2 0 4.27.86 5.82 2.41a8.17 8.17 0 012.41 5.82c0 4.54-3.69 8.23-8.23 8.23zm4.51-6.16c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.17.25-.64.8-.79.97-.15.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.46-1.37-1.71-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.77-1.84-.2-.48-.41-.42-.56-.42-.15-.01-.31-.01-.48-.01-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.02 2.6.12.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.17 1.59.1.49-.07 1.5-.61 1.71-1.21.21-.6.21-1.11.15-1.21-.06-.1-.23-.17-.48-.29z"
-                />
-              </svg>
-              {t('final_cta_whatsapp')}
-            </a>
           </div>
         </div>
       </section>
@@ -499,6 +524,15 @@ export default function Home() {
           onSuccess={() => sessionStorage.setItem('catalog_request_submitted', '1')}
         />
       </Modal>
+
+      <div className="home-sticky-cta">
+        <button type="button" onClick={() => setSampleModalOpen(true)}>
+          {t('home_hero_cta_samples')}
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

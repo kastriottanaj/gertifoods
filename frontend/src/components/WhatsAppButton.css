@@ -39,3 +39,10 @@
     display: none;
   }
 }
+
+/* Lift the WhatsApp button above the home sticky CTA bar on mobile */
+@media (max-width: 768px) {
+  .wa-btn {
+    bottom: 84px;
+  }
+}
