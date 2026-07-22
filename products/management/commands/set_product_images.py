@@ -2,9 +2,8 @@ from django.core.management.base import BaseCommand
 from products.models import Product
 
 IMAGE_MAP = {
-    'pizza': 'products/pizza.webp',
-    'kroasan': 'products/croissant.webp',
     'pite': 'products/pie.webp',
+    'byrek': 'products/pie.webp',
     'family pack': 'products/family-pack.webp',
 }
 

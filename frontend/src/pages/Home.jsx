@@ -6,8 +6,6 @@ import Modal from '../components/Modal';
 import SampleRequestForm from '../components/SampleRequestForm';
 import CatalogRequestForm from '../components/CatalogRequestForm';
 import HeroLeadForm from '../components/HeroLeadForm';
-import pizzaImg from '../assets/products/pizza.webp';
-import croissantImg from '../assets/products/Croissant.webp';
 import pieImg from '../assets/products/Pie.webp';
 import familyPackImg from '../assets/products/Family-pack.webp';
 import bakeryInteriorImg from '../assets/bakery-interior.webp';
@@ -94,7 +92,7 @@ export default function Home() {
               </svg>
             </span>
             <span className="home-hero-bartext">
-              <span className="home-hero-barvalue">6,000<span className="home-hero-barunit">/{t('hero_bar_per_hour')}</span></span>
+              <span className="home-hero-barvalue">3,000<span className="home-hero-barunit">/{t('hero_bar_per_hour')}</span></span>
               <span className="home-hero-barlabel">{t('hero_stat_capacity_label')}</span>
             </span>
           </div>
@@ -310,43 +308,30 @@ export default function Home() {
           <div className="home-categories-grid">
             <Link to="/products" className="home-category">
               <div className="home-category-image">
-                <img src={pizzaImg} alt={t('category_pizza_alt')} loading="lazy" />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_pizza_title')}</h3>
-                <p>{t('category_pizza_desc')}</p>
-                <span className="home-category-cta">
-                  {t('categories_view_range')}
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                  </svg>
-                </span>
-              </div>
-            </Link>
-
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
-                <img src={croissantImg} alt={t('category_croissant_alt')} loading="lazy" />
-              </div>
-              <div className="home-category-body">
-                <h3>{t('category_croissant_title')}</h3>
-                <p>{t('category_croissant_desc')}</p>
-                <span className="home-category-cta">
-                  {t('categories_view_range')}
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                  </svg>
-                </span>
-              </div>
-            </Link>
-
-            <Link to="/products" className="home-category">
-              <div className="home-category-image">
                 <img src={pieImg} alt={t('category_pite_alt')} loading="lazy" />
               </div>
               <div className="home-category-body">
                 <h3>{t('category_pite_title')}</h3>
                 <p>{t('category_pite_desc')}</p>
+                <span className="home-category-cta">
+                  {t('categories_view_range')}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            <Link to="/products" className="home-category">
+              {/* TODO: swap for a real tortilla photo once the shoot lands */}
+              <div className="home-category-image home-category-image-placeholder" role="img" aria-label={t('category_tortilla_alt')}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15zM9 8a1.2 1.2 0 100 2.4A1.2 1.2 0 009 8zm6 1.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm-4.5 4a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/>
+                </svg>
+              </div>
+              <div className="home-category-body">
+                <h3>{t('category_tortilla_title')}</h3>
+                <p>{t('category_tortilla_desc')}</p>
                 <span className="home-category-cta">
                   {t('categories_view_range')}
                   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -420,20 +405,12 @@ export default function Home() {
 
           <div className="home-capacity-grid">
             <div className="home-capacity-stat">
-              <span className="home-capacity-value">6,000</span>
-              <span className="home-capacity-label">{t('capacity_stat_croissant')}</span>
-            </div>
-            <div className="home-capacity-stat">
-              <span className="home-capacity-value">6,000</span>
-              <span className="home-capacity-label">{t('capacity_stat_danish')}</span>
-            </div>
-            <div className="home-capacity-stat">
               <span className="home-capacity-value">3,000</span>
               <span className="home-capacity-label">{t('capacity_stat_tortilla')}</span>
             </div>
             <div className="home-capacity-stat">
-              <span className="home-capacity-value">1,300</span>
-              <span className="home-capacity-label">{t('capacity_stat_pizza')}</span>
+              <span className="home-capacity-value">800</span>
+              <span className="home-capacity-label">{t('capacity_stat_byrek')}</span>
             </div>
           </div>
         </div>

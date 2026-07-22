@@ -4,7 +4,10 @@ from .serializers import CategorySerializer, ProductSerializer
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
+    # Only surface categories that still have something to sell, so a
+    # discontinued line disappears from the filters as soon as its products
+    # are marked unavailable.
+    queryset = Category.objects.filter(products__is_available=True).distinct()
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
     lookup_field = 'slug'

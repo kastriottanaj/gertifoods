@@ -32,9 +32,8 @@ export default function Footer() {
         <div className="footer-section">
           <h4>{t('footer_col_products')}</h4>
           <ul className="footer-links">
-            <li><Link to="/products">{t('category_pizza_title')}</Link></li>
-            <li><Link to="/products">{t('category_croissant_title')}</Link></li>
             <li><Link to="/products">{t('category_pite_title')}</Link></li>
+            <li><Link to="/products">{t('category_tortilla_title')}</Link></li>
             <li><Link to="/products">{t('category_family_title')}</Link></li>
           </ul>
         </div>

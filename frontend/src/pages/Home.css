@@ -894,6 +894,13 @@
   transform: scale(1.05);
 }
 
+/* Placeholder tile for categories that don't have a product photo yet */
+.home-category-image-placeholder svg {
+  width: 42px;
+  height: 42px;
+  color: #c9ccd1;
+}
+
 .home-category-body {
   flex: 1;
   min-width: 0;
@@ -1125,8 +1132,10 @@
 
 .home-capacity-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .home-capacity-stat {

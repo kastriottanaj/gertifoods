@@ -37,7 +37,7 @@ export default function WebMCPTools() {
         properties: {
           query: {
             type: 'string',
-            description: 'Keyword or phrase, plain text (for example "pizza" or "kroasan").',
+            description: 'Keyword or phrase, plain text (for example "byrek" or "tortilla").',
           },
           limit: {
             type: 'integer',
