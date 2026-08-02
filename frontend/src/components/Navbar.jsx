@@ -107,7 +107,7 @@ export default function Navbar() {
             </>
           )}
           <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="navbar-book-btn">
-            Book a Free Meeting
+            {t('footer_book_meeting')}
           </a>
           <LanguageSwitcher />
         </div>
@@ -192,7 +192,7 @@ export default function Navbar() {
           </>
         )}
         <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="navbar-book-btn" onClick={close}>
-          Book a Free Meeting
+          {t('footer_book_meeting')}
         </a>
         <LanguageSwitcher />
       </div>
