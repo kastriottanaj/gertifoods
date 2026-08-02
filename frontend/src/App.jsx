@@ -35,9 +35,10 @@ function App() {
   const location = useLocation()
   const isProductsLanding = location.pathname === '/products'
   const isAboutLanding = location.pathname === '/about'
+  const isAreasLanding = location.pathname === '/areas'
 
   return (
-    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}`}>
+    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}${isAreasLanding ? ' areas-landing-app' : ''}`}>
       <Navbar />
       <main className="main-content">
         <Suspense fallback={null}>
