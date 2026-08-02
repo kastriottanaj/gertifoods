@@ -41,8 +41,15 @@ export default function ProductDetail() {
         description={product.description?.slice(0, 160)}
       />
       <div className="product-detail-grid">
+        {/* The product shot is the LCP element on this page, so it stays eager
+            and is the one image here that gets fetchPriority="high". */}
         {product.image && (
-          <img src={product.image} alt={product.name} className="product-detail-image" />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-detail-image"
+            fetchPriority="high"
+          />
         )}
         <div className="product-detail-info">
           <span className="product-category-badge">{product.category_name}</span>

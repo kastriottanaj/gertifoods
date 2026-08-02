@@ -1,13 +1,23 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 
-export default function ProductCard({ product }) {
+// `priority` marks the cards the grid puts in its first row: those can be the
+// LCP element, so they load eagerly. Everything further down the grid is
+// lazy-loaded. The card image box is fixed by CSS (.product-card-image), so no
+// intrinsic width/height attribute is needed to keep the layout stable.
+export default function ProductCard({ product, priority = false }) {
   const { t } = useLanguage();
 
   return (
     <div className="product-card">
       {product.image && (
-        <img src={product.image} alt={product.name} className="product-card-image" />
+        <img
+          src={product.image}
+          alt={product.name}
+          className="product-card-image"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+        />
       )}
       <div className="product-card-body">
         <h3>{product.name}</h3>

@@ -3,10 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import ExitIntentPopup from './components/ExitIntentPopup'
 import WhatsAppButton from './components/WhatsAppButton'
 import CookieConsent from './components/CookieConsent'
-import WebMCPTools from './components/WebMCPTools'
 import './App.css'
 
 // Home is eager (the landing page Lighthouse measures for LCP). Every other
@@ -23,6 +21,14 @@ const About = lazy(() => import('./pages/About'))
 const Areas = lazy(() => import('./pages/Areas'))
 const AreaDetail = lazy(() => import('./pages/AreaDetail'))
 const Imprint = lazy(() => import('./pages/Imprint'))
+
+// Neither of these paints anything above the fold: the exit-intent popup only
+// arms itself 5s in (desktop only) and the WebMCP tools register for agentic
+// browsers plus render an off-screen search form. Splitting them keeps their
+// code out of the initial bundle. The cookie banner and the WhatsApp button
+// stay eager — both are visible straight away.
+const ExitIntentPopup = lazy(() => import('./components/ExitIntentPopup'))
+const WebMCPTools = lazy(() => import('./components/WebMCPTools'))
 
 function App() {
   return (
@@ -47,10 +53,14 @@ function App() {
         </Suspense>
       </main>
       <Footer />
-      <ExitIntentPopup />
+      <Suspense fallback={null}>
+        <ExitIntentPopup />
+      </Suspense>
       <WhatsAppButton />
       <CookieConsent />
-      <WebMCPTools />
+      <Suspense fallback={null}>
+        <WebMCPTools />
+      </Suspense>
     </div>
   )
 }

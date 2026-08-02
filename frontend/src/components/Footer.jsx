@@ -11,7 +11,15 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section footer-section-brand">
-          <img className="footer-brand" src={brandLogo} alt="Gerti Foods" />
+          <img
+            className="footer-brand"
+            src={brandLogo}
+            alt="Gerti Foods"
+            width="164"
+            height="89"
+            loading="lazy"
+            decoding="async"
+          />
           <p style={{ marginTop: 12 }}>{t('footer_description')}</p>
           <p>{t('footer_address')}</p>
         </div>

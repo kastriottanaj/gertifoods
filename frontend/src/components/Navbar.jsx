@@ -45,7 +45,10 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand" aria-label="Gerti Foods" onClick={close}>
-          <img src={brandLogo} alt="Gerti Foods" />
+          {/* Above the fold on every route: stays eager. width/height give the
+              browser the intrinsic ratio so the auto-width logo box doesn't
+              shift the navbar once the file lands. */}
+          <img src={brandLogo} alt="Gerti Foods" width="164" height="89" decoding="async" />
         </Link>
 
         {/* Desktop links */}

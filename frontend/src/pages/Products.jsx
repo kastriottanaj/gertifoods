@@ -64,8 +64,10 @@ export default function Products() {
         <p className="loading">{t('products_loading')}</p>
       ) : (
         <div className="products-grid">
-          {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {filtered.map((product, i) => (
+            // The grid is at most four columns wide, so the first four cards
+            // are the ones that can land above the fold.
+            <ProductCard key={product.id} product={product} priority={i < 4} />
           ))}
           {filtered.length === 0 && <p>{t('products_empty')}</p>}
         </div>

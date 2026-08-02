@@ -24,10 +24,15 @@ export default function Home() {
       <SEO title={t('home_title')} description={t('home_meta')} />
 
       <section className="home-hero">
+        {/* The LCP image — the one place on this page that gets
+            fetchPriority="high" (it is also preloaded in index.html). Stays
+            eager and keeps the default synchronous decode. */}
         <img
           className="home-hero-bg"
           src="/hero.webp"
           alt={t('hero_bg_alt')}
+          width="1920"
+          height="1280"
           fetchPriority="high"
         />
         <div className="home-hero-overlay" />
@@ -308,7 +313,14 @@ export default function Home() {
           <div className="home-categories-grid">
             <Link to="/products" className="home-category">
               <div className="home-category-image">
-                <img src={pieImg} alt={t('category_pite_alt')} loading="lazy" />
+                <img
+                  src={pieImg}
+                  alt={t('category_pite_alt')}
+                  width="1500"
+                  height="1600"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="home-category-body">
                 <h3>{t('category_pite_title')}</h3>
@@ -343,7 +355,14 @@ export default function Home() {
 
             <Link to="/products" className="home-category">
               <div className="home-category-image">
-                <img src={familyPackImg} alt={t('category_family_alt')} loading="lazy" />
+                <img
+                  src={familyPackImg}
+                  alt={t('category_family_alt')}
+                  width="1500"
+                  height="1600"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="home-category-body">
                 <h3>{t('category_family_title')}</h3>
@@ -445,6 +464,7 @@ export default function Home() {
               src={bakeryInteriorImg}
               alt={t('heritage_img_alt')}
               loading="lazy"
+              decoding="async"
               width="900"
               height="1350"
             />
