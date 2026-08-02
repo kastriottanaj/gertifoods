@@ -34,9 +34,10 @@ const WebMCPTools = lazy(() => import('./components/WebMCPTools'))
 function App() {
   const location = useLocation()
   const isProductsLanding = location.pathname === '/products'
+  const isAboutLanding = location.pathname === '/about'
 
   return (
-    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}`}>
+    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}`}>
       <Navbar />
       <main className="main-content">
         <Suspense fallback={null}>
