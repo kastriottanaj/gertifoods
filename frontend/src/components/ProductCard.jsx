@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../i18n/LanguageContext';
 
 // `priority` marks the cards the grid puts in its first row: those can be the
 // LCP element, so they load eagerly. Everything further down the grid is
 // lazy-loaded. The card image box is fixed by CSS (.product-card-image), so no
 // intrinsic width/height attribute is needed to keep the layout stable.
 export default function ProductCard({ product, priority = false }) {
-  const { t } = useLanguage();
-
   return (
     <div className="product-card">
       {product.image && (
@@ -25,9 +22,9 @@ export default function ProductCard({ product, priority = false }) {
         <p className="product-price">
           &euro;{product.price} / {product.unit}
         </p>
-        <p className="product-min-order">{t('products_min_order')}: {product.min_order_quantity} {product.unit}</p>
+        <p className="product-min-order">Min. order: {product.min_order_quantity} {product.unit}</p>
         <Link to={`/products/${product.slug}`} className="btn btn-primary">
-          {t('products_view')}
+          View Details
         </Link>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -31,8 +32,11 @@ const ExitIntentPopup = lazy(() => import('./components/ExitIntentPopup'))
 const WebMCPTools = lazy(() => import('./components/WebMCPTools'))
 
 function App() {
+  const location = useLocation()
+  const isProductsLanding = location.pathname === '/products'
+
   return (
-    <div className="app">
+    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}`}>
       <Navbar />
       <main className="main-content">
         <Suspense fallback={null}>
@@ -52,7 +56,7 @@ function App() {
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      {!isProductsLanding && <Footer />}
       <Suspense fallback={null}>
         <ExitIntentPopup />
       </Suspense>
