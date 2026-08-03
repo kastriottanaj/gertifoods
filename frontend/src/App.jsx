@@ -41,9 +41,10 @@ function App() {
   const isHungaryLanding = location.pathname === '/areas/hungary'
   const isCroatiaLanding = location.pathname === '/areas/croatia'
   const isSlovakiaLanding = location.pathname === '/areas/slovakia'
+  const isGermanyLanding = location.pathname === '/areas/germany'
 
   return (
-    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}${isAreasLanding ? ' areas-landing-app' : ''}${isKosovoLanding ? ' kosovo-landing-app' : ''}${isAlbaniaLanding ? ' albania-landing-app' : ''}${isHungaryLanding ? ' hungary-landing-app' : ''}${isCroatiaLanding ? ' croatia-landing-app' : ''}${isSlovakiaLanding ? ' slovakia-landing-app' : ''}`}>
+    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}${isAreasLanding ? ' areas-landing-app' : ''}${isKosovoLanding ? ' kosovo-landing-app' : ''}${isAlbaniaLanding ? ' albania-landing-app' : ''}${isHungaryLanding ? ' hungary-landing-app' : ''}${isCroatiaLanding ? ' croatia-landing-app' : ''}${isSlovakiaLanding ? ' slovakia-landing-app' : ''}${isGermanyLanding ? ' germany-landing-app' : ''}`}>
       <Navbar />
       <main className="main-content">
         <Suspense fallback={null}>

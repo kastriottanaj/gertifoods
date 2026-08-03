@@ -1224,7 +1224,7 @@
 }
 
 /* Kosovo market page */
-.kosovo-landing-app .main-content, .albania-landing-app .main-content, .hungary-landing-app .main-content, .croatia-landing-app .main-content, .slovakia-landing-app .main-content { max-width: none; margin: 0; padding: 0; }
+.kosovo-landing-app .main-content, .albania-landing-app .main-content, .hungary-landing-app .main-content, .croatia-landing-app .main-content, .slovakia-landing-app .main-content, .germany-landing-app .main-content { max-width: none; margin: 0; padding: 0; }
 .kosovo-page { background: #fff; }
 .kosovo-hero { position: relative; height: 405px; overflow: hidden; }
 .kosovo-hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 64% center; }
@@ -1265,13 +1265,13 @@
 .kosovo-mobile-contact { display: none; }
 
 @media (max-width: 768px) {
-  .kosovo-landing-app .navbar, .albania-landing-app .navbar, .hungary-landing-app .navbar, .croatia-landing-app .navbar, .slovakia-landing-app .navbar { padding: 0 12px; position: relative; }
-  .kosovo-landing-app .navbar-container, .albania-landing-app .navbar-container, .hungary-landing-app .navbar-container, .croatia-landing-app .navbar-container, .slovakia-landing-app .navbar-container { height: 64px; }
-  .kosovo-landing-app .navbar-brand img, .albania-landing-app .navbar-brand img, .hungary-landing-app .navbar-brand img, .croatia-landing-app .navbar-brand img, .slovakia-landing-app .navbar-brand img { height: 28px; }
-  .kosovo-landing-app .navbar-links, .albania-landing-app .navbar-links, .hungary-landing-app .navbar-links, .croatia-landing-app .navbar-links, .slovakia-landing-app .navbar-links { display: flex; margin-left: auto; }
-  .kosovo-landing-app .navbar-links > *, .albania-landing-app .navbar-links > *, .hungary-landing-app .navbar-links > *, .croatia-landing-app .navbar-links > *, .slovakia-landing-app .navbar-links > * { display: none; }
-  .kosovo-landing-app .navbar-links .navbar-book-btn, .albania-landing-app .navbar-links .navbar-book-btn, .hungary-landing-app .navbar-links .navbar-book-btn, .croatia-landing-app .navbar-links .navbar-book-btn, .slovakia-landing-app .navbar-links .navbar-book-btn { display: inline-flex; padding: 8px 10px; margin: 0 7px 0 0; font-size: .55rem; }
-  .kosovo-landing-app .navbar-toggle, .albania-landing-app .navbar-toggle, .hungary-landing-app .navbar-toggle, .croatia-landing-app .navbar-toggle, .slovakia-landing-app .navbar-toggle { display: block; }
+  .kosovo-landing-app .navbar, .albania-landing-app .navbar, .hungary-landing-app .navbar, .croatia-landing-app .navbar, .slovakia-landing-app .navbar, .germany-landing-app .navbar { padding: 0 12px; position: relative; }
+  .kosovo-landing-app .navbar-container, .albania-landing-app .navbar-container, .hungary-landing-app .navbar-container, .croatia-landing-app .navbar-container, .slovakia-landing-app .navbar-container, .germany-landing-app .navbar-container { height: 64px; }
+  .kosovo-landing-app .navbar-brand img, .albania-landing-app .navbar-brand img, .hungary-landing-app .navbar-brand img, .croatia-landing-app .navbar-brand img, .slovakia-landing-app .navbar-brand img, .germany-landing-app .navbar-brand img { height: 28px; }
+  .kosovo-landing-app .navbar-links, .albania-landing-app .navbar-links, .hungary-landing-app .navbar-links, .croatia-landing-app .navbar-links, .slovakia-landing-app .navbar-links, .germany-landing-app .navbar-links { display: flex; margin-left: auto; }
+  .kosovo-landing-app .navbar-links > *, .albania-landing-app .navbar-links > *, .hungary-landing-app .navbar-links > *, .croatia-landing-app .navbar-links > *, .slovakia-landing-app .navbar-links > *, .germany-landing-app .navbar-links > * { display: none; }
+  .kosovo-landing-app .navbar-links .navbar-book-btn, .albania-landing-app .navbar-links .navbar-book-btn, .hungary-landing-app .navbar-links .navbar-book-btn, .croatia-landing-app .navbar-links .navbar-book-btn, .slovakia-landing-app .navbar-links .navbar-book-btn, .germany-landing-app .navbar-links .navbar-book-btn { display: inline-flex; padding: 8px 10px; margin: 0 7px 0 0; font-size: .55rem; }
+  .kosovo-landing-app .navbar-toggle, .albania-landing-app .navbar-toggle, .hungary-landing-app .navbar-toggle, .croatia-landing-app .navbar-toggle, .slovakia-landing-app .navbar-toggle, .germany-landing-app .navbar-toggle { display: block; }
   .kosovo-hero { height: 458px; background: #fff9f7; }
   .kosovo-hero-image { opacity: .1; object-position: 68% center; }
   .kosovo-hero-shade { background: rgba(255,255,255,.72); }
@@ -1306,7 +1306,7 @@
   .hungary-page .kosovo-segment-grid p, .hungary-page .albania-learn { display: none; }
   .hungary-page .kosovo-segment-grid div { display: flex; align-items: center; justify-content: space-between; }
   .hungary-page .kosovo-segment-grid div::after { content: '⌄'; color: #df1828; }
-  .kosovo-landing-app .wa-btn, .albania-landing-app .wa-btn, .hungary-landing-app .wa-btn, .croatia-landing-app .wa-btn, .slovakia-landing-app .wa-btn { display: none; }
+  .kosovo-landing-app .wa-btn, .albania-landing-app .wa-btn, .hungary-landing-app .wa-btn, .croatia-landing-app .wa-btn, .slovakia-landing-app .wa-btn, .germany-landing-app .wa-btn { display: none; }
 }
 
 @media (max-width: 768px) {
