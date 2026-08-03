@@ -38,9 +38,10 @@ function App() {
   const isAreasLanding = location.pathname === '/areas'
   const isKosovoLanding = location.pathname === '/areas/kosovo'
   const isAlbaniaLanding = location.pathname === '/areas/albania'
+  const isHungaryLanding = location.pathname === '/areas/hungary'
 
   return (
-    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}${isAreasLanding ? ' areas-landing-app' : ''}${isKosovoLanding ? ' kosovo-landing-app' : ''}${isAlbaniaLanding ? ' albania-landing-app' : ''}`}>
+    <div className={`app${isProductsLanding ? ' products-landing-app' : ''}${isAboutLanding ? ' about-landing-app' : ''}${isAreasLanding ? ' areas-landing-app' : ''}${isKosovoLanding ? ' kosovo-landing-app' : ''}${isAlbaniaLanding ? ' albania-landing-app' : ''}${isHungaryLanding ? ' hungary-landing-app' : ''}`}>
       <Navbar />
       <main className="main-content">
         <Suspense fallback={null}>

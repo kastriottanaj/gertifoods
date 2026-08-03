@@ -4,6 +4,7 @@ import SEO from '../components/SEO';
 import { getArea } from '../data/areas';
 import kosovoHero from '../assets/gerti-foods-kosovo.webp';
 import albaniaHero from '../assets/gerti-foods-albania.webp';
+import hungaryHero from '../assets/gerti-foods-hungary.webp';
 import bakeryImage from '../assets/bakery-interior.webp';
 import hotelImage from '../assets/gerti-foods-about-us.webp';
 import restaurantImage from '../assets/products/Pie.webp';
@@ -94,6 +95,30 @@ function AlbaniaDetail({ t, name }) {
   );
 }
 
+function HungaryDetail({ t, name }) {
+  const segments = [
+    ['hungary_segment_bakeries', 'hungary_segment_bakeries_body', bakeryImage, '♨'],
+    ['hungary_segment_hotels', 'hungary_segment_hotels_body', hotelImage, '⌂'],
+    ['hungary_segment_restaurants', 'hungary_segment_restaurants_body', restaurantImage, '♧'],
+    ['hungary_segment_supermarkets', 'hungary_segment_supermarkets_body', supermarketImage, '▰'],
+    ['hungary_segment_catering', 'hungary_segment_catering_body', restaurantImage, '⌂'],
+  ];
+  return (
+    <div className="kosovo-page hungary-page">
+      <SEO title={`${name} | ${t('areas_title')}`} description={t('hungary_hero_body')} />
+      <section className="kosovo-hero"><img src={hungaryHero} alt={t('hungary_hero_alt')} className="kosovo-hero-image" fetchPriority="high" /><div className="kosovo-hero-shade" /><div className="kosovo-hero-content">
+        <nav className="kosovo-breadcrumb"><Link to="/areas">{t('areas_title')}</Link> / <span>{name}</span></nav>
+        <h1>{t('hungary_hero_line_1')}<br />{t('hungary_hero_line_2')} <strong>{t('hungary_hero_region')}</strong></h1><p>{t('hungary_hero_body')}</p>
+        <div className="kosovo-benefits albania-benefits"><article><i>▱</i><div><b>{t('hungary_delivery')}</b><span>{t('hungary_delivery_body')}</span></div></article><article><i>◎</i><div><b>{t('hungary_quality')}</b><span>{t('hungary_quality_body')}</span></div></article><article><i>♧</i><div><b>{t('hungary_support')}</b><span>{t('hungary_support_body')}</span></div></article><article><i>◷</i><div><b>{t('hungary_time')}</b><span>{t('hungary_time_body')}</span></div></article></div>
+        <div className="kosovo-hero-actions"><Link to="/products">{t('areas_cta_products')}</Link><Link to="/areas">← &nbsp; {t('area_back')}</Link></div>
+      </div></section>
+      <section className="kosovo-segments"><h2>{t('hungary_serve_title')}</h2><div className="kosovo-segment-grid">{segments.map(([title, body, image, icon]) => <article key={title}><img src={image} alt="" loading="lazy" /><i>{icon}</i><div><h3>{t(title)}</h3><p>{t(body)}</p><Link to="/products" className="albania-learn">{t('about_learn_more')} →</Link></div></article>)}</div></section>
+      <section className="kosovo-growth"><i>⌕</i><div><h2>{t('hungary_growth_title')}</h2><p>{t('hungary_growth_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
+      <div className="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+    </div>
+  );
+}
+
 export default function AreaDetail() {
   const { slug } = useParams();
   const { t } = useLanguage();
@@ -112,6 +137,7 @@ export default function AreaDetail() {
 
   if (slug === 'kosovo') return <KosovoDetail t={t} name={name} />;
   if (slug === 'albania') return <AlbaniaDetail t={t} name={name} />;
+  if (slug === 'hungary') return <HungaryDetail t={t} name={name} />;
 
   return (
     <div className="area-detail-page">
