@@ -22,6 +22,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import translations from './src/i18n/translations.js';
 import { areas } from './src/data/areas.js';
+import { blogPosts } from './src/data/blogPosts.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, 'dist');
@@ -44,11 +45,17 @@ const routes = [
   { path: '/about', title: t('about_title'), description: t('about_meta') },
   { path: '/areas', title: t('areas_title'), description: t('areas_meta') },
   { path: '/imprint', title: t('imprint_title'), description: t('imprint_meta') },
+  { path: '/blog', title: t('blog_title'), description: t('blog_meta') },
   ...areas.map((area) => ({
     path: `/areas/${area.slug}`,
     // Mirror AreaDetail.jsx: `${name} | ${t('areas_title')}`.
     title: `${t(area.nameKey)} | ${t('areas_title')}`,
     description: t('area_detail_lead'),
+  })),
+  ...blogPosts.map((post) => ({
+    path: `/blog/${post.slug}`,
+    title: post.translations[LANG].title,
+    description: post.translations[LANG].description,
   })),
 ];
 

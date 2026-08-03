@@ -10,7 +10,20 @@ const translations = {
     nav_logout: 'Dil',
     nav_about: 'Rreth Nesh',
     nav_areas: 'Zonat që Mbulojmë',
+    nav_blog: 'Blog',
     nav_imprint: 'Impresum',
+
+    // Blog
+    blog_title: 'Njohuri për bizneset ushqimore',
+    blog_meta: 'Këshilla praktike për furnizim, efikasitet dhe produkte gjysmë të pjekura për furra, hotele, restorante dhe shitje me pakicë.',
+    blog_eyebrow: 'Blogu Gerti Foods',
+    blog_intro: 'Ide praktike për cilësi të qëndrueshme, më pak mbetje dhe operacione më efikase.',
+    blog_latest: 'Artikujt më të fundit',
+    blog_read_more: 'Lexo artikullin',
+    blog_back: 'Kthehu te blogu',
+    blog_not_found: 'Artikulli nuk u gjet',
+    blog_cta_title: 'Gati ta provoni në biznesin tuaj?',
+    blog_cta_body: 'Shikoni produktet tona gjysmë të pjekura ose kërkoni mostra për ekipin tuaj.',
 
     // Home
     home_title: 'Produkte gjysmë të pjekura për biznesin',
@@ -551,7 +564,20 @@ const translations = {
     nav_logout: 'Logout',
     nav_about: 'About Us',
     nav_areas: 'Areas We Serve',
+    nav_blog: 'Blog',
     nav_imprint: 'Imprint',
+
+    // Blog
+    blog_title: 'Insights for food businesses',
+    blog_meta: 'Practical advice about sourcing, efficiency and half-baked products for bakeries, hotels, restaurants and retailers.',
+    blog_eyebrow: 'Gerti Foods blog',
+    blog_intro: 'Practical ideas for consistent quality, less waste and more efficient food operations.',
+    blog_latest: 'Latest articles',
+    blog_read_more: 'Read article',
+    blog_back: 'Back to the blog',
+    blog_not_found: 'Article not found',
+    blog_cta_title: 'Ready to try it in your business?',
+    blog_cta_body: 'Explore our half-baked products or request samples for your team.',
 
     // Home
     home_title: 'Half-Baked Products Supplier for Business',
@@ -1092,7 +1118,20 @@ const translations = {
     nav_logout: 'Abmelden',
     nav_about: 'Über uns',
     nav_areas: 'Liefergebiete',
+    nav_blog: 'Blog',
     nav_imprint: 'Impressum',
+
+    // Blog
+    blog_title: 'Wissen für Lebensmittelbetriebe',
+    blog_meta: 'Praktische Tipps zu Beschaffung, Effizienz und halbgebackenen Produkten für Bäckereien, Hotels, Restaurants und Handel.',
+    blog_eyebrow: 'Gerti Foods Blog',
+    blog_intro: 'Praktische Ideen für gleichbleibende Qualität, weniger Abfall und effizientere Abläufe.',
+    blog_latest: 'Neueste Artikel',
+    blog_read_more: 'Artikel lesen',
+    blog_back: 'Zurück zum Blog',
+    blog_not_found: 'Artikel nicht gefunden',
+    blog_cta_title: 'Bereit für einen Test in Ihrem Betrieb?',
+    blog_cta_body: 'Entdecken Sie unsere halbgebackenen Produkte oder fordern Sie Muster für Ihr Team an.',
 
     // Home
     home_title: 'Lieferant für halbgebackene Produkte',

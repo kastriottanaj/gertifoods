@@ -25,6 +25,7 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 - [Products catalog](https://gertifoods.com/products): full searchable product list.
 - [About](https://gertifoods.com/about): company story, Hasi heritage, certifications and capacity.
 - [Areas served](https://gertifoods.com/areas): Kosovo, Albania, Hungary, Croatia, Slovakia and Germany.
+- [Blog](https://gertifoods.com/blog): practical guidance for food businesses on sourcing, efficiency and bake-on-demand operations.
 - [Imprint](https://gertifoods.com/imprint): legal and company details.
 
 ## Agent Tools Available

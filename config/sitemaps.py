@@ -9,10 +9,19 @@ PAGE_ROUTES = {
     '/about': {'changefreq': 'monthly', 'priority': 0.7},
     '/areas': {'changefreq': 'monthly', 'priority': 0.8},
     '/imprint': {'changefreq': 'yearly', 'priority': 0.3},
+    '/blog': {'changefreq': 'weekly', 'priority': 0.8},
 }
 
 # Areas are defined in the frontend (src/data/areas.js); keep this list in sync.
 AREA_SLUGS = ['kosovo', 'albania', 'hungary', 'croatia', 'slovakia', 'germany']
+
+# Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
+# publication dates synchronized until blog content moves to a shared CMS/API.
+BLOG_POSTS = {
+    'how-half-baked-products-help-businesses': '2026-08-04',
+    'choosing-reliable-food-supplier': '2026-07-22',
+    'reduce-food-waste-with-bake-on-demand': '2026-07-08',
+}
 
 
 class PageSitemap(Sitemap):
@@ -43,6 +52,23 @@ class AreaSitemap(Sitemap):
 
     def location(self, slug):
         return f'/areas/{slug}'
+
+
+class BlogSitemap(Sitemap):
+    protocol = 'https'
+    changefreq = 'monthly'
+    priority = 0.7
+
+    def items(self):
+        return list(BLOG_POSTS)
+
+    def location(self, slug):
+        return f'/blog/{slug}'
+
+    def lastmod(self, slug):
+        from datetime import date
+
+        return date.fromisoformat(BLOG_POSTS[slug])
 
 
 class ProductSitemap(Sitemap):

@@ -22,6 +22,8 @@ const About = lazy(() => import('./pages/About'))
 const Areas = lazy(() => import('./pages/Areas'))
 const AreaDetail = lazy(() => import('./pages/AreaDetail'))
 const Imprint = lazy(() => import('./pages/Imprint'))
+const Blog = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
 
 // Neither of these paints anything above the fold: the exit-intent popup only
 // arms itself 5s in (desktop only) and the WebMCP tools register for agentic
@@ -61,6 +63,8 @@ function App() {
             <Route path="/areas" element={<Areas />} />
             <Route path="/areas/:slug" element={<AreaDetail />} />
             <Route path="/imprint" element={<Imprint />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
           </Routes>
         </Suspense>
       </main>

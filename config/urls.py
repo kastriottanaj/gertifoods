@@ -5,12 +5,13 @@ from django.conf.urls.static import static
 from django.contrib.sitemaps.views import index as sitemap_index
 from django.contrib.sitemaps.views import sitemap
 
-from config.sitemaps import AreaSitemap, PageSitemap, ProductSitemap
+from config.sitemaps import AreaSitemap, BlogSitemap, PageSitemap, ProductSitemap
 
 sitemaps = {
     'pages': PageSitemap,
     'areas-we-serve': AreaSitemap,
     'products': ProductSitemap,
+    'blog': BlogSitemap,
 }
 
 urlpatterns = [

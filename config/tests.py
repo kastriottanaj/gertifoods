@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
-from config.sitemaps import AREA_SLUGS, PAGE_ROUTES, ProductSitemap
+from config.sitemaps import AREA_SLUGS, BLOG_POSTS, PAGE_ROUTES, ProductSitemap
 
 
 class SitemapTests(SimpleTestCase):
@@ -17,6 +17,7 @@ class SitemapTests(SimpleTestCase):
         self.assertIn('https://testserver/sitemap-pages.xml', xml)
         self.assertIn('https://testserver/sitemap-products.xml', xml)
         self.assertIn('https://testserver/sitemap-areas-we-serve.xml', xml)
+        self.assertIn('https://testserver/sitemap-blog.xml', xml)
 
     def test_pages_sitemap_contains_only_indexable_pages(self):
         response = self.client.get('/sitemap-pages.xml', secure=True)
@@ -36,7 +37,15 @@ class SitemapTests(SimpleTestCase):
         for slug in AREA_SLUGS:
             self.assertIn(f'<loc>https://testserver/areas/{slug}</loc>', xml)
 
-    def test_unknown_sitemap_category_returns_404(self):
+    def test_blog_sitemap_contains_every_published_post(self):
         response = self.client.get('/sitemap-blog.xml', secure=True)
+
+        self.assertEqual(response.status_code, 200)
+        xml = response.content.decode()
+        for slug in BLOG_POSTS:
+            self.assertIn(f'<loc>https://testserver/blog/{slug}</loc>', xml)
+
+    def test_unknown_sitemap_category_returns_404(self):
+        response = self.client.get('/sitemap-news.xml', secure=True)
 
         self.assertEqual(response.status_code, 404)

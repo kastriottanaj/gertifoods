@@ -55,6 +55,7 @@ export default function Navbar() {
         <div className="navbar-links">
           <Link to="/products">{t('nav_products')}</Link>
           <Link to="/about">{t('nav_about')}</Link>
+          <Link to="/blog">{t('nav_blog')}</Link>
           <div
             className="nav-dropdown"
             ref={areasRef}
@@ -140,6 +141,7 @@ export default function Navbar() {
       >
         <Link to="/products" onClick={close}>{t('nav_products')}</Link>
         <Link to="/about" onClick={close}>{t('nav_about')}</Link>
+        <Link to="/blog" onClick={close}>{t('nav_blog')}</Link>
 
         {/* Areas accordion */}
         <div className="navbar-mobile-accordion">

@@ -62,6 +62,7 @@ export default function Footer() {
             <li><Link to="/">{t('footer_home')}</Link></li>
             <li><Link to="/products">{t('nav_products')}</Link></li>
             <li><Link to="/about">{t('nav_about')}</Link></li>
+            <li><Link to="/blog">{t('nav_blog')}</Link></li>
             <li><Link to="/areas">{t('nav_areas')}</Link></li>
             <li><a href="mailto:info@gertifoods.com">{t('footer_contact')}</a></li>
             <li><Link to="/imprint">{t('nav_imprint')}</Link></li>
