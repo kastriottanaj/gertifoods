@@ -1224,7 +1224,7 @@
 }
 
 /* Kosovo market page */
-.kosovo-landing-app .main-content { max-width: none; margin: 0; padding: 0; }
+.kosovo-landing-app .main-content, .albania-landing-app .main-content { max-width: none; margin: 0; padding: 0; }
 .kosovo-page { background: #fff; }
 .kosovo-hero { position: relative; height: 405px; overflow: hidden; }
 .kosovo-hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 64% center; }
@@ -1254,6 +1254,8 @@
 .kosovo-segment-grid div { min-height: 91px; padding: 28px 14px 12px; }
 .kosovo-segment-grid h3 { margin: 0 0 6px; font-size: .76rem; }
 .kosovo-segment-grid p { margin: 0; font-size: .62rem; line-height: 1.35; }
+.albania-learn { display: inline-block; margin-top: 7px; color: #df1828; font-size: .58rem; font-weight: 700; }
+.albania-benefits { gap: 26px; }
 .kosovo-growth { width: min(1030px, calc(100% - 40px)); min-height: 82px; margin: 0 auto 18px; padding: 12px 30px; display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 24px; border-left: 3px solid #df1828; border-radius: 7px; background: #fff8f6; }
 .kosovo-growth > i { width: 47px; height: 47px; display: grid; place-items: center; border-radius: 50%; background: #fcebed; color: #df1828; font-style: normal; font-size: 1.4rem; }
 .kosovo-growth h2 { margin: 0; font-size: 1rem; }
@@ -1263,13 +1265,13 @@
 .kosovo-mobile-contact { display: none; }
 
 @media (max-width: 768px) {
-  .kosovo-landing-app .navbar { padding: 0 12px; position: relative; }
-  .kosovo-landing-app .navbar-container { height: 64px; }
-  .kosovo-landing-app .navbar-brand img { height: 28px; }
-  .kosovo-landing-app .navbar-links { display: flex; margin-left: auto; }
-  .kosovo-landing-app .navbar-links > * { display: none; }
-  .kosovo-landing-app .navbar-links .navbar-book-btn { display: inline-flex; padding: 8px 10px; margin: 0 7px 0 0; font-size: .55rem; }
-  .kosovo-landing-app .navbar-toggle { display: block; }
+  .kosovo-landing-app .navbar, .albania-landing-app .navbar { padding: 0 12px; position: relative; }
+  .kosovo-landing-app .navbar-container, .albania-landing-app .navbar-container { height: 64px; }
+  .kosovo-landing-app .navbar-brand img, .albania-landing-app .navbar-brand img { height: 28px; }
+  .kosovo-landing-app .navbar-links, .albania-landing-app .navbar-links { display: flex; margin-left: auto; }
+  .kosovo-landing-app .navbar-links > *, .albania-landing-app .navbar-links > * { display: none; }
+  .kosovo-landing-app .navbar-links .navbar-book-btn, .albania-landing-app .navbar-links .navbar-book-btn { display: inline-flex; padding: 8px 10px; margin: 0 7px 0 0; font-size: .55rem; }
+  .kosovo-landing-app .navbar-toggle, .albania-landing-app .navbar-toggle { display: block; }
   .kosovo-hero { height: 458px; background: #fff9f7; }
   .kosovo-hero-image { opacity: .1; object-position: 68% center; }
   .kosovo-hero-shade { background: rgba(255,255,255,.72); }
@@ -1299,7 +1301,7 @@
   .kosovo-growth a { width: 100%; padding: 9px; }
   .kosovo-mobile-contact { position: fixed; z-index: 120; left: 0; right: 0; bottom: 0; height: 58px; padding: 9px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #07842e; }
   .kosovo-mobile-contact a { display: flex; align-items: center; justify-content: center; color: #fff; border-right: 1px solid rgba(255,255,255,.5); font-size: .7rem; font-weight: 700; }
-  .kosovo-landing-app .wa-btn { display: none; }
+  .kosovo-landing-app .wa-btn, .albania-landing-app .wa-btn { display: none; }
 }
 
 @media (max-width: 768px) {
