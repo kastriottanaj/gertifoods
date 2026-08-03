@@ -3,30 +3,38 @@ from django.contrib.sitemaps import Sitemap
 from products.models import Product
 
 # Frontend (React Router) routes that aren't backed by a DB model.
-STATIC_ROUTES = ['/', '/products', '/about', '/areas', '/imprint']
+PAGE_ROUTES = {
+    '/': {'changefreq': 'weekly', 'priority': 1.0},
+    '/products': {'changefreq': 'weekly', 'priority': 0.9},
+    '/about': {'changefreq': 'monthly', 'priority': 0.7},
+    '/areas': {'changefreq': 'monthly', 'priority': 0.8},
+    '/imprint': {'changefreq': 'yearly', 'priority': 0.3},
+}
 
 # Areas are defined in the frontend (src/data/areas.js); keep this list in sync.
 AREA_SLUGS = ['kosovo', 'albania', 'hungary', 'croatia', 'slovakia', 'germany']
 
 
-class StaticViewSitemap(Sitemap):
+class PageSitemap(Sitemap):
     protocol = 'https'
-    changefreq = 'weekly'
 
     def items(self):
-        return STATIC_ROUTES
+        return PAGE_ROUTES.keys()
 
     def location(self, item):
         return item
 
     def priority(self, item):
-        return 1.0 if item == '/' else 0.7
+        return PAGE_ROUTES[item]['priority']
+
+    def changefreq(self, item):
+        return PAGE_ROUTES[item]['changefreq']
 
 
 class AreaSitemap(Sitemap):
     protocol = 'https'
     changefreq = 'monthly'
-    priority = 0.6
+    priority = 0.7
 
     def items(self):
         return AREA_SLUGS
@@ -37,7 +45,7 @@ class AreaSitemap(Sitemap):
 
 class ProductSitemap(Sitemap):
     protocol = 'https'
-    changefreq = 'monthly'
+    changefreq = 'weekly'
     priority = 0.8
 
     def items(self):
