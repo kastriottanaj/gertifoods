@@ -387,6 +387,12 @@ const translations = {
     hungary_segment_catering_body: 'Perfekte për evente të çdo madhësie.',
     hungary_growth_title: 'Le ta Rrisim Biznesin Tuaj së Bashku',
     hungary_growth_body: 'Flisni me ekipin tonë se si mund ta mbështesim biznesin tuaj në Hungari me furnizim të besueshëm dhe produkte gjysmë të pjekura me cilësi të lartë.',
+    croatia_hero_alt: 'Qyteti i vjetër i Dubrovnikut në bregdetin kroat',
+    croatia_hero_line_1: 'Freski, Produkte Gjysmë të Pjekura', croatia_hero_line_2: 'Dërguar', croatia_hero_region: 'Në Gjithë Kroacinë',
+    croatia_hero_body: 'Furnizojmë furra, hotele, restorante, supermarkete dhe biznese kateringu në mbarë Kroacinë me produkte të çertifikuara gjysmë të pjekura që piqen për vetëm 15–20 minuta — e njëjta cilësi në çdo turn.',
+    croatia_delivery: 'Dërgesë e Besueshme', croatia_delivery_body: 'Dërgesë në kohë, çdo herë', croatia_quality: 'Cilësi e Çertifikuar', croatia_quality_body: 'Produkte të çertifikuara ISO 22000', croatia_support: 'Mbështetje Lokale', croatia_support_body: 'Partner i dedikuar për biznesin tuaj', croatia_time: 'Ju Kursen Kohë', croatia_time_body: 'Gati për 15–20 minuta',
+    croatia_serve_title: 'Shërbejmë Biznese në Gjithë Kroacinë', croatia_segment_bakeries: 'Furra', croatia_segment_bakeries_body: 'Cilësi dhe freski e njëjtë në çdo pjekje.', croatia_segment_hotels: 'Hotele', croatia_segment_hotels_body: 'Furnizim i besueshëm për mysafirët tuaj, çdo ditë.', croatia_segment_restaurants: 'Restorante', croatia_segment_restaurants_body: 'Kurseni kohë në kuzhinë pa kompromentuar shijen.', croatia_segment_supermarkets: 'Supermarkete', croatia_segment_supermarkets_body: 'Produkte cilësore të cilave klientët tuaj u besojnë.', croatia_segment_catering: 'Shërbime Kateringu', croatia_segment_catering_body: 'Perfekte për evente të çdo madhësie.',
+    croatia_growth_title: 'Le ta Rrisim Biznesin Tuaj së Bashku', croatia_growth_body: 'Flisni me ekipin tonë se si mund ta mbështesim biznesin tuaj në Kroaci me furnizim të besueshëm dhe produkte gjysmë të pjekura me cilësi të lartë.',
 
     // About
     about_title: 'Rreth Nesh',
@@ -918,6 +924,12 @@ const translations = {
     hungary_segment_catering_body: 'Perfect for events of any size.',
     hungary_growth_title: "Let's Grow Your Business Together",
     hungary_growth_body: 'Talk to our team about how we can support your business in Hungary with reliable supply and top-quality half-baked products.',
+    croatia_hero_alt: 'Dubrovnik old town on the Croatian coast',
+    croatia_hero_line_1: 'Fresh, Half-Baked Goodness', croatia_hero_line_2: 'Delivered', croatia_hero_region: 'Across Croatia',
+    croatia_hero_body: 'We supply bakeries, hotels, restaurants, supermarkets and catering businesses across Croatia with certified half-baked products that bake in just 15–20 minutes — the same quality every shift.',
+    croatia_delivery: 'Reliable Delivery', croatia_delivery_body: 'On-time delivery, every time', croatia_quality: 'Certified Quality', croatia_quality_body: 'ISO 22000 certified products', croatia_support: 'Local Support', croatia_support_body: 'Dedicated partner for your business', croatia_time: 'Saves You Time', croatia_time_body: 'Ready in 15–20 minutes',
+    croatia_serve_title: 'We Serve Businesses Across Croatia', croatia_segment_bakeries: 'Bakeries', croatia_segment_bakeries_body: 'Consistent quality and freshness in every bake.', croatia_segment_hotels: 'Hotels', croatia_segment_hotels_body: 'Reliable supply for your guests, every day.', croatia_segment_restaurants: 'Restaurants', croatia_segment_restaurants_body: 'Save time in the kitchen without compromising taste.', croatia_segment_supermarkets: 'Supermarkets', croatia_segment_supermarkets_body: 'High-quality products your customers trust.', croatia_segment_catering: 'Catering Services', croatia_segment_catering_body: 'Perfect for events of any size.',
+    croatia_growth_title: "Let's Grow Your Business Together", croatia_growth_body: 'Talk to our team about how we can support your business in Croatia with reliable supply and top-quality half-baked products.',
 
     // About
     about_title: 'About Us',
@@ -1449,6 +1461,12 @@ const translations = {
     hungary_segment_catering_body: 'Perfekt für Veranstaltungen jeder Größe.',
     hungary_growth_title: 'Lassen Sie uns Ihr Unternehmen Gemeinsam Ausbauen',
     hungary_growth_body: 'Sprechen Sie mit unserem Team darüber, wie wir Ihr Unternehmen in Ungarn mit zuverlässiger Lieferung und hochwertigen halbgebackenen Produkten unterstützen können.',
+    croatia_hero_alt: 'Dubrovniker Altstadt an der kroatischen Küste',
+    croatia_hero_line_1: 'Frische, Halbgebackene Qualität', croatia_hero_line_2: 'Geliefert', croatia_hero_region: 'In Ganz Kroatien',
+    croatia_hero_body: 'Wir beliefern Bäckereien, Hotels, Restaurants, Supermärkte und Cateringunternehmen in ganz Kroatien mit zertifizierten halbgebackenen Produkten, die in nur 15–20 Minuten fertig backen — gleiche Qualität in jeder Schicht.',
+    croatia_delivery: 'Zuverlässige Lieferung', croatia_delivery_body: 'Pünktliche Lieferung, jedes Mal', croatia_quality: 'Zertifizierte Qualität', croatia_quality_body: 'ISO 22000 zertifizierte Produkte', croatia_support: 'Lokaler Support', croatia_support_body: 'Ein engagierter Partner für Ihr Unternehmen', croatia_time: 'Spart Ihnen Zeit', croatia_time_body: 'Fertig in 15–20 Minuten',
+    croatia_serve_title: 'Wir Beliefern Unternehmen in Ganz Kroatien', croatia_segment_bakeries: 'Bäckereien', croatia_segment_bakeries_body: 'Konstante Qualität und Frische bei jedem Backvorgang.', croatia_segment_hotels: 'Hotels', croatia_segment_hotels_body: 'Zuverlässige Versorgung für Ihre Gäste, jeden Tag.', croatia_segment_restaurants: 'Restaurants', croatia_segment_restaurants_body: 'Zeit in der Küche sparen, ohne Kompromisse beim Geschmack.', croatia_segment_supermarkets: 'Supermärkte', croatia_segment_supermarkets_body: 'Hochwertige Produkte, denen Ihre Kunden vertrauen.', croatia_segment_catering: 'Cateringservice', croatia_segment_catering_body: 'Perfekt für Veranstaltungen jeder Größe.',
+    croatia_growth_title: 'Lassen Sie uns Ihr Unternehmen Gemeinsam Ausbauen', croatia_growth_body: 'Sprechen Sie mit unserem Team darüber, wie wir Ihr Unternehmen in Kroatien mit zuverlässiger Lieferung und hochwertigen halbgebackenen Produkten unterstützen können.',
 
     // About
     about_title: 'Über uns',
