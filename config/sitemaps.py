@@ -19,7 +19,9 @@ class PageSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return PAGE_ROUTES.keys()
+        # Django's sitemap paginator slices this collection, so return a list
+        # rather than dict_keys (which is iterable but not subscriptable).
+        return list(PAGE_ROUTES)
 
     def location(self, item):
         return item
