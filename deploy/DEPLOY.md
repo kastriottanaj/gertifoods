@@ -57,8 +57,9 @@ apt install -y python3 python3-venv python3-dev \
     postgresql postgresql-contrib \
     nginx git curl ufw
 
-# Node.js 20 (to build the React frontend on the server)
-curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+# Node.js 22 (to build the frontend on the server).
+# Astro requires Node >= 22.12 — Node 20 will not build the site.
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 apt install -y nodejs
 ```
 
@@ -172,9 +173,18 @@ npm ci
 npm run build        # outputs to frontend/dist (served by Nginx)
 ```
 
-The build reads the catalogue from `http://127.0.0.1:8000/api` by default —
-Django directly on the loopback interface, so it does not depend on Nginx or
-TLS being up yet. Override with `BUILD_API_URL` if Gunicorn listens elsewhere.
+The build reads the catalogue from `http://127.0.0.1:8000/api` by default.
+**On this server that default returns HTTP 400**, because `ALLOWED_HOSTS` in the
+production `.env` lists only the public hostnames, so Django rejects a request
+whose `Host` header is `127.0.0.1:8000`. Point the build at the public API
+instead:
+
+```bash
+BUILD_API_URL=https://gertifoods.com/api npm run build
+```
+
+(Alternatively, add `127.0.0.1` to `ALLOWED_HOSTS` and the loopback default
+works — worth doing if you ever need to build before TLS is up.)
 
 If the API is unreachable the build **fails deliberately** rather than shipping
 a site with no products behind a sitemap that advertises them. To build without
@@ -235,7 +245,15 @@ git pull                                   # or rsync again
 ./venv/bin/python manage.py collectstatic --noinput
 sudo systemctl restart gunicorn            # restart BEFORE the frontend build,
                                            # which reads the catalogue from it
-cd frontend && npm ci && npm run build
+cd frontend && npm ci
+BUILD_API_URL=https://gertifoods.com/api npm run build
+```
+
+`astro build` empties `dist/` before it writes, so a build that fails partway
+leaves nothing to serve. Take a copy first if you want an instant rollback:
+
+```bash
+cp -a /var/www/gertifoods/frontend/dist /root/dist-backup-$(date +%F-%H%M%S)
 ```
 
 ### After changing the product catalogue
@@ -245,7 +263,7 @@ product in the Django admin does not change the live site on its own.** Rebuild
 the frontend afterwards:
 
 ```bash
-cd /var/www/gertifoods/frontend && npm run build
+cd /var/www/gertifoods/frontend && BUILD_API_URL=https://gertifoods.com/api npm run build
 ```
 
 Nothing needs restarting — Nginx serves the new files as soon as they are
