@@ -12,6 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
+import { islandMessages } from '../lib/islandMessages.js';
 import ProductActions from '../islands/ProductActions.jsx';
 
 const { lang, slug } = Astro.props;
@@ -25,6 +26,7 @@ const copy = productCopy(t);
 const name = copy.name(product);
 const description = copy.description(product);
 const unit = copy.unit(product);
+const messages = islandMessages(lang);
 ---
 
 <BaseLayout
@@ -51,7 +53,7 @@ const unit = copy.unit(product);
         <p class="product-detail-description">{description}</p>
         <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 
-        <ProductActions client:only="react" lang={lang} product={product} unit={unit} />
+        <ProductActions client:only="react" lang={lang} messages={messages} product={product} unit={unit} />
         <p class="login-prompt" data-product-anon>{t('product_login_prompt')}</p>
       </div>
     </div>

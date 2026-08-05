@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import translations from './translations';
 
-const LanguageContext = createContext(null);
+// Exported so the Astro build can supply the same context from a much smaller
+// message set — see astro/islands/IslandLanguage.jsx. Importing this module's
+// LanguageProvider drags the whole three-language table into the bundle, which
+// an island that only renders a form does not need.
+export const LanguageContext = createContext(null);
 
 const LANG_KEY = 'gertifoods_lang';
 const SUPPORTED_LANGS = ['sq', 'en', 'de'];

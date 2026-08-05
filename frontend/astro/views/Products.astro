@@ -10,6 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { getProducts } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
+import { islandMessages } from '../lib/islandMessages.js';
 import ModalHost from '../islands/ModalHost.jsx';
 import heroImage from '../../src/assets/about-us.webp';
 
@@ -23,6 +24,7 @@ const products = await getProducts();
 // but with no fallback, so a product added in the admin without a matching key
 // would have rendered the raw key as its title.
 const copy = productCopy(t);
+const messages = islandMessages(lang);
 ---
 
 <BaseLayout
@@ -97,7 +99,7 @@ const copy = productCopy(t);
       <a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; {t('products_whatsapp')}</a>
     </div>
 
-    <ModalHost client:idle lang={lang} sampleSource="products_hero" closeOnSampleSuccess={true} />
+    <ModalHost client:idle lang={lang} messages={messages} sampleSource="products_hero" closeOnSampleSuccess={true} />
   </div>
 </BaseLayout>
 

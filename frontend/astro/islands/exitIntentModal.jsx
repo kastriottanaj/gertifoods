@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { LanguageProvider, useLanguage } from '../../src/i18n/LanguageContext';
+import IslandLanguage from './IslandLanguage.jsx';
+import { useLanguage } from '../../src/i18n/LanguageContext';
 import Modal from '../../src/components/Modal';
 import SampleRequestForm from '../../src/components/SampleRequestForm';
 
@@ -10,9 +11,13 @@ import SampleRequestForm from '../../src/components/SampleRequestForm';
 // This module is never referenced statically. BaseLayout.astro watches for exit
 // intent with a few lines of plain JavaScript and import()s this only once the
 // cursor actually leaves the top of the viewport — so a visitor who never
-// triggers the popup downloads none of it, and the content pages stay at zero
-// JavaScript. Loading at that moment is free in practice: the visitor is
-// already leaving and is not waiting on anything.
+// triggers the popup downloads none of it, and the content pages stay at
+// roughly 7 KB of JavaScript.
+//
+// Messages are passed in rather than imported. Importing LanguageProvider here
+// was the last thing keeping the 107 KB translation table in the client build:
+// it kept the table reachable from src/i18n/LanguageContext.jsx, which every
+// form imports useLanguage() from, so Rollup could not drop it.
 //
 // The detection half (viewport gate, sessionStorage gates, arm delay, top-edge
 // threshold) lives in BaseLayout.astro.
@@ -50,7 +55,7 @@ function ExitIntentModal() {
 }
 
 /** Mounts the popup. Called once, by the exit-intent watcher in BaseLayout. */
-export default function mount(lang) {
+export default function mount(lang, messages) {
   // Modal portals into document.body, so this element is only an anchor for the
   // React root.
   const host = document.createElement('div');
@@ -58,8 +63,8 @@ export default function mount(lang) {
   document.body.appendChild(host);
 
   createRoot(host).render(
-    <LanguageProvider initialLang={lang}>
+    <IslandLanguage lang={lang} messages={messages}>
       <ExitIntentModal />
-    </LanguageProvider>
+    </IslandLanguage>
   );
 }

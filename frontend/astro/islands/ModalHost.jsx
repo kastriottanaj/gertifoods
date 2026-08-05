@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LanguageProvider } from '../../src/i18n/LanguageContext';
+import IslandLanguage from './IslandLanguage.jsx';
 import { useLanguage } from '../../src/i18n/LanguageContext';
 import Modal from '../../src/components/Modal';
 import SampleRequestForm from '../../src/components/SampleRequestForm';
@@ -71,15 +71,16 @@ function ModalHostInner({ sampleSource, closeOnSampleSuccess }) {
 
 export default function ModalHost({
   lang,
+  messages,
   sampleSource = 'home_hero',
   closeOnSampleSuccess = false,
 }) {
   return (
-    <LanguageProvider initialLang={lang}>
+    <IslandLanguage lang={lang} messages={messages}>
       <ModalHostInner
         sampleSource={sampleSource}
         closeOnSampleSuccess={closeOnSampleSuccess}
       />
-    </LanguageProvider>
+    </IslandLanguage>
   );
 }

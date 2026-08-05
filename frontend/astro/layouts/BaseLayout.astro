@@ -22,6 +22,7 @@ import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import WebMCPTools from '../components/WebMCPTools.astro';
+import { islandMessages } from '../lib/islandMessages.js';
 
 // Global stylesheets, imported in the same order Vite concatenates them today
 // (App.css before index.css — verified against the built bundle) so the cascade
@@ -80,6 +81,11 @@ const preferredHrefs = Object.fromEntries(
   SUPPORTED_LANGS.filter((c) => c !== DEFAULT_LANG).map((c) => [c, localePath(c, basePath)])
 );
 const isDefaultLocale = lang === DEFAULT_LANG;
+
+// Strings for the exit-intent popup (~1.2 KB). Inlined rather than imported by
+// the popup module: keeping LanguageProvider out of the client build is what
+// lets Rollup drop the 107 KB translation table entirely.
+const exitMessages = islandMessages(lang, 'exit');
 ---
 
 <!doctype html>
@@ -241,6 +247,16 @@ const isDefaultLocale = lang === DEFAULT_LANG;
       <WebMCPTools />
     </div>
 
+    {/* Popup strings as data, not as a define:vars script. define:vars implies
+        is:inline, which skips transpilation — the watcher below is TypeScript,
+        so inlining it shipped a syntax error to the browser. */}
+    <script
+      type="application/json"
+      id="gf-exit-messages"
+      is:inline
+      set:html={JSON.stringify(exitMessages).replace(/</g, '\\u003c')}
+    />
+
     <script>
       // Exit-intent watcher — the detection half of the old ExitIntentPopup.jsx,
       // which App.jsx mounted on every route.
@@ -293,7 +309,9 @@ const isDefaultLocale = lang === DEFAULT_LANG;
             if (alreadyHandled()) return;
 
             import('../islands/exitIntentModal.jsx').then(({ default: mount }) => {
-              mount(document.documentElement.lang || 'sq');
+              const node = document.getElementById('gf-exit-messages');
+              const messages = node ? JSON.parse(node.textContent || '{}') : {};
+              mount(document.documentElement.lang || 'sq', messages);
             });
           };
 

@@ -8,6 +8,7 @@
 import '../../src/pages/Home.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
+import { islandMessages } from '../lib/islandMessages.js';
 import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
 import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
@@ -19,6 +20,9 @@ const CERTS = ['ISO 22000', 'HACCP', 'IFS', 'BRC', 'Halal'];
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
+
+// Only the strings the islands render, not the whole translation table.
+const messages = islandMessages(lang);
 ---
 
 <BaseLayout
@@ -63,7 +67,7 @@ const p = (path) => localePath(lang, path);
 
         <div class="home-hero-cta">
           <div class="home-hero-card">
-            <HeroLeadFormIsland client:load lang={lang} source="home_hero" />
+            <HeroLeadFormIsland client:load lang={lang} messages={messages} source="home_hero" />
           </div>
         </div>
       </div>
@@ -498,7 +502,7 @@ const p = (path) => localePath(lang, path);
     {/* Modal.jsx portals to document.body, so this island's position in the
         markup is irrelevant — same as the two <Modal> blocks it replaces,
         which sat mid-page in Home.jsx. */}
-    <ModalHost client:idle lang={lang} />
+    <ModalHost client:idle lang={lang} messages={messages} />
   </div>
 </BaseLayout>
 
