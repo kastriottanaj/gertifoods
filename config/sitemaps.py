@@ -1,4 +1,5 @@
 from django.contrib.sitemaps import Sitemap
+from django.utils.functional import cached_property
 
 from products.models import Product
 
@@ -130,10 +131,14 @@ class ProductSitemap(LocalizedSitemap):
     changefreq = 'weekly'
     priority = 0.8
 
-    def __init__(self):
-        # Cached at construction so expanding each product across three
-        # languages doesn't re-query per URL.
-        self._products = {
+    @cached_property
+    def _products(self):
+        # Cached per instance so expanding each product across three languages
+        # doesn't re-query per URL, but lazy rather than done in __init__: the
+        # sitemap index view instantiates every sitemap class just to read
+        # get_latest_lastmod(), and querying from a constructor would make
+        # merely building the index hit the database.
+        return {
             f'/products/{product.slug}': product
             for product in Product.objects.filter(is_available=True)
         }
