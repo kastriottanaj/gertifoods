@@ -1,0 +1,10 @@
+---
+import About from '../../views/About.astro';
+import { localeStaticPaths } from '../../lib/i18n.js';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.params;
+---
+
+<About lang={lang} />

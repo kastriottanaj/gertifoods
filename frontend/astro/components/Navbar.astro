@@ -1,0 +1,280 @@
+---
+// Astro port of src/components/Navbar.jsx — same DOM, same class names, same
+// aria attributes, same SVG paths, so it renders pixel-identically.
+//
+// Two deliberate differences, both invisible to a visitor:
+//
+// 1. <a href> replaces react-router's <Link to>. Astro is a multi-page app, so
+//    navigation is a real page load. With these pages shipping no application
+//    JS, that is typically faster than the SPA's client-side transition was.
+//
+// 2. The interactive bits (hamburger, areas dropdown, signed-in links) run as a
+//    few lines of vanilla JS instead of React. Hydrating this as a React island
+//    would pull ~190 KB of React onto every page on the site — the exact cost
+//    the migration exists to remove — for a menu toggle and a dropdown.
+import { useTranslations, localePath } from '../lib/i18n.js';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { areas } from '../../src/data/areas.js';
+import brandLogo from '../../src/assets/gerti-foods-logo.webp';
+
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href={p('/')} class="navbar-brand" aria-label="Gerti Foods">
+      {/* Above the fold on every route: stays eager. width/height give the
+          browser the intrinsic ratio so the auto-width logo box doesn't
+          shift the navbar once the file lands. */}
+      <img src={brandLogo.src} alt="Gerti Foods" width="164" height="89" decoding="async" />
+    </a>
+
+    {/* Desktop links */}
+    <div class="navbar-links">
+      <a href={p('/products')}>{t('nav_products')}</a>
+      <a href={p('/about')}>{t('nav_about')}</a>
+      <a href={p('/blog')}>{t('nav_blog')}</a>
+      <div class="nav-dropdown" data-areas-dropdown>
+        <div class="nav-dropdown-trigger">
+          <a href={p('/areas')}>{t('nav_areas')}</a>
+          <button
+            type="button"
+            class="nav-dropdown-caret"
+            aria-label={t('nav_areas')}
+            aria-expanded="false"
+            data-areas-caret
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="nav-dropdown-menu" role="menu" data-areas-menu style="display:none">
+          {areas.map((area) => (
+            <a href={p(`/areas/${area.slug}`)} role="menuitem">{t(area.nameKey)}</a>
+          ))}
+        </div>
+      </div>
+      <a href={p('/imprint')}>{t('nav_imprint')}</a>
+
+      {/* Signed-out links render in the HTML; the script below swaps in the
+          signed-in set once a stored token is verified. This mirrors the React
+          app, where `user` starts null and the nav re-renders after the
+          /accounts/profile/ request resolves.
+
+          The markers sit on each element rather than on a wrapper: .navbar-links
+          is a flex row, so an extra wrapper element would collapse these links
+          into one flex item and lose the gap between them. */}
+      <a href={p('/login')} data-auth-anon>{t('nav_login')}</a>
+      <a href={p('/register')} data-auth-anon>{t('nav_register')}</a>
+      <a href={p('/orders')} data-auth-user style="display:none">{t('nav_orders')}</a>
+      <a href={p('/cart')} class="cart-link" data-auth-user style="display:none">{t('nav_cart')} <span class="cart-badge" data-cart-badge style="display:none"></span></a>
+      <a href={p('/profile')} data-auth-user style="display:none">{t('nav_profile')}</a>
+      <button type="button" class="btn-link" data-auth-user data-logout style="display:none">{t('nav_logout')}</button>
+
+      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" class="navbar-book-btn">
+        {t('footer_book_meeting')}
+      </a>
+      <LanguageSwitcher lang={lang} />
+    </div>
+
+    {/* Hamburger button */}
+    <button
+      class="navbar-toggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="navbar-mobile-menu"
+      data-menu-toggle
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-icon-open>
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-icon-close style="display:none">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  {/* Mobile / tablet menu */}
+  <div class="navbar-overlay" aria-hidden="true" data-menu-overlay style="display:none"></div>
+  <div id="navbar-mobile-menu" class="navbar-mobile" data-mobile-menu>
+    <a href={p('/products')}>{t('nav_products')}</a>
+    <a href={p('/about')}>{t('nav_about')}</a>
+    <a href={p('/blog')}>{t('nav_blog')}</a>
+
+    {/* Areas accordion */}
+    <div class="navbar-mobile-accordion">
+      <div class="navbar-mobile-accordion-row">
+        <a href={p('/areas')}>{t('nav_areas')}</a>
+        <button
+          type="button"
+          class="navbar-mobile-accordion-toggle"
+          aria-label={t('nav_areas')}
+          aria-expanded="false"
+          data-mobile-areas-toggle
+        >
+          <svg width="16" height="16" viewBox="0 0 12 12" aria-hidden="true" style="transition: transform 0.2s;" data-mobile-areas-caret>
+            <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="navbar-mobile-subnav" data-mobile-areas-menu style="display:none">
+        {areas.map((area) => (
+          <a href={p(`/areas/${area.slug}`)}>{t(area.nameKey)}</a>
+        ))}
+      </div>
+    </div>
+
+    <a href={p('/imprint')}>{t('nav_imprint')}</a>
+
+    <a href={p('/login')} data-auth-anon>{t('nav_login')}</a>
+    <a href={p('/register')} data-auth-anon>{t('nav_register')}</a>
+    <a href={p('/orders')} data-auth-user style="display:none">{t('nav_orders')}</a>
+    <a href={p('/cart')} class="cart-link" data-auth-user style="display:none">{t('nav_cart')} <span class="cart-badge" data-cart-badge style="display:none"></span></a>
+    <a href={p('/profile')} data-auth-user style="display:none">{t('nav_profile')}</a>
+    <button type="button" class="btn-link" data-auth-user data-logout style="display:none">{t('nav_logout')}</button>
+
+    <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" class="navbar-book-btn">
+      {t('footer_book_meeting')}
+    </a>
+    <LanguageSwitcher lang={lang} />
+  </div>
+</nav>
+
+<script>
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+
+  // --- Mobile menu -------------------------------------------------------
+  // Mirrors Navbar.jsx: toggles .is-open, swaps the hamburger/close icons and
+  // locks body scroll while the menu is open.
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const mobileMenu = document.querySelector('[data-mobile-menu]');
+  const overlay = document.querySelector('[data-menu-overlay]');
+  const iconOpen = document.querySelector('[data-icon-open]');
+  const iconClose = document.querySelector('[data-icon-close]');
+  const mobileAreasToggle = document.querySelector('[data-mobile-areas-toggle]');
+  const mobileAreasMenu = document.querySelector('[data-mobile-areas-menu]');
+  const mobileAreasCaret = document.querySelector('[data-mobile-areas-caret]');
+
+  function setMenu(open) {
+    mobileMenu?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    if (iconOpen) iconOpen.style.display = open ? 'none' : '';
+    if (iconClose) iconClose.style.display = open ? '' : 'none';
+    if (overlay) overlay.style.display = open ? '' : 'none';
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) setMobileAreas(false);
+  }
+
+  function setMobileAreas(open) {
+    if (mobileAreasMenu) mobileAreasMenu.style.display = open ? 'flex' : 'none';
+    mobileAreasToggle?.setAttribute('aria-expanded', String(open));
+    if (mobileAreasCaret) mobileAreasCaret.style.transform = open ? 'rotate(180deg)' : 'none';
+  }
+
+  toggle?.addEventListener('click', () => {
+    setMenu(!mobileMenu?.classList.contains('is-open'));
+  });
+  overlay?.addEventListener('click', () => setMenu(false));
+  mobileAreasToggle?.addEventListener('click', () => {
+    setMobileAreas(mobileAreasMenu?.style.display === 'none');
+  });
+
+  // --- Desktop "Areas" dropdown -----------------------------------------
+  // Same triggers as the React version: open on hover, toggle with the caret,
+  // close on an outside mousedown.
+  const dropdown = document.querySelector('[data-areas-dropdown]');
+  const caret = document.querySelector('[data-areas-caret]');
+  const menu = document.querySelector('[data-areas-menu]');
+
+  function setAreas(open) {
+    if (menu) menu.style.display = open ? 'flex' : 'none';
+    caret?.setAttribute('aria-expanded', String(open));
+  }
+
+  dropdown?.addEventListener('mouseenter', () => setAreas(true));
+  dropdown?.addEventListener('mouseleave', () => setAreas(false));
+  caret?.addEventListener('click', () => setAreas(menu?.style.display === 'none'));
+  document.addEventListener('mousedown', (e) => {
+    if (dropdown && !dropdown.contains(e.target as Node)) setAreas(false);
+  });
+
+  // --- Signed-in state ---------------------------------------------------
+  // Same contract as AuthContext.jsx: an access token in localStorage is only
+  // trusted once /accounts/profile/ confirms it, and a rejected token is
+  // cleared. Anonymous visitors — every crawler, and most of this site's
+  // traffic — run none of this beyond a single localStorage read.
+  const anonEls = document.querySelectorAll<HTMLElement>('[data-auth-anon]');
+  const userEls = document.querySelectorAll<HTMLElement>('[data-auth-user]');
+
+  // Visibility is driven by an inline style rather than the `hidden` attribute
+  // on purpose: `.navbar-mobile a` sets `display: block`, and an author rule
+  // always beats the user-agent `[hidden] { display: none }`, so `hidden` would
+  // silently fail to hide these inside the mobile menu. Clearing the inline
+  // style (rather than setting a value) restores whatever the stylesheet
+  // specifies — `block` in the mobile menu, the flex-item default on desktop.
+  function showSignedIn(signedIn: boolean) {
+    anonEls.forEach((el) => (el.style.display = signedIn ? 'none' : ''));
+    userEls.forEach((el) => (el.style.display = signedIn ? '' : 'none'));
+  }
+
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    fetch(`${API_BASE}/accounts/profile/`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error('unauthenticated');
+        showSignedIn(true);
+      })
+      .catch(() => localStorage.removeItem('access_token'));
+  }
+
+  // --- Cart badge ---------------------------------------------------------
+  // Navbar.jsx read itemCount straight from CartContext. The navbar is plain
+  // HTML now, so it reads the same cart out of sessionStorage and listens for
+  // the change event CartProvider dispatches, keeping the count live while an
+  // island mutates the cart on the same page.
+  const badges = document.querySelectorAll<HTMLElement>('[data-cart-badge]');
+
+  function renderBadge(items: Array<{ quantity?: number }>) {
+    const count = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
+    badges.forEach((b) => {
+      b.textContent = String(count);
+      b.style.display = count > 0 ? '' : 'none';
+    });
+  }
+
+  function readCart() {
+    try {
+      const parsed = JSON.parse(sessionStorage.getItem('gf_cart') || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  renderBadge(readCart());
+  window.addEventListener('gf:cart-changed', (e) => renderBadge((e as CustomEvent).detail ?? []));
+
+  document.querySelectorAll('[data-logout]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      // Revoke the refresh-token cookie server-side; ignore failures (e.g.
+      // token already expired) — local logout proceeds regardless.
+      try {
+        await fetch(`${API_BASE}/accounts/logout/`, { method: 'POST', credentials: 'include' });
+      } catch {
+        // no-op
+      }
+      localStorage.removeItem('access_token');
+      // Clear any stale refresh token left by the pre-cookie implementation.
+      localStorage.removeItem('refresh_token');
+      showSignedIn(false);
+    });
+  });
+</script>

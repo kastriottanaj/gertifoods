@@ -1,0 +1,16 @@
+---
+// Portal page: robots-disallowed, entirely user-specific, no SEO stake.
+// src/pages/Register.jsx runs as a client-only island — no build-time render, so
+// there is never a flash of signed-out state before the real one appears.
+// The head tags come from BaseLayout, matching what <SEO> used to inject.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../lib/i18n.js';
+import RegisterIsland from '../islands/RegisterIsland.jsx';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('register_title')} description={t('register_meta')} lang={lang}>
+  <RegisterIsland client:only="react" lang={lang} />
+</BaseLayout>

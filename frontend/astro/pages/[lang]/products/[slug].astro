@@ -1,0 +1,16 @@
+---
+import ProductDetail from '../../../views/ProductDetail.astro';
+import { PREFIXED_LANGS } from '../../../lib/i18n.js';
+import { getProducts } from '../../../lib/products.js';
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+  return PREFIXED_LANGS.flatMap((lang) =>
+    products.map((product) => ({ params: { lang, slug: product.slug } }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+---
+
+<ProductDetail lang={lang} slug={slug} />

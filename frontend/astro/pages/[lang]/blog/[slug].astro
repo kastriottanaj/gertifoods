@@ -1,0 +1,15 @@
+---
+import BlogPost from '../../../views/BlogPost.astro';
+import { PREFIXED_LANGS } from '../../../lib/i18n.js';
+import { blogPosts } from '../../../../src/data/blogPosts.js';
+
+export function getStaticPaths() {
+  return PREFIXED_LANGS.flatMap((lang) =>
+    blogPosts.map((post) => ({ params: { lang, slug: post.slug } }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+---
+
+<BlogPost lang={lang} slug={slug} />

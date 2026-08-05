@@ -2,7 +2,23 @@ from django.contrib.sitemaps import Sitemap
 
 from products.models import Product
 
-# Frontend (React Router) routes that aren't backed by a DB model.
+# Languages the frontend is built in. Albanian is the default edition and stays
+# unprefixed, so every URL that existed before the Astro migration keeps its
+# exact address; English and German live under /en/ and /de/.
+#
+# Keep in sync with frontend/astro/lib/i18n.js.
+SUPPORTED_LANGS = ['sq', 'en', 'de']
+DEFAULT_LANG = 'sq'
+
+
+def locale_path(lang, path):
+    """Mirror of localePath() in frontend/astro/lib/i18n.js."""
+    if lang == DEFAULT_LANG:
+        return path
+    return f'/{lang}' if path == '/' else f'/{lang}{path}'
+
+
+# Frontend (Astro) routes that aren't backed by a DB model.
 PAGE_ROUTES = {
     '/': {'changefreq': 'weekly', 'priority': 1.0},
     '/products': {'changefreq': 'weekly', 'priority': 0.9},
@@ -24,63 +40,107 @@ BLOG_POSTS = {
 }
 
 
-class PageSitemap(Sitemap):
+class LocalizedSitemap(Sitemap):
+    """
+    Emits one <url> per language edition of a page, each carrying reciprocal
+    xhtml:link alternates plus x-default — the same relationships the pages
+    declare in their own <head> (see frontend/astro/layouts/BaseLayout.astro).
+
+    Django's built-in i18n sitemap support is deliberately not used. It derives
+    URLs by activating a language around reverse(), which assumes i18n_patterns,
+    and its x-default handling assumes the default language is prefixed too
+    (it rewrites "/<lang>/" to "/"). Neither holds here: these are static
+    frontend paths, and Albanian is served unprefixed at the root. Building the
+    alternates explicitly is shorter than bending that machinery, and keeps the
+    XML and the HTML saying exactly the same thing.
+    """
+
     protocol = 'https'
 
+    def paths(self):
+        """Language-neutral paths, e.g. ['/about']. Subclasses provide these."""
+        raise NotImplementedError
+
     def items(self):
+        return [(path, lang) for path in self.paths() for lang in SUPPORTED_LANGS]
+
+    def location(self, item):
+        path, lang = item
+        return locale_path(lang, path)
+
+    def _urls(self, page, protocol, domain):
+        urls = super()._urls(page, protocol, domain)
+        for url_info in urls:
+            path, _lang = url_info['item']
+            alternates = [
+                {
+                    'lang_code': lang,
+                    'location': f'{protocol}://{domain}{locale_path(lang, path)}',
+                }
+                for lang in SUPPORTED_LANGS
+            ]
+            alternates.append(
+                {
+                    'lang_code': 'x-default',
+                    'location': f'{protocol}://{domain}{locale_path(DEFAULT_LANG, path)}',
+                }
+            )
+            url_info['alternates'] = alternates
+        return urls
+
+
+class PageSitemap(LocalizedSitemap):
+    def paths(self):
         # Django's sitemap paginator slices this collection, so return a list
         # rather than dict_keys (which is iterable but not subscriptable).
         return list(PAGE_ROUTES)
 
-    def location(self, item):
-        return item
-
     def priority(self, item):
-        return PAGE_ROUTES[item]['priority']
+        path, _lang = item
+        return PAGE_ROUTES[path]['priority']
 
     def changefreq(self, item):
-        return PAGE_ROUTES[item]['changefreq']
+        path, _lang = item
+        return PAGE_ROUTES[path]['changefreq']
 
 
-class AreaSitemap(Sitemap):
-    protocol = 'https'
+class AreaSitemap(LocalizedSitemap):
     changefreq = 'monthly'
     priority = 0.7
 
-    def items(self):
-        return AREA_SLUGS
-
-    def location(self, slug):
-        return f'/areas/{slug}'
+    def paths(self):
+        return [f'/areas/{slug}' for slug in AREA_SLUGS]
 
 
-class BlogSitemap(Sitemap):
-    protocol = 'https'
+class BlogSitemap(LocalizedSitemap):
     changefreq = 'monthly'
     priority = 0.7
 
-    def items(self):
-        return list(BLOG_POSTS)
+    def paths(self):
+        return [f'/blog/{slug}' for slug in BLOG_POSTS]
 
-    def location(self, slug):
-        return f'/blog/{slug}'
-
-    def lastmod(self, slug):
+    def lastmod(self, item):
         from datetime import date
 
-        return date.fromisoformat(BLOG_POSTS[slug])
+        path, _lang = item
+        return date.fromisoformat(BLOG_POSTS[path.rsplit('/', 1)[1]])
 
 
-class ProductSitemap(Sitemap):
-    protocol = 'https'
+class ProductSitemap(LocalizedSitemap):
     changefreq = 'weekly'
     priority = 0.8
 
-    def items(self):
-        return Product.objects.filter(is_available=True)
+    def __init__(self):
+        # Cached at construction so expanding each product across three
+        # languages doesn't re-query per URL.
+        self._products = {
+            f'/products/{product.slug}': product
+            for product in Product.objects.filter(is_available=True)
+        }
 
-    def location(self, obj):
-        return f'/products/{obj.slug}'
+    def paths(self):
+        return list(self._products)
 
-    def lastmod(self, obj):
-        return obj.updated_at
+    def lastmod(self, item):
+        path, _lang = item
+        return self._products[path].updated_at

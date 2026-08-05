@@ -1,0 +1,305 @@
+---
+// The single <head> for every Astro page, reproducing frontend/index.html
+// exactly — same tags, same order, same inline analytics bootstrap — plus the
+// per-route SEO tags that SEO.jsx injects at runtime and prerender.js bakes in
+// at build time.
+//
+// One deliberate difference from prerender.js: the injected tags there carry
+// data-rh="true" so react-helmet-async would reconcile rather than duplicate
+// them. Astro has no client-side head manager, so the tags are simply final —
+// no reconciliation, no duplicate-canonical risk, no helmet in the bundle.
+import {
+  DEFAULT_LANG,
+  SUPPORTED_LANGS,
+  OG_LOCALES,
+  normalizePath,
+  localePath,
+  stripLocale,
+} from '../lib/i18n.js';
+import { organizationSchema } from '../lib/schema.js';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import WebMCPTools from '../components/WebMCPTools.astro';
+
+// Global stylesheets, imported in the same order Vite concatenates them today
+// (App.css before index.css — verified against the built bundle) so the cascade
+// resolves identically. Home.css is intentionally not imported here; it is
+// scoped entirely to .home-* selectors and is loaded by the home page alone.
+import '../../src/App.css';
+import '../../src/index.css';
+
+const {
+  title,
+  description,
+  lang = DEFAULT_LANG,
+  // Only the home page needs the hero preloaded. index.html preloads it for
+  // every route because the SPA has one shared HTML shell, which costs every
+  // other page a wasted 59 KB download. Per-page HTML lets us scope it.
+  preloadHero = false,
+  // App.jsx hides the footer on the /products landing page.
+  showFooter = true,
+  // App.jsx appends per-route modifiers to the .app element (e.g.
+  // ' products-landing-app', ' kosovo-landing-app') that page-specific CSS
+  // hangs off. Pages that need one pass it here.
+  appClass = '',
+} = Astro.props;
+
+// Mirror SEO.jsx: `${title} | Gerti Foods`, or plain 'Gerti Foods' when unset.
+const fullTitle = title ? `${title} | Gerti Foods` : 'Gerti Foods';
+
+// Canonical URL, matching SEO.jsx and the sitemap in config/sitemaps.py.
+//
+// With build.format: 'file' the build-time pathname carries the on-disk
+// extension (/imprint.html), but nginx serves that file at the extensionless
+// /imprint via `try_files $uri $uri.html`. Emitting the raw pathname would
+// point every canonical at a URL the site does not serve, so strip the
+// extension first. In `astro dev` the pathname is already extensionless, so
+// this normalisation is a no-op there and both modes agree.
+const path = normalizePath(Astro.url.pathname);
+const canonical = new URL(path, Astro.site).href;
+
+// hreflang. Every language edition of a page lists all three editions plus
+// itself — the reciprocal, self-referencing form Google requires. Without it
+// the three editions look like duplicate content competing with each other;
+// with it they are alternates, and Google serves the right one per user.
+const basePath = stripLocale(path);
+const alternates = SUPPORTED_LANGS.map((code) => ({
+  code,
+  href: new URL(localePath(code, basePath), Astro.site).href,
+}));
+
+// x-default is what Google serves a user whose language matches none of the
+// three. Albanian is the site's default edition, so it takes that role.
+const xDefault = new URL(localePath(DEFAULT_LANG, basePath), Astro.site).href;
+
+// Where the early redirect below sends a returning visitor who previously chose
+// a prefixed language. Computed at build time so the script stays trivial.
+const preferredHrefs = Object.fromEntries(
+  SUPPORTED_LANGS.filter((c) => c !== DEFAULT_LANG).map((c) => [c, localePath(c, basePath)])
+);
+const isDefaultLocale = lang === DEFAULT_LANG;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+
+    {/* Language preference, replacing LanguageContext's getInitialLang().
+        Runs first in <head> so a returning visitor never sees the Albanian page
+        flash before their own language loads.
+
+        Two deliberate differences from the React version:
+
+        - It only honours an explicit prior choice from localStorage. The old
+          navigator.language sniffing is gone: Google advises against
+          auto-redirecting on a guessed language, and a crawler hitting / could
+          be bounced to /en, leaving the Albanian edition unindexed.
+        - Crawlers have no localStorage, so none of them ever redirect. They
+          always see the edition whose URL they requested. */}
+    {
+      isDefaultLocale && (
+        <script is:inline define:vars={{ preferredHrefs }}>
+          try {
+            var choice = localStorage.getItem('gertifoods_lang');
+            if (choice && preferredHrefs[choice]) {
+              location.replace(preferredHrefs[choice]);
+            }
+          } catch (e) {}
+        </script>
+      )
+    }
+
+    {
+      preloadHero && (
+        <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
+      )
+    }
+
+    <!-- Google tag (gtag.js) + Consent Mode v2 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVDQVNJ5JE"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // GDPR: deny analytics & marketing cookies until the visitor consents.
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
+
+      // Re-apply a previously accepted choice on subsequent visits.
+      try {
+        if (localStorage.getItem('gf_cookie_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+      } catch (e) {}
+
+      gtag('js', new Date());
+      gtag('config', 'G-EVDQVNJ5JE');
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+
+      // Keep marketing tracking disabled until the visitor has consented.
+      fbq('consent', 'revoke');
+      try {
+        if (localStorage.getItem('gf_cookie_consent') === 'granted') {
+          fbq('consent', 'grant');
+        }
+      } catch (e) {}
+
+      fbq('init', '1627574088940579');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Gerti Foods" />
+    <meta property="og:site_name" content="Gerti Foods" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://gertifoods.com/favicon-512.png" />
+    <title>{fullTitle}</title>
+
+    <!-- Per-route SEO tags (SEO.jsx / prerender.js equivalents) -->
+    <meta name="description" content={description ?? ''} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description ?? ''} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={OG_LOCALES[lang]} />
+    {
+      SUPPORTED_LANGS.filter((code) => code !== lang).map((code) => (
+        <meta property="og:locale:alternate" content={OG_LOCALES[code]} />
+      ))
+    }
+
+    {/* Reciprocal hreflang across the three editions of this page. */}
+    {
+      alternates.map(({ code, href }) => (
+        <link rel="alternate" hreflang={code} href={href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <!-- Structured data (schema.org JSON-LD) -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(organizationSchema)}
+    />
+
+    {/* Per-page head additions — e.g. the Article JSON-LD a blog post adds on
+        top of the site-wide organisation graph. */}
+    <slot name="head" />
+  </head>
+  <body>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=1627574088940579&amp;ev=PageView&amp;noscript=1"
+        alt=""
+      /></noscript
+    >
+    {/* Element order mirrors App.jsx exactly: everything, footer and floating
+        widgets included, lives inside .app. */}
+    <div class={`app${appClass}`}>
+      <Navbar lang={lang} />
+      <main class="main-content">
+        <slot />
+      </main>
+      {showFooter && <Footer lang={lang} />}
+      <WhatsAppButton lang={lang} />
+      <CookieConsent lang={lang} />
+      <WebMCPTools />
+    </div>
+
+    <script>
+      // Exit-intent watcher — the detection half of the old ExitIntentPopup.jsx,
+      // which App.jsx mounted on every route.
+      //
+      // Only the gates and the listener live here. The modal and the sample
+      // form are import()ed the moment exit intent is actually detected, so a
+      // visitor who never triggers the popup downloads no React at all and the
+      // content pages stay at zero JavaScript. Hydrating it up front instead
+      // would have cost every desktop visitor the full framework for a popup
+      // that fires rarely and never before five seconds have passed.
+      //
+      // Thresholds and storage keys are copied verbatim from the original.
+
+      // Set by ANY successful sample-request submission (hero modal or this
+      // popup): if present, the popup never shows again this session.
+      const SUBMITTED_KEY = 'sample_request_submitted';
+      // Set when the visitor closes the popup without submitting.
+      const DISMISSED_KEY = 'exit_popup_dismissed';
+
+      // Don't arm until the visitor has been on the page this long — avoids
+      // catching immediate bouncers who were never going to convert.
+      const ARM_DELAY_MS = 5000;
+      // Desktop only: mobile has no cursor, and aggressive mobile substitutes
+      // (back-button traps etc.) feel manipulative.
+      const MIN_VIEWPORT_WIDTH = 768;
+      // Cursor velocity can carry it past clientY=0 before the event fires, so
+      // a small threshold catches more real exit attempts.
+      const TOP_EDGE_THRESHOLD_PX = 50;
+
+      function alreadyHandled() {
+        try {
+          return !!(
+            sessionStorage.getItem(SUBMITTED_KEY) || sessionStorage.getItem(DISMISSED_KEY)
+          );
+        } catch {
+          return false;
+        }
+      }
+
+      if (window.innerWidth >= MIN_VIEWPORT_WIDTH && !alreadyHandled()) {
+        setTimeout(() => {
+          const onMouseOut = (e: MouseEvent) => {
+            // relatedTarget is null when the cursor leaves the document
+            // entirely, rather than moving between child elements. The clientY
+            // check restricts this to top-edge exits — leaving via the sides is
+            // not exit intent.
+            if (e.relatedTarget || e.clientY > TOP_EDGE_THRESHOLD_PX) return;
+            // Disarm before loading so a second exit can't mount it twice.
+            document.removeEventListener('mouseout', onMouseOut);
+            if (alreadyHandled()) return;
+
+            import('../islands/exitIntentModal.jsx').then(({ default: mount }) => {
+              mount(document.documentElement.lang || 'sq');
+            });
+          };
+
+          document.addEventListener('mouseout', onMouseOut);
+        }, ARM_DELAY_MS);
+      }
+    </script>
+  </body>
+</html>

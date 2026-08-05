@@ -1,0 +1,59 @@
+---
+// Astro port of src/pages/Areas.jsx.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import { areas } from '../../src/data/areas.js';
+import heroImage from '../../src/assets/areas-we-serve.webp';
+
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+const FLAGS = { kosovo: '🇽🇰', albania: '🇦🇱', hungary: '🇭🇺', croatia: '🇭🇷', slovakia: '🇸🇰', germany: '🇩🇪' };
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<BaseLayout
+  title={t('areas_title')}
+  description={t('areas_meta')}
+  lang={lang}
+  appClass=" areas-landing-app"
+>
+  <div class="areas-page areas-showcase">
+    <section class="areas-hero">
+      <img src={heroImage.src} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
+      <div class="areas-hero-shade"></div>
+      <div class="areas-hero-content">
+        <h1>{t('areas_hero_line_1')}<br />{t('areas_hero_line_2')} <strong>{t('areas_hero_region')}</strong></h1>
+        <p>{t('areas_intro')}</p>
+        <div class="areas-benefits">
+          <article><i>▱</i><div><b>{t('areas_reliable')}</b><span>{t('areas_reliable_body')}</span></div></article>
+          <article><i>◎</i><div><b>{t('areas_quality')}</b><span>{t('areas_quality_body')}</span></div></article>
+          <article><i>♧</i><div><b>{t('areas_partner')}</b><span>{t('areas_partner_body')}</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="areas-listing">
+      <div class="areas-heading"><h2>{t('areas_where')}</h2><p>{t('areas_select_country')}</p></div>
+      <div class="areas-grid">
+        {areas.map((area, index) => (
+          <a href={p(`/areas/${area.slug}`)} class={`area-card area-card-${index + 1}`}>
+            <div class="area-card-image" style={`background-image: url(${heroImage.src})`}>
+              <span>{FLAGS[area.slug]}</span><h3>{t(area.nameKey)}</h3>
+            </div>
+            <div class="area-card-body"><p>{t(`areas_${area.slug}_body`)}</p><span>{t('areas_card_cta')} →</span></div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="areas-growth">
+      <i>♧</i><div><h2>{t('areas_growth_title')}</h2><p>{t('areas_growth_body')}</p></div>
+      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a>
+      <a href="tel:+38349111150" class="areas-growth-phone">☎ &nbsp; +383 49 111 150</a>
+    </section>
+
+    <div class="areas-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+  </div>
+</BaseLayout>

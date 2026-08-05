@@ -1,0 +1,109 @@
+---
+// Astro port of src/components/WebMCPTools.jsx.
+//
+// The React version was a useEffect plus a static form — no state, no props —
+// so it becomes a plain script and plain markup, costing no JavaScript
+// framework at all. Registration still happens once per page load; the
+// module-level guard React needed for StrictMode's double-invoke is no longer
+// necessary, but the idempotence check is kept since a page can be restored
+// from the bfcache.
+//
+// See https://developer.chrome.com/docs/ai/webmcp. deploy/nginx.conf opts this
+// origin in via Permissions-Policy: tools=(self).
+---
+
+<form
+  toolname="search_products_form"
+  tooldescription="Search the Gerti Foods catalog by keyword and load the product results page."
+  action="/products"
+  method="get"
+  class="webmcp-search-form"
+  style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden"
+>
+  <label for="webmcp-q">Search products</label>
+  <input
+    id="webmcp-q"
+    type="search"
+    name="search"
+    toolparamdescription="The keyword or phrase to search the product catalog for. Plain text."
+    autocomplete="off"
+  />
+  <button type="submit">Search</button>
+</form>
+
+<script>
+  // Same-origin in production: nginx proxies /api to Gunicorn. We hit the
+  // existing DRF product search endpoint rather than inventing a new one.
+  const API = '/api';
+
+  const CONTACT = [
+    'Gerti Foods, Prizren, Kosovo',
+    'Phone: +383 49 111 150',
+    'WhatsApp: https://wa.me/38349111150',
+    'Email: info@gertifoods.com (sales: arlinda@gertifoods.com)',
+    'Address: Str. Kalaja e Shkupit, Prizren 20000, Kosovo',
+    'Languages: Albanian, English, German',
+  ].join('\n');
+
+  const modelContext = (navigator as any).modelContext;
+  if (modelContext && !(window as any).__gfWebMCPRegistered) {
+    (window as any).__gfWebMCPRegistered = true;
+
+    modelContext.registerTool({
+      name: 'search_products',
+      description:
+        'Search the Gerti Foods product catalog by keyword and return up to ten matching half-baked products with name, page URL, price and a short description.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          query: {
+            type: 'string',
+            description: 'Keyword or phrase, plain text (for example "byrek" or "tortilla").',
+          },
+          limit: {
+            type: 'integer',
+            description: 'Maximum number of results, default 5, max 10.',
+            default: 5,
+          },
+        },
+        required: ['query'],
+      },
+      annotations: { readOnlyHint: true },
+      execute: async function (input: any) {
+        const q = String((input && input.query) || '').trim();
+        if (!q) return 'No query provided.';
+        const limit = Math.min(parseInt(input && input.limit, 10) || 5, 10);
+        try {
+          const res = await fetch(API + '/products/?search=' + encodeURIComponent(q));
+          if (!res.ok) return 'Search failed with status ' + res.status;
+          const data = await res.json();
+          const items = (data && data.results) || data || [];
+          if (!items.length) return 'No products found for "' + q + '".';
+          return items
+            .slice(0, limit)
+            .map(function (p: any) {
+              const url = 'https://gertifoods.com/products/' + p.slug;
+              const price =
+                p.price != null ? ' (' + p.price + ' EUR/' + (p.unit || 'unit') + ')' : '';
+              const excerpt = p.description ? ' - ' + p.description : '';
+              return '- ' + p.name + price + ': ' + url + excerpt;
+            })
+            .join('\n');
+        } catch (e: any) {
+          return 'Search error: ' + e.message;
+        }
+      },
+    });
+
+    modelContext.registerTool({
+      name: 'get_contact_info',
+      description:
+        'Return the Gerti Foods sales contact details (phone, WhatsApp, email and address) so a buyer can reach the company.',
+      inputSchema: { type: 'object', properties: {} },
+      annotations: { readOnlyHint: true },
+      execute: async function () {
+        return CONTACT;
+      },
+    });
+  }
+</script>

@@ -1,0 +1,14 @@
+---
+// English and German routes: /en/imprint and /de/imprint.
+//
+// getStaticPaths restricts [lang] to exactly the prefixed locales, so no other
+// value can resolve — /fr/imprint is simply not built and 404s.
+import Imprint from '../../views/Imprint.astro';
+import { localeStaticPaths } from '../../lib/i18n.js';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.params;
+---
+
+<Imprint lang={lang} />

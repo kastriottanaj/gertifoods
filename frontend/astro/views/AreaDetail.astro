@@ -1,0 +1,140 @@
+---
+// Astro port of src/pages/AreaDetail.jsx.
+//
+// The React file carries six near-identical components (KosovoDetail,
+// AlbaniaDetail, …) that differ only in their translation-key prefix, hero
+// image, wrapper classes and two small structural flags. They are collapsed
+// here into one component driven by the table below — the rendered DOM is
+// identical per country, there is just one copy of the markup to keep correct.
+//
+// The two structural differences the table encodes:
+//   hasTime      — Kosovo shows three hero benefits, every other country four.
+//   hasLearnMore — Kosovo's segment cards have no "learn more" link.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import kosovoHero from '../../src/assets/gerti-foods-kosovo.webp';
+import albaniaHero from '../../src/assets/gerti-foods-albania.webp';
+import hungaryHero from '../../src/assets/gerti-foods-hungary.webp';
+import croatiaHero from '../../src/assets/gerti-foods-croatia.webp';
+import slovakiaHero from '../../src/assets/gerti-foods-slovakia.webp';
+import germanyHero from '../../src/assets/gerti-foods-germany.webp';
+import bakeryImage from '../../src/assets/bakery-interior.webp';
+import hotelImage from '../../src/assets/gerti-foods-about-us.webp';
+import restaurantImage from '../../src/assets/products/Pie.webp';
+import supermarketImage from '../../src/assets/products/Family-pack.webp';
+
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+
+const COUNTRIES = {
+  kosovo: {
+    hero: kosovoHero,
+    pageClass: 'kosovo-page',
+    benefitsClass: 'kosovo-benefits',
+    hasTime: false,
+    hasLearnMore: false,
+  },
+  albania: {
+    hero: albaniaHero,
+    pageClass: 'kosovo-page albania-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+  hungary: {
+    hero: hungaryHero,
+    pageClass: 'kosovo-page hungary-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+  croatia: {
+    hero: croatiaHero,
+    pageClass: 'kosovo-page hungary-page croatia-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+  slovakia: {
+    hero: slovakiaHero,
+    pageClass: 'kosovo-page hungary-page slovakia-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+  germany: {
+    hero: germanyHero,
+    pageClass: 'kosovo-page hungary-page germany-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+};
+
+// Segment cards: same five, same images, same icons for every country — only
+// the translation-key prefix changes.
+const SEGMENTS = [
+  ['bakeries', bakeryImage, '♨'],
+  ['hotels', hotelImage, '⌂'],
+  ['restaurants', restaurantImage, '♧'],
+  ['supermarkets', supermarketImage, '▰'],
+  ['catering', restaurantImage, '⌂'],
+];
+
+const { lang, slug, nameKey } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+const country = COUNTRIES[slug];
+const name = t(nameKey);
+const k = (suffix) => t(`${slug}_${suffix}`);
+---
+
+<BaseLayout
+  title={`${name} | ${t('areas_title')}`}
+  description={k('hero_body')}
+  lang={lang}
+  appClass={` ${slug}-landing-app`}
+>
+  <div class={country.pageClass}>
+    <section class="kosovo-hero">
+      <img src={country.hero.src} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
+      <div class="kosovo-hero-shade"></div>
+      <div class="kosovo-hero-content">
+        <nav class="kosovo-breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
+        <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_region')}</strong></h1>
+        <p>{k('hero_body')}</p>
+        <div class={country.benefitsClass}>
+          <article><i>▱</i><div><b>{k('delivery')}</b><span>{k('delivery_body')}</span></div></article>
+          <article><i>◎</i><div><b>{k('quality')}</b><span>{k('quality_body')}</span></div></article>
+          <article><i>♧</i><div><b>{k('support')}</b><span>{k('support_body')}</span></div></article>
+          {country.hasTime && (
+            <article><i>◷</i><div><b>{k('time')}</b><span>{k('time_body')}</span></div></article>
+          )}
+        </div>
+        <div class="kosovo-hero-actions"><a href={p('/products')}>{t('areas_cta_products')}</a><a href={p('/areas')}>← &nbsp; {t('area_back')}</a></div>
+      </div>
+    </section>
+
+    <section class="kosovo-segments">
+      <h2>{k('serve_title')}</h2>
+      <div class="kosovo-segment-grid">
+        {SEGMENTS.map(([segment, image, icon]) => (
+          <article>
+            <img src={image.src} alt="" loading="lazy" />
+            <i>{icon}</i>
+            <div>
+              <h3>{k(`segment_${segment}`)}</h3>
+              <p>{k(`segment_${segment}_body`)}</p>
+              {country.hasLearnMore && (
+                <a href={p('/products')} class="albania-learn">{t('about_learn_more')} →</a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="kosovo-growth"><i>⌕</i><div><h2>{k('growth_title')}</h2><p>{k('growth_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
+    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+  </div>
+</BaseLayout>

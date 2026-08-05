@@ -1,0 +1,10 @@
+---
+import Products from '../../views/Products.astro';
+import { localeStaticPaths } from '../../lib/i18n.js';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.params;
+---
+
+<Products lang={lang} />

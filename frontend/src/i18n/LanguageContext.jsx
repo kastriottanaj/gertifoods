@@ -27,8 +27,15 @@ const LANG_HTML_MAP = {
   de: 'de',
 };
 
-export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(getInitialLang);
+// `initialLang` lets a caller pin the language instead of deriving it from
+// localStorage/navigator. The Astro build uses it: each page is rendered in one
+// language at a known URL, so an island mounted on /de/... must render German
+// regardless of what the visitor once clicked. Omitted by the SPA, which keeps
+// the original getInitialLang() behaviour.
+export function LanguageProvider({ children, initialLang }) {
+  const [lang, setLangState] = useState(
+    initialLang && SUPPORTED_LANGS.includes(initialLang) ? initialLang : getInitialLang
+  );
 
   const setLang = useCallback((newLang) => {
     if (SUPPORTED_LANGS.includes(newLang)) {

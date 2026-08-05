@@ -1,12 +1,23 @@
 User-agent: *
 Allow: /
 
-# Account / transactional pages — no SEO value, keep out of the index
+# Account / transactional pages — no SEO value, keep out of the index.
+# Listed per language edition: the pages exist at /cart, /en/cart and /de/cart.
 Disallow: /cart
 Disallow: /orders
 Disallow: /login
 Disallow: /register
 Disallow: /profile
+Disallow: /en/cart
+Disallow: /en/orders
+Disallow: /en/login
+Disallow: /en/register
+Disallow: /en/profile
+Disallow: /de/cart
+Disallow: /de/orders
+Disallow: /de/login
+Disallow: /de/register
+Disallow: /de/profile
 
 # Backend (served by Django, not the SPA)
 Disallow: /admin/

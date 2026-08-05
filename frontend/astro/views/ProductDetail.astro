@@ -1,0 +1,51 @@
+---
+// Astro port of src/pages/ProductDetail.jsx.
+//
+// These are the URLs config/sitemaps.py has been submitting to Google while the
+// SPA served them as an empty shell. The product's name, category, price,
+// description and minimum order are now in the HTML.
+//
+// The signed-out state — everything a crawler and an anonymous visitor sees —
+// is static HTML. The add-to-cart control is an island that appears only once a
+// session is confirmed, and hides the login prompt when it does.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../lib/i18n.js';
+import { getProduct } from '../lib/products.js';
+import ProductActions from '../islands/ProductActions.jsx';
+
+const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
+
+const product = await getProduct(slug);
+---
+
+<BaseLayout
+  title={product.name}
+  description={product.description?.slice(0, 160)}
+  lang={lang}
+>
+  <div class="product-detail">
+    <div class="product-detail-grid">
+      {/* The product shot is the LCP element on this page, so it stays eager
+          and is the one image here that gets fetchpriority="high". */}
+      {product.image && (
+        <img
+          src={product.image}
+          alt={product.name}
+          class="product-detail-image"
+          fetchpriority="high"
+        />
+      )}
+      <div class="product-detail-info">
+        <span class="product-category-badge">{product.category_name}</span>
+        <h1>{product.name}</h1>
+        <p class="product-detail-price">&euro;{product.price} / {product.unit}</p>
+        <p class="product-detail-description">{product.description}</p>
+        <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {product.unit}</p>
+
+        <ProductActions client:only="react" lang={lang} product={product} />
+        <p class="login-prompt" data-product-anon>{t('product_login_prompt')}</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
