@@ -240,5 +240,66 @@ const isDefaultLocale = lang === DEFAULT_LANG;
       <CookieConsent lang={lang} />
       <WebMCPTools />
     </div>
+
+    <script>
+      // Exit-intent watcher — the detection half of the old ExitIntentPopup.jsx,
+      // which App.jsx mounted on every route.
+      //
+      // Only the gates and the listener live here. The modal and the sample
+      // form are import()ed the moment exit intent is actually detected, so a
+      // visitor who never triggers the popup downloads no React at all and the
+      // content pages stay at zero JavaScript. Hydrating it up front instead
+      // would have cost every desktop visitor the full framework for a popup
+      // that fires rarely and never before five seconds have passed.
+      //
+      // Thresholds and storage keys are copied verbatim from the original.
+
+      // Set by ANY successful sample-request submission (hero modal or this
+      // popup): if present, the popup never shows again this session.
+      const SUBMITTED_KEY = 'sample_request_submitted';
+      // Set when the visitor closes the popup without submitting.
+      const DISMISSED_KEY = 'exit_popup_dismissed';
+
+      // Don't arm until the visitor has been on the page this long — avoids
+      // catching immediate bouncers who were never going to convert.
+      const ARM_DELAY_MS = 5000;
+      // Desktop only: mobile has no cursor, and aggressive mobile substitutes
+      // (back-button traps etc.) feel manipulative.
+      const MIN_VIEWPORT_WIDTH = 768;
+      // Cursor velocity can carry it past clientY=0 before the event fires, so
+      // a small threshold catches more real exit attempts.
+      const TOP_EDGE_THRESHOLD_PX = 50;
+
+      function alreadyHandled() {
+        try {
+          return !!(
+            sessionStorage.getItem(SUBMITTED_KEY) || sessionStorage.getItem(DISMISSED_KEY)
+          );
+        } catch {
+          return false;
+        }
+      }
+
+      if (window.innerWidth >= MIN_VIEWPORT_WIDTH && !alreadyHandled()) {
+        setTimeout(() => {
+          const onMouseOut = (e: MouseEvent) => {
+            // relatedTarget is null when the cursor leaves the document
+            // entirely, rather than moving between child elements. The clientY
+            // check restricts this to top-edge exits — leaving via the sides is
+            // not exit intent.
+            if (e.relatedTarget || e.clientY > TOP_EDGE_THRESHOLD_PX) return;
+            // Disarm before loading so a second exit can't mount it twice.
+            document.removeEventListener('mouseout', onMouseOut);
+            if (alreadyHandled()) return;
+
+            import('../islands/exitIntentModal.jsx').then(({ default: mount }) => {
+              mount(document.documentElement.lang || 'sq');
+            });
+          };
+
+          document.addEventListener('mouseout', onMouseOut);
+        }, ARM_DELAY_MS);
+      }
+    </script>
   </body>
 </html>
