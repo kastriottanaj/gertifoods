@@ -38,3 +38,4 @@ frontend/.astro/
 
 # Claude Code (local user settings)
 .claude/
+frontend/.env.production
