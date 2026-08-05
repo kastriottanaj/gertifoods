@@ -563,6 +563,22 @@ const translations = {
     whatsapp_label: 'Bisedo në WhatsApp',
     whatsapp_greeting: 'Përshëndetje, jam i interesuar për produktet Gerti Foods.',
 
+    // 404
+    nf_title: 'Faqja nuk u gjet',
+    nf_meta: 'Faqja që kërkoni nuk ekziston ose mund të jetë zhvendosur. Kthehuni te faqja kryesore ose shikoni produktet tona.',
+    nf_heading: 'Oops! Faqja nuk u gjet',
+    nf_body_1: 'Faqja që po kërkoni nuk ekziston ose mund të jetë zhvendosur.',
+    nf_body_2: 'Le t\'ju kthejmë në rrugën e duhur.',
+    nf_cta_home: 'Shko te faqja kryesore',
+    nf_cta_contact: 'Na kontaktoni',
+    nf_products_title: 'Eksploroni produktet tona',
+    nf_products_body: 'Zbuloni gamën tonë të gjerë të produkteve ushqimore premium.',
+    nf_products_cta: 'Shiko produktet',
+    nf_areas_body: 'Shikoni të gjitha shtetet dhe rajonet ku dërgojmë me krenari.',
+    nf_areas_cta: 'Eksploro zonat',
+    nf_help_title: 'Keni nevojë për ndihmë?',
+    nf_help_body: 'Ekipi ynë është këtu për t\'ju ndihmuar me çdo pyetje.',
+
     // Common
     loading: 'Duke ngarkuar...',
     total: 'Totali',
@@ -1126,6 +1142,22 @@ const translations = {
     whatsapp_label: 'Chat on WhatsApp',
     whatsapp_greeting: 'Hello, I\'m interested in Gerti Foods products.',
 
+    // 404
+    nf_title: 'Page Not Found',
+    nf_meta: 'The page you are looking for does not exist or may have been moved. Return to the homepage or browse our products.',
+    nf_heading: 'Oops! Page Not Found',
+    nf_body_1: 'The page you\'re looking for doesn\'t exist or may have been moved.',
+    nf_body_2: 'Let\'s get you back on track.',
+    nf_cta_home: 'Go to Homepage',
+    nf_cta_contact: 'Contact Us',
+    nf_products_title: 'Explore Our Products',
+    nf_products_body: 'Discover our wide range of premium food products.',
+    nf_products_cta: 'View Products',
+    nf_areas_body: 'See all the countries and regions we proudly deliver to.',
+    nf_areas_cta: 'Explore Areas',
+    nf_help_title: 'Need Help?',
+    nf_help_body: 'Our team is here to assist you with any questions.',
+
     // Common
     loading: 'Loading...',
     total: 'Total',
@@ -1688,6 +1720,22 @@ const translations = {
     // WhatsApp
     whatsapp_label: 'Per WhatsApp chatten',
     whatsapp_greeting: 'Hallo, ich interessiere mich für Gerti Foods Produkte.',
+
+    // 404
+    nf_title: 'Seite nicht gefunden',
+    nf_meta: 'Die gesuchte Seite existiert nicht oder wurde verschoben. Kehren Sie zur Startseite zurück oder entdecken Sie unsere Produkte.',
+    nf_heading: 'Ups! Seite nicht gefunden',
+    nf_body_1: 'Die gesuchte Seite existiert nicht oder wurde möglicherweise verschoben.',
+    nf_body_2: 'Wir bringen Sie zurück auf den richtigen Weg.',
+    nf_cta_home: 'Zur Startseite',
+    nf_cta_contact: 'Kontakt aufnehmen',
+    nf_products_title: 'Unsere Produkte entdecken',
+    nf_products_body: 'Entdecken Sie unser breites Sortiment an hochwertigen Lebensmitteln.',
+    nf_products_cta: 'Produkte ansehen',
+    nf_areas_body: 'Sehen Sie alle Länder und Regionen, die wir beliefern.',
+    nf_areas_cta: 'Liefergebiete ansehen',
+    nf_help_title: 'Brauchen Sie Hilfe?',
+    nf_help_body: 'Unser Team hilft Ihnen bei allen Fragen gerne weiter.',
 
     // Common
     loading: 'Wird geladen...',

@@ -1,0 +1,13 @@
+---
+// English and German 404s: /en/404 and /de/404. Emitted as dist/en/404.html
+// and dist/de/404.html, which deploy/nginx.conf's $notfound_page map selects
+// for unmatched URLs under those prefixes.
+import NotFound from '../../views/NotFound.astro';
+import { localeStaticPaths } from '../../lib/i18n.js';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.params;
+---
+
+<NotFound lang={lang} />

@@ -45,6 +45,13 @@ const {
   // ' products-landing-app', ' kosovo-landing-app') that page-specific CSS
   // hangs off. Pages that need one pass it here.
   appClass = '',
+  // Keeps a page out of the index. Set by the 404 pages so Googlebot stops
+  // spending crawl budget on the endless supply of URLs that resolve to them.
+  //
+  // 'follow' is deliberate: the page carries real links back into the site
+  // (home, products, areas), and dropping them would waste the one useful
+  // signal a 404 still has.
+  noindex = false,
 } = Astro.props;
 
 // Mirror SEO.jsx: `${title} | Gerti Foods`, or plain 'Gerti Foods' when unset.
@@ -105,8 +112,13 @@ const exitMessages = islandMessages(lang, 'exit');
           be bounced to /en, leaving the Albanian edition unindexed.
         - Crawlers have no localStorage, so none of them ever redirect. They
           always see the edition whose URL they requested. */}
+    {/* Not on the 404, which nginx serves under the URL the visitor actually
+        asked for. Redirecting there would replace that URL with /de/404 — a
+        path that exists on disk and so answers 200, quietly turning a genuine
+        404 into a soft one. nginx already picks the right locale's 404 from
+        the URL prefix, so nothing is lost by staying put. */}
     {
-      isDefaultLocale && (
+      isDefaultLocale && !noindex && (
         <script is:inline define:vars={{ preferredHrefs }}>
           try {
             var choice = localStorage.getItem('gertifoods_lang');
@@ -185,7 +197,7 @@ const exitMessages = islandMessages(lang, 'exit');
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
     <meta name="author" content="Gerti Foods" />
     <meta property="og:site_name" content="Gerti Foods" />
     <meta property="og:type" content="website" />
@@ -194,7 +206,10 @@ const exitMessages = islandMessages(lang, 'exit');
 
     <!-- Per-route SEO tags (SEO.jsx / prerender.js equivalents) -->
     <meta name="description" content={description ?? ''} />
-    <link rel="canonical" href={canonical} />
+    {/* A noindex page advertises no canonical. Pointing one at itself asks
+        Google to index the very URL the robots tag is withdrawing, and the two
+        tags together are a contradiction Google resolves unpredictably. */}
+    {!noindex && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description ?? ''} />
     <meta property="og:url" content={canonical} />
@@ -205,13 +220,19 @@ const exitMessages = islandMessages(lang, 'exit');
       ))
     }
 
-    {/* Reciprocal hreflang across the three editions of this page. */}
+    {/* Reciprocal hreflang across the three editions of this page. Skipped on
+        noindex pages: hreflang nominates URLs as indexable alternates of one
+        another, which is exactly what a 404 must not do. */}
     {
-      alternates.map(({ code, href }) => (
-        <link rel="alternate" hreflang={code} href={href} />
-      ))
+      !noindex && (
+        <>
+          {alternates.map(({ code, href }) => (
+            <link rel="alternate" hreflang={code} href={href} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={xDefault} />
+        </>
+      )
     }
-    <link rel="alternate" hreflang="x-default" href={xDefault} />
 
     <!-- Structured data (schema.org JSON-LD) -->
     <script

@@ -37,6 +37,9 @@
 .navbar-brand {
   display: inline-flex;
   align-items: center;
+  /* A flex item may shrink below its content width by default, which let the
+     longer German nav squeeze the logo and overlap it with "Produkte". */
+  flex-shrink: 0;
 }
 
 .navbar-brand img {
@@ -48,7 +51,17 @@
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 24px;
+  /* 14px, not 24px. .navbar-container is capped at max-width: 1200px, so a
+     wider viewport never relieves this row — at 24px the German labels
+     ("Über uns", "Liefergebiete", "Kostenloses Meeting buchen") needed 1242px
+     and overflowed at *every* desktop width, which is why the logo sat flush
+     against "Produkte" even on a 1440px screen.
+
+     Ten pixels off each of the eight gaps brings German to 1170px, leaving
+     30px between the logo and the first link. Albanian drops to 1108px; it
+     cleared the old limit by under 30px, so it was one copy edit from the same
+     bug. English (1039px) was never close. */
+  gap: 14px;
 }
 
 .navbar-links a {
@@ -57,6 +70,10 @@
   font-size: 0.95rem;
   transition: color 0.2s;
   position: relative;
+  /* Overflow must push the row, not break a label across two lines: the
+     wrapped "Über uns" was what made the German navbar look broken, and a
+     two-line item also stretches the 72px bar. */
+  white-space: nowrap;
 }
 
 .navbar-links a:hover {
@@ -1587,7 +1604,25 @@
 /* ========================================
    Responsive
    ======================================== */
-@media (max-width: 900px) {
+/* The horizontal nav is shown only once it actually fits.
+ *
+ * The row gets min(1200px, viewport - 40px), and this query used to hand it
+ * the desktop layout from 900px up — where it cannot fit. Every language
+ * overflowed in that range, German visibly (a wrapped "Über uns", a clipped
+ * language switcher), Albanian just as really but less obviously, with the
+ * switcher running off the edge from ~1180px down.
+ *
+ * 1259px is chosen so that whenever the desktop row does render, the viewport
+ * is at least 1260px and the container is therefore always exactly its 1200px
+ * maximum — never a partial width. That makes the fit deterministic: measured
+ * against the 14px gap above, German needs 1170px, Albanian 1108px, English
+ * 1039px, so the tightest language keeps 30px of slack at every size it
+ * appears at.
+ *
+ * Below the breakpoint all three get the hamburger, which carries the same
+ * links plus the booking button — this trades a broken row for a working
+ * menu, never a missing one. */
+@media (max-width: 1259px) {
   .navbar-links { display: none; }
   .navbar-toggle { display: flex; }
   .navbar-overlay { display: block; }

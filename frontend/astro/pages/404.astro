@@ -1,0 +1,9 @@
+---
+// Albanian 404 — the default locale, unprefixed. Emits dist/404.html, which
+// deploy/nginx.conf serves via `error_page 404` for every unprefixed URL that
+// matches no file.
+import NotFound from '../views/NotFound.astro';
+import { DEFAULT_LANG } from '../lib/i18n.js';
+---
+
+<NotFound lang={DEFAULT_LANG} />
