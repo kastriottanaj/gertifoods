@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -29,30 +29,30 @@ const COPY = {
 };
 
 function updateConsent(granted) {
-  if (typeof window.gtag !== 'function') return;
   const v = granted ? 'granted' : 'denied';
-  window.gtag('consent', 'update', {
-    ad_storage: v,
-    ad_user_data: v,
-    ad_personalization: v,
-    analytics_storage: v,
-  });
+  if (typeof window.gtag === 'function') {
+    window.gtag('consent', 'update', {
+      ad_storage: v,
+      ad_user_data: v,
+      ad_personalization: v,
+      analytics_storage: v,
+    });
+  }
+  if (typeof window.fbq === 'function') {
+    window.fbq('consent', granted ? 'grant' : 'revoke');
+  }
 }
 
 export default function CookieConsent() {
   const { lang } = useLanguage();
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    let saved = null;
-    try { saved = localStorage.getItem(CONSENT_KEY); } catch (e) { /* ignore */ }
-    if (!saved) setVisible(true);
-  }, []);
+  const [visible, setVisible] = useState(() => {
+    try { return !localStorage.getItem(CONSENT_KEY); } catch { return true; }
+  });
 
   const choose = (granted) => {
     try {
       localStorage.setItem(CONSENT_KEY, granted ? 'granted' : 'denied');
-    } catch (e) { /* ignore */ }
+    } catch { /* ignore */ }
     updateConsent(granted);
     setVisible(false);
   };
