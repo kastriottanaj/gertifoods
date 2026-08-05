@@ -225,6 +225,13 @@ const translations = {
     products_desc_pite_me_mish: 'Byrek tradicional me shtresa brumi, i mbushur me mish të grirë e të erëzuar. Gjysmë i pjekur.',
     products_desc_pite_me_tuna: 'Byrek tradicional me shtresa brumi, i mbushur me ton. Gjysmë i pjekur.',
     products_desc_family_pack_pite_4: '4 byrekë të përzier (djathë, spinaq, mish, ton) në paketim gati për shitje.',
+    // Image alt text, describing what each photo actually shows. Kept per
+    // image rather than per placement, because the same four photos are reused
+    // across the about, areas and blog pages.
+    img_alt_bakery_interior: 'Brendia e një furre artizanale me rafte të mbushura me bukë të freskët.',
+    img_alt_production_line: 'Byrekë të pjekur në një shportë me kallinj gruri dhe miell, para linjës së prodhimit të Gerti Foods.',
+    img_alt_pie_pack: 'Paketimi i byrekut me djathë Gerti Foods, 800 g, gati për furrë.',
+    img_alt_retail_pack: 'Paketim Gerti Foods gati për raftet e marketeve.',
 
     // Product Detail
     product_min_order: 'Porosi minimale',
@@ -784,6 +791,10 @@ const translations = {
     products_desc_pite_me_mish: 'Traditional flaky pastry filled with seasoned minced meat. Half-baked.',
     products_desc_pite_me_tuna: 'Traditional flaky pastry filled with tuna. Half-baked.',
     products_desc_family_pack_pite_4: '4 mixed byrek (cheese, spinach, meat, tuna) in retail-ready packaging.',
+    img_alt_bakery_interior: 'Interior of an artisan bakery with shelves of freshly baked bread.',
+    img_alt_production_line: 'Baked flatbreads in a basket with wheat ears and flour, in front of the Gerti Foods production line.',
+    img_alt_pie_pack: 'Gerti Foods cheese byrek packaging, 800 g, ready to bake.',
+    img_alt_retail_pack: 'Gerti Foods retail-ready packaging for supermarket shelves.',
 
     // Product Detail
     product_min_order: 'Minimum order',
@@ -1343,6 +1354,10 @@ const translations = {
     products_desc_pite_me_mish: 'Traditioneller Blätterteig-Börek, gefüllt mit gewürztem Hackfleisch. Halbgebacken.',
     products_desc_pite_me_tuna: 'Traditioneller Blätterteig-Börek, gefüllt mit Thunfisch. Halbgebacken.',
     products_desc_family_pack_pite_4: '4 gemischte Böreks (Käse, Spinat, Fleisch, Thunfisch) in verkaufsfertiger Verpackung.',
+    img_alt_bakery_interior: 'Innenraum einer handwerklichen Bäckerei mit Regalen voller frisch gebackenem Brot.',
+    img_alt_production_line: 'Gebackene Fladenbrote in einem Korb mit Weizenähren und Mehl vor der Produktionslinie von Gerti Foods.',
+    img_alt_pie_pack: 'Verpackung des Käse-Böreks von Gerti Foods, 800 g, backfertig.',
+    img_alt_retail_pack: 'Verkaufsfertige Verpackung von Gerti Foods für Supermarktregale.',
 
     // Product Detail
     product_min_order: 'Mindestbestellung',

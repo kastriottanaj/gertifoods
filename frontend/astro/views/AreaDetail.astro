@@ -72,12 +72,14 @@ const COUNTRIES = {
 
 // Segment cards: same five, same images, same icons for every country — only
 // the translation-key prefix changes.
+// The fourth entry is the alt-text key: these five photos are reused on every
+// country page, so the description belongs to the image, not the segment.
 const SEGMENTS = [
-  ['bakeries', bakeryImage, '♨'],
-  ['hotels', hotelImage, '⌂'],
-  ['restaurants', restaurantImage, '♧'],
-  ['supermarkets', supermarketImage, '▰'],
-  ['catering', restaurantImage, '⌂'],
+  ['bakeries', bakeryImage, '♨', 'img_alt_bakery_interior'],
+  ['hotels', hotelImage, '⌂', 'img_alt_production_line'],
+  ['restaurants', restaurantImage, '♧', 'img_alt_pie_pack'],
+  ['supermarkets', supermarketImage, '▰', 'img_alt_retail_pack'],
+  ['catering', restaurantImage, '⌂', 'img_alt_pie_pack'],
 ];
 
 const { lang, slug, nameKey } = Astro.props;
@@ -118,9 +120,9 @@ const k = (suffix) => t(`${slug}_${suffix}`);
     <section class="kosovo-segments">
       <h2>{k('serve_title')}</h2>
       <div class="kosovo-segment-grid">
-        {SEGMENTS.map(([segment, image, icon]) => (
+        {SEGMENTS.map(([segment, image, icon, altKey]) => (
           <article>
-            <img src={image.src} alt="" loading="lazy" />
+            <img src={image.src} alt={t(altKey)} loading="lazy" decoding="async" />
             <i>{icon}</i>
             <div>
               <h3>{k(`segment_${segment}`)}</h3>

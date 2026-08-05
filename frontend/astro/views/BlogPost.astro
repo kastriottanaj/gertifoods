@@ -8,6 +8,11 @@ import aboutImage from '../../src/assets/gerti-foods-about-us.webp';
 import pieImage from '../../src/assets/products/Pie.webp';
 
 const images = { bakery: bakeryImage, about: aboutImage, pie: pieImage };
+const imageAlt = {
+  bakery: 'img_alt_bakery_interior',
+  about: 'img_alt_production_line',
+  pie: 'img_alt_pie_pack',
+};
 
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
@@ -50,7 +55,7 @@ const schema = {
       <h1>{content.title}</h1>
       <p>{content.description}</p>
     </header>
-    <img class="blog-article-hero" src={images[post.image].src} alt="" fetchpriority="high" />
+    <img class="blog-article-hero" src={images[post.image].src} alt={t(imageAlt[post.image])} fetchpriority="high" />
     <div class="blog-article-body">
       {content.sections.map(([heading, body]) => (
         <section><h2>{heading}</h2><p>{body}</p></section>

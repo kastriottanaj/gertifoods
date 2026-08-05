@@ -80,10 +80,10 @@ const p = (path) => localePath(lang, path);
       <div class="about-solutions">
         <h2>{t('about_solutions_title')}</h2>
         <div class="about-solution-cards">
-          <article><img src={pieImage.src} alt="" /><b>{t('about_solution_pies')}</b><p>{t('about_solution_pies_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={familyImage.src} alt="" /><b>{t('about_solution_tortillas')}</b><p>{t('about_solution_tortillas_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={familyImage.src} alt="" /><b>{t('about_solution_family')}</b><p>{t('about_solution_family_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={storyImage.src} alt="" /><b>{t('about_solution_service')}</b><p>{t('about_solution_service_body')}</p><a href={p('/areas')}>{t('about_learn_more')} →</a></article>
+          <article><img src={pieImage.src} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_pies')}</b><p>{t('about_solution_pies_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={familyImage.src} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_tortillas')}</b><p>{t('about_solution_tortillas_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={familyImage.src} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_family')}</b><p>{t('about_solution_family_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={storyImage.src} alt={t('img_alt_bakery_interior')} loading="lazy" decoding="async" /><b>{t('about_solution_service')}</b><p>{t('about_solution_service_body')}</p><a href={p('/areas')}>{t('about_learn_more')} →</a></article>
         </div>
       </div>
     </section>
