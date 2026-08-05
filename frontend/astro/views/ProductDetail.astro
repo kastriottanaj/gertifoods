@@ -11,17 +11,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
+import { productCopy } from '../lib/productCopy.js';
 import ProductActions from '../islands/ProductActions.jsx';
 
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
 
 const product = await getProduct(slug);
+
+// Localised display copy — ProductDetail.jsx used the raw API fields, which
+// left the /en and /de pages showing Albanian names and English descriptions.
+const copy = productCopy(t);
+const name = copy.name(product);
+const description = copy.description(product);
+const unit = copy.unit(product);
 ---
 
 <BaseLayout
-  title={product.name}
-  description={product.description?.slice(0, 160)}
+  title={name}
+  description={description?.slice(0, 160)}
   lang={lang}
 >
   <div class="product-detail">
@@ -31,19 +39,19 @@ const product = await getProduct(slug);
       {product.image && (
         <img
           src={product.image}
-          alt={product.name}
+          alt={name}
           class="product-detail-image"
           fetchpriority="high"
         />
       )}
       <div class="product-detail-info">
-        <span class="product-category-badge">{product.category_name}</span>
-        <h1>{product.name}</h1>
-        <p class="product-detail-price">&euro;{product.price} / {product.unit}</p>
-        <p class="product-detail-description">{product.description}</p>
-        <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {product.unit}</p>
+        <span class="product-category-badge">{copy.category(product)}</span>
+        <h1>{name}</h1>
+        <p class="product-detail-price">&euro;{product.price} / {unit}</p>
+        <p class="product-detail-description">{description}</p>
+        <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 
-        <ProductActions client:only="react" lang={lang} product={product} />
+        <ProductActions client:only="react" lang={lang} product={product} unit={unit} />
         <p class="login-prompt" data-product-anon>{t('product_login_prompt')}</p>
       </div>
     </div>

@@ -217,6 +217,14 @@ const translations = {
     products_name_pite_me_mish: 'Byrek me Mish',
     products_name_pite_me_tuna: 'Byrek me Ton',
     products_name_family_pack_pite_4: 'Pako Familjare Byrek të Përzier (4 copë)',
+    // Product descriptions, keyed by slug. Used by the product pages in place of
+    // the English `description` field the API returns, so /de and /en pages are
+    // not half-Albanian. A product without a key here falls back to the API text.
+    products_desc_pite_me_djathe: 'Byrek tradicional me shtresa brumi, i mbushur me djathë të bardhë. Gjysmë i pjekur.',
+    products_desc_pite_me_spinaq: 'Byrek tradicional me shtresa brumi, i mbushur me spinaq dhe djathë. Gjysmë i pjekur.',
+    products_desc_pite_me_mish: 'Byrek tradicional me shtresa brumi, i mbushur me mish të grirë e të erëzuar. Gjysmë i pjekur.',
+    products_desc_pite_me_tuna: 'Byrek tradicional me shtresa brumi, i mbushur me ton. Gjysmë i pjekur.',
+    products_desc_family_pack_pite_4: '4 byrekë të përzier (djathë, spinaq, mish, ton) në paketim gati për shitje.',
 
     // Product Detail
     product_min_order: 'Porosi minimale',
@@ -771,6 +779,11 @@ const translations = {
     products_name_pite_me_mish: 'Meat Byrek',
     products_name_pite_me_tuna: 'Tuna Byrek',
     products_name_family_pack_pite_4: 'Mixed Byrek Family Pack (4 pieces)',
+    products_desc_pite_me_djathe: 'Traditional flaky pastry filled with white cheese. Half-baked.',
+    products_desc_pite_me_spinaq: 'Traditional flaky pastry filled with spinach and cheese. Half-baked.',
+    products_desc_pite_me_mish: 'Traditional flaky pastry filled with seasoned minced meat. Half-baked.',
+    products_desc_pite_me_tuna: 'Traditional flaky pastry filled with tuna. Half-baked.',
+    products_desc_family_pack_pite_4: '4 mixed byrek (cheese, spinach, meat, tuna) in retail-ready packaging.',
 
     // Product Detail
     product_min_order: 'Minimum order',
@@ -1325,6 +1338,11 @@ const translations = {
     products_name_pite_me_mish: 'Fleisch-Börek',
     products_name_pite_me_tuna: 'Thunfisch-Börek',
     products_name_family_pack_pite_4: 'Gemischte Börek-Familienpackung (4 Stück)',
+    products_desc_pite_me_djathe: 'Traditioneller Blätterteig-Börek, gefüllt mit Weißkäse. Halbgebacken.',
+    products_desc_pite_me_spinaq: 'Traditioneller Blätterteig-Börek, gefüllt mit Spinat und Käse. Halbgebacken.',
+    products_desc_pite_me_mish: 'Traditioneller Blätterteig-Börek, gefüllt mit gewürztem Hackfleisch. Halbgebacken.',
+    products_desc_pite_me_tuna: 'Traditioneller Blätterteig-Börek, gefüllt mit Thunfisch. Halbgebacken.',
+    products_desc_family_pack_pite_4: '4 gemischte Böreks (Käse, Spinat, Fleisch, Thunfisch) in verkaufsfertiger Verpackung.',
 
     // Product Detail
     product_min_order: 'Mindestbestellung',

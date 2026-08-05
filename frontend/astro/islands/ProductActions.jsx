@@ -12,7 +12,9 @@ import { useLanguage } from '../../src/i18n/LanguageContext';
 // the login prompt), so an anonymous visitor — which is everyone the SEO work
 // serves — sees the finished page with no JavaScript and no flash. This island
 // only removes that prompt once a session is confirmed.
-function ProductActionsInner({ product }) {
+// `unit` arrives already localised from the page, so the quantity label reads
+// "copë" / "Stück" rather than the API's raw "piece".
+function ProductActionsInner({ product, unit }) {
   const { user } = useAuth();
   const { addItem } = useCart();
   const { t } = useLanguage();
@@ -35,7 +37,7 @@ function ProductActionsInner({ product }) {
   return (
     <div className="product-detail-actions">
       <div className="quantity-input">
-        <label>{t('product_quantity')} ({product.unit}):</label>
+        <label>{t('product_quantity')} ({unit ?? product.unit}):</label>
         <input
           type="number"
           min={product.min_order_quantity}

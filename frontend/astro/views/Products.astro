@@ -9,6 +9,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { getProducts } from '../lib/products.js';
+import { productCopy } from '../lib/productCopy.js';
 import ModalHost from '../islands/ModalHost.jsx';
 import heroImage from '../../src/assets/about-us.webp';
 
@@ -18,12 +19,10 @@ const p = (path) => localePath(lang, path);
 
 const products = await getProducts();
 
-// Mirror ProductCard.jsx: the display name comes from the translation table
-// keyed by slug, not from the API's `name` field.
-const productName = (product) => t(`products_name_${product.slug.replaceAll('-', '_')}`);
-const categoryKey = (product) =>
-  product.category_name === 'Family Pack' ? 'products_category_family_pack' : 'products_category_pite';
-const unitKey = (product) => (product.unit === 'pack' ? 'products_unit_pack' : 'products_unit_piece');
+// Shared with the detail page. ProductCard.jsx looked the name up the same way
+// but with no fallback, so a product added in the admin without a matching key
+// would have rendered the raw key as its title.
+const copy = productCopy(t);
 ---
 
 <BaseLayout
@@ -66,17 +65,17 @@ const unitKey = (product) => (product.unit === 'pack' ? 'products_unit_pack' : '
             {product.image && (
               <img
                 src={product.image}
-                alt={productName(product)}
+                alt={copy.name(product)}
                 class="product-card-image"
                 loading={i < 5 ? 'eager' : 'lazy'}
                 decoding="async"
               />
             )}
             <div class="product-card-body">
-              <h3>{productName(product)}</h3>
-              <p class="product-category">{t(categoryKey(product))}</p>
-              <p class="product-price">&euro;{product.price} / {t(unitKey(product))}</p>
-              <p class="product-min-order">{t('products_min_order')}: {product.min_order_quantity} {t(unitKey(product))}</p>
+              <h3>{copy.name(product)}</h3>
+              <p class="product-category">{copy.category(product)}</p>
+              <p class="product-price">&euro;{product.price} / {copy.unit(product)}</p>
+              <p class="product-min-order">{t('products_min_order')}: {product.min_order_quantity} {copy.unit(product)}</p>
               <a href={p(`/products/${product.slug}`)} class="btn btn-primary">{t('products_view')}</a>
             </div>
           </div>
