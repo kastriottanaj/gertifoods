@@ -27,6 +27,7 @@ npm-debug.log*
 # Build
 frontend/dist/
 frontend/build/
+frontend/.astro/
 
 # IDE
 .vscode/

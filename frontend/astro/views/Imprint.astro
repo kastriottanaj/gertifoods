@@ -1,0 +1,63 @@
+---
+// Astro port of src/pages/Imprint.jsx — identical markup and classes, but the
+// text is resolved at build time instead of by t() in the browser, so the page
+// arrives as complete HTML.
+//
+// Chosen as the migration's first page because it is entirely static: no API
+// calls, no forms, no state.
+//
+// This lives in views/ rather than pages/ because it is rendered once per
+// language by two thin route files — pages/imprint.astro (Albanian, at /imprint)
+// and pages/[lang]/imprint.astro (English and German, at /en/imprint and
+// /de/imprint). Keeping the markup here means one copy of the page regardless of
+// how many locales it is built into.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../lib/i18n.js';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('imprint_title')} description={t('imprint_meta')} lang={lang}>
+  <div class="imprint-page">
+    <h1>{t('imprint_title')}</h1>
+    <p class="imprint-intro">{t('imprint_intro')}</p>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_company_heading')}</h2>
+      <p><strong>Gerti Foods</strong></p>
+      <p>{t('footer_address')}</p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_contact_heading')}</h2>
+      <p>{t('imprint_phone_label')}: <a href="tel:+38349111150">+383 49 111 150</a></p>
+      <p>{t('imprint_email_label')}: <a href="mailto:info@gertifoods.com">info@gertifoods.com</a></p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_represented_heading')}</h2>
+      <p>{t('imprint_represented_label')}: Shpejtim Agushaj</p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_register_heading')}</h2>
+      <p>{t('imprint_register_label')}: {t('imprint_tbd')}</p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_vat_heading')}</h2>
+      <p>{t('imprint_vat_label')}: {t('imprint_tbd')}</p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_content_heading')}</h2>
+      <p>Gerti Foods — {t('footer_address')}</p>
+    </section>
+
+    <section class="imprint-section">
+      <h2>{t('imprint_disclaimer_heading')}</h2>
+      <p>{t('imprint_disclaimer_body')}</p>
+    </section>
+  </div>
+</BaseLayout>

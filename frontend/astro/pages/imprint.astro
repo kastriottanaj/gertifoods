@@ -1,0 +1,8 @@
+---
+// Albanian route: /imprint — the default locale, which stays unprefixed so the
+// URL is byte-identical to the one live today. Content lives in views/Imprint.
+import Imprint from '../views/Imprint.astro';
+import { DEFAULT_LANG } from '../lib/i18n.js';
+---
+
+<Imprint lang={DEFAULT_LANG} />

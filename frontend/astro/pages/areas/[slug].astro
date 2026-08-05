@@ -1,0 +1,18 @@
+---
+// /areas/kosovo … /areas/germany in Albanian.
+import AreaDetail from '../../views/AreaDetail.astro';
+import { DEFAULT_LANG } from '../../lib/i18n.js';
+import { areas } from '../../../src/data/areas.js';
+
+export function getStaticPaths() {
+  return areas.map((area) => ({
+    params: { slug: area.slug },
+    props: { nameKey: area.nameKey },
+  }));
+}
+
+const { slug } = Astro.params;
+const { nameKey } = Astro.props;
+---
+
+<AreaDetail lang={DEFAULT_LANG} slug={slug} nameKey={nameKey} />

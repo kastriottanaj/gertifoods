@@ -1,0 +1,57 @@
+---
+// Astro port of src/components/LanguageSwitcher.jsx.
+//
+// Same wrapper, same .lang-btn / .lang-btn-active classes, same labels, same
+// order — so it is pixel-identical to the React version. The only change is
+// what a click does: instead of calling setLang() and re-rendering the app in
+// place, each choice is a link to the same page in that language.
+//
+// That swap is not cosmetic, it is what makes the migration work. Astro
+// resolves t() at build time and bakes the result into the HTML, so there is no
+// live React tree left to re-translate; a runtime setLang() would have nothing
+// to update. Giving each language its own URL is therefore both the SEO fix and
+// the only model consistent with static rendering.
+//
+// <a class="lang-btn"> renders identically to <button class="lang-btn">: the
+// class sets background/border/font/colour explicitly, and index.css already
+// applies `text-decoration: none` to every anchor.
+import { SUPPORTED_LANGS, LANG_LABELS, localePath, stripLocale, normalizePath } from '../lib/i18n.js';
+
+const { lang } = Astro.props;
+
+// The current page with any locale prefix removed, so each button links to
+// this same page in its own language instead of resetting to the home page.
+const basePath = stripLocale(normalizePath(Astro.url.pathname));
+---
+
+<div class="lang-switcher">
+  {
+    SUPPORTED_LANGS.map((code) => (
+      <a
+        href={localePath(code, basePath)}
+        class={`lang-btn ${code === lang ? 'lang-btn-active' : ''}`}
+        hreflang={code}
+        aria-current={code === lang ? 'true' : undefined}
+        data-lang-choice={code}
+      >
+        {LANG_LABELS[code]}
+      </a>
+    ))
+  }
+</div>
+
+<script>
+  // Persist the choice under the same key LanguageContext.jsx used, so the
+  // preference survives across visits and BaseLayout's early redirect can act
+  // on it. Only an explicit click writes here — matching setLang(), which was
+  // likewise the only thing that ever wrote the key.
+  document.querySelectorAll<HTMLElement>('[data-lang-choice]').forEach((el) => {
+    el.addEventListener('click', () => {
+      try {
+        localStorage.setItem('gertifoods_lang', el.dataset.langChoice!);
+      } catch {
+        /* ignore */
+      }
+    });
+  });
+</script>

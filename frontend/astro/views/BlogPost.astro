@@ -1,0 +1,62 @@
+---
+// Astro port of src/pages/BlogPost.jsx.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath, normalizePath, DEFAULT_LANG } from '../lib/i18n.js';
+import { getBlogPost } from '../../src/data/blogPosts.js';
+import bakeryImage from '../../src/assets/bakery-interior.webp';
+import aboutImage from '../../src/assets/gerti-foods-about-us.webp';
+import pieImage from '../../src/assets/products/Pie.webp';
+
+const images = { bakery: bakeryImage, about: aboutImage, pie: pieImage };
+
+const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+const post = getBlogPost(slug);
+const content = post.translations[lang] || post.translations[DEFAULT_LANG];
+
+// BlogPost.jsx hard-codes this as gertifoods.com/blog/<slug>. Derived from the
+// actual URL here so each language edition points the Article schema at its own
+// canonical rather than all three claiming the Albanian one.
+const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: content.title,
+  description: content.description,
+  datePublished: post.published,
+  dateModified: post.published,
+  mainEntityOfPage: canonical,
+  inLanguage: lang,
+  author: { '@type': 'Organization', name: 'Gerti Foods' },
+  publisher: { '@type': 'Organization', name: 'Gerti Foods', url: 'https://gertifoods.com/' },
+};
+---
+
+<BaseLayout title={content.title} description={content.description} lang={lang}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(schema)}
+  />
+
+  <article class="blog-article">
+    <nav class="blog-breadcrumb"><a href={p('/blog')}>{t('blog_title')}</a> / <span>{content.category}</span></nav>
+    <header class="blog-article-header">
+      <div class="blog-meta"><span>{content.category}</span><time datetime={post.published}>{post.published}</time><span>{content.readingTime}</span></div>
+      <h1>{content.title}</h1>
+      <p>{content.description}</p>
+    </header>
+    <img class="blog-article-hero" src={images[post.image].src} alt="" fetchpriority="high" />
+    <div class="blog-article-body">
+      {content.sections.map(([heading, body]) => (
+        <section><h2>{heading}</h2><p>{body}</p></section>
+      ))}
+      <aside><h2>{t('blog_cta_title')}</h2><p>{t('blog_cta_body')}</p><a href={p('/products')} class="btn btn-primary">{t('areas_cta_products')}</a></aside>
+    </div>
+    <a href={p('/blog')} class="blog-back">← {t('blog_back')}</a>
+  </article>
+</BaseLayout>

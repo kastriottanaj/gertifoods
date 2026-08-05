@@ -1,0 +1,88 @@
+---
+// Astro port of src/components/Footer.jsx — same markup, same classes, same
+// link targets, with <a href> in place of react-router's <Link to>.
+import { useTranslations, localePath } from '../lib/i18n.js';
+import brandLogo from '../../src/assets/gerti-foods-logo.webp';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+// Resolved at build time rather than in the browser. The copyright year
+// therefore reflects the last deploy, so a site left unbuilt across New Year
+// would show the previous year until it is rebuilt.
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section footer-section-brand">
+      <img
+        class="footer-brand"
+        src={brandLogo.src}
+        alt="Gerti Foods"
+        width="164"
+        height="89"
+        loading="lazy"
+        decoding="async"
+      />
+      <p style="margin-top: 12px">{t('footer_description')}</p>
+      <p>{t('footer_address')}</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>{t('footer_contact')}</h4>
+      <p><a href="mailto:info@gertifoods.com">info@gertifoods.com</a></p>
+      <p><a href="mailto:arlinda@gertifoods.com">arlinda@gertifoods.com</a></p>
+      <p><a href="tel:+38349111150">+383 49 111 150</a></p>
+    </div>
+
+    <div class="footer-section">
+      <h4>{t('footer_hours')}</h4>
+      <p>{t('footer_mon_fri')}</p>
+      <p>{t('footer_sat')}</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>{t('footer_col_products')}</h4>
+      <ul class="footer-links">
+        <li><a href={p('/products')}>{t('category_pite_title')}</a></li>
+        <li><a href={p('/products')}>{t('category_tortilla_title')}</a></li>
+        <li><a href={p('/products')}>{t('category_family_title')}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>{t('footer_col_business')}</h4>
+      <ul class="footer-links">
+        <li><a href={p('/products')}>{t('segment_bakeries_title')}</a></li>
+        <li><a href={p('/products')}>{t('segment_horeca_title')}</a></li>
+        <li><a href={p('/products')}>{t('segment_retail_title')}</a></li>
+        <li><a href={p('/products')}>{t('segment_catering_title')}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>{t('footer_col_company')}</h4>
+      <ul class="footer-links">
+        <li><a href={p('/')}>{t('footer_home')}</a></li>
+        <li><a href={p('/products')}>{t('nav_products')}</a></li>
+        <li><a href={p('/about')}>{t('nav_about')}</a></li>
+        <li><a href={p('/blog')}>{t('nav_blog')}</a></li>
+        <li><a href={p('/areas')}>{t('nav_areas')}</a></li>
+        <li><a href="mailto:info@gertifoods.com">{t('footer_contact')}</a></li>
+        <li><a href={p('/imprint')}>{t('nav_imprint')}</a></li>
+        <li><a href={p('/register')}>{t('nav_register')}</a></li>
+        <li><a href={p('/login')}>{t('nav_login')}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-certifications">
+    {t('footer_certifications')}
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {year} Gerti Foods. {t('footer_rights')}</p>
+  </div>
+</footer>

@@ -1,0 +1,121 @@
+---
+// Astro port of src/pages/Products.jsx, with ProductCard.jsx inlined into the
+// grid (it is small, and the loop is the only place it was used).
+//
+// The catalogue comes from the Django API at build time instead of a useEffect
+// fetch, so the products are in the HTML. That also removes the loading state:
+// Products.jsx rendered <p class="loading"> until the request resolved, whereas
+// here the grid is already there. The settled DOM is identical.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import { getProducts } from '../lib/products.js';
+import ModalHost from '../islands/ModalHost.jsx';
+import heroImage from '../../src/assets/about-us.webp';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+const products = await getProducts();
+
+// Mirror ProductCard.jsx: the display name comes from the translation table
+// keyed by slug, not from the API's `name` field.
+const productName = (product) => t(`products_name_${product.slug.replaceAll('-', '_')}`);
+const categoryKey = (product) =>
+  product.category_name === 'Family Pack' ? 'products_category_family_pack' : 'products_category_pite';
+const unitKey = (product) => (product.unit === 'pack' ? 'products_unit_pack' : 'products_unit_piece');
+---
+
+<BaseLayout
+  title={t('products_title')}
+  description={t('products_meta')}
+  lang={lang}
+  appClass=" products-landing-app"
+  showFooter={false}
+>
+  <div class="products-page products-showcase">
+    <section class="products-hero">
+      <img src={heroImage.src} alt={t('products_hero_alt')} class="products-hero-image" fetchpriority="high" />
+      <div class="products-hero-shade"></div>
+      <div class="products-hero-content">
+        <h1>{t('products_hero_line_1')}<br />{t('products_hero_line_2')}<br /><strong>{t('products_hero_business')}</strong></h1>
+        <p>{t('products_hero_subtitle')}</p>
+        <div class="products-hero-actions">
+          <button type="button" class="products-primary-cta" data-scroll-to="products-grid">{t('products_hero_view')}</button>
+          <button type="button" class="products-outline-cta" data-open-modal="sample">{t('products_hero_sample')}</button>
+        </div>
+        <div class="products-benefits">
+          <div><span class="benefit-icon">♧</span><p><b>{t('products_benefit_quality')}</b><small>{t('products_benefit_quality_body')}</small></p></div>
+          <div><span class="benefit-icon">◷</span><p><b>{t('products_benefit_supply')}</b><small>{t('products_benefit_supply_body')}</small></p></div>
+          <div><span class="benefit-icon">❄</span><p><b>{t('products_benefit_frozen')}</b><small>{t('products_benefit_frozen_body')}</small></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-trust">
+      <div class="trust-item trust-rating"><span class="google-g">G</span><div><small>{t('products_google_rating')}</small><b>4.9 <em>★★★★★</em></b><span>{t('products_reviews')}</span></div></div>
+      <div class="trust-item"><span class="trust-red-icon">◎</span><div><small>{t('products_years')}</small><span>{t('products_years_body')}</span></div></div>
+      <div class="trust-item"><span class="trust-red-icon">♢</span><div><small>{t('products_food_safety')}</small><span>{t('products_food_safety_body')}</span></div></div>
+    </section>
+
+    <section class="products-listing" id="products-grid">
+      <div class="products-listing-heading"><h2>{t('products_title')}</h2><a href="#products-grid">{t('products_view_all')}</a></div>
+      <div class="products-grid">
+        {products.map((product, i) => (
+          <div class="product-card">
+            {product.image && (
+              <img
+                src={product.image}
+                alt={productName(product)}
+                class="product-card-image"
+                loading={i < 5 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            )}
+            <div class="product-card-body">
+              <h3>{productName(product)}</h3>
+              <p class="product-category">{t(categoryKey(product))}</p>
+              <p class="product-price">&euro;{product.price} / {t(unitKey(product))}</p>
+              <p class="product-min-order">{t('products_min_order')}: {product.min_order_quantity} {t(unitKey(product))}</p>
+              <a href={p(`/products/${product.slug}`)} class="btn btn-primary">{t('products_view')}</a>
+            </div>
+          </div>
+        ))}
+        {products.length === 0 && <p>{t('products_empty')}</p>}
+      </div>
+    </section>
+
+    <section class="products-bottom-cta">
+      <div><h2>{t('products_growth_title')}</h2><p>{t('products_growth_body')}</p></div>
+      <div class="products-bottom-actions">
+        <a href="tel:+38349111150" class="products-phone">☎ &nbsp; +383 49 111 150</a>
+        <a href="https://calendly.com/arlinda-gertifoods/30min" target="_blank" rel="noopener noreferrer">{t('products_meeting')}</a>
+      </div>
+    </section>
+
+    <div class="products-mobile-contact">
+      <a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a>
+      <a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; {t('products_whatsapp')}</a>
+    </div>
+
+    <ModalHost client:idle lang={lang} sampleSource="products_hero" closeOnSampleSuccess={true} />
+  </div>
+</BaseLayout>
+
+<script>
+  // Products.jsx used scrollToProducts(); the button is static HTML now.
+  document.querySelectorAll<HTMLElement>('[data-scroll-to]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.getElementById(btn.dataset.scrollTo!)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Same modal bridge as the home page.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+    });
+  });
+</script>

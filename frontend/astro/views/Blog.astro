@@ -1,0 +1,45 @@
+---
+// Astro port of src/pages/Blog.jsx.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath, DEFAULT_LANG } from '../lib/i18n.js';
+import { blogPosts } from '../../src/data/blogPosts.js';
+import bakeryImage from '../../src/assets/bakery-interior.webp';
+import aboutImage from '../../src/assets/gerti-foods-about-us.webp';
+import pieImage from '../../src/assets/products/Pie.webp';
+
+const images = { bakery: bakeryImage, about: aboutImage, pie: pieImage };
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<BaseLayout title={t('blog_title')} description={t('blog_meta')} lang={lang}>
+  <div class="blog-page">
+    <header class="blog-hero">
+      <span>{t('blog_eyebrow')}</span>
+      <h1>{t('blog_title')}</h1>
+      <p>{t('blog_intro')}</p>
+    </header>
+    <section class="blog-grid" aria-label={t('blog_latest')}>
+      {
+        blogPosts.map((post, index) => {
+          const content = post.translations[lang] || post.translations[DEFAULT_LANG];
+          return (
+            <article class={`blog-card${index === 0 ? ' blog-card-featured' : ''}`}>
+              <a href={p(`/blog/${post.slug}`)} class="blog-card-image">
+                <img src={images[post.image].src} alt="" loading={index === 0 ? 'eager' : 'lazy'} />
+              </a>
+              <div class="blog-card-content">
+                <div class="blog-meta"><span>{content.category}</span><time datetime={post.published}>{post.published}</time><span>{content.readingTime}</span></div>
+                <h2><a href={p(`/blog/${post.slug}`)}>{content.title}</a></h2>
+                <p>{content.description}</p>
+                <a href={p(`/blog/${post.slug}`)} class="blog-read-more">{t('blog_read_more')} →</a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,13 @@
+---
+import BlogPost from '../../views/BlogPost.astro';
+import { DEFAULT_LANG } from '../../lib/i18n.js';
+import { blogPosts } from '../../../src/data/blogPosts.js';
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({ params: { slug: post.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<BlogPost lang={DEFAULT_LANG} slug={slug} />

@@ -152,9 +152,18 @@ Run migrations, collect static, create an admin user:
 chown -R gertifoods:gertifoods /var/www/gertifoods
 ```
 
-## 7. Frontend: build the React app
+## 7. Frontend: build the site
 
-The API base URL is baked in at **build time**, so set it before building:
+The frontend is an Astro build that renders every page to static HTML and
+hydrates only the interactive parts (lead forms, cart, portal) as React islands.
+
+Two things are baked in at **build time**, so both must be right before you run
+the build:
+
+1. **The API base URL** the browser will call, via `.env.production`.
+2. **The product catalogue.** Product pages are generated from the Django API,
+   so **Gunicorn must already be running** (step 8) — or, on a first install
+   where it isn't up yet, start the dev server briefly just for the build.
 
 ```bash
 cd /var/www/gertifoods/frontend
@@ -162,6 +171,14 @@ echo "VITE_API_URL=https://gertifoods.com/api" > .env.production
 npm ci
 npm run build        # outputs to frontend/dist (served by Nginx)
 ```
+
+The build reads the catalogue from `http://127.0.0.1:8000/api` by default —
+Django directly on the loopback interface, so it does not depend on Nginx or
+TLS being up yet. Override with `BUILD_API_URL` if Gunicorn listens elsewhere.
+
+If the API is unreachable the build **fails deliberately** rather than shipping
+a site with no products behind a sitemap that advertises them. To build without
+a catalogue anyway (local copy edits, for example), set `ALLOW_EMPTY_CATALOG=1`.
 
 ## 8. Gunicorn service
 
@@ -216,6 +233,21 @@ git pull                                   # or rsync again
 ./venv/bin/pip install -r requirements.txt # if deps changed
 ./venv/bin/python manage.py migrate
 ./venv/bin/python manage.py collectstatic --noinput
+sudo systemctl restart gunicorn            # restart BEFORE the frontend build,
+                                           # which reads the catalogue from it
 cd frontend && npm ci && npm run build
-sudo systemctl restart gunicorn
 ```
+
+### After changing the product catalogue
+
+Product pages are generated at build time, so **adding, repricing or retiring a
+product in the Django admin does not change the live site on its own.** Rebuild
+the frontend afterwards:
+
+```bash
+cd /var/www/gertifoods/frontend && npm run build
+```
+
+Nothing needs restarting — Nginx serves the new files as soon as they are
+written. The same applies to blog posts and area pages, whose content lives in
+`frontend/src/data/`.

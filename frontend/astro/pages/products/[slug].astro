@@ -1,0 +1,16 @@
+---
+// One page per available product, straight from the Django catalogue — the
+// URLs config/sitemaps.py already submits.
+import ProductDetail from '../../views/ProductDetail.astro';
+import { DEFAULT_LANG } from '../../lib/i18n.js';
+import { getProducts } from '../../lib/products.js';
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+  return products.map((product) => ({ params: { slug: product.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<ProductDetail lang={DEFAULT_LANG} slug={slug} />
