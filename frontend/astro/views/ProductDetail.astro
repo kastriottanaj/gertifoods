@@ -9,10 +9,11 @@
 // is static HTML. The add-to-cart control is an island that appears only once a
 // session is confirmed, and hides the login prompt when it does.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { useTranslations } from '../lib/i18n.js';
+import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
+import { productSchema, breadcrumbSchema } from '../lib/schema.js';
 import ProductActions from '../islands/ProductActions.jsx';
 import FamilyPackDetail from './FamilyPackDetail.astro';
 
@@ -27,16 +28,57 @@ const copy = productCopy(t);
 const name = copy.name(product);
 const description = copy.description(product);
 const unit = copy.unit(product);
+const category = copy.category(product);
 const messages = islandMessages(lang);
+
+const isFamilyPack = slug === 'family-pack-pite-4';
+
+// Same normalisation BaseLayout applies before emitting the canonical, so the
+// schema and the <link rel="canonical"> name the identical URL. Deriving it
+// here rather than hard-coding the origin keeps each language edition pointing
+// at itself instead of all three claiming the Albanian one.
+const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
+
+// The Family Pack layout is a request-an-offer page and prints no price; every
+// other product page renders "€X / unit" below the heading.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    productSchema({
+      product,
+      name,
+      description,
+      category,
+      unit,
+      canonical,
+      showsPrice: !isFamilyPack,
+    }),
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(localePath(lang, '/'), Astro.site).href },
+      {
+        name: t('nav_products'),
+        url: new URL(localePath(lang, '/products'), Astro.site).href,
+      },
+      { name },
+    ]),
+  ],
+};
 ---
 
 <BaseLayout
   title={name}
   description={description?.slice(0, 160)}
   lang={lang}
-  appClass={slug === 'family-pack-pite-4' ? ' family-pack-app' : ''}
+  appClass={isFamilyPack ? ' family-pack-app' : ''}
 >
-  {slug === 'family-pack-pite-4' ? <FamilyPackDetail lang={lang} /> : <div class="product-detail">
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(schema)}
+  />
+
+  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : <div class="product-detail">
     <div class="product-detail-grid">
       {/* The product shot is the LCP element on this page, so it stays eager
           and is the one image here that gets fetchpriority="high". */}

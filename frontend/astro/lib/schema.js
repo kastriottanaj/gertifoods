@@ -3,6 +3,10 @@
 // It lives in a module rather than inline in the layout because inside an
 // .astro template a bare `{` would need escaping. Emitting it via
 // JSON.stringify() produces the same graph, just minified.
+
+const ORIGIN = 'https://gertifoods.com';
+const ORGANIZATION_ID = `${ORIGIN}/#organization`;
+
 export const organizationSchema = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -73,3 +77,105 @@ export const organizationSchema = {
     },
   ],
 };
+
+/**
+ * Product JSON-LD for a /products/<slug> page.
+ *
+ * Every string here comes from the same localised copy the page renders, not
+ * from the raw API fields — structured data that disagrees with the visible
+ * text is a policy violation, not just a wasted opportunity.
+ *
+ * @param {object}  args
+ * @param {object}  args.product     Raw product from the Django catalogue.
+ * @param {string}  args.name        Localised name, as rendered in the <h1>.
+ * @param {string}  args.description Localised description, as rendered.
+ * @param {string}  args.category    Localised category badge text.
+ * @param {string}  args.unit        Localised unit ("copë" / "piece" / "Stück").
+ * @param {string}  args.canonical   Absolute URL of this language edition.
+ * @param {boolean} args.showsPrice  Whether the page actually prints the price.
+ */
+export function productSchema({
+  product,
+  name,
+  description,
+  category,
+  unit,
+  canonical,
+  showsPrice,
+}) {
+  const schema = {
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
+    name,
+    description,
+    category,
+    // The slug is the catalogue's only stable public identifier; Django has no
+    // separate SKU field.
+    sku: product.slug,
+    brand: { '@type': 'Brand', name: 'Gerti Foods' },
+    manufacturer: { '@id': ORGANIZATION_ID },
+  };
+
+  // Django serves ImageField URLs site-relative here (see lib/products.js);
+  // schema.org needs them absolute. Omitted entirely when the product has no
+  // image — a missing property costs a rich result, a broken one costs trust.
+  if (product.image) {
+    schema.image = new URL(product.image, ORIGIN).href;
+  }
+
+  // The Family Pack page is a request-an-offer page with no price on it. An
+  // Offer carrying a price the visitor cannot see is exactly the mismatch
+  // Google issues manual actions for, so that page gets the Product entity
+  // without an Offer rather than an invented one.
+  if (showsPrice) {
+    schema.offers = {
+      '@type': 'Offer',
+      url: canonical,
+      price: String(product.price),
+      priceCurrency: 'EUR',
+      availability: product.is_available
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@id': ORGANIZATION_ID },
+      businessFunction: 'http://purl.org/goodrelations/v1#Sell',
+      // The page prints "€X / unit", so say per what. Without the reference
+      // quantity, `price` alone reads as the price of the whole product.
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: String(product.price),
+        priceCurrency: 'EUR',
+        referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitText: unit },
+      },
+      // Minimum order quantity. `minValue` rather than `value`: eligibleQuantity
+      // describes the interval of order sizes the offer is valid for, and this
+      // is its lower bound, not a fixed amount.
+      eligibleQuantity: {
+        '@type': 'QuantitativeValue',
+        minValue: product.min_order_quantity,
+        unitText: unit,
+      },
+    };
+  }
+
+  return schema;
+}
+
+/**
+ * BreadcrumbList for a product page: Home > Products > <product>.
+ *
+ * `items` is an array of { name, url }, deepest last. The final entry drops
+ * `item` per Google's guidance — it is the page being viewed, so pointing it
+ * at itself adds nothing.
+ */
+export function breadcrumbSchema(items) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map(({ name, url }, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name,
+      ...(index === items.length - 1 ? {} : { item: url }),
+    })),
+  };
+}
