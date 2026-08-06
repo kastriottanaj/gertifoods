@@ -178,6 +178,20 @@ SALES_EMAIL = config('SALES_EMAIL', default='arlinda@gertifoods.com')
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))
 
+# Canonical public origin. The sitemap views derive this from the request host,
+# but `manage.py ping_indexnow` has no request, so it needs to be told.
+# Keep in sync with `site` in frontend/astro.config.mjs.
+SITE_DOMAIN = config('SITE_DOMAIN', default='gertifoods.com')
+
+# IndexNow (Bing, Yandex, Seznam, Naver — Google does not participate).
+#
+# Not a secret: the ownership check requires this exact value to be publicly
+# readable at https://<SITE_DOMAIN>/<key>.txt, so it is world-readable by
+# design. Rotating it means generating a new key at https://www.indexnow.org,
+# renaming frontend/public/<key>.txt to match, and rebuilding the frontend —
+# the filename and this value must always agree or submissions 403.
+INDEXNOW_KEY = config('INDEXNOW_KEY', default='8a47c68d27864a4a8fef802d0453e575')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Production security hardening (skipped in local development)

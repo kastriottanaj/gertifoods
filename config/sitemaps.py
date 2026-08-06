@@ -149,3 +149,15 @@ class ProductSitemap(LocalizedSitemap):
     def lastmod(self, item):
         path, _lang = item
         return self._products[path].updated_at
+
+
+# The section name -> sitemap mapping behind /sitemap.xml. It lives here rather
+# than in config/urls.py so `manage.py ping_indexnow` can submit exactly the
+# URLs the sitemap advertises without importing the URLConf (and without a
+# second copy of this list that would quietly drift out of sync).
+SITEMAPS = {
+    'pages': PageSitemap,
+    'areas-we-serve': AreaSitemap,
+    'products': ProductSitemap,
+    'blog': BlogSitemap,
+}

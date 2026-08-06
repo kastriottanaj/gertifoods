@@ -269,3 +269,29 @@ cd /var/www/gertifoods/frontend && BUILD_API_URL=https://gertifoods.com/api npm 
 Nothing needs restarting — Nginx serves the new files as soon as they are
 written. The same applies to blog posts and area pages, whose content lives in
 `frontend/src/data/`.
+
+### Telling search engines what changed (IndexNow)
+
+After the rebuild, submit the URLs you actually changed so participating
+engines recrawl them without waiting for their own schedule:
+
+```bash
+cd /var/www/gertifoods
+./venv/bin/python manage.py ping_indexnow /products/pite-me-tuna /en/products/pite-me-tuna /de/products/pite-me-tuna
+```
+
+Two things worth knowing before relying on this:
+
+- **Google does not participate in IndexNow.** This reaches Bing, Yandex,
+  Seznam and Naver. Google still finds changes by crawling `/sitemap.xml`.
+- **Submit only what changed.** `--all` exists for the first-ever submission
+  and for changes that genuinely touch every page; using it on every deploy
+  earns a 429 "potential spam" response and devalues the signal.
+
+Add `--dry-run` to see the payload without sending it. The command verifies
+that `https://gertifoods.com/<key>.txt` is reachable before submitting, so a
+frontend that has not been rebuilt since the key file was added fails with a
+clear message rather than a bare 403.
+
+Receipts appear in [Bing Webmaster Tools](https://www.bing.com/webmasters)
+under IndexNow.
