@@ -11,6 +11,7 @@ from config.sitemaps import (
     SUPPORTED_LANGS,
     locale_path,
 )
+from products.models import Category, Product
 
 PRIVATE_PATHS = ('/cart', '/orders', '/login', '/register', '/profile')
 
@@ -108,6 +109,47 @@ class SitemapTests(SimpleTestCase):
         response = self.client.get('/sitemap-news.xml', secure=True)
 
         self.assertEqual(response.status_code, 404)
+
+
+class ProductSitemapTests(TestCase):
+    def test_available_product_is_listed_in_every_language_with_alternates(self):
+        category = Category.objects.create(name='Family Pack', slug='family-pack')
+        Product.objects.create(
+            category=category,
+            name='Family Pack',
+            slug='family-pack-pite-4',
+            price='5.20',
+            unit='pack',
+            min_order_quantity=12,
+            is_available=True,
+        )
+
+        response = self.client.get('/sitemap-products.xml', secure=True)
+        self.assertEqual(response.status_code, 200)
+        xml = response.content.decode()
+        path = '/products/family-pack-pite-4'
+
+        for lang in SUPPORTED_LANGS:
+            url = f'https://testserver{locale_path(lang, path)}'
+            self.assertIn(f'<loc>{url}</loc>', xml)
+            self.assertIn(f'hreflang="{lang}" href="{url}"', xml)
+
+        self.assertIn(
+            f'hreflang="x-default" href="https://testserver{path}"', xml
+        )
+
+    def test_unavailable_product_is_not_indexed(self):
+        category = Category.objects.create(name='Retired', slug='retired')
+        Product.objects.create(
+            category=category,
+            name='Retired Product',
+            slug='retired-product',
+            price='1.00',
+            is_available=False,
+        )
+
+        xml = self.client.get('/sitemap-products.xml', secure=True).content.decode()
+        self.assertNotIn('/products/retired-product', xml)
 
 
 class SitemapSourceDriftTests(SimpleTestCase):

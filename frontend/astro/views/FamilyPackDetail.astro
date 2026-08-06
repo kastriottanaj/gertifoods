@@ -1,68 +1,71 @@
 ---
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
+import { localePath, useTranslations } from '../lib/i18n.js';
 import '../styles/family-pack-detail.css';
 
 const { lang } = Astro.props;
 const messages = islandMessages(lang);
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
 ---
 
 <div class="fp-page">
   <section class="fp-hero">
     <div class="fp-hero-copy">
-      <span class="fp-badge">Pako Familjare</span>
-      <h1>Pako familjare me 4 byrekë<br class="fp-desktop" /> të përzier — gati për shitje<br class="fp-desktop" /> në biznesin tuaj</h1>
-      <p>Për furra, hotele, restorante dhe supermarkete në Prizren, Kosovë.<br class="fp-desktop" /> 4 shije të preferuara në një pako praktike, gati për shitje.</p>
+      <span class="fp-badge">{t('fp_badge')}</span>
+      <h1>{t('fp_heading_1')}<br class="fp-desktop" /> {t('fp_heading_2')}<br class="fp-desktop" /> {t('fp_heading_3')}</h1>
+      <p>{t('fp_intro')}</p>
       <div class="fp-meta">
-        <span><b class="fp-icon">◇</b> Porosi minimale: 12 pako</span>
-        <span><b class="fp-icon">⌖</b> Prizren, Kosovë</span>
+        <span><b class="fp-icon">◇</b> {t('fp_min_order')}</span>
+        <span><b class="fp-icon">⌖</b> {t('fp_location')}</span>
       </div>
       <div class="fp-actions">
-        <button type="button" class="fp-btn fp-btn-primary" data-open-modal="sample">Kërko ofertë <span>→</span></button>
-        <a class="fp-btn fp-btn-outline" href="#zgjidhjet">Shiko produktet</a>
+        <button type="button" class="fp-btn fp-btn-primary" data-open-modal="sample">{t('fp_request_offer')} <span>→</span></button>
+        <a class="fp-btn fp-btn-outline" href="#zgjidhjet">{t('fp_view_products')}</a>
       </div>
-      <div class="fp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; Prizren, Kosovë</span></div>
+      <div class="fp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; {t('fp_location')}</span></div>
     </div>
-    <div class="fp-hero-image" role="img" aria-label="Katër shije byreku të përzier në pako familjare"></div>
+    <div class="fp-hero-image" role="img" aria-label={t('fp_hero_alt')}></div>
   </section>
 
   <section class="fp-trust">
-    <div><span class="fp-trust-icon">♢</span><p><b>ISO 22000</b><small>Siguri Ushqimore</small></p></div>
-    <div><span class="fp-trust-icon">▣</span><p><b>Për biznese</b><small>Zgjidhje B2B</small></p></div>
-    <div><span class="fp-trust-icon">◇</span><p><b>Porosi minimale</b><small>12 pako</small></p></div>
-    <div class="fp-ideal"><b>Ideale për</b><span>Furra</span><span>Hotele &amp; Restorante</span><span>Supermarkete</span><span>Katering</span></div>
+    <div><span class="fp-trust-icon">♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
+    <div><span class="fp-trust-icon">▣</span><p><b>{t('fp_for_business')}</b><small>{t('fp_b2b_solution')}</small></p></div>
+    <div><span class="fp-trust-icon">◇</span><p><b>{t('fp_min_order_label')}</b><small>12 {t('products_unit_pack')}</small></p></div>
+    <div class="fp-ideal"><b>{t('fp_ideal_for')}</b><span>{t('fp_bakeries')}</span><span>{t('fp_hotels_restaurants')}</span><span>{t('fp_supermarkets')}</span><span>{t('fp_catering')}</span></div>
   </section>
 
   <section class="fp-benefits">
-    <article><span>✧</span><div><h2>4 shije në një pako</h2><p>Djathë, spinaq, mish dhe ton<br />të përziera për çdo preferencë.</p></div></article>
-    <article><span>◇</span><div><h2>Gati për shitje</h2><p>Paketim praktik dhe cilësi e qëndrueshme<br />që kursen kohë e rrit shitjet.</p></div></article>
-    <article><span>▱</span><div><h2>Furnizim i besueshëm</h2><p>Prodhim i standardizuar dhe shpërndarje<br />e sigurt në Prizren e rrethinë.</p></div></article>
+    <article><span>✧</span><div><h2>{t('fp_benefit_flavours')}</h2><p>{t('fp_benefit_flavours_body')}</p></div></article>
+    <article><span>◇</span><div><h2>{t('fp_benefit_ready')}</h2><p>{t('fp_benefit_ready_body')}</p></div></article>
+    <article><span>▱</span><div><h2>{t('fp_benefit_supply')}</h2><p>{t('fp_benefit_supply_body')}</p></div></article>
   </section>
 
   <section class="fp-testimonials">
-    <h2>Çfarë thonë partnerët tanë</h2>
+    <h2>{t('fp_testimonials')}</h2>
     <div class="fp-testimonial-grid">
-      <article><div class="fp-avatar fp-avatar-one">AK</div><div><b>Arben Krasniqi</b><small>Pronar, Furrë “Krasniqi”, Prizren</small><p><em>“</em> Byrekët e Gerti Foods na kanë kursyer kohë e punë.<br />Klientët i duan shijet dhe cilësia është e njëjtë çdo herë.”</p></div></article>
-      <article><div class="fp-avatar fp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>Menaxhere, Hotel “Theranda”, Prizren</small><p><em>“</em> Pakoja familjare është shumë praktike për ne.<br />Shërbim i rregullt dhe produkt që na përfaqëson mirë.”</p></div></article>
+      <article><div class="fp-avatar fp-avatar-one">AK</div><div><b>Arben Krasniqi</b><small>{t('fp_testimonial_1_role')}</small><p><em>“</em> {t('fp_testimonial_1')}”</p></div></article>
+      <article><div class="fp-avatar fp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>{t('fp_testimonial_2_role')}</small><p><em>“</em> {t('fp_testimonial_2')}”</p></div></article>
     </div>
     <div class="fp-dots"><i></i><i></i></div>
   </section>
 
   <section class="fp-solutions" id="zgjidhjet">
-    <h2>Zgjidhje për biznesin tuaj</h2>
+    <h2>{t('fp_solutions')}</h2>
     <div class="fp-solution-grid">
-      <article><span>♧</span><div><h3>Furra</h3><p>Produkte të qëndrueshme që<br />rrisin qarkullimin ditor.</p><a href="/products">Mëso më shumë →</a></div></article>
-      <article><span>⌒</span><div><h3>Hotele &amp; Restorante</h3><p>Zgjidhje praktike për mëngjes,<br />bufe dhe room service.</p><a href="/products">Mëso më shumë →</a></div></article>
-      <article><span>▽</span><div><h3>Supermarkete</h3><p>Paketim tërheqës që<br />shet shpejt në raft.</p><a href="/products">Mëso më shumë →</a></div></article>
-      <article><span>⌒</span><div><h3>Katering</h3><p>Sasi të mëdha dhe cilësi<br />e qëndrueshme.</p><a href="/products">Mëso më shumë →</a></div></article>
+      <article><span>♧</span><div><h3>{t('fp_bakeries')}</h3><p>{t('fp_bakery_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_hotels_restaurants')}</h3><p>{t('fp_horeca_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+      <article><span>▽</span><div><h3>{t('fp_supermarkets')}</h3><p>{t('fp_supermarket_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_catering')}</h3><p>{t('fp_catering_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
     </div>
   </section>
 
   <section class="fp-cta">
-    <div class="fp-cta-icon">◇</div><div><h2>Gati për të shtuar Family Pack në ofertën tuaj?</h2><p>Na kontaktoni për ofertë të personalizuar dhe bashkëpunim afatgjatë.</p></div>
-    <button type="button" data-open-modal="sample">Kërko ofertë <span>→</span></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a>
+    <div class="fp-cta-icon">◇</div><div><h2>{t('fp_cta_title')}</h2><p>{t('fp_cta_body')}</p></div>
+    <button type="button" data-open-modal="sample">{t('fp_request_offer')} <span>→</span></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a>
   </section>
 
-  <a class="fp-mobile-call" href="tel:+38349111150">⌕ &nbsp; Na telefono</a>
+  <a class="fp-mobile-call" href="tel:+38349111150">⌕ &nbsp; {t('fp_call_us')}</a>
   <ModalHost client:idle lang={lang} messages={messages} sampleSource="family_pack_detail" closeOnSampleSuccess={true} />
 </div>
