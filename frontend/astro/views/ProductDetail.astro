@@ -14,6 +14,7 @@ import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import ProductActions from '../islands/ProductActions.jsx';
+import FamilyPackDetail from './FamilyPackDetail.astro';
 
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
@@ -33,8 +34,9 @@ const messages = islandMessages(lang);
   title={name}
   description={description?.slice(0, 160)}
   lang={lang}
+  appClass={slug === 'family-pack-pite-4' ? ' family-pack-app' : ''}
 >
-  <div class="product-detail">
+  {slug === 'family-pack-pite-4' ? <FamilyPackDetail lang={lang} /> : <div class="product-detail">
     <div class="product-detail-grid">
       {/* The product shot is the LCP element on this page, so it stays eager
           and is the one image here that gets fetchpriority="high". */}
@@ -57,5 +59,5 @@ const messages = islandMessages(lang);
         <p class="login-prompt" data-product-anon>{t('product_login_prompt')}</p>
       </div>
     </div>
-  </div>
+  </div>}
 </BaseLayout>

@@ -1,0 +1,68 @@
+---
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import '../styles/family-pack-detail.css';
+
+const { lang } = Astro.props;
+const messages = islandMessages(lang);
+---
+
+<div class="fp-page">
+  <section class="fp-hero">
+    <div class="fp-hero-copy">
+      <span class="fp-badge">Pako Familjare</span>
+      <h1>Pako familjare me 4 byrekë<br class="fp-desktop" /> të përzier — gati për shitje<br class="fp-desktop" /> në biznesin tuaj</h1>
+      <p>Për furra, hotele, restorante dhe supermarkete në Prizren, Kosovë.<br class="fp-desktop" /> 4 shije të preferuara në një pako praktike, gati për shitje.</p>
+      <div class="fp-meta">
+        <span><b class="fp-icon">◇</b> Porosi minimale: 12 pako</span>
+        <span><b class="fp-icon">⌖</b> Prizren, Kosovë</span>
+      </div>
+      <div class="fp-actions">
+        <button type="button" class="fp-btn fp-btn-primary" data-open-modal="sample">Kërko ofertë <span>→</span></button>
+        <a class="fp-btn fp-btn-outline" href="#zgjidhjet">Shiko produktet</a>
+      </div>
+      <div class="fp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; Prizren, Kosovë</span></div>
+    </div>
+    <div class="fp-hero-image" role="img" aria-label="Katër shije byreku të përzier në pako familjare"></div>
+  </section>
+
+  <section class="fp-trust">
+    <div><span class="fp-trust-icon">♢</span><p><b>ISO 22000</b><small>Siguri Ushqimore</small></p></div>
+    <div><span class="fp-trust-icon">▣</span><p><b>Për biznese</b><small>Zgjidhje B2B</small></p></div>
+    <div><span class="fp-trust-icon">◇</span><p><b>Porosi minimale</b><small>12 pako</small></p></div>
+    <div class="fp-ideal"><b>Ideale për</b><span>Furra</span><span>Hotele &amp; Restorante</span><span>Supermarkete</span><span>Katering</span></div>
+  </section>
+
+  <section class="fp-benefits">
+    <article><span>✧</span><div><h2>4 shije në një pako</h2><p>Djathë, spinaq, mish dhe ton<br />të përziera për çdo preferencë.</p></div></article>
+    <article><span>◇</span><div><h2>Gati për shitje</h2><p>Paketim praktik dhe cilësi e qëndrueshme<br />që kursen kohë e rrit shitjet.</p></div></article>
+    <article><span>▱</span><div><h2>Furnizim i besueshëm</h2><p>Prodhim i standardizuar dhe shpërndarje<br />e sigurt në Prizren e rrethinë.</p></div></article>
+  </section>
+
+  <section class="fp-testimonials">
+    <h2>Çfarë thonë partnerët tanë</h2>
+    <div class="fp-testimonial-grid">
+      <article><div class="fp-avatar fp-avatar-one">AK</div><div><b>Arben Krasniqi</b><small>Pronar, Furrë “Krasniqi”, Prizren</small><p><em>“</em> Byrekët e Gerti Foods na kanë kursyer kohë e punë.<br />Klientët i duan shijet dhe cilësia është e njëjtë çdo herë.”</p></div></article>
+      <article><div class="fp-avatar fp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>Menaxhere, Hotel “Theranda”, Prizren</small><p><em>“</em> Pakoja familjare është shumë praktike për ne.<br />Shërbim i rregullt dhe produkt që na përfaqëson mirë.”</p></div></article>
+    </div>
+    <div class="fp-dots"><i></i><i></i></div>
+  </section>
+
+  <section class="fp-solutions" id="zgjidhjet">
+    <h2>Zgjidhje për biznesin tuaj</h2>
+    <div class="fp-solution-grid">
+      <article><span>♧</span><div><h3>Furra</h3><p>Produkte të qëndrueshme që<br />rrisin qarkullimin ditor.</p><a href="/products">Mëso më shumë →</a></div></article>
+      <article><span>⌒</span><div><h3>Hotele &amp; Restorante</h3><p>Zgjidhje praktike për mëngjes,<br />bufe dhe room service.</p><a href="/products">Mëso më shumë →</a></div></article>
+      <article><span>▽</span><div><h3>Supermarkete</h3><p>Paketim tërheqës që<br />shet shpejt në raft.</p><a href="/products">Mëso më shumë →</a></div></article>
+      <article><span>⌒</span><div><h3>Katering</h3><p>Sasi të mëdha dhe cilësi<br />e qëndrueshme.</p><a href="/products">Mëso më shumë →</a></div></article>
+    </div>
+  </section>
+
+  <section class="fp-cta">
+    <div class="fp-cta-icon">◇</div><div><h2>Gati për të shtuar Family Pack në ofertën tuaj?</h2><p>Na kontaktoni për ofertë të personalizuar dhe bashkëpunim afatgjatë.</p></div>
+    <button type="button" data-open-modal="sample">Kërko ofertë <span>→</span></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a>
+  </section>
+
+  <a class="fp-mobile-call" href="tel:+38349111150">⌕ &nbsp; Na telefono</a>
+  <ModalHost client:idle lang={lang} messages={messages} sampleSource="family_pack_detail" closeOnSampleSuccess={true} />
+</div>
