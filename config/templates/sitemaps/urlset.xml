@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{% comment %}
+Replaces django/contrib/sitemaps/templates/sitemap.xml for two reasons:
+
+  - it declares only the sitemap namespace. Django's declares xmlns:xhtml as
+    well, for the hreflang alternates this project no longer emits.
+  - it does not run the body through {% spaceless %}, so every field lands on
+    its own indented line. Crawlers are indifferent, but `curl` and view-source
+    are not, and this file is read by hand often enough to matter.
+
+Wired up explicitly in config/urls.py rather than by shadowing Django's
+template name, so nothing here changes behaviour at a distance.
+{% endcomment %}<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for url in urlset %}  <url>
+    <loc>{{ url.location }}</loc>
+{% if url.lastmod %}    <lastmod>{{ url.lastmod|date:"c" }}</lastmod>
+{% endif %}{% if url.changefreq %}    <changefreq>{{ url.changefreq }}</changefreq>
+{% endif %}{% if url.priority %}    <priority>{{ url.priority }}</priority>
+{% endif %}  </url>
+{% endfor %}</urlset>

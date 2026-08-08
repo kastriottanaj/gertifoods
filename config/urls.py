@@ -17,13 +17,17 @@ urlpatterns = [
     path(
         'sitemap.xml',
         sitemap_index,
-        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemap-section'},
+        {
+            'sitemaps': sitemaps,
+            'sitemap_url_name': 'sitemap-section',
+            'template_name': 'sitemaps/index.xml',
+        },
         name='sitemap-index',
     ),
     path(
         'sitemap-<section>.xml',
         sitemap,
-        {'sitemaps': sitemaps},
+        {'sitemaps': sitemaps, 'template_name': 'sitemaps/urlset.xml'},
         name='sitemap-section',
     ),
     path('api/accounts/', include('accounts.urls')),

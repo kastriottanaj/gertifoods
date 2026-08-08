@@ -1,19 +1,24 @@
 import re
+from datetime import datetime
+from xml.etree import ElementTree
 
 from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 
 from config.sitemaps import (
     AREA_SLUGS,
+    AREA_SOURCES,
     BLOG_POSTS,
     DEFAULT_LANG,
     PAGE_ROUTES,
     SUPPORTED_LANGS,
     locale_path,
 )
+from config.source_lastmod import TRANSLATIONS
 from products.models import Category, Product
 
 PRIVATE_PATHS = ('/cart', '/orders', '/login', '/register', '/profile')
+SITEMAP_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9'
 
 
 def locs(xml):
@@ -83,27 +88,41 @@ class SitemapTests(SimpleTestCase):
         self.assertNotIn('/sq/', xml)
         self.assertIn('<loc>https://testserver/</loc>', xml)
 
-    def test_every_url_declares_all_language_alternates(self):
-        """
-        Each entry must list all three editions plus x-default. Without the
-        reciprocal set, Google treats the editions as competing duplicates
-        rather than alternates.
-        """
+    def test_every_page_appears_once_per_language(self):
         xml = self.client.get('/sitemap-pages.xml', secure=True).content.decode()
 
         blocks = re.findall(r'<url>(.*?)</url>', xml, re.S)
         self.assertEqual(len(blocks), len(PAGE_ROUTES) * len(SUPPORTED_LANGS))
-        for block in blocks:
-            hreflangs = re.findall(r'hreflang="([a-z-]+)"', block)
-            self.assertCountEqual(hreflangs, [*SUPPORTED_LANGS, 'x-default'])
 
-    def test_x_default_points_at_the_default_language(self):
-        xml = self.client.get('/sitemap-pages.xml', secure=True).content.decode()
+    def test_no_url_carries_elements_outside_the_sitemap_namespace(self):
+        """
+        Guards the reason hreflang lives in the page <head> instead of here: a
+        single element in the XHTML namespace turns off Chrome's XML viewer,
+        which then renders the whole sitemap as one line of run-together text.
+        """
+        for section in ('pages', 'areas-we-serve', 'blog'):
+            with self.subTest(section=section):
+                xml = self.client.get(f'/sitemap-{section}.xml', secure=True).content
+                root = ElementTree.fromstring(xml)
+                namespaces = {
+                    element.tag.partition('}')[0].lstrip('{')
+                    for element in root.iter()
+                }
+                self.assertEqual(namespaces, {SITEMAP_NS})
 
-        block = re.search(r'<url>(.*?)</url>', xml, re.S).group(1)
-        x_default = re.search(r'hreflang="x-default" href="([^"]+)"', block).group(1)
-        sq = re.search(r'hreflang="sq" href="([^"]+)"', block).group(1)
-        self.assertEqual(x_default, sq)
+    def test_pages_and_areas_carry_a_parseable_lastmod(self):
+        for section in ('pages', 'areas-we-serve'):
+            with self.subTest(section=section):
+                xml = self.client.get(f'/sitemap-{section}.xml', secure=True).content
+                root = ElementTree.fromstring(xml)
+                urls = root.findall(f'{{{SITEMAP_NS}}}url')
+                self.assertTrue(urls)
+                for url in urls:
+                    lastmod = url.find(f'{{{SITEMAP_NS}}}lastmod')
+                    loc = url.find(f'{{{SITEMAP_NS}}}loc').text
+                    self.assertIsNotNone(lastmod, f'{loc} has no lastmod')
+                    # Raises if it isn't a W3C date/datetime Google will accept.
+                    datetime.fromisoformat(lastmod.text)
 
     def test_unknown_sitemap_category_returns_404(self):
         response = self.client.get('/sitemap-news.xml', secure=True)
@@ -112,7 +131,7 @@ class SitemapTests(SimpleTestCase):
 
 
 class ProductSitemapTests(TestCase):
-    def test_available_product_is_listed_in_every_language_with_alternates(self):
+    def test_available_product_is_listed_in_every_language(self):
         category = Category.objects.create(name='Family Pack', slug='family-pack')
         Product.objects.create(
             category=category,
@@ -130,13 +149,7 @@ class ProductSitemapTests(TestCase):
         path = '/products/family-pack-pite-4'
 
         for lang in SUPPORTED_LANGS:
-            url = f'https://testserver{locale_path(lang, path)}'
-            self.assertIn(f'<loc>{url}</loc>', xml)
-            self.assertIn(f'hreflang="{lang}" href="{url}"', xml)
-
-        self.assertIn(
-            f'hreflang="x-default" href="https://testserver{path}"', xml
-        )
+            self.assertIn(f'<loc>https://testserver{locale_path(lang, path)}</loc>', xml)
 
     def test_unavailable_product_is_not_indexed(self):
         category = Category.objects.create(name='Retired', slug='retired')
@@ -183,3 +196,53 @@ class SitemapSourceDriftTests(SimpleTestCase):
 
     def test_default_lang_is_in_supported_langs(self):
         self.assertIn(DEFAULT_LANG, SUPPORTED_LANGS)
+
+
+class LastmodSourceTests(SimpleTestCase):
+    """
+    lastmod is only as good as the files it is read from, and a mistyped path
+    fails silently — git simply reports nothing and the URL loses its date.
+    These tests turn that silence into a failing build.
+    """
+
+    def sources(self):
+        yield from ((path, route['sources']) for path, route in PAGE_ROUTES.items())
+        yield ('/areas/<slug>', AREA_SOURCES)
+
+    def test_every_declared_source_file_exists(self):
+        for route, paths in self.sources():
+            for path in paths:
+                with self.subTest(route=route, path=path):
+                    self.assertTrue(
+                        (settings.BASE_DIR / path).exists(),
+                        f'{route} claims a source that no longer exists: {path}',
+                    )
+
+    def test_every_route_owns_translation_keys_under_its_prefix(self):
+        """
+        The prefixes ('about' -> about_title, about_meta, ...) are what let a
+        copy-only edit date the one page it changed. A renamed key block would
+        otherwise leave that page frozen at its template's date.
+        """
+        copy = (settings.BASE_DIR / TRANSLATIONS).read_text(encoding='utf-8')
+        prefixes = [route['keys'] for route in PAGE_ROUTES.values()] + AREA_SLUGS
+
+        for prefix in prefixes:
+            with self.subTest(prefix=prefix):
+                self.assertRegex(
+                    copy,
+                    re.compile(rf'^\s+{prefix}_\w+:', re.M),
+                    f'no {prefix}_* keys in {TRANSLATIONS}',
+                )
+
+    def test_pages_still_declare_hreflang_in_their_head(self):
+        """
+        The sitemap no longer repeats the language alternates, so the <head> is
+        the only place Google learns the three editions belong together.
+        """
+        layout = (
+            settings.BASE_DIR / 'frontend' / 'astro' / 'layouts' / 'BaseLayout.astro'
+        ).read_text(encoding='utf-8')
+
+        self.assertIn('rel="alternate" hreflang={code}', layout)
+        self.assertIn('hreflang="x-default"', layout)

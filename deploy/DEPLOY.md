@@ -105,6 +105,12 @@ cd gertifoods
 > No remote git host? From your laptop instead:
 > `rsync -avz --exclude venv --exclude node_modules --exclude .git \
 >   ./ root@<server-ip>:/var/www/gertifoods/`
+>
+> That excludes `.git`, and the sitemap reads commit dates to fill in
+> `<lastmod>` for the static pages (`config/source_lastmod.py`). Without a
+> repository on the server those URLs simply ship without a `<lastmod>` —
+> valid, but the pages and areas sitemaps lose their dates. Drop
+> `--exclude .git` if you want to keep them.
 
 ## 6. Backend: virtualenv, env file, migrate, collectstatic
 

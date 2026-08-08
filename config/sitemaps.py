@@ -1,6 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.utils.functional import cached_property
 
+from config.source_lastmod import last_commit
 from products.models import Product
 
 # Languages the frontend is built in. Albanian is the default edition and stays
@@ -19,18 +20,78 @@ def locale_path(lang, path):
     return f'/{lang}' if path == '/' else f'/{lang}{path}'
 
 
-# Frontend (Astro) routes that aren't backed by a DB model.
+ASTRO = 'frontend/astro'
+
+
+def page_sources(name, view):
+    """
+    The files that decide what a static route renders: its view, and the two
+    thin page templates that mount that view at the unprefixed and the /<lang>
+    address. Shared machinery (BaseLayout, i18n.js) is deliberately left out —
+    a change there does touch the HTML of every page, but lastmod is meant to
+    report a change to *this page's content*, and a sitemap where all dates
+    move together tells a crawler nothing.
+    """
+    return (
+        f'{ASTRO}/views/{view}',
+        f'{ASTRO}/pages/{name}.astro',
+        f'{ASTRO}/pages/[lang]/{name}.astro',
+    )
+
+
+# Frontend (Astro) routes that aren't backed by a DB model. 'keys' is the
+# prefix this page's copy carries in frontend/src/i18n/translations.js, so an
+# edit to the text alone still dates the page (see config/source_lastmod.py).
 PAGE_ROUTES = {
-    '/': {'changefreq': 'weekly', 'priority': 1.0},
-    '/products': {'changefreq': 'weekly', 'priority': 0.9},
-    '/about': {'changefreq': 'monthly', 'priority': 0.7},
-    '/areas': {'changefreq': 'monthly', 'priority': 0.8},
-    '/imprint': {'changefreq': 'yearly', 'priority': 0.3},
-    '/blog': {'changefreq': 'weekly', 'priority': 0.8},
+    '/': {
+        'changefreq': 'weekly',
+        'priority': 1.0,
+        'sources': page_sources('index', 'Home.astro'),
+        'keys': 'home',
+    },
+    '/products': {
+        'changefreq': 'weekly',
+        'priority': 0.9,
+        'sources': page_sources('products', 'Products.astro'),
+        'keys': 'products',
+    },
+    '/about': {
+        'changefreq': 'monthly',
+        'priority': 0.7,
+        'sources': page_sources('about', 'About.astro'),
+        'keys': 'about',
+    },
+    '/areas': {
+        'changefreq': 'monthly',
+        'priority': 0.8,
+        'sources': page_sources('areas', 'Areas.astro'),
+        'keys': 'areas',
+    },
+    '/imprint': {
+        'changefreq': 'yearly',
+        'priority': 0.3,
+        'sources': page_sources('imprint', 'Imprint.astro'),
+        'keys': 'imprint',
+    },
+    '/blog': {
+        'changefreq': 'weekly',
+        'priority': 0.8,
+        'sources': page_sources('blog', 'Blog.astro'),
+        'keys': 'blog',
+    },
 }
 
 # Areas are defined in the frontend (src/data/areas.js); keep this list in sync.
 AREA_SLUGS = ['kosovo', 'albania', 'hungary', 'croatia', 'slovakia', 'germany']
+
+# One template renders all six area pages, so they share these sources and are
+# told apart only by their translation keys (kosovo_*, albania_*, ...).
+AREA_SOURCES = (
+    f'{ASTRO}/views/AreaDetail.astro',
+    f'{ASTRO}/pages/areas/[slug].astro',
+    f'{ASTRO}/pages/[lang]/areas/[slug].astro',
+    'frontend/src/data/areas.js',
+)
 
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
 # publication dates synchronized until blog content moves to a shared CMS/API.
@@ -43,17 +104,21 @@ BLOG_POSTS = {
 
 class LocalizedSitemap(Sitemap):
     """
-    Emits one <url> per language edition of a page, each carrying reciprocal
-    xhtml:link alternates plus x-default — the same relationships the pages
-    declare in their own <head> (see frontend/astro/layouts/BaseLayout.astro).
+    Emits one <url> per language edition of a page: /about, /en/about, /de/about.
 
-    Django's built-in i18n sitemap support is deliberately not used. It derives
-    URLs by activating a language around reverse(), which assumes i18n_patterns,
-    and its x-default handling assumes the default language is prefixed too
-    (it rewrites "/<lang>/" to "/"). Neither holds here: these are static
-    frontend paths, and Albanian is served unprefixed at the root. Building the
-    alternates explicitly is shorter than bending that machinery, and keeps the
-    XML and the HTML saying exactly the same thing.
+    The reciprocal hreflang set for those editions is declared once, in each
+    page's own <head> (frontend/astro/layouts/BaseLayout.astro). It used to be
+    repeated here as xhtml:link alternates, which Google accepts equally, but
+    the duplicate cost more than it bought: a sitemap containing elements in
+    the XHTML namespace switches off Chrome's XML viewer — the browser assumes
+    it may be renderable markup and renders it, collapsing the whole file into
+    one unreadable line of text. One declaration in the <head> is the signal;
+    this file stays inspectable.
+
+    Django's built-in i18n sitemap support is deliberately not used either. It
+    derives URLs by activating a language around reverse(), which assumes
+    i18n_patterns. These are static frontend paths, and Albanian is served
+    unprefixed at the root, so the addresses are built here instead.
     """
 
     protocol = 'https'
@@ -68,26 +133,6 @@ class LocalizedSitemap(Sitemap):
     def location(self, item):
         path, lang = item
         return locale_path(lang, path)
-
-    def _urls(self, page, protocol, domain):
-        urls = super()._urls(page, protocol, domain)
-        for url_info in urls:
-            path, _lang = url_info['item']
-            alternates = [
-                {
-                    'lang_code': lang,
-                    'location': f'{protocol}://{domain}{locale_path(lang, path)}',
-                }
-                for lang in SUPPORTED_LANGS
-            ]
-            alternates.append(
-                {
-                    'lang_code': 'x-default',
-                    'location': f'{protocol}://{domain}{locale_path(DEFAULT_LANG, path)}',
-                }
-            )
-            url_info['alternates'] = alternates
-        return urls
 
 
 class PageSitemap(LocalizedSitemap):
@@ -104,6 +149,11 @@ class PageSitemap(LocalizedSitemap):
         path, _lang = item
         return PAGE_ROUTES[path]['changefreq']
 
+    def lastmod(self, item):
+        path, _lang = item
+        route = PAGE_ROUTES[path]
+        return last_commit(route['sources'], route['keys'])
+
 
 class AreaSitemap(LocalizedSitemap):
     changefreq = 'monthly'
@@ -111,6 +161,10 @@ class AreaSitemap(LocalizedSitemap):
 
     def paths(self):
         return [f'/areas/{slug}' for slug in AREA_SLUGS]
+
+    def lastmod(self, item):
+        path, _lang = item
+        return last_commit(AREA_SOURCES, path.rsplit('/', 1)[1])
 
 
 class BlogSitemap(LocalizedSitemap):
