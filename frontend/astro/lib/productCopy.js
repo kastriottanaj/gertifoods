@@ -25,6 +25,22 @@ export function productCopy(t) {
     description: (product) =>
       resolve(`products_desc_${keyFor(product.slug)}`, product.description),
 
+    // SERP copy, deliberately separate from the two above. The page used to put
+    // the product name in <title> and the first 160 characters of the body
+    // description in the meta description, which produced titles like
+    // 'Byrek me Djathë | Gerti Foods' — no audience, no proposition — and
+    // descriptions that ended mid-word. These are hand-written per product.
+    //
+    // Null rather than a fallback when unset, so the caller can tell an
+    // authored title from a missing one. A product added in the Django admin
+    // without matching keys has to fall back to the display copy — printing a
+    // raw key like `products_seo_title_new_thing` into <head> would be worse
+    // than a plain title — and it also needs the ' | Gerti Foods' suffix that
+    // authored titles suppress. Only the caller knows how to do both.
+    seoTitle: (product) => resolve(`products_seo_title_${keyFor(product.slug)}`, null),
+
+    seoDescription: (product) => resolve(`products_meta_${keyFor(product.slug)}`, null),
+
     // Only two categories exist; mirror the mapping ProductCard.jsx used.
     category: (product) =>
       t(

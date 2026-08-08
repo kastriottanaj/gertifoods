@@ -91,11 +91,17 @@ const name = t(nameKey);
 const k = (suffix) => t(`${slug}_${suffix}`);
 ---
 
+{/* SERP copy comes from the per-country *_seo_title / *_meta keys rather than
+    being assembled here. The old title stacked two labels and the brand
+    ('Kosova | Zonat që Mbulojmë | Gerti Foods') without ever naming what is
+    sold, and the description reused hero_body — a 196-character sentence that
+    Google cut off mid-clause. Both are hand-written per country now. */}
 <BaseLayout
-  title={`${name} | ${t('areas_title')}`}
-  description={k('hero_body')}
+  title={k('seo_title')}
+  description={k('meta')}
   lang={lang}
   appClass={` ${slug}-landing-app`}
+  brandSuffix={false}
 >
   <div class={country.pageClass}>
     <section class="kosovo-hero">

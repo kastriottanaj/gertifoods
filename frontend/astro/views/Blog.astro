@@ -19,7 +19,12 @@ const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
 ---
 
-<BaseLayout title={t('blog_title')} description={t('blog_meta')} lang={lang}>
+<BaseLayout
+  title={t('blog_seo_title')}
+  description={t('blog_meta')}
+  lang={lang}
+  brandSuffix={false}
+>
   <div class="blog-page">
     <header class="blog-hero">
       <span>{t('blog_eyebrow')}</span>

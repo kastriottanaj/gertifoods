@@ -40,7 +40,19 @@ const schema = {
 };
 ---
 
-<BaseLayout title={content.title} description={content.description} lang={lang}>
+{/* seoTitle/seoDescription are head-only: the <h1> and the standfirst below
+    still render content.title and content.description. The two used to be the
+    same strings, which meant the SERP title was a 74-character headline and the
+    description was whatever length the standfirst happened to be. The Article
+    schema above deliberately keeps the visible headline — that field describes
+    the article, not the search result. Posts predating these fields fall back
+    to the old behaviour, brand suffix included. */}
+<BaseLayout
+  title={content.seoTitle ?? content.title}
+  description={content.seoDescription ?? content.description}
+  lang={lang}
+  brandSuffix={!content.seoTitle}
+>
   <script
     slot="head"
     type="application/ld+json"

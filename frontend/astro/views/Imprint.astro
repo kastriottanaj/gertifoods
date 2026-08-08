@@ -18,7 +18,12 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<BaseLayout title={t('imprint_title')} description={t('imprint_meta')} lang={lang}>
+<BaseLayout
+  title={t('imprint_seo_title')}
+  description={t('imprint_meta')}
+  lang={lang}
+  brandSuffix={false}
+>
   <div class="imprint-page">
     <h1>{t('imprint_title')}</h1>
     <p class="imprint-intro">{t('imprint_intro')}</p>

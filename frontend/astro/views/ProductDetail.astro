@@ -29,6 +29,11 @@ const name = copy.name(product);
 const description = copy.description(product);
 const unit = copy.unit(product);
 const category = copy.category(product);
+// Head copy only — the visible name and description above are untouched.
+// An authored title is already a full SERP line and suppresses the brand
+// suffix; a product with no keys yet falls back to the old behaviour.
+const seoTitle = copy.seoTitle(product);
+const seoDescription = copy.seoDescription(product) ?? description?.slice(0, 160);
 const messages = islandMessages(lang);
 
 const isFamilyPack = slug === 'family-pack-pite-4';
@@ -66,10 +71,11 @@ const schema = {
 ---
 
 <BaseLayout
-  title={name}
-  description={description?.slice(0, 160)}
+  title={seoTitle ?? name}
+  description={seoDescription}
   lang={lang}
   appClass={isFamilyPack ? ' family-pack-app' : ''}
+  brandSuffix={!seoTitle}
 >
   <script
     slot="head"

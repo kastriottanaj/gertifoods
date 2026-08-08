@@ -52,10 +52,24 @@ const {
   // (home, products, areas), and dropping them would waste the one useful
   // signal a 404 still has.
   noindex = false,
+  // Whether to append ' | Gerti Foods' to `title`.
+  //
+  // The indexable pages now carry hand-written SERP titles (the *_seo_title
+  // keys) that are already 43–58 characters — at or near the ~60 Google shows
+  // before truncating — and some of them name the brand themselves. Appending
+  // to those would truncate the homepage at 70 characters and print
+  // 'Gerti Foods' twice on the area pages, so they pass brandSuffix={false}
+  // and the string reaches <title> verbatim.
+  //
+  // The default stays true for the account pages (cart, login, register,
+  // profile, orders) and the 404, whose titles are short interface labels that
+  // read as orphans in a tab or a bookmark without the brand after them.
+  brandSuffix = true,
 } = Astro.props;
 
 // Mirror SEO.jsx: `${title} | Gerti Foods`, or plain 'Gerti Foods' when unset.
-const fullTitle = title ? `${title} | Gerti Foods` : 'Gerti Foods';
+let fullTitle = 'Gerti Foods';
+if (title) fullTitle = brandSuffix ? `${title} | Gerti Foods` : title;
 
 // Canonical URL, matching SEO.jsx and the sitemap in config/sitemaps.py.
 //
