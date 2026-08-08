@@ -81,6 +81,16 @@ const c = COPY[lang] || COPY.en;
         ad_personalization: v,
         analytics_storage: v,
       });
+      // The initial GA configuration intentionally suppresses its automatic
+      // page view while consent is undecided. Send the current page as soon as
+      // consent is granted so GA4 receives a deterministic first event.
+      if (granted) {
+        (window as any).gtag('event', 'page_view', {
+          page_location: window.location.href,
+          page_path: window.location.pathname + window.location.search,
+          page_title: document.title,
+        });
+      }
     }
     if (typeof (window as any).fbq === 'function') {
       (window as any).fbq('consent', granted ? 'grant' : 'revoke');

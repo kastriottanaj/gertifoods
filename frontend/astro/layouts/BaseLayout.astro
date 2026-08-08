@@ -168,8 +168,10 @@ const exitMessages = islandMessages(lang, 'exit');
       });
 
       // Re-apply a previously accepted choice on subsequent visits.
+      var analyticsConsentGranted = false;
       try {
         if (localStorage.getItem('gf_cookie_consent') === 'granted') {
+          analyticsConsentGranted = true;
           gtag('consent', 'update', {
             ad_storage: 'granted',
             ad_user_data: 'granted',
@@ -180,7 +182,13 @@ const exitMessages = islandMessages(lang, 'exit');
       } catch (e) {}
 
       gtag('js', new Date());
-      gtag('config', 'G-EVDQVNJ5JE');
+      // Returning consenting visitors get the normal automatic page view.
+      // A first-time visitor's page view is sent by CookieConsent immediately
+      // after they accept, instead of relying on gtag to replay a hit that was
+      // configured while analytics_storage was denied.
+      gtag('config', 'G-EVDQVNJ5JE', {
+        send_page_view: analyticsConsentGranted
+      });
     </script>
 
     <!-- Meta Pixel Code -->
