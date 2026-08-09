@@ -2,6 +2,7 @@ import { useState } from 'react';
 import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
+import { trackLead } from '../lib/conversion';
 
 const INITIAL_FORM = {
   company_name: '',
@@ -10,7 +11,7 @@ const INITIAL_FORM = {
 };
 
 export default function CatalogRequestForm({ onSuccess }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState(INITIAL_FORM);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,11 @@ export default function CatalogRequestForm({ onSuccess }) {
       await api.post('/leads/sample-request/', { ...form, source: 'catalog_request' });
       setSuccess(true);
       if (onSuccess) onSuccess();
+      // trackLead, not completeLead: this form's payoff is the catalog PDF it
+      // opens on the next line, and redirecting the tab to the thank-you page
+      // would pull the visitor away from the download they just asked for. GA4
+      // still gets the same generate_lead event as the other two forms.
+      trackLead({ formName: 'catalog_request', source: 'catalog_modal', lang });
       window.open(`${import.meta.env.VITE_API_URL}/media/catalog/Katallogu_2026.pdf`, '_blank');
     } catch (err) {
       const data = err.response?.data;

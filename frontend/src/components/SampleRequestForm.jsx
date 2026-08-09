@@ -2,6 +2,7 @@ import { useState } from 'react';
 import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
+import { completeLead } from '../lib/conversion';
 
 const BUSINESS_TYPES = [
   'bakery',
@@ -26,7 +27,7 @@ const INITIAL_FORM = {
 };
 
 export default function SampleRequestForm({ source = 'other', onSuccess }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState(INITIAL_FORM);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,12 @@ export default function SampleRequestForm({ source = 'other', onSuccess }) {
     try {
       await api.post('/leads/sample-request/', { ...form, source });
       setSuccess(true);
+      // Before completeLead, deliberately: onSuccess is what writes the
+      // sample_request_submitted flag that suppresses the exit-intent popup,
+      // and it must be on disk before the visitor navigates away — otherwise
+      // the popup would be armed again the moment they came back.
       if (onSuccess) onSuccess();
+      completeLead({ formName: 'sample_request', source, lang });
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {

@@ -644,6 +644,23 @@ const translations = {
     nf_help_title: 'Keni nevojë për ndihmë?',
     nf_help_body: 'Ekipi ynë është këtu për t\'ju ndihmuar me çdo pyetje.',
 
+    // Thank you — the page every submitted lead form redirects to (/faleminderit)
+    thankyou_title: 'Faleminderit',
+    thankyou_meta: 'Kërkesa jote u dërgua. Ekipi i Gerti Foods të kontakton brenda një dite pune.',
+    thankyou_heading: 'Faleminderit — kërkesa jote u dërgua.',
+    thankyou_body: 'E morëm kërkesën tënde. Ekipi ynë të kontakton brenda një dite pune me ofertë dhe mostra falas.',
+    thankyou_next_title: 'Çfarë ndodh tani',
+    thankyou_step_1_title: 'E shqyrtojmë kërkesën',
+    thankyou_step_1_body: 'Shohim produktet që të interesojnë dhe sasitë që i duhen biznesit tënd.',
+    thankyou_step_2_title: 'Të kontaktojmë',
+    thankyou_step_2_body: 'Brenda një dite pune të marrim në telefon ose të shkruajmë në email me çmimet me shumicë.',
+    thankyou_step_3_title: 'Provon mostrat',
+    thankyou_step_3_body: 'Të dërgojmë mostra falas që t\'i provosh në furrën tënde para se të vendosësh.',
+    thankyou_cta_products: 'Shiko produktet',
+    thankyou_cta_home: 'Kthehu te faqja kryesore',
+    thankyou_urgent_title: 'Ke nevojë për përgjigje më shpejt?',
+    thankyou_urgent_body: 'Na shkruaj në WhatsApp dhe të përgjigjemi brenda pak minutash gjatë orarit të punës.',
+
     // Common
     loading: 'Duke ngarkuar...',
     total: 'Totali',
@@ -1288,6 +1305,23 @@ const translations = {
     nf_help_title: 'Need Help?',
     nf_help_body: 'Our team is here to assist you with any questions.',
 
+    // Thank you — the page every submitted lead form redirects to (/en/thank-you)
+    thankyou_title: 'Thank You',
+    thankyou_meta: 'Your request has been sent. The Gerti Foods team will contact you within one business day.',
+    thankyou_heading: 'Thank you — your request is on its way.',
+    thankyou_body: 'We\'ve received your details. Our team will get back to you within one business day with a quote and free samples.',
+    thankyou_next_title: 'What happens next',
+    thankyou_step_1_title: 'We review your request',
+    thankyou_step_1_body: 'We look at the products you\'re interested in and the volumes your business needs.',
+    thankyou_step_2_title: 'We get in touch',
+    thankyou_step_2_body: 'Within one business day we\'ll call or email you with wholesale pricing.',
+    thankyou_step_3_title: 'You try the samples',
+    thankyou_step_3_body: 'We send free samples so you can bake them in your own oven before you commit.',
+    thankyou_cta_products: 'Browse products',
+    thankyou_cta_home: 'Back to homepage',
+    thankyou_urgent_title: 'Need an answer sooner?',
+    thankyou_urgent_body: 'Message us on WhatsApp and we\'ll reply within minutes during working hours.',
+
     // Common
     loading: 'Loading...',
     total: 'Total',
@@ -1931,6 +1965,23 @@ const translations = {
     nf_areas_cta: 'Liefergebiete ansehen',
     nf_help_title: 'Brauchen Sie Hilfe?',
     nf_help_body: 'Unser Team hilft Ihnen bei allen Fragen gerne weiter.',
+
+    // Thank you — the page every submitted lead form redirects to (/de/danke)
+    thankyou_title: 'Vielen Dank',
+    thankyou_meta: 'Ihre Anfrage wurde gesendet. Das Team von Gerti Foods meldet sich innerhalb eines Werktages bei Ihnen.',
+    thankyou_heading: 'Vielen Dank — Ihre Anfrage ist unterwegs.',
+    thankyou_body: 'Wir haben Ihre Angaben erhalten. Unser Team meldet sich innerhalb eines Werktages mit Angebot und kostenlosen Mustern.',
+    thankyou_next_title: 'Wie es weitergeht',
+    thankyou_step_1_title: 'Wir prüfen Ihre Anfrage',
+    thankyou_step_1_body: 'Wir sehen uns die gewünschten Produkte und die Mengen an, die Ihr Betrieb benötigt.',
+    thankyou_step_2_title: 'Wir melden uns',
+    thankyou_step_2_body: 'Innerhalb eines Werktages rufen wir an oder schreiben Ihnen per E-Mail mit den Großhandelspreisen.',
+    thankyou_step_3_title: 'Sie testen die Muster',
+    thankyou_step_3_body: 'Wir senden kostenlose Muster, damit Sie sie im eigenen Ofen backen können, bevor Sie sich entscheiden.',
+    thankyou_cta_products: 'Produkte ansehen',
+    thankyou_cta_home: 'Zurück zur Startseite',
+    thankyou_urgent_title: 'Sie brauchen schneller eine Antwort?',
+    thankyou_urgent_body: 'Schreiben Sie uns auf WhatsApp — während der Geschäftszeiten antworten wir innerhalb weniger Minuten.',
 
     // Common
     loading: 'Wird geladen...',

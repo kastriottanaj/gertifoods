@@ -13,8 +13,7 @@ import {
   SUPPORTED_LANGS,
   OG_LOCALES,
   normalizePath,
-  localePath,
-  stripLocale,
+  alternatePath,
 } from '../lib/i18n.js';
 import { organizationSchema } from '../lib/schema.js';
 import Navbar from '../components/Navbar.astro';
@@ -86,20 +85,23 @@ const canonical = new URL(path, Astro.site).href;
 // itself — the reciprocal, self-referencing form Google requires. Without it
 // the three editions look like duplicate content competing with each other;
 // with it they are alternates, and Google serves the right one per user.
-const basePath = stripLocale(path);
+//
+// alternatePath rather than localePath(stripLocale(path)): identical for every
+// route that shares one slug across the editions, but correct for the ones
+// whose slug is itself translated (/en/thank-you <-> /de/danke).
 const alternates = SUPPORTED_LANGS.map((code) => ({
   code,
-  href: new URL(localePath(code, basePath), Astro.site).href,
+  href: new URL(alternatePath(code, path), Astro.site).href,
 }));
 
 // x-default is what Google serves a user whose language matches none of the
 // three. Albanian is the site's default edition, so it takes that role.
-const xDefault = new URL(localePath(DEFAULT_LANG, basePath), Astro.site).href;
+const xDefault = new URL(alternatePath(DEFAULT_LANG, path), Astro.site).href;
 
 // Where the early redirect below sends a returning visitor who previously chose
 // a prefixed language. Computed at build time so the script stays trivial.
 const preferredHrefs = Object.fromEntries(
-  SUPPORTED_LANGS.filter((c) => c !== DEFAULT_LANG).map((c) => [c, localePath(c, basePath)])
+  SUPPORTED_LANGS.filter((c) => c !== DEFAULT_LANG).map((c) => [c, alternatePath(c, path)])
 );
 const isDefaultLocale = lang === DEFAULT_LANG;
 

@@ -1,0 +1,135 @@
+---
+// The thank-you page body, shared by all three locales.
+//
+// Reached only by redirect: HeroLeadForm and SampleRequestForm send the
+// visitor here once their POST succeeds (see src/lib/conversion.js). Nothing
+// on the site links to it, which is why it carries no sitemap entry and needs
+// none.
+//
+// Unlike every other route, the three editions do not share a slug — they are
+// /faleminderit, /en/thank-you and /de/danke. The routes that render this view
+// are therefore three explicit files rather than the usual pages/x.astro +
+// pages/[lang]/x.astro pair, and alternatePath() in lib/i18n.js is what keeps
+// the language switcher pointing at the right one.
+import './ThankYou.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, localePath } from '../lib/i18n.js';
+
+const WHATSAPP_PHONE = '38349111150';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+// Same greeting the floating WhatsApp button uses, so a visitor who taps
+// through from here opens the conversation the site already scripts for them.
+const whatsappHref = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+  t('whatsapp_greeting')
+)}`;
+
+const STEPS = [1, 2, 3];
+---
+
+{/* noindex is the whole point of this page existing as a URL: it is a
+    conversion marker for GA4, not content, and it would only ever compete
+    with the pages that do rank. 'follow' is inherited from BaseLayout's
+    noindex handling — the links below are real routes and there is no reason
+    to strip their signal.
+
+    BaseLayout also omits the canonical and the hreflang set for noindex
+    pages, which is correct here: nominating /de/danke as an indexable
+    alternate of /faleminderit would contradict the robots tag. */}
+<BaseLayout
+  title={t('thankyou_title')}
+  description={t('thankyou_meta')}
+  lang={lang}
+  appClass=" ty-app"
+  noindex={true}
+>
+  <div class="ty-page">
+    <section class="ty-hero">
+      <div class="ty-hero-inner">
+        <span class="ty-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+            <path d="m4 12.5 5.5 5.5L20 7" />
+          </svg>
+        </span>
+
+        <h1 class="ty-heading">{t('thankyou_heading')}</h1>
+        <hr class="ty-rule" />
+        <p class="ty-body">{t('thankyou_body')}</p>
+
+        <div class="ty-actions">
+          <a href={p('/products')} class="ty-btn ty-btn-primary">
+            {t('thankyou_cta_products')}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M4 12h15" /><path d="m13 6 6 6-6 6" />
+            </svg>
+          </a>
+          <a href={p('/')} class="ty-btn ty-btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M3 10.5 12 3l9 7.5" />
+              <path d="M5 9.5V21h14V9.5" />
+            </svg>
+            {t('thankyou_cta_home')}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ty-steps">
+      <div class="ty-steps-inner">
+        <h2 class="ty-steps-title">{t('thankyou_next_title')}</h2>
+
+        <ol class="ty-steps-list">
+          {
+            STEPS.map((n) => (
+              <li class="ty-step">
+                <span class="ty-step-num" aria-hidden="true">{`0${n}`}</span>
+                <h3 class="ty-step-title">{t(`thankyou_step_${n}_title`)}</h3>
+                <p class="ty-step-body">{t(`thankyou_step_${n}_body`)}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="ty-urgent">
+      <div class="ty-urgent-inner">
+        <div class="ty-urgent-text">
+          <h2 class="ty-urgent-title">{t('thankyou_urgent_title')}</h2>
+          <p class="ty-urgent-body">{t('thankyou_urgent_body')}</p>
+        </div>
+
+        <a
+          href={whatsappHref}
+          class="ty-urgent-cta"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.33 4.97L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02zM12.04 20.13h-.01a8.2 8.2 0 01-4.18-1.14l-.3-.18-3.12.82.83-3.04-.19-.31a8.18 8.18 0 01-1.26-4.37c0-4.54 3.7-8.23 8.23-8.23 2.2 0 4.27.86 5.82 2.41a8.17 8.17 0 012.41 5.82c0 4.54-3.69 8.23-8.23 8.23zm4.51-6.16c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.17.25-.64.8-.79.97-.15.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.46-1.37-1.71-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.77-1.84-.2-.48-.41-.42-.56-.42-.15-.01-.31-.01-.48-.01-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.02 2.6.12.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.17 1.59.1.49-.07 1.5-.61 1.71-1.21.21-.6.21-1.11.15-1.21-.06-.1-.23-.17-.48-.29z"
+            />
+          </svg>
+          {t('whatsapp_label')}
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Fires the GA4 generate_lead event for the submission that sent the visitor
+  // here. It runs on this page rather than on the form because gtag.js batches
+  // its hits for several seconds — an event fired immediately before a
+  // redirect is discarded when the page unloads. See src/lib/conversion.js.
+  //
+  // No-ops for anyone who reaches this URL without submitting anything, so a
+  // bookmark or a shared link never invents a conversion.
+  import { flushPendingLead } from '../../src/lib/conversion.js';
+
+  flushPendingLead();
+</script>

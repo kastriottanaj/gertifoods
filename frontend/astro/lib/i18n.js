@@ -8,6 +8,7 @@
 // React components rendered as islands keep using useLanguage() from
 // src/i18n/LanguageContext.jsx and are unaffected by this.
 import translations from '../../src/i18n/translations.js';
+import { THANK_YOU_PATHS } from '../../src/lib/conversion.js';
 
 export const DEFAULT_LANG = 'sq';
 export const SUPPORTED_LANGS = ['sq', 'en', 'de'];
@@ -93,4 +94,38 @@ export function localePath(lang, path = '/') {
 export function stripLocale(pathname) {
   const match = pathname.match(/^\/(en|de)(?=\/|$)/);
   return match ? pathname.slice(match[0].length) || '/' : pathname;
+}
+
+// Routes whose slug is translated per language rather than only prefixed.
+//
+// Every other page on the site shares one slug across the three editions
+// (/about, /en/about, /de/about), which is why localePath() alone was enough
+// until now. The thank-you page does not: its whole point is a distinct,
+// readable URL per language, so /en/thank-you's German sibling is /de/danke —
+// a path localePath() could never derive, since the slug itself changes.
+//
+// Each entry is a complete lang -> full path map. Add future translated routes
+// here and every caller below picks them up.
+const TRANSLATED_ROUTES = [THANK_YOU_PATHS];
+
+export { THANK_YOU_PATHS };
+
+/**
+ * The address of the *current* page in another language.
+ *
+ * Takes the full pathname (prefix included) rather than a stripped base path,
+ * because a translated slug can only be recognised in its complete form.
+ *
+ *   alternatePath('de', '/en/about')      -> '/de/about'   (prefix swap)
+ *   alternatePath('de', '/en/thank-you')  -> '/de/danke'   (translated slug)
+ *
+ * For every non-translated route this is exactly what
+ * `localePath(lang, stripLocale(path))` already produced, so existing pages
+ * are unaffected.
+ */
+export function alternatePath(lang, pathname) {
+  for (const route of TRANSLATED_ROUTES) {
+    if (Object.values(route).includes(pathname)) return route[lang];
+  }
+  return localePath(lang, stripLocale(pathname));
 }

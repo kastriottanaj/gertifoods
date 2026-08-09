@@ -1,0 +1,16 @@
+---
+// Albanian thank-you page — the default locale, unprefixed. Emits
+// dist/faleminderit.html, which nginx serves at /faleminderit via
+// `try_files $uri $uri.html`.
+//
+// Three hand-written route files instead of the usual x.astro +
+// [lang]/x.astro pair, because this is the one route whose slug is translated
+// rather than shared: /faleminderit, /en/thank-you, /de/danke. A [lang] route
+// can only vary the prefix, not the slug. THANK_YOU_PATHS in
+// src/lib/conversion.js is the table these three files must agree with — it
+// is what the forms redirect to.
+import ThankYou from '../views/ThankYou.astro';
+import { DEFAULT_LANG } from '../lib/i18n.js';
+---
+
+<ThankYou lang={DEFAULT_LANG} />

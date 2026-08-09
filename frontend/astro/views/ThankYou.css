@@ -1,0 +1,297 @@
+/* ========================================
+   Thank you — post-submission confirmation
+
+   Loaded only by views/ThankYou.astro, following the NotFound.css precedent:
+   a page reached once per converted visitor has no business adding weight to
+   the ~40 routes that are reached constantly.
+   ======================================== */
+.ty-app .main-content {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========================================
+   Hero
+   ======================================== */
+.ty-hero {
+  background: #f5f1eb;
+  padding: 72px 0 64px;
+}
+
+.ty-hero-inner {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Green, not brand red: this is the one screen on the site that confirms
+   something went right, and red reads as an error state directly under a
+   submitted form. */
+.ty-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: #fff;
+}
+
+.ty-check svg {
+  width: 34px;
+  height: 34px;
+}
+
+.ty-heading {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.ty-rule {
+  width: 80px;
+  height: 4px;
+  margin: 22px auto 20px;
+  border: 0;
+  background: var(--brand-red);
+}
+
+.ty-body {
+  max-width: 520px;
+  margin: 0 auto;
+  color: #444;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.ty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.ty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.ty-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.ty-btn-primary {
+  background: var(--brand-red);
+  color: #fff;
+}
+
+.ty-btn-primary:hover {
+  background: var(--primary-dark);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(218, 32, 48, 0.3);
+}
+
+.ty-btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
+.ty-btn-primary svg {
+  transition: transform 0.2s ease;
+}
+
+.ty-btn-secondary {
+  background: #fff;
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.ty-btn-secondary svg {
+  color: var(--brand-red);
+}
+
+.ty-btn-secondary:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   What happens next
+   ======================================== */
+.ty-steps {
+  background: var(--bg-white);
+  padding: 64px 0;
+}
+
+.ty-steps-inner {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.ty-steps-title {
+  margin: 0 0 36px;
+  color: var(--text);
+  font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.ty-steps-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ty-step {
+  padding-top: 20px;
+  border-top: 3px solid var(--border);
+}
+
+.ty-step-num {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--brand-red);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.ty-step-title {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ty-step-body {
+  margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* ========================================
+   Urgent / WhatsApp
+   ======================================== */
+.ty-urgent {
+  background: #f5f1eb;
+  padding: 48px 0 64px;
+}
+
+.ty-urgent-inner {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-white);
+  box-shadow: var(--shadow);
+}
+
+.ty-urgent-title {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.ty-urgent-body {
+  margin: 0;
+  max-width: 520px;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.ty-urgent-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 14px 26px;
+  border-radius: var(--radius);
+  background: #25d366;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.ty-urgent-cta svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.ty-urgent-cta:hover {
+  background: #1da851;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 900px) {
+  .ty-steps-list {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ty-hero {
+    padding: 52px 0 48px;
+  }
+
+  .ty-steps {
+    padding: 48px 0;
+  }
+
+  .ty-actions .ty-btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .ty-urgent-inner {
+    padding: 26px;
+  }
+
+  .ty-urgent-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* The floating WhatsApp button sits bottom-right on every page; without this
+   the urgent card's own WhatsApp CTA ends up underneath it on small screens. */
+@media (max-width: 768px) {
+  .ty-urgent {
+    padding-bottom: 100px;
+  }
+}

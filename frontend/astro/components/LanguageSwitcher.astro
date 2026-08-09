@@ -15,20 +15,26 @@
 // <a class="lang-btn"> renders identically to <button class="lang-btn">: the
 // class sets background/border/font/colour explicitly, and index.css already
 // applies `text-decoration: none` to every anchor.
-import { SUPPORTED_LANGS, LANG_LABELS, localePath, stripLocale, normalizePath } from '../lib/i18n.js';
+import { SUPPORTED_LANGS, LANG_LABELS, alternatePath, normalizePath } from '../lib/i18n.js';
 
 const { lang } = Astro.props;
 
-// The current page with any locale prefix removed, so each button links to
-// this same page in its own language instead of resetting to the home page.
-const basePath = stripLocale(normalizePath(Astro.url.pathname));
+// This page's own address, so each button links to the same page in its own
+// language instead of resetting to the home page.
+//
+// alternatePath rather than localePath(stripLocale(...)): on a route whose
+// slug is translated, swapping the prefix alone produces a URL that does not
+// exist. /en/thank-you would have linked to the non-existent /de/thank-you
+// instead of /de/danke — a 404 reachable from the navbar of the page every
+// converting visitor lands on.
+const currentPath = normalizePath(Astro.url.pathname);
 ---
 
 <div class="lang-switcher">
   {
     SUPPORTED_LANGS.map((code) => (
       <a
-        href={localePath(code, basePath)}
+        href={alternatePath(code, currentPath)}
         class={`lang-btn ${code === lang ? 'lang-btn-active' : ''}`}
         hreflang={code}
         aria-current={code === lang ? 'true' : undefined}

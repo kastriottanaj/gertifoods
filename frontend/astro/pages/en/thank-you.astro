@@ -1,0 +1,11 @@
+---
+// English thank-you page: /en/thank-you. See pages/faleminderit.astro for why
+// this route is written out by hand rather than generated from pages/[lang]/.
+//
+// A concrete pages/en/ directory alongside the pages/[lang]/ dynamic routes is
+// fine: Astro resolves static segments ahead of dynamic ones, and no
+// [lang]/thank-you exists to collide with in any case.
+import ThankYou from '../../views/ThankYou.astro';
+---
+
+<ThankYou lang="en" />

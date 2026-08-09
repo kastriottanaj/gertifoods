@@ -2,6 +2,7 @@ import { useState } from 'react';
 import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
+import { completeLead } from '../lib/conversion';
 
 const INITIAL_FORM = {
   first_name: '',
@@ -13,7 +14,7 @@ const INITIAL_FORM = {
 };
 
 export default function HeroLeadForm({ source = 'home_hero' }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState(INITIAL_FORM);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,12 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
     setError('');
     try {
       await api.post('/leads/lead/', { ...form, source });
+      // Kept even though the redirect follows: completeLead waits up to 800ms
+      // for GA to acknowledge the event, and the visitor should see the
+      // submission land rather than a form that appears to do nothing. It is
+      // also what stays on screen if navigation is ever blocked.
       setSuccess(true);
+      completeLead({ formName: 'hero_lead', source, lang });
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {
