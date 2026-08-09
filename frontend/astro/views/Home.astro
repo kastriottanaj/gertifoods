@@ -503,7 +503,7 @@ const messages = islandMessages(lang);
     {/* Modal.jsx portals to document.body, so this island's position in the
         markup is irrelevant — same as the two <Modal> blocks it replaces,
         which sat mid-page in Home.jsx. */}
-    <ModalHost client:idle lang={lang} messages={messages} />
+    <ModalHost client:load lang={lang} messages={messages} />
   </div>
 </BaseLayout>
 

@@ -100,7 +100,7 @@ const messages = islandMessages(lang);
       <a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; {t('products_whatsapp')}</a>
     </div>
 
-    <ModalHost client:idle lang={lang} messages={messages} sampleSource="products_hero" closeOnSampleSuccess={true} />
+    <ModalHost client:load lang={lang} messages={messages} sampleSource="products_hero" closeOnSampleSuccess={true} />
   </div>
 </BaseLayout>
 

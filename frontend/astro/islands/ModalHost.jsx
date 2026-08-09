@@ -29,8 +29,11 @@ function ModalHostInner({ sampleSource, closeOnSampleSuccess }) {
     window.addEventListener('gf:open-modal', handleOpen);
 
     if (window.__gfPendingModal) {
-      setOpenModal(window.__gfPendingModal);
+      // Treat the queued value like the event it stands in for. Scheduling the
+      // state update also avoids a synchronous state cascade during hydration.
+      const pendingModal = window.__gfPendingModal;
       window.__gfPendingModal = null;
+      queueMicrotask(() => setOpenModal(pendingModal));
     }
 
     return () => window.removeEventListener('gf:open-modal', handleOpen);

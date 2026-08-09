@@ -67,5 +67,5 @@ const p = (path) => localePath(lang, path);
   </section>
 
   <a class="fp-mobile-call" href="tel:+38349111150">⌕ &nbsp; {t('fp_call_us')}</a>
-  <ModalHost client:idle lang={lang} messages={messages} sampleSource="family_pack_detail" closeOnSampleSuccess={true} />
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="family_pack_detail" closeOnSampleSuccess={true} />
 </div>

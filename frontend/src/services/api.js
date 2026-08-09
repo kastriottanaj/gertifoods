@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Production serves Django behind the same origin at `/api`. Keeping the
+// fallback relative is important: a production build without VITE_API_URL
+// must never send a visitor's form to localhost (or be blocked as mixed
+// content on HTTPS). Local development can still override this in .env.
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
