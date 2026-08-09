@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { trackLead } from '../lib/conversion';
+import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
   company_name: '',
@@ -24,7 +25,12 @@ export default function CatalogRequestForm({ onSuccess }) {
     setLoading(true);
     setError('');
     try {
-      await api.post('/leads/sample-request/', { ...form, source: 'catalog_request' });
+      const recaptcha_token = await getRecaptchaToken('sample_request_submit');
+      await api.post('/leads/sample-request/', {
+        ...form,
+        source: 'catalog_request',
+        recaptcha_token,
+      });
       setSuccess(true);
       if (onSuccess) onSuccess();
       // trackLead, not completeLead: this form's payoff is the catalog PDF it

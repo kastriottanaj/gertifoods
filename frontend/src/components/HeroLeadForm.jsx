@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { completeLead } from '../lib/conversion';
+import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
   first_name: '',
@@ -27,7 +28,8 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
     setLoading(true);
     setError('');
     try {
-      await api.post('/leads/lead/', { ...form, source });
+      const recaptcha_token = await getRecaptchaToken('lead_submit');
+      await api.post('/leads/lead/', { ...form, source, recaptcha_token });
       // Kept even though the redirect follows: completeLead waits up to 800ms
       // for GA to acknowledge the event, and the visitor should see the
       // submission land rather than a form that appears to do nothing. It is

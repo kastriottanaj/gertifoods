@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.throttling import ScopedRateThrottle
 
 from .emails import (
@@ -10,6 +11,7 @@ from .emails import (
 from .geo import get_client_ip, email_lang_for_ip
 from .models import Lead, SampleRequest
 from .serializers import LeadSerializer, SampleRequestSerializer
+from .recaptcha import RecaptchaUnavailable, verify_recaptcha
 
 # Name of the hidden honeypot field the public forms render. Real visitors
 # never see it; spam bots autofill every field, so a non-empty value is a
@@ -30,12 +32,36 @@ class HoneypotCreateMixin:
         return super().create(request, *args, **kwargs)
 
 
-class LeadCreateView(HoneypotCreateMixin, generics.CreateAPIView):
+class RecaptchaCreateMixin:
+    """Reject automated submissions before validation, saving, or email."""
+
+    recaptcha_action = None
+
+    def create(self, request, *args, **kwargs):
+        try:
+            valid = verify_recaptcha(
+                request.data.get('recaptcha_token'),
+                action=self.recaptcha_action,
+                remote_ip=get_client_ip(request),
+            )
+        except RecaptchaUnavailable as exc:
+            error = APIException('Spam protection is temporarily unavailable. Please try again.')
+            error.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+            raise error from exc
+        if not valid:
+            raise ValidationError({
+                'recaptcha_token': 'Spam protection could not verify this request. Please try again.'
+            })
+        return super().create(request, *args, **kwargs)
+
+
+class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'leads'
+    recaptcha_action = 'lead_submit'
 
     def perform_create(self, serializer):
         lead = serializer.save()
@@ -44,12 +70,13 @@ class LeadCreateView(HoneypotCreateMixin, generics.CreateAPIView):
         notify_sales_lead(lead)
 
 
-class SampleRequestCreateView(HoneypotCreateMixin, generics.CreateAPIView):
+class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
     queryset = SampleRequest.objects.all()
     serializer_class = SampleRequestSerializer
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'leads'
+    recaptcha_action = 'sample_request_submit'
 
     def perform_create(self, serializer):
         sample_request = serializer.save()

@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { completeLead } from '../lib/conversion';
+import { getRecaptchaToken } from '../lib/recaptcha';
 
 const BUSINESS_TYPES = [
   'bakery',
@@ -40,7 +41,8 @@ export default function SampleRequestForm({ source = 'other', onSuccess }) {
     setLoading(true);
     setError('');
     try {
-      await api.post('/leads/sample-request/', { ...form, source });
+      const recaptcha_token = await getRecaptchaToken('sample_request_submit');
+      await api.post('/leads/sample-request/', { ...form, source, recaptcha_token });
       setSuccess(true);
       // Before completeLead, deliberately: onSuccess is what writes the
       // sample_request_submitted flag that suppresses the exit-intent popup,

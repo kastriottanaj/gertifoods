@@ -177,6 +177,19 @@ DEFAULT_FROM_EMAIL = config(
 # Sales team inbox that receives a notification for each catalog request.
 SALES_EMAIL = config('SALES_EMAIL', default='arlinda@gertifoods.com')
 
+# Invisible reCAPTCHA v3 protection for public lead forms. It stays disabled
+# when no secret is configured so local development and tests work without an
+# external Google request. Production should set both backend and frontend keys.
+RECAPTCHA_SECRET_KEY = config('RECAPTCHA_SECRET_KEY', default='')
+RECAPTCHA_ENABLED = config(
+    'RECAPTCHA_ENABLED', default=bool(RECAPTCHA_SECRET_KEY), cast=bool
+)
+RECAPTCHA_MIN_SCORE = config('RECAPTCHA_MIN_SCORE', default=0.5, cast=float)
+RECAPTCHA_TIMEOUT = config('RECAPTCHA_TIMEOUT', default=5, cast=int)
+RECAPTCHA_ALLOWED_HOSTNAMES = config(
+    'RECAPTCHA_ALLOWED_HOSTNAMES', default='', cast=Csv()
+)
+
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))
 

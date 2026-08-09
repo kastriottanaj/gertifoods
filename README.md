@@ -99,6 +99,13 @@ See [.env.example](.env.example):
 | `DATABASE_PORT` | DB port |
 | `ALLOWED_HOSTS` | Comma-separated allowed hosts |
 | `CORS_ALLOWED_ORIGINS` | Comma-separated frontend origins |
+| `RECAPTCHA_SECRET_KEY` | Google reCAPTCHA v3 secret used by Django |
+| `RECAPTCHA_ALLOWED_HOSTNAMES` | Comma-separated hostnames allowed in verified tokens |
+
+The frontend build also accepts `VITE_RECAPTCHA_SITE_KEY`. Configure it with
+the public v3 site key and set `RECAPTCHA_ENABLED=True` on the backend to protect
+the public lead, sample, and catalog forms. Local development leaves the check
+disabled by default.
 
 ## Authentication
 

@@ -142,6 +142,12 @@ EMAIL_HOST_USER=info@gertifoods.com
 EMAIL_HOST_PASSWORD=<smtp-password>
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL=Gerti Foods <info@gertifoods.com>
+
+# Google reCAPTCHA v3 (create keys for both production hostnames)
+RECAPTCHA_ENABLED=True
+RECAPTCHA_SECRET_KEY=<recaptcha-v3-secret-key>
+RECAPTCHA_MIN_SCORE=0.5
+RECAPTCHA_ALLOWED_HOSTNAMES=gertifoods.com,www.gertifoods.com
 ```
 
 Generate a secret key:
@@ -174,7 +180,9 @@ the build:
 
 ```bash
 cd /var/www/gertifoods/frontend
-echo "VITE_API_URL=https://gertifoods.com/api" > .env.production
+printf '%s\n' \
+  "VITE_API_URL=https://gertifoods.com/api" \
+  "VITE_RECAPTCHA_SITE_KEY=<recaptcha-v3-site-key>" > .env.production
 npm ci
 npm run build        # outputs to frontend/dist (served by Nginx)
 ```

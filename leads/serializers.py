@@ -3,6 +3,8 @@ from .models import Lead, SampleRequest
 
 
 class LeadSerializer(serializers.ModelSerializer):
+    recaptcha_token = serializers.CharField(write_only=True, required=False)
+
     class Meta:
         model = Lead
         fields = [
@@ -13,11 +15,18 @@ class LeadSerializer(serializers.ModelSerializer):
             'phone',
             'message',
             'source',
+            'recaptcha_token',
         ]
         read_only_fields = ['id']
 
+    def create(self, validated_data):
+        validated_data.pop('recaptcha_token', None)
+        return super().create(validated_data)
+
 
 class SampleRequestSerializer(serializers.ModelSerializer):
+    recaptcha_token = serializers.CharField(write_only=True, required=False)
+
     class Meta:
         model = SampleRequest
         fields = [
@@ -31,5 +40,10 @@ class SampleRequestSerializer(serializers.ModelSerializer):
             'products_interested',
             'message',
             'source',
+            'recaptcha_token',
         ]
         read_only_fields = ['id']
+
+    def create(self, validated_data):
+        validated_data.pop('recaptcha_token', None)
+        return super().create(validated_data)
