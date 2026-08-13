@@ -290,6 +290,20 @@ const translations = {
     fp_cta_title: 'Gati për të shtuar Family Pack në ofertën tuaj?',
     fp_cta_body: 'Na kontaktoni për ofertë të personalizuar dhe bashkëpunim afatgjatë.',
     fp_call_us: 'Na telefono',
+    cp_badge: 'Börek',
+    cp_title: 'Pite me Djathë',
+    cp_intro: 'Brumë tradicional i pjekur në furrë, i mbushur me djathë të bardhë cilësor. Gati për t’u shërbyer, e freskët dhe e shijshme.',
+    cp_oven: 'Pjekur në furrë', cp_no_thaw: 'Jo e skuqur',
+    cp_ingredients: 'Përbërës cilësorë', cp_no_preservatives: 'Pa konservues',
+    cp_ready: 'Gati për shërbim', cp_saves_time: 'Kursen kohë',
+    cp_reviews: '200+ recensione në Google', cp_min_order: 'Porosi minimale',
+    cp_delivery: 'Dorëzim i sigurt', cp_delivery_body: 'Në kohë, çdo herë',
+    cp_benefit_cheese: 'Djathë i vërtetë, shije autentike', cp_benefit_cheese_body: 'Përgatitur me djathë të bardhë cilësor për një shije të butë dhe të pasur.',
+    cp_benefit_oven: 'Pjekur në furrë për cilësi maksimale', cp_benefit_oven_body: 'Pjekje perfekte që ruan freskinë, aromën dhe vlerat ushqyese.',
+    cp_benefit_ready: 'Gati për t’u shërbyer', cp_benefit_ready_body: 'Zgjidhja ideale për biznesin tuaj – kursen kohë dhe ofron cilësi të qëndrueshme.',
+    cp_testimonials: 'Çfarë thonë klientët tanë', cp_testimonial_1: 'Pitet e Gerti Foods na kanë kursyer kohë e punë. Klientët i duan shijet dhe cilësia është e njëjtë çdo herë.', cp_testimonial_2: 'Pakoja familjare është shumë praktike për ne. Shërbim i rregullt dhe produkt që na përfaqëson mirë.',
+    cp_solutions: 'Zgjidhja ideale për biznesin tuaj', cp_bakeries: 'Furra', cp_bakery_body: 'Produkte të gatshme për pjekje dhe shitje.', cp_horeca_body: 'Cilësi e qëndrueshme për çdo shërbim.', cp_supermarket_body: 'Paketim praktik për raft dhe frigorifer.', cp_catering_body: 'Sasi të mëdha, gati për çdo event.',
+    cp_cta_title: 'Gati për të porositur?', cp_cta_body: 'Na kontaktoni për ofertë të personalizuar dhe bashkëpunim afatgjatë.',
 
     // Cart
     cart_title: 'Shporta Juaj',
@@ -951,6 +965,13 @@ const translations = {
     fp_cta_title: 'Ready to add the Family Pack to your range?',
     fp_cta_body: 'Contact us for a personalised quote and a long-term partnership.',
     fp_call_us: 'Call us',
+    cp_badge: 'Byrek', cp_title: 'Cheese Byrek',
+    cp_intro: 'Traditional oven-baked pastry filled with quality white cheese. Ready to serve, fresh and delicious.',
+    cp_oven: 'Oven-baked', cp_no_thaw: 'Not fried', cp_ingredients: 'Quality ingredients', cp_no_preservatives: 'No preservatives', cp_ready: 'Ready to serve', cp_saves_time: 'Saves time',
+    cp_reviews: '200+ reviews on Google', cp_min_order: 'Minimum order', cp_delivery: 'Reliable delivery', cp_delivery_body: 'On time, every time',
+    cp_benefit_cheese: 'Real cheese, authentic taste', cp_benefit_cheese_body: 'Made with quality white cheese for a smooth, rich taste.', cp_benefit_oven: 'Oven-baked for maximum quality', cp_benefit_oven_body: 'Perfect baking preserves freshness, aroma and nutritional value.', cp_benefit_ready: 'Ready to serve', cp_benefit_ready_body: 'The ideal solution for your business – saving time with consistent quality.',
+    cp_testimonials: 'What our customers say', cp_testimonial_1: 'Gerti Foods pies have saved us time and work. Customers love the taste and the quality is consistent every time.', cp_testimonial_2: 'The family pack is very practical for us. Reliable service and a product that represents us well.',
+    cp_solutions: 'The ideal solution for your business', cp_bakeries: 'Bakeries', cp_bakery_body: 'Ready-to-bake and ready-to-sell products.', cp_horeca_body: 'Consistent quality for every service.', cp_supermarket_body: 'Practical packaging for shelves and chillers.', cp_catering_body: 'Large quantities, ready for every event.', cp_cta_title: 'Ready to order?', cp_cta_body: 'Contact us for a personalised quote and a long-term partnership.',
 
     // Cart
     cart_title: 'Your Cart',
@@ -1612,6 +1633,13 @@ const translations = {
     fp_cta_title: 'Bereit, die Familienpackung in Ihr Sortiment aufzunehmen?',
     fp_cta_body: 'Kontaktieren Sie uns für ein individuelles Angebot und eine langfristige Partnerschaft.',
     fp_call_us: 'Rufen Sie uns an',
+    cp_badge: 'Börek', cp_title: 'Käse-Börek',
+    cp_intro: 'Traditioneller, im Ofen gebackener Teig, gefüllt mit hochwertigem Weißkäse. Servierfertig, frisch und köstlich.',
+    cp_oven: 'Im Ofen gebacken', cp_no_thaw: 'Nicht frittiert', cp_ingredients: 'Hochwertige Zutaten', cp_no_preservatives: 'Ohne Konservierungsstoffe', cp_ready: 'Servierfertig', cp_saves_time: 'Spart Zeit',
+    cp_reviews: '200+ Bewertungen bei Google', cp_min_order: 'Mindestbestellung', cp_delivery: 'Zuverlässige Lieferung', cp_delivery_body: 'Pünktlich, jedes Mal',
+    cp_benefit_cheese: 'Echter Käse, authentischer Geschmack', cp_benefit_cheese_body: 'Mit hochwertigem Weißkäse für einen milden, vollmundigen Geschmack.', cp_benefit_oven: 'Ofengebacken für höchste Qualität', cp_benefit_oven_body: 'Perfektes Backen bewahrt Frische, Aroma und Nährwerte.', cp_benefit_ready: 'Servierfertig', cp_benefit_ready_body: 'Die ideale Lösung für Ihr Unternehmen – spart Zeit und bietet gleichbleibende Qualität.',
+    cp_testimonials: 'Das sagen unsere Kunden', cp_testimonial_1: 'Die Börek von Gerti Foods sparen uns Zeit und Arbeit. Unsere Kunden lieben den Geschmack und die Qualität ist jedes Mal gleich.', cp_testimonial_2: 'Die Familienpackung ist für uns sehr praktisch. Zuverlässiger Service und ein Produkt, das uns bestens repräsentiert.',
+    cp_solutions: 'Die ideale Lösung für Ihr Unternehmen', cp_bakeries: 'Bäckereien', cp_bakery_body: 'Back- und verkaufsfertige Produkte.', cp_horeca_body: 'Gleichbleibende Qualität für jeden Service.', cp_supermarket_body: 'Praktische Verpackung für Regal und Kühlung.', cp_catering_body: 'Große Mengen, bereit für jede Veranstaltung.', cp_cta_title: 'Bereit zu bestellen?', cp_cta_body: 'Kontaktieren Sie uns für ein individuelles Angebot und eine langfristige Partnerschaft.',
 
     // Cart
     cart_title: 'Ihr Warenkorb',

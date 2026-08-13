@@ -1,0 +1,67 @@
+---
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { localePath, useTranslations } from '../lib/i18n.js';
+import '../styles/cheese-pie-detail.css';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<div class="cp-page">
+  <section class="cp-hero">
+    <div class="cp-hero-shade"></div>
+    <div class="cp-hero-copy">
+      <span class="cp-badge">{t('cp_badge')}</span>
+      <h1>{t('cp_title')}</h1>
+      <p>{t('cp_intro')}</p>
+      <div class="cp-qualities">
+        <div><span>♨</span><b>{t('cp_oven')}</b><small>{t('cp_no_thaw')}</small></div>
+        <div><span>♧</span><b>{t('cp_ingredients')}</b><small>{t('cp_no_preservatives')}</small></div>
+        <div><span>◷</span><b>{t('cp_ready')}</b><small>{t('cp_saves_time')}</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cp-trust">
+    <div><span class="cp-google">G</span><p><b>4.9 <i>★★★★★</i></b><small>{t('cp_reviews')}</small></p></div>
+    <div><span>♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
+    <div><span>◇</span><p><b>{t('cp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div>
+    <div><span>▱</span><p><b>{t('cp_delivery')}</b><small>{t('cp_delivery_body')}</small></p></div>
+  </section>
+
+  <section class="cp-benefits">
+    <article><span>▰</span><h2>{t('cp_benefit_cheese')}</h2><p>{t('cp_benefit_cheese_body')}</p></article>
+    <article><span>▣</span><h2>{t('cp_benefit_oven')}</h2><p>{t('cp_benefit_oven_body')}</p></article>
+    <article><span>◷</span><h2>{t('cp_benefit_ready')}</h2><p>{t('cp_benefit_ready_body')}</p></article>
+  </section>
+
+  <section class="cp-testimonials">
+    <h2>{t('cp_testimonials')}</h2>
+    <div class="cp-testimonial-grid">
+      <article><div class="cp-avatar">AK</div><div><b>Arben Krasniqi</b><small>{t('fp_testimonial_1_role')}</small><p><em>“</em> {t('cp_testimonial_1')}</p></div></article>
+      <article><div class="cp-avatar cp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>{t('fp_testimonial_2_role')}</small><p><em>“</em> {t('cp_testimonial_2')}</p></div></article>
+    </div>
+    <div class="cp-dots"><i></i><i></i><i></i></div>
+  </section>
+
+  <section class="cp-solutions">
+    <h2>{t('cp_solutions')}</h2>
+    <div class="cp-solution-grid">
+      <article><span>▣</span><div><h3>{t('cp_bakeries')}</h3><p>{t('cp_bakery_body')}</p></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_hotels_restaurants')}</h3><p>{t('cp_horeca_body')}</p></div></article>
+      <article><span>▽</span><div><h3>{t('fp_supermarkets')}</h3><p>{t('cp_supermarket_body')}</p></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_catering')}</h3><p>{t('cp_catering_body')}</p></div></article>
+    </div>
+  </section>
+
+  <section class="cp-cta">
+    <span>◇</span><div><h2>{t('cp_cta_title')}</h2><p>{t('cp_cta_body')}</p></div>
+    <a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a>
+    <button type="button" data-open-modal="sample">{t('footer_book_meeting')} <b>↗</b></button>
+  </section>
+
+  <div class="cp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
+  <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="cheese_pie_detail" closeOnSampleSuccess={true} />
+</div>
