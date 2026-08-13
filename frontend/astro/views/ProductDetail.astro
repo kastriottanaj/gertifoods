@@ -17,6 +17,7 @@ import { productSchema, breadcrumbSchema } from '../lib/schema.js';
 import ProductActions from '../islands/ProductActions.jsx';
 import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
+import MeatPieDetail from './MeatPieDetail.astro';
 
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
@@ -39,7 +40,8 @@ const messages = islandMessages(lang);
 
 const isFamilyPack = slug === 'family-pack-pite-4';
 const isCheesePie = slug === 'pite-me-djathe';
-const isLandingDetail = isFamilyPack || isCheesePie;
+const isMeatPie = slug === 'pite-me-mish';
+const isLandingDetail = isFamilyPack || isCheesePie || isMeatPie;
 
 // Same normalisation BaseLayout applies before emitting the canonical, so the
 // schema and the <link rel="canonical"> name the identical URL. Deriving it
@@ -77,7 +79,7 @@ const schema = {
   title={seoTitle ?? name}
   description={seoDescription}
   lang={lang}
-  appClass={isFamilyPack ? ' family-pack-app' : isCheesePie ? ' cheese-pie-app' : ''}
+  appClass={isFamilyPack ? ' family-pack-app' : isCheesePie ? ' cheese-pie-app' : isMeatPie ? ' meat-pie-app' : ''}
   brandSuffix={!seoTitle}
 >
   <script
@@ -87,7 +89,7 @@ const schema = {
     set:html={JSON.stringify(schema)}
   />
 
-  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : <div class="product-detail">
+  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : <div class="product-detail">
     <div class="product-detail-grid">
       {/* The product shot is the LCP element on this page, so it stays eager
           and is the one image here that gets fetchpriority="high". */}

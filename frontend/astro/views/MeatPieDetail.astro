@@ -1,0 +1,63 @@
+---
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { localePath, useTranslations } from '../lib/i18n.js';
+import '../styles/meat-pie-detail.css';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<div class="mp-page">
+  <section class="mp-hero">
+    <div class="mp-copy">
+      <span class="mp-badge">{t('mp_badge')}</span>
+      <h1>{t('mp_title')}</h1>
+      <p>{t('mp_intro')}</p>
+      <div class="mp-qualities">
+        <div><span>♨</span><b>{t('mp_prebaked')}</b><small>{t('mp_quick')}</small></div>
+        <div><span>♧</span><b>{t('mp_no_preservatives')}</b><small>{t('mp_natural')}</small></div>
+        <div><span>◷</span><b>{t('mp_consistent')}</b><small>{t('mp_quality')}</small></div>
+      </div>
+      <div class="mp-actions"><button type="button" data-open-modal="sample">{t('mp_quote')} <b>↗</b></button><a href={p('/products')}>{t('mp_discover')}</a></div>
+      <div class="mp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; Prizren, Kosovo</span></div>
+    </div>
+    <div class="mp-image" role="img" aria-label={t('mp_hero_alt')}></div>
+  </section>
+
+  <section class="mp-trust">
+    <div><span class="mp-google">G</span><p><b>4.9 <i>★★★★★</i></b><small>{t('mp_reviews')}</small></p></div>
+    <div><span>♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
+    <div><span>◇</span><p><b>{t('mp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div>
+    <div><span>▱</span><p><b>{t('mp_delivery')}</b><small>{t('mp_delivery_body')}</small></p></div>
+  </section>
+
+  <section class="mp-benefits">
+    <article><span>◉</span><h2>{t('mp_benefit_meat')}</h2><p>{t('mp_benefit_meat_body')}</p></article>
+    <article><span>▣</span><h2>{t('mp_benefit_quick')}</h2><p>{t('mp_benefit_quick_body')}</p></article>
+    <article><span>◇</span><h2>{t('mp_benefit_business')}</h2><p>{t('mp_benefit_business_body')}</p></article>
+  </section>
+
+  <section class="mp-testimonials">
+    <h2>{t('mp_testimonials')}</h2>
+    <div class="mp-testimonial-grid">
+      <article><div class="mp-avatar">AK</div><div><b>Arben Krasniqi</b><small>{t('mp_role_1')}</small><p><em>“</em> {t('mp_testimonial_1')}</p></div></article>
+      <article><div class="mp-avatar mp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>{t('mp_role_2')}</small><p><em>“</em> {t('mp_testimonial_2')}</p></div></article>
+    </div><div class="mp-dots"><i></i><i></i><i></i></div>
+  </section>
+
+  <section class="mp-solutions">
+    <h2>{t('mp_solutions')}</h2>
+    <div class="mp-solution-grid">
+      <article><span>▣</span><div><h3>{t('mp_bakeries')}</h3><p>{t('mp_bakery_body')}</p></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_hotels_restaurants')}</h3><p>{t('mp_horeca_body')}</p></div></article>
+      <article><span>▽</span><div><h3>{t('fp_supermarkets')}</h3><p>{t('mp_supermarket_body')}</p></div></article>
+      <article><span>⌒</span><div><h3>{t('fp_catering')}</h3><p>{t('mp_catering_body')}</p></div></article>
+    </div>
+  </section>
+
+  <section class="mp-cta"><span>◇</span><div><h2>{t('mp_cta_title')}</h2><p>{t('mp_cta_body')}</p></div><button type="button" data-open-modal="sample">{t('mp_quote')} <b>↗</b></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a></section>
+  <div class="mp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
+  <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="meat_pie_detail" closeOnSampleSuccess={true} />
+</div>
