@@ -61,7 +61,10 @@ const messages = islandMessages(lang);
     </section>
 
     <section class="products-listing" id="products-grid">
-      <div class="products-listing-heading"><h2>{t('products_title')}</h2><a href="#products-grid">{t('products_view_all')}</a></div>
+      <div class="products-listing-heading">
+        <h2>{t('products_title')}</h2>
+        <button type="button" data-scroll-to="products-grid">{t('products_view_all')}</button>
+      </div>
       <div class="products-grid">
         {products.map((product, i) => (
           <div class="product-card">
