@@ -1,0 +1,26 @@
+---
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { localePath, useTranslations } from '../lib/i18n.js';
+import '../styles/tuna-pie-detail.css';
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+<div class="tp-page">
+  <section class="tp-hero"><div class="tp-copy">
+    <span class="tp-badge">{t('tp_badge')}</span><h1>{t('tp_title_1')}<br />{t('tp_title_2')}</h1><p>{t('tp_intro')}</p>
+    <strong class="tp-price">€1,60 / {t('products_unit_piece')}</strong><small>{t('tp_min_order')}: 50 {t('products_unit_piece')}</small>
+    <div class="tp-actions"><button type="button" data-open-modal="sample">{t('tp_quote')} <b>↗</b></button><a href={p('/areas')}>{t('tp_areas')} <b>⌖</b></a></div>
+    <div class="tp-phone"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><small>{t('tp_phone_body')}</small></div>
+    <div class="tp-audiences"><span>▱ {t('tp_bakeries')}</span><span>♜ {t('fp_hotels_restaurants')}</span><span>▽ {t('tp_retail')}</span><span>⌒ {t('fp_catering')}</span></div>
+  </div><div class="tp-image"><img src="/tuna-pie-hero.png" alt={t('tp_hero_alt')} fetchpriority="high" /></div></section>
+
+  <section class="tp-trust"><div><span>♢</span><p><b>ISO 22000</b><small>{t('tp_certified')}</small></p></div><div><span>♨</span><p><b>{t('tp_half_baked')}</b><small>{t('tp_products')}</small></p></div><div><span>◇</span><p><b>{t('tp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div><div><span>♙</span><p><b>{t('tp_for')}</b><small>{t('tp_business')}</small></p></div></section>
+  <section class="tp-benefits"><article><span>◷</span><div><h2>{t('tp_fast')}</h2><p>{t('tp_fast_body')}</p></div></article><article><span>✿</span><div><h2>{t('tp_quality')}</h2><p>{t('tp_quality_body')}</p></div></article><article><span>◇</span><div><h2>{t('tp_bulk')}</h2><p>{t('tp_bulk_body')}</p></div></article></section>
+  <section class="tp-testimonials"><h2>{t('tp_testimonials')}</h2><div><article><div class="tp-avatar">AK</div><div><p>„{t('tp_testimonial_1')}“</p><b>Arben Krasniqi</b><small>{t('tp_role_1')}</small></div></article><article><div class="tp-avatar tp-avatar-two">EM</div><div><p>„{t('tp_testimonial_2')}“</p><b>Elira Dema</b><small>{t('tp_role_2')}</small></div></article></div></section>
+  <section class="tp-solutions"><h2>{t('tp_solutions')}</h2><div><article><i class="tp-photo tp-photo-one"></i><h3>{t('tp_for_bakeries')}</h3><p>{t('tp_bakery_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></article><article><i class="tp-photo tp-photo-two"></i><h3>{t('tp_for_horeca')}</h3><p>{t('tp_horeca_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></article><article><i class="tp-photo tp-photo-three"></i><h3>{t('tp_for_retail')}</h3><p>{t('tp_retail_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></article><article><i class="tp-photo tp-photo-four"></i><h3>{t('tp_for_catering')}</h3><p>{t('tp_catering_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></article></div></section>
+  <section class="tp-cta"><div><h2>{t('tp_cta_title')}</h2><p>{t('tp_cta_body')}</p></div><button type="button" data-open-modal="sample">{t('tp_quote')} <b>↗</b></button><a href="tel:+38349111150">⌕ &nbsp; {t('tp_call')}: +383 49 111 150</a></section>
+  <div class="tp-mobile-bar"><button type="button" data-open-modal="sample">{t('tp_quote')} ↗</button><a href="tel:+38349111150">⌕</a></div>
+  <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="tuna_pie_detail" closeOnSampleSuccess={true} />
+</div>
