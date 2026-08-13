@@ -1,0 +1,57 @@
+---
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { localePath, useTranslations } from '../lib/i18n.js';
+import '../styles/spinach-pie-detail.css';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+<div class="sp-page">
+  <section class="sp-hero">
+    <div class="sp-shade"></div>
+    <div class="sp-copy">
+      <span class="sp-badge">{t('sp_badge')}</span><h1>{t('sp_title')}</h1><p>{t('sp_intro')}</p>
+      <div class="sp-qualities">
+        <div><span>▣</span><b>{t('sp_prebaked')}</b><small>{t('sp_quick')}</small></div>
+        <div><span>♧</span><b>{t('sp_easy')}</b><small>{t('sp_practical')}</small></div>
+        <div><span>♢</span><b>{t('sp_consistent')}</b><small>{t('sp_consistent_body')}</small></div>
+      </div>
+      <div class="sp-actions"><button type="button" data-open-modal="sample">{t('sp_quote')} <b>↗</b></button><a href={p('/products')}>{t('sp_discover')}</a></div>
+      <div class="sp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; Prizren, Kosovo</span></div>
+    </div>
+  </section>
+
+  <section class="sp-trust">
+    <div><span class="sp-google">G</span><p><b>4.9 <i>★★★★★</i></b><small>{t('sp_reviews')}</small></p></div>
+    <div><span>♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
+    <div><span>◇</span><p><b>{t('sp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div>
+    <div><span>▱</span><p><b>{t('sp_delivery')}</b><small>{t('sp_delivery_body')}</small></p></div>
+  </section>
+
+  <section class="sp-benefits">
+    <article><span>♧</span><h2>{t('sp_benefit_ingredients')}</h2><p>{t('sp_benefit_ingredients_body')}</p></article>
+    <article><span>◷</span><h2>{t('sp_benefit_quick')}</h2><p>{t('sp_benefit_quick_body')}</p></article>
+    <article><span>▥</span><h2>{t('sp_benefit_business')}</h2><p>{t('sp_benefit_business_body')}</p></article>
+  </section>
+
+  <section class="sp-testimonials">
+    <h2>{t('sp_testimonials')}</h2><div class="sp-testimonial-grid">
+      <article><div class="sp-avatar">AK</div><div><b>Arben Krasniqi</b><small>{t('sp_role_1')}</small><p><em>“</em> {t('sp_testimonial_1')}</p></div></article>
+      <article><div class="sp-avatar sp-avatar-two">EM</div><div><b>Elira Mehmeti</b><small>{t('sp_role_2')}</small><p><em>“</em> {t('sp_testimonial_2')}</p></div></article>
+    </div><div class="sp-dots"><i></i><i></i></div>
+  </section>
+
+  <section class="sp-solutions"><h2>{t('sp_solutions')}</h2><div class="sp-solution-grid">
+    <article><span>▣</span><div><h3>{t('sp_bakeries')}</h3><p>{t('sp_bakery_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+    <article><span>⌒</span><div><h3>{t('fp_hotels_restaurants')}</h3><p>{t('sp_horeca_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+    <article><span>▽</span><div><h3>{t('fp_supermarkets')}</h3><p>{t('sp_supermarket_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+    <article><span>⌒</span><div><h3>{t('fp_catering')}</h3><p>{t('sp_catering_body')}</p><a href={p('/products')}>{t('fp_learn_more')} →</a></div></article>
+  </div></section>
+
+  <section class="sp-cta"><span>◇</span><div><h2>{t('sp_cta_title')}</h2><p>{t('sp_cta_body')}</p></div><button type="button" data-open-modal="sample">{t('sp_quote')} <b>↗</b></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a></section>
+  <div class="sp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
+  <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="spinach_pie_detail" closeOnSampleSuccess={true} />
+</div>
