@@ -225,6 +225,38 @@ systemctl restart nginx
 
 At this point `http://gertifoods.com` should load the site (HTTP only).
 
+### Compression
+
+Ubuntu's stock `/etc/nginx/nginx.conf` ships `gzip on;` with every `gzip_types`
+line commented out. That reads as "compression is on" but it is not: with no
+`gzip_types`, nginx falls back to its default of `text/html` alone, so the HTML
+compresses and every stylesheet and script is served raw. It cost roughly 190 KB
+per page here — `client.js` 179 KB → 56 KB, `BaseLayout.css` 51 KB → 10 KB.
+
+Uncomment the block in the `http` section of `/etc/nginx/nginx.conf` and give it
+an explicit type list:
+
+```nginx
+gzip on;
+gzip_vary on;             # assets are cached immutable, so shared caches must vary
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_min_length 256;
+gzip_buffers 16 8k;
+gzip_http_version 1.1;
+# text/html is always gzipped by nginx and must not be listed here.
+gzip_types
+    text/plain text/css text/xml text/javascript
+    application/javascript application/json application/xml
+    application/xml+rss application/rss+xml application/manifest+json
+    image/svg+xml;
+```
+
+Then `nginx -t && systemctl reload nginx`. Verify with
+`curl -sI -H 'Accept-Encoding: gzip' https://gertifoods.com/_astro/<any>.css |
+grep -i content-encoding` — it must say `gzip`. This lives in nginx.conf rather
+than `deploy/nginx.conf` because the site file is Certbot-managed (see below).
+
 ## 10. HTTPS with Certbot
 
 ```bash
