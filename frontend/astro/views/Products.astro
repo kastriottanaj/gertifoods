@@ -37,7 +37,7 @@ const messages = islandMessages(lang);
 >
   <div class="products-page products-showcase">
     <section class="products-hero">
-      <img src={heroImage.src} alt={t('products_hero_alt')} class="products-hero-image" fetchpriority="high" />
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('products_hero_alt')} class="products-hero-image" fetchpriority="high" />
       <div class="products-hero-shade"></div>
       <div class="products-hero-content">
         <h1>{t('products_hero_line_1')}<br />{t('products_hero_line_2')}<br /><strong>{t('products_hero_business')}</strong></h1>
@@ -71,6 +71,8 @@ const messages = islandMessages(lang);
             {product.image && (
               <img
                 src={product.image}
+                width={product.image_width}
+                height={product.image_height}
                 alt={copy.name(product)}
                 class="product-card-image"
                 loading={i < 5 ? 'eager' : 'lazy'}

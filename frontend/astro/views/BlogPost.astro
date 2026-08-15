@@ -67,7 +67,7 @@ const schema = {
       <h1>{content.title}</h1>
       <p>{content.description}</p>
     </header>
-    <img class="blog-article-hero" src={images[post.image].src} alt={t(imageAlt[post.image])} fetchpriority="high" />
+    <img class="blog-article-hero" src={images[post.image].src} width={images[post.image].width} height={images[post.image].height} alt={t(imageAlt[post.image])} fetchpriority="high" />
     <div class="blog-article-body">
       {content.sections.map(([heading, body]) => (
         <section><h2>{heading}</h2><p>{body}</p></section>

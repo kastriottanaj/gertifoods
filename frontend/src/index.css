@@ -60,8 +60,16 @@ a:hover {
   color: var(--secondary-dark);
 }
 
+/* height:auto is load-bearing, not tidiness. Images carry width/height
+   attributes so the browser can reserve their space before they load (CLS).
+   Those attributes act as presentational hints, so max-width:100% would cap
+   the width while the hinted height stayed at the file's native pixel height
+   — squashing every image the layout scales down. height:auto restores the
+   aspect ratio. Rules that set a real height do so via class selectors, which
+   outrank this one and are unaffected. */
 img {
   max-width: 100%;
+  height: auto;
 }
 
 .btn {

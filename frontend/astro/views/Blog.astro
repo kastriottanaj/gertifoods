@@ -38,7 +38,7 @@ const p = (path) => localePath(lang, path);
           return (
             <article class={`blog-card${index === 0 ? ' blog-card-featured' : ''}`}>
               <a href={p(`/blog/${post.slug}`)} class="blog-card-image">
-                <img src={images[post.image].src} alt={t(imageAlt[post.image])} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                <img src={images[post.image].src} width={images[post.image].width} height={images[post.image].height} alt={t(imageAlt[post.image])} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
               </a>
               <div class="blog-card-content">
                 <div class="blog-meta"><span>{content.category}</span><time datetime={post.published}>{post.published}</time><span>{content.readingTime}</span></div>

@@ -22,7 +22,7 @@ const p = (path) => localePath(lang, path);
 >
   <div class="areas-page areas-showcase">
     <section class="areas-hero">
-      <img src={heroImage.src} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
       <div class="areas-hero-shade"></div>
       <div class="areas-hero-content">
         <h1>{t('areas_hero_line_1')}<br />{t('areas_hero_line_2')} <strong>{t('areas_hero_region')}</strong></h1>

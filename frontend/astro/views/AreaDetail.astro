@@ -105,7 +105,7 @@ const k = (suffix) => t(`${slug}_${suffix}`);
 >
   <div class={country.pageClass}>
     <section class="kosovo-hero">
-      <img src={country.hero.src} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
+      <img src={country.hero.src} width={country.hero.width} height={country.hero.height} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
       <div class="kosovo-hero-shade"></div>
       <div class="kosovo-hero-content">
         <nav class="kosovo-breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
@@ -128,7 +128,7 @@ const k = (suffix) => t(`${slug}_${suffix}`);
       <div class="kosovo-segment-grid">
         {SEGMENTS.map(([segment, image, icon, altKey]) => (
           <article>
-            <img src={image.src} alt={t(altKey)} loading="lazy" decoding="async" />
+            <img src={image.src} width={image.width} height={image.height} alt={t(altKey)} loading="lazy" decoding="async" />
             <i>{icon}</i>
             <div>
               <h3>{k(`segment_${segment}`)}</h3>

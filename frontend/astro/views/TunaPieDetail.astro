@@ -14,7 +14,10 @@ const p = (path) => localePath(lang, path);
     <div class="tp-actions"><button type="button" data-open-modal="sample">{t('tp_quote')} <b>↗</b></button><a href={p('/areas')}>{t('tp_areas')} <b>⌖</b></a></div>
     <div class="tp-phone"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><small>{t('tp_phone_body')}</small></div>
     <div class="tp-audiences"><span>▱ {t('tp_bakeries')}</span><span>♜ {t('fp_hotels_restaurants')}</span><span>▽ {t('tp_retail')}</span><span>⌒ {t('fp_catering')}</span></div>
-  </div><div class="tp-image"><img src="/tuna-pie-hero.png" alt={t('tp_hero_alt')} fetchpriority="high" /></div></section>
+  {/* Native size of public/tuna-pie-hero.png, hardcoded because the file is
+      served straight from public/ — it is not an Astro asset import, so there
+      is no .width/.height to read. Re-measure if the image is ever replaced. */}
+  </div><div class="tp-image"><img src="/tuna-pie-hero.png" width="1448" height="1086" alt={t('tp_hero_alt')} fetchpriority="high" /></div></section>
 
   <section class="tp-trust"><div><span>♢</span><p><b>ISO 22000</b><small>{t('tp_certified')}</small></p></div><div><span>♨</span><p><b>{t('tp_half_baked')}</b><small>{t('tp_products')}</small></p></div><div><span>◇</span><p><b>{t('tp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div><div><span>♙</span><p><b>{t('tp_for')}</b><small>{t('tp_business')}</small></p></div></section>
   <section class="tp-benefits"><article><span>◷</span><div><h2>{t('tp_fast')}</h2><p>{t('tp_fast_body')}</p></div></article><article><span>✿</span><div><h2>{t('tp_quality')}</h2><p>{t('tp_quality_body')}</p></div></article><article><span>◇</span><div><h2>{t('tp_bulk')}</h2><p>{t('tp_bulk_body')}</p></div></article></section>

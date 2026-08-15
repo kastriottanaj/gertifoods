@@ -24,7 +24,7 @@ const p = (path) => localePath(lang, path);
 >
   <div class="about-page about-showcase">
     <section class="about-hero">
-      <img src={heroImage.src} alt={t('about_hero_alt')} class="about-hero-image" fetchpriority="high" />
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('about_hero_alt')} class="about-hero-image" fetchpriority="high" />
       <div class="about-hero-shade"></div>
       <div class="about-hero-content">
         <h1>{t('about_hero_line_1')}<br />{t('about_hero_line_2')} <strong>{t('about_hero_audience')}</strong></h1>
@@ -61,7 +61,7 @@ const p = (path) => localePath(lang, path);
         <p>{t('about_story_body_2')}</p>
         <ul><li>{t('about_story_point_1')}</li><li>{t('about_story_point_2')}</li><li>{t('about_story_point_3')}</li></ul>
       </div>
-      <img src={storyImage.src} alt={t('about_story_image_alt')} loading="lazy" />
+      <img src={storyImage.src} width={storyImage.width} height={storyImage.height} alt={t('about_story_image_alt')} loading="lazy" />
       <div class="about-choose">
         <h2>{t('about_choose_title')}</h2>
         <article><i>◎</i><div><b>{t('about_choose_local')}</b><p>{t('about_choose_local_body')}</p></div></article>
@@ -81,10 +81,10 @@ const p = (path) => localePath(lang, path);
       <div class="about-solutions">
         <h2>{t('about_solutions_title')}</h2>
         <div class="about-solution-cards">
-          <article><img src={pieImage.src} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_pies')}</b><p>{t('about_solution_pies_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={familyImage.src} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_tortillas')}</b><p>{t('about_solution_tortillas_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={familyImage.src} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_family')}</b><p>{t('about_solution_family_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
-          <article><img src={storyImage.src} alt={t('img_alt_bakery_interior')} loading="lazy" decoding="async" /><b>{t('about_solution_service')}</b><p>{t('about_solution_service_body')}</p><a href={p('/areas')}>{t('about_view_areas')} →</a></article>
+          <article><img src={pieImage.src} width={pieImage.width} height={pieImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_pies')}</b><p>{t('about_solution_pies_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={familyImage.src} width={familyImage.width} height={familyImage.height} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_tortillas')}</b><p>{t('about_solution_tortillas_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={familyImage.src} width={familyImage.width} height={familyImage.height} alt={t('img_alt_retail_pack')} loading="lazy" decoding="async" /><b>{t('about_solution_family')}</b><p>{t('about_solution_family_body')}</p><a href={p('/products')}>{t('about_view_products')} →</a></article>
+          <article><img src={storyImage.src} width={storyImage.width} height={storyImage.height} alt={t('img_alt_bakery_interior')} loading="lazy" decoding="async" /><b>{t('about_solution_service')}</b><p>{t('about_solution_service_body')}</p><a href={p('/areas')}>{t('about_view_areas')} →</a></article>
         </div>
       </div>
     </section>
