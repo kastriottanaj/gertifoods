@@ -14,22 +14,19 @@ const CONSENT_KEY = 'gf_cookie_consent';
 const COPY = {
   sq: {
     message: 'Përdorim cookies për analitikë dhe marketing, që të kuptojmë vizitorët dhe të përmirësojmë ofertat tona.',
-    learnMore: 'Më shumë',
-    learnMoreAria: 'Më shumë rreth cookies dhe impresumit',
+    imprintLink: 'Impresum dhe cookies',
     accept: 'Prano',
     reject: 'Refuzo',
   },
   en: {
     message: 'We use cookies for analytics and marketing to understand visitors and improve our offers.',
-    learnMore: 'Learn more',
-    learnMoreAria: 'Learn more about cookies and our imprint',
+    imprintLink: 'Imprint and cookies',
     accept: 'Accept',
     reject: 'Decline',
   },
   de: {
     message: 'Wir verwenden Cookies für Analyse und Marketing, um Besucher zu verstehen und unsere Angebote zu verbessern.',
-    learnMore: 'Mehr erfahren',
-    learnMoreAria: 'Mehr über Cookies und unser Impressum erfahren',
+    imprintLink: 'Impressum und Cookies',
     accept: 'Akzeptieren',
     reject: 'Ablehnen',
   },
@@ -49,11 +46,7 @@ const c = COPY[lang] || COPY.en;
 >
   <p class="cookie-consent-text">
     {c.message}{' '}
-    <a
-      href={localePath(lang, '/imprint')}
-      class="cookie-consent-link"
-      aria-label={c.learnMoreAria}>{c.learnMore}</a
-    >
+    <a href={localePath(lang, '/imprint')} class="cookie-consent-link">{c.imprintLink}</a>
   </p>
   <div class="cookie-consent-actions">
     <button type="button" class="cookie-btn cookie-btn-reject" data-consent="denied">
