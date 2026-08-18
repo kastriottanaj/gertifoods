@@ -146,7 +146,14 @@ const p = (path) => localePath(lang, path);
 </nav>
 
 <script>
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  // Same contract as src/services/api.js: production is same-origin, so the
+  // relative /api is the correct default and a missing VITE_API_URL must never
+  // degrade to a dev host. It did — a build without .env.production shipped
+  // `http://localhost:8000/api` to every visitor, so the profile check below
+  // could not succeed (connect-src 'self' blocks it) and the logout button
+  // never reached the server to revoke the refresh cookie. Local development
+  // still overrides this via frontend/.env.
+  const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
   // --- Mobile menu -------------------------------------------------------
   // Mirrors Navbar.jsx: toggles .is-open, swaps the hamburger/close icons and

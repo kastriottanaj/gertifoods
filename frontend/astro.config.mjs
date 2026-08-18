@@ -34,6 +34,26 @@ export default defineConfig({
   integrations: [react()],
 
   vite: {
+    // Astro defaults this to 'PUBLIC_', where Vite defaults to 'VITE_'. That
+    // difference is silent and it cost us: every `import.meta.env.VITE_*` in
+    // client code has been inlined as `undefined` since the migration, no
+    // matter what .env.production contained. Three things broke at once —
+    // the navbar fell back to a localhost API, the catalog link became the
+    // literal string "undefined/media/...", and the reCAPTCHA loader
+    // constant-folded away, so Django rejected every lead form submission.
+    //
+    // Restoring 'VITE_' rather than renaming the variables to PUBLIC_* keeps
+    // one set of names across .env.example, .env.production, README.md and
+    // deploy/DEPLOY.md — and, more importantly, keeps working the
+    // .env.production that already sits on the production host, which a rename
+    // would silently invalidate on the next rebuild.
+    //
+    // 'PUBLIC_' stays listed so Astro's own convention keeps working. Both
+    // prefixes are public by definition: everything they match is inlined into
+    // the client bundle, so no secret may ever carry one (the reCAPTCHA *site*
+    // key is public; the secret key lives in the Django .env and never here).
+    envPrefix: ['VITE_', 'PUBLIC_'],
+
     resolve: {
       alias: {
         // The React components reused as islands (the portal pages and the

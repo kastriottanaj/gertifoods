@@ -173,7 +173,11 @@ hydrates only the interactive parts (lead forms, cart, portal) as React islands.
 Two things are baked in at **build time**, so both must be right before you run
 the build:
 
-1. **The API base URL** the browser will call, via `.env.production`.
+1. **The reCAPTCHA site key**, via `.env.production`. Django enables reCAPTCHA
+   whenever `RECAPTCHA_SECRET_KEY` is set and rejects submissions carrying an
+   empty token, so a build without the matching site key makes every lead form
+   fail with HTTP 400. `npm run build` refuses to start without it — pass
+   `ALLOW_NO_RECAPTCHA=1` only if the backend genuinely runs without reCAPTCHA.
 2. **The product catalogue.** Product pages are generated from the Django API,
    so **Gunicorn must already be running** (step 8) — or, on a first install
    where it isn't up yet, start the dev server briefly just for the build.
@@ -181,11 +185,27 @@ the build:
 ```bash
 cd /var/www/gertifoods/frontend
 printf '%s\n' \
-  "VITE_API_URL=https://gertifoods.com/api" \
   "VITE_RECAPTCHA_SITE_KEY=<recaptcha-v3-site-key>" > .env.production
 npm ci
 npm run build        # outputs to frontend/dist (served by Nginx)
 ```
+
+**Do not set `VITE_API_URL` here.** Production is same-origin — nginx proxies
+`/api` to Gunicorn — so leaving it unset makes the browser call the relative
+`/api`, which is correct on whichever hostname the visitor arrived at. Pinning
+it to `https://gertifoods.com/api` breaks `www.gertifoods.com`, which serves the
+site directly rather than redirecting to the apex: every API call from `www`
+would become a cross-origin request that the API rejects (the `www` origin is
+not in `CORS_ALLOWED_ORIGINS`) and the page's own `connect-src 'self'` blocks.
+The variable exists for local development only, where Astro and Django sit on
+different ports.
+
+`.env.production` is gitignored, so it does **not** survive a fresh clone and
+has to be recreated on any new build host. Two build-time guards exist because
+it silently didn't: `scripts/check-build-env.js` refuses to build without the
+required variables, and `scripts/check-build-output.js` fails the build if a
+development value (a `localhost:<port>` host, a URL built from an `undefined`
+variable) or a missing reCAPTCHA loader made it into `dist/`.
 
 The build reads the catalogue from `http://127.0.0.1:8000/api` by default.
 **On this server that default returns HTTP 400**, because `ALLOWED_HOSTS` in the

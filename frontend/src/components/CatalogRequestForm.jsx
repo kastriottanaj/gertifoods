@@ -33,12 +33,20 @@ export default function CatalogRequestForm({ onSuccess }) {
       });
       setSuccess(true);
       if (onSuccess) onSuccess();
-      // trackLead, not completeLead: this form's payoff is the catalog PDF it
-      // opens on the next line, and redirecting the tab to the thank-you page
-      // would pull the visitor away from the download they just asked for. GA4
-      // still gets the same generate_lead event as the other two forms.
+      // trackLead, not completeLead: this form's payoff is the catalog email
+      // Django sends on submit, and redirecting the tab to the thank-you page
+      // would pull the visitor away from the success message telling them to
+      // go check their inbox. GA4 still gets the same generate_lead event as
+      // the other two forms.
+      //
+      // There used to be a window.open() for an instant download here. It
+      // pointed at /media/catalog/Katallogu_2026.pdf, a file that has never
+      // existed in any environment, so it only ever opened a 404 — and being
+      // after an await, it was outside the user-gesture window and liable to be
+      // popup-blocked regardless. The delivery this form actually promises, in
+      // all three languages, is the email ("the full catalog was just sent to
+      // your email"), which leads/emails.py has been sending all along.
       trackLead({ formName: 'catalog_request', source: 'catalog_modal', lang });
-      window.open(`${import.meta.env.VITE_API_URL}/media/catalog/Katallogu_2026.pdf`, '_blank');
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {

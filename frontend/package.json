@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/inline-critical-css.js",
+    "build": "node scripts/check-build-env.js && astro build && node scripts/inline-critical-css.js && node scripts/check-build-output.js",
     "preview": "astro preview",
     "lint": "eslint ."
   },

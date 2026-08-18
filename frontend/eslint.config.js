@@ -26,4 +26,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Build tooling runs in Node, not the browser: it reads process.env, exits
+    // with a status code and measures byte lengths with Buffer. Under the
+    // browser globals above, every one of those is an undefined variable.
+    files: ['scripts/**/*.js', '*.config.{js,mjs}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])
