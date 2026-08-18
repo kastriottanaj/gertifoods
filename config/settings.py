@@ -83,6 +83,29 @@ DATABASES = {
     }
 }
 
+# Cache
+#
+# This exists for DRF's throttling, which keeps its counters in the default
+# cache. Django's default is LocMemCache, which is per-process — and Gunicorn
+# runs 3 workers (deploy/gunicorn.service), so each one enforced its own copy of
+# every limit. The effective rates were three times what they say below (login
+# 15/min, not 5), and every counter reset on each restart. A shared backend is
+# what makes the numbers in DEFAULT_THROTTLE_RATES mean what they claim.
+#
+# The database backend rather than Redis or memcached: PostgreSQL is already
+# running and already a dependency, so this needs no new service, no new package
+# and no extra thing to monitor. The traffic here is nowhere near the point
+# where the difference in speed is worth that. It does need the cache table to
+# exist — `manage.py createcachetable`, which is idempotent and is part of the
+# deploy steps in deploy/DEPLOY.md. Django's test runner creates it
+# automatically, so tests need no special handling.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'django_cache',
+    }
+}
+
 # Custom user model
 AUTH_USER_MODEL = 'accounts.User'
 

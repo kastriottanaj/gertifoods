@@ -15,7 +15,7 @@ import {
   normalizePath,
   alternatePath,
 } from '../lib/i18n.js';
-import { organizationSchema } from '../lib/schema.js';
+import { organizationSchema, jsonLd } from '../lib/schema.js';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
@@ -263,7 +263,7 @@ const exitMessages = islandMessages(lang, 'exit');
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify(organizationSchema)}
+      set:html={jsonLd(organizationSchema)}
     />
 
     {/* Per-page head additions — e.g. the Article JSON-LD a blog post adds on

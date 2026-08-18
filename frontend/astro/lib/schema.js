@@ -179,3 +179,25 @@ export function breadcrumbSchema(items) {
     })),
   };
 }
+
+/**
+ * Serialise a schema.org graph for injection into a <script> tag.
+ *
+ * The escaping is the whole point. `JSON.stringify` does not escape `<`, so a
+ * value containing `</script>` closes the tag early and everything after it is
+ * parsed as markup — the classic JSON-in-HTML injection. Product names and
+ * descriptions reach productSchema() from the Django API, which means they are
+ * whatever staff typed into the admin; blog copy comes from a repo file today
+ * but has no guarantee of staying there.
+ *
+ * `<` is a valid JSON escape for `<` and parses back to the same string,
+ * so this changes nothing about the data — only about how it survives the HTML
+ * parser on the way in.
+ *
+ * BaseLayout.astro already did exactly this inline for the exit-popup strings;
+ * the three JSON-LD blocks did not. Having one function means the next block
+ * cannot quietly omit it.
+ */
+export function jsonLd(graph) {
+  return JSON.stringify(graph).replace(/</g, '\\u003c');
+}

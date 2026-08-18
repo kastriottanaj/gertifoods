@@ -308,12 +308,21 @@ cd /var/www/gertifoods
 git pull                                   # or rsync again
 ./venv/bin/pip install -r requirements.txt # if deps changed
 ./venv/bin/python manage.py migrate
+./venv/bin/python manage.py createcachetable  # idempotent; see note below
 ./venv/bin/python manage.py collectstatic --noinput
 sudo systemctl restart gunicorn            # restart BEFORE the frontend build,
                                            # which reads the catalogue from it
 cd frontend && npm ci
 BUILD_API_URL=https://gertifoods.com/api npm run build
 ```
+
+**`createcachetable` must run before Gunicorn restarts, not after.** DRF keeps
+its throttle counters in the default cache, which is now the database
+(`CACHES` in `config/settings.py`) so that all three workers share one set of
+counters instead of enforcing three private copies. If the new settings load
+before the table exists, every throttled request raises instead of being
+counted. The command is idempotent, so running it on a deploy that did not need
+it costs nothing.
 
 `astro build` empties `dist/` before it writes, so a build that fails partway
 leaves nothing to serve. Take a copy first if you want an instant rollback:

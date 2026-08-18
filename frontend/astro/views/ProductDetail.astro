@@ -13,7 +13,7 @@ import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
-import { productSchema, breadcrumbSchema } from '../lib/schema.js';
+import { productSchema, breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import ProductActions from '../islands/ProductActions.jsx';
 import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
@@ -90,7 +90,7 @@ const schema = {
     slot="head"
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(schema)}
+    set:html={jsonLd(schema)}
   />
 
   {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : isSpinachPie ? <SpinachPieDetail lang={lang} /> : isTunaPie ? <TunaPieDetail lang={lang} /> : <div class="product-detail">

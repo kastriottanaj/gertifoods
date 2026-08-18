@@ -3,6 +3,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath, normalizePath, DEFAULT_LANG } from '../lib/i18n.js';
 import { getBlogPost } from '../../src/data/blogPosts.js';
+import { jsonLd } from '../lib/schema.js';
 import bakeryImage from '../../src/assets/bakery-interior.webp';
 import aboutImage from '../../src/assets/gerti-foods-about-us.webp';
 import pieImage from '../../src/assets/products/Pie.webp';
@@ -57,7 +58,7 @@ const schema = {
     slot="head"
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(schema)}
+    set:html={jsonLd(schema)}
   />
 
   <article class="blog-article">
