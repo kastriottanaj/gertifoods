@@ -331,6 +331,51 @@ leaves nothing to serve. Take a copy first if you want an instant rollback:
 cp -a /var/www/gertifoods/frontend/dist /root/dist-backup-$(date +%F-%H%M%S)
 ```
 
+### Upgrading Django, Python, or anything else in the virtualenv
+
+**Create the new virtualenv at `venv`, its final path. Do not build it
+elsewhere and rename it into place.**
+
+That is the obvious-looking plan and it takes the API down. A virtualenv is not
+relocatable: `python -m venv <path>` bakes that absolute path into the shebang
+of every console script it installs. Build at `venv-new` and rename to `venv`
+and `venv/bin/gunicorn` still begins
+
+    #!/var/www/gertifoods/venv-new/bin/python3.14
+
+which no longer exists, so systemd fails with
+
+    Failed to execute /var/www/gertifoods/venv/bin/gunicorn: No such file or directory
+
+naming the script, not the missing interpreter it actually could not find. Every
+console script breaks the same way, `pip` included — which makes the venv look
+empty when you go to inspect it.
+
+The sequence that works, with downtime limited to the install:
+
+```bash
+cd /var/www/gertifoods
+systemctl stop gunicorn
+mv venv venv-old                    # keep for rollback
+python3.14 -m venv venv             # created AT its final path
+venv/bin/pip install --upgrade pip
+venv/bin/pip install -r requirements.txt
+head -1 venv/bin/gunicorn           # must read .../venv/bin/python*
+venv/bin/python manage.py check --deploy
+systemctl start gunicorn
+```
+
+Roll back with `rm -rf venv && mv venv-old venv && systemctl restart gunicorn`.
+That works because `venv-old` was originally created at `venv`, so moving it
+back restores the path its shebangs already name. Delete `venv-old` once the
+upgrade has proven itself.
+
+Run `manage.py migrate` and `collectstatic --noinput` with the **new**
+interpreter before starting Gunicorn, and use `set -o pipefail` if you script
+any of this — piping `pip install` into `tail` hides its exit status, so `set
+-e` will not catch a failed install and you find out when the service will not
+boot.
+
 ### After changing the product catalogue
 
 Product pages are generated at build time, so **adding, repricing or retiring a
