@@ -1,13 +1,33 @@
-asgiref==3.11.1
-Django==4.2.30
+# Pinned exactly so a deploy installs what was tested. Audited against OSV
+# (https://osv.dev) on 2026-08-19; every pin below was clean at that date.
+#
+# Re-check with:
+#   python3 -c "import json,urllib.request as u; [print(n, [v['id'] for v in json.load(u.urlopen(u.Request('https://api.osv.dev/v1/query', json.dumps({'package':{'name':n,'ecosystem':'PyPI'},'version':x}).encode(), {'Content-Type':'application/json'}))).get('vulns',[])]) for n,x in (l.strip().split('==') for l in open('requirements.txt') if '==' in l)]"
+asgiref==3.12.1
+# Django 5.2 LTS, security-supported until April 2028. 4.2 LTS reached end of
+# extended support in April 2026 and carried six unpatched advisories; it also
+# never supported the Python 3.14 the server runs (4.2 covers 3.8-3.12), so
+# production was on an untested pairing. 5.2 supports 3.10-3.14.
+Django==5.2.17
 django-cors-headers==4.9.0
+# Left at 3.16.1 deliberately: it declares support for Django 5.2 and has no
+# advisories, so the upgrade does not need to move it. 3.18 exists but dropping
+# Django 4.2 support is its only relevant change, and holding still here keeps
+# this a Django upgrade rather than a framework-wide one.
 djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 geoip2fast==1.2.2
 gunicorn==23.0.0
-pillow==12.2.0
+# 12.2.0 carried 26 advisories, several HIGH — heap out-of-bounds writes in
+# Image.paste()/crop(), a decompression-bomb check bypass, and OS command
+# injection in WindowsViewer. Pillow parses uploaded product images and is
+# called on every catalogue response (ProductSerializer reads width/height).
+pillow==12.3.0
 psycopg2-binary==2.9.11
 PyJWT==2.13.0
 python-decouple==3.8
-sqlparse==0.5.5
-typing_extensions==4.15.0
+# 0.5.5 carried three HIGH denial-of-service advisories (quadratic
+# group_comments, ReDoS on dollar-quoted literals, O(subtree) TokenList init).
+# Django imports sqlparse for SQL formatting.
+sqlparse==0.6.0
+typing_extensions==4.16.0

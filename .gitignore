@@ -6,7 +6,9 @@ dist/
 build/
 .eggs/
 *.egg
-venv/
+# Matches venv/, venv312/, venv3.14/ — any interpreter-suffixed environment
+# created while testing an upgrade.
+venv*/
 env/
 .venv/
 
