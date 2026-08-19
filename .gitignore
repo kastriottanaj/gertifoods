@@ -21,6 +21,12 @@ staticfiles/
 
 # Environment
 .env
+# Timestamped copies taken before editing the live .env during a deploy.
+# They hold SECRET_KEY and the database password, and they sit inside the
+# checkout on the server, so an untracked one is a stray `git add -A` away
+# from being committed.
+.env.backup-*
+.env.production.backup-*
 
 # Node
 node_modules/
