@@ -41,6 +41,18 @@ class Lead(models.Model):
         choices=STATUS_CHOICES,
         default='new',
     )
+    # Whether the sales notification for this row actually left the server.
+    #
+    # Sending is best-effort by design: leads/emails.py swallows any failure so
+    # a mail problem can never roll back a lead that is already saved. That is
+    # the right trade-off, but it made a real outage invisible — every
+    # notification this site ever sent failed SMTP authentication, and the only
+    # evidence was a line in journalctl that nobody reads. Recording the result
+    # puts it in the admin, where someone looking at leads will see it.
+    sales_notified = models.BooleanField(
+        default=False,
+        help_text='Whether the sales notification email was delivered to the SMTP server.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -113,6 +125,18 @@ class SampleRequest(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default='new',
+    )
+    # Whether the sales notification for this row actually left the server.
+    #
+    # Sending is best-effort by design: leads/emails.py swallows any failure so
+    # a mail problem can never roll back a lead that is already saved. That is
+    # the right trade-off, but it made a real outage invisible — every
+    # notification this site ever sent failed SMTP authentication, and the only
+    # evidence was a line in journalctl that nobody reads. Recording the result
+    # puts it in the admin, where someone looking at leads will see it.
+    sales_notified = models.BooleanField(
+        default=False,
+        help_text='Whether the sales notification email was delivered to the SMTP server.',
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

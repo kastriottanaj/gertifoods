@@ -161,18 +161,18 @@ const translations = {
     final_cta_body: 'Mostra falas, pa detyrime, pa kartë krediti. Dërgesë brenda 48 orëve në adresën e biznesit tënd.',
     final_cta_primary: 'Kërko mostra falas',
     final_cta_whatsapp: 'Fol me shitjet në WhatsApp',
-    final_cta_catalog: 'Shkarko katalogun (PDF)',
+    final_cta_catalog: 'Kërko katalogun e produkteve',
     final_cta_calendly: 'Kliko këtu për të rezervuar takim me ekipin e shitjeve',
 
     // Catalog request form (minimal email + company_name)
-    catalog_modal_title: 'Shkarko katalogun e produkteve',
-    catalog_form_subtext: 'Lër email-in dhe emrin e kompanisë. Katalogu i plotë të vjen menjëherë në email.',
+    catalog_modal_title: 'Kërko katalogun e produkteve',
+    catalog_form_subtext: 'Lër email-in dhe emrin e kompanisë. Ekipi ynë të dërgon katalogun e plotë sa më shpejt.',
     catalog_form_company: 'Emri i kompanisë',
     catalog_form_email: 'Email',
     catalog_form_submit: 'Dërgo kërkesën',
     catalog_form_loading: 'Duke dërguar...',
     catalog_form_success_title: 'Faleminderit!',
-    catalog_form_success_body: 'Katalogu i plotë sapo u dërgua në email-in tënd. Kontrollo edhe spam-in nëse s\'e sheh.',
+    catalog_form_success_body: 'E pranuam kërkesën tënde. Ekipi ynë të kontakton së shpejti me katalogun e plotë.',
     catalog_form_error: 'Diçka shkoi keq. Provo përsëri ose na kontakto drejtpërdrejt.',
 
     // Products
@@ -851,18 +851,18 @@ const translations = {
     final_cta_body: 'Free samples, no commitment, no credit card. Delivered to your business address within 48 hours.',
     final_cta_primary: 'Request free samples',
     final_cta_whatsapp: 'Talk to sales on WhatsApp',
-    final_cta_catalog: 'Download product catalog (PDF)',
+    final_cta_catalog: 'Request the product catalog',
     final_cta_calendly: 'Click here to book a meeting with our sales team',
 
     // Catalog request form (minimal email + company_name)
-    catalog_modal_title: 'Download the product catalog',
-    catalog_form_subtext: 'Leave your email and company name. We\'ll email you the full catalog instantly.',
+    catalog_modal_title: 'Request the product catalog',
+    catalog_form_subtext: 'Leave your email and company name. Our team will send you the full catalog shortly.',
     catalog_form_company: 'Company name',
     catalog_form_email: 'Email',
     catalog_form_submit: 'Send request',
     catalog_form_loading: 'Sending...',
     catalog_form_success_title: 'Thank you!',
-    catalog_form_success_body: 'The full catalog was just sent to your email. Check your spam folder if you don\'t see it.',
+    catalog_form_success_body: 'We have your request. Our team will be in touch shortly with the full catalog.',
     catalog_form_error: 'Something went wrong. Please try again or contact us directly.',
 
     // Products
@@ -1526,18 +1526,18 @@ const translations = {
     final_cta_body: 'Kostenlose Muster, keine Verpflichtung, keine Kreditkarte. Lieferung innerhalb von 48 Stunden an Ihre Geschäftsadresse.',
     final_cta_primary: 'Kostenlose Muster anfordern',
     final_cta_whatsapp: 'Mit dem Vertrieb per WhatsApp sprechen',
-    final_cta_catalog: 'Produktkatalog herunterladen (PDF)',
+    final_cta_catalog: 'Produktkatalog anfordern',
     final_cta_calendly: 'Klicken Sie hier, um ein Meeting mit unserem Vertriebsteam zu buchen',
 
     // Catalog request form (minimal email + company_name)
-    catalog_modal_title: 'Produktkatalog herunterladen',
-    catalog_form_subtext: 'Hinterlassen Sie E-Mail und Firmennamen. Wir senden Ihnen den vollständigen Katalog sofort per E-Mail.',
+    catalog_modal_title: 'Produktkatalog anfordern',
+    catalog_form_subtext: 'Hinterlassen Sie E-Mail und Firmennamen. Unser Team sendet Ihnen den vollständigen Katalog in Kürze.',
     catalog_form_company: 'Firmenname',
     catalog_form_email: 'E-Mail',
     catalog_form_submit: 'Anfrage senden',
     catalog_form_loading: 'Wird gesendet...',
     catalog_form_success_title: 'Vielen Dank!',
-    catalog_form_success_body: 'Der vollständige Katalog wurde soeben an Ihre E-Mail gesendet. Prüfen Sie ggf. Ihren Spam-Ordner.',
+    catalog_form_success_body: 'Wir haben Ihre Anfrage erhalten. Unser Team meldet sich in Kürze mit dem vollständigen Katalog.',
     catalog_form_error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen oder direkt kontaktieren.',
 
     // Products

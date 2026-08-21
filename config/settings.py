@@ -126,6 +126,18 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    # JSON only in production. DRF's default list also includes the browsable
+    # API, which renders a full HTML interface to anything sending
+    # `Accept: text/html` — so https://gertifoods.com/api/products/ answered a
+    # browser with 11 KB of markup naming the framework, listing every field and
+    # offering forms, where the SPA only ever wants the JSON. Nothing on the
+    # site uses it; it is kept in DEBUG because it is genuinely useful locally.
+    'DEFAULT_RENDERER_CLASSES': (
+        ('rest_framework.renderers.JSONRenderer',
+         'rest_framework.renderers.BrowsableAPIRenderer')
+        if DEBUG
+        else ('rest_framework.renderers.JSONRenderer',)
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_THROTTLE_CLASSES': (

@@ -1,11 +1,18 @@
 import json
 from unittest.mock import patch
 
+from django.conf import settings
+from django.core import mail
+from django.core.cache import cache
 from django.test import RequestFactory, SimpleTestCase, override_settings
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
 from rest_framework.throttling import SimpleRateThrottle
 
+from .emails import _header_safe
 from .geo import get_client_ip
-
+from .models import Lead
 from .recaptcha import RecaptchaUnavailable, verify_recaptcha
 
 
@@ -127,3 +134,84 @@ class ClientIpTests(SimpleTestCase):
     def test_ignores_a_blank_forwarded_for(self):
         request = self.request(HTTP_X_FORWARDED_FOR='', REMOTE_ADDR='203.0.113.9')
         self.assertEqual(get_client_ip(request), '203.0.113.9')
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+)
+class SalesNotificationTests(APITestCase):
+    """
+    A notification that never left the server must not look like one that did.
+
+    Sending is best-effort — leads/emails.py swallows failures so a mail
+    problem cannot roll back a lead already saved — and that hid a real outage:
+    every notification this site ever produced failed SMTP authentication, with
+    the only evidence a line in journalctl. These pin both halves of the fix:
+    the outcome is recorded on the row, and a name containing a newline no
+    longer costs the notification entirely.
+    """
+
+    url = reverse('lead-create')
+    payload = {
+        'first_name': 'Kastriot',
+        'last_name': 'Tanaj',
+        'email': 'buyer@bakery.example',
+        'phone': '+38349111150',
+        'source': 'home_hero',
+    }
+
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+
+    def test_records_that_the_notification_was_sent(self):
+        response = self.client.post(self.url, self.payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertTrue(Lead.objects.get().sales_notified)
+
+    def test_records_a_failure_without_losing_the_lead(self):
+        with patch('leads.emails.EmailMessage.send', side_effect=Exception('SMTP down')):
+            response = self.client.post(self.url, self.payload, format='json')
+
+        # The lead still saves — that is the whole point of best-effort sending.
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        lead = Lead.objects.get()
+        self.assertEqual(lead.email, 'buyer@bakery.example')
+        # ...but the failure is now visible instead of silent.
+        self.assertFalse(lead.sales_notified)
+
+    def test_a_newline_in_a_name_no_longer_costs_the_notification(self):
+        # Django rejects a subject containing a newline and _send swallows the
+        # error, so this used to save the lead and drop the alert entirely.
+        hostile = {**self.payload, 'first_name': 'Kastriot\nBcc: attacker@evil.example'}
+
+        response = self.client.post(self.url, hostile, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertTrue(Lead.objects.get().sales_notified)
+
+    def test_the_subject_carries_no_injected_header(self):
+        hostile = {**self.payload, 'first_name': 'Kastriot\nBcc: attacker@evil.example'}
+
+        self.client.post(self.url, hostile, format='json')
+
+        subject = mail.outbox[0].subject
+        self.assertNotIn('\n', subject)
+        self.assertNotIn('\r', subject)
+        self.assertEqual(mail.outbox[0].to, [settings.SALES_EMAIL])
+
+
+class HeaderSafeTests(SimpleTestCase):
+    def test_collapses_newlines_and_carriage_returns(self):
+        self.assertEqual(_header_safe('Kastriot\nBcc: x@y.z'), 'Kastriot Bcc: x@y.z')
+        self.assertEqual(_header_safe('a\r\nb'), 'a b')
+
+    def test_leaves_ordinary_text_alone(self):
+        self.assertEqual(_header_safe('Gerti Foods'), 'Gerti Foods')
+
+    def test_collapses_runs_of_whitespace(self):
+        self.assertEqual(_header_safe('  a   b  '), 'a b')

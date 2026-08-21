@@ -85,6 +85,22 @@ def _copy(lang, key):
     return EMAIL_COPY.get(lang, EMAIL_COPY['en'])[key]
 
 
+def _header_safe(value):
+    """Collapse anything that would make Django reject an email header.
+
+    Django refuses a subject containing a newline — correctly, since that is
+    how header injection works — by raising BadHeaderError. But _send swallows
+    every exception, so a lead whose name contained a line break saved fine and
+    then vanished from the sales inbox with no visible error. Someone
+    submitting deliberately shaped names could keep their submissions out of
+    view that way.
+
+    Collapsing the whitespace keeps the header valid and the notification
+    delivered, rather than trading one silent loss for another.
+    """
+    return ' '.join(str(value).split())
+
+
 def _send(subject, body, to, attachments=None):
     """
     Send one email. Best-effort: any failure is logged and swallowed so an
@@ -128,7 +144,7 @@ def send_catalog_email(sample_request, lang='en'):
         logger.error('Catalog file missing at %s (SampleRequest #%s)',
                      catalog_path, sr.pk)
 
-    notify_sales_sample(sr, label='Kërkesë katalog')
+    return notify_sales_sample(sr, label='Kërkesë katalog')
 
 
 def send_sample_confirmation(sample_request, lang='en'):
@@ -140,7 +156,7 @@ def send_sample_confirmation(sample_request, lang='en'):
         _copy(lang, 'sample_body').format(greeting=greeting),
         sr.email,
     )
-    notify_sales_sample(sr, label='Kërkesë mostrash')
+    return notify_sales_sample(sr, label='Kërkesë mostrash')
 
 
 # --------------------------------------------------------------------------
@@ -162,7 +178,9 @@ def notify_sales_sample(sample_request, label='Kërkesë e re'):
         f'Mesazhi: {sr.message or "—"}\n'
         f'Burimi: {sr.get_source_display()}\n'
     )
-    _send(f'{label} — {sr.company_name}', body, settings.SALES_EMAIL)
+    return _send(
+        _header_safe(f'{label} — {sr.company_name}'), body, settings.SALES_EMAIL
+    )
 
 
 def notify_sales_lead(lead):
@@ -175,5 +193,8 @@ def notify_sales_lead(lead):
         f'Mesazhi: {lead.message or "—"}\n'
         f'Burimi: {lead.get_source_display()}\n'
     )
-    _send(f'Lead i ri — {lead.first_name} {lead.last_name}', body,
-          settings.SALES_EMAIL)
+    return _send(
+        _header_safe(f'Lead i ri — {lead.first_name} {lead.last_name}'),
+        body,
+        settings.SALES_EMAIL,
+    )

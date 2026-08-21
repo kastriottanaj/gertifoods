@@ -12,12 +12,15 @@ class LeadAdmin(admin.ModelAdmin):
         'phone',
         'source',
         'status',
+        'sales_notified',
         'created_at',
     )
-    list_filter = ('status', 'source', 'created_at')
+    # Filtering on sales_notified is the point: it answers "which leads did we
+    # never actually hear about?" in one click.
+    list_filter = ('sales_notified', 'status', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('first_name', 'last_name', 'email', 'phone')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('sales_notified', 'created_at', 'updated_at')
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
 
@@ -29,7 +32,7 @@ class LeadAdmin(admin.ModelAdmin):
             'fields': ('message',),
         }),
         ('Tracking', {
-            'fields': ('source', 'status', 'created_at', 'updated_at'),
+            'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
         }),
     )
 
@@ -42,12 +45,13 @@ class SampleRequestAdmin(admin.ModelAdmin):
         'business_type',
         'source',
         'status',
+        'sales_notified',
         'created_at',
     )
-    list_filter = ('status', 'business_type', 'source', 'created_at')
+    list_filter = ('sales_notified', 'status', 'business_type', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('company_name', 'contact_name', 'email', 'phone', 'city')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('sales_notified', 'created_at', 'updated_at')
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
 
@@ -66,6 +70,6 @@ class SampleRequestAdmin(admin.ModelAdmin):
             'fields': ('products_interested', 'message'),
         }),
         ('Tracking', {
-            'fields': ('source', 'status', 'created_at', 'updated_at'),
+            'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
         }),
     )

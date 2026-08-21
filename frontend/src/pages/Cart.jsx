@@ -34,7 +34,18 @@ export default function Cart() {
       clearCart();
       navigate('/orders');
     } catch (err) {
-      setError(err.response?.data?.detail || t('cart_not_approved'));
+      // `detail` only carries permission errors. Everything else — a quantity
+      // below the product's minimum, a line whose product went unavailable —
+      // comes back as field errors, and reporting those as "your account is
+      // not approved" sent people to sales asking about approval when the real
+      // problem was the order. Show what the server actually objected to, and
+      // keep the approval message for when that is genuinely the answer.
+      const data = err.response?.data;
+      const fieldErrors =
+        data && typeof data === 'object' && !data.detail
+          ? Object.values(data).flat().filter((m) => typeof m === 'string')
+          : [];
+      setError(data?.detail || fieldErrors.join(' ') || t('cart_not_approved'));
     } finally {
       setSubmitting(false);
     }

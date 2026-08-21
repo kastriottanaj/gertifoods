@@ -66,8 +66,11 @@ class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateA
     def perform_create(self, serializer):
         lead = serializer.save()
         # Notify sales of every captured lead. Email sending is best-effort —
-        # a mail failure can't roll back the lead we just saved.
-        notify_sales_lead(lead)
+        # a mail failure can't roll back the lead we just saved — but the
+        # outcome is recorded so an undelivered notification is visible in the
+        # admin rather than only in the log.
+        lead.sales_notified = notify_sales_lead(lead)
+        lead.save(update_fields=['sales_notified'])
 
 
 class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
@@ -86,6 +89,8 @@ class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generic
         # Catalog requests get the PDF emailed instantly; all other sample/
         # contact requests get a thank-you. Both also alert sales. Best-effort.
         if sample_request.source == 'catalog_request':
-            send_catalog_email(sample_request, lang=lang)
+            notified = send_catalog_email(sample_request, lang=lang)
         else:
-            send_sample_confirmation(sample_request, lang=lang)
+            notified = send_sample_confirmation(sample_request, lang=lang)
+        sample_request.sales_notified = bool(notified)
+        sample_request.save(update_fields=['sales_notified'])
