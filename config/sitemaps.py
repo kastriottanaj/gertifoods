@@ -55,6 +55,17 @@ PAGE_ROUTES = {
         'sources': page_sources('products', 'Products.astro'),
         'keys': 'products',
     },
+    # A hand-built landing page, not a catalogue row: the tortilla line has no
+    # Product in the database yet (see products/management/commands/
+    # populate_products.py), so ProductSitemap below cannot emit this URL and
+    # it is declared here instead. Move it to ProductSitemap if the line is
+    # ever seeded, so the two don't both claim it.
+    '/products/tortilla': {
+        'changefreq': 'monthly',
+        'priority': 0.8,
+        'sources': page_sources('products/tortilla', 'TortillaDetail.astro'),
+        'keys': 'tt',
+    },
     '/about': {
         'changefreq': 'monthly',
         'priority': 0.7,

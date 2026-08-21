@@ -1,0 +1,9 @@
+---
+// Static route, deliberately beside [slug].astro. The tortilla line is not in
+// the Django catalogue yet, so the dynamic route generates nothing for this
+// address — see views/TortillaDetail.astro for the full note.
+import TortillaDetail from '../../views/TortillaDetail.astro';
+import { DEFAULT_LANG } from '../../lib/i18n.js';
+---
+
+<TortillaDetail lang={DEFAULT_LANG} />

@@ -1,0 +1,202 @@
+---
+// Tortilla landing page (/products/tortilla).
+//
+// Unlike the byrek and Family Pack landing pages this one is NOT rendered
+// through ProductDetail.astro, because there is no tortilla row in the Django
+// catalogue: products/management/commands/populate_products.py still carries a
+// TODO waiting on the variant list, wholesale prices and MOQs from sales. So
+// the page owns its BaseLayout and its schema, and it deliberately states no
+// price and no minimum order — the two facts nobody has signed off on yet.
+//
+// It is a static route sitting beside pages/products/[slug].astro. Astro gives
+// static routes priority, so if a `tortilla` product is ever seeded in the
+// admin this file would shadow the generated page. Delete it at that point (or
+// rename the DB slug) rather than leaving both.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
+import { breadcrumbSchema, productSchema, jsonLd } from '../lib/schema.js';
+import '../styles/tortilla-detail.css';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+
+const PHONE = '+383 49 111 150';
+const PHONE_HREF = 'tel:+38349111150';
+
+// Same normalisation BaseLayout applies before emitting the canonical, so the
+// schema and the <link rel="canonical"> name the identical URL.
+const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
+
+const VARIANTS = ['plain', 'vegetable', 'fruit', 'cinnamon'];
+const BENEFITS = [
+  ['ready', '◷'],
+  ['volume', '▤'],
+  ['consistent', '♢'],
+];
+const AUDIENCES = [
+  ['bakeries', '♨'],
+  ['horeca', '⌂'],
+  ['retail', '▰'],
+  ['catering', '♧'],
+];
+
+// productSchema() expects a catalogue row; this page has none, so it gets the
+// minimum the function reads. showsPrice is false — the page shows no price, so
+// attaching an Offer would advertise a figure the visitor cannot see, which is
+// exactly the mismatch Google issues manual actions for.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    productSchema({
+      product: { slug: 'tortilla', image: null },
+      name: t('category_tortilla_title'),
+      description: t('tt_meta'),
+      category: t('category_tortilla_title'),
+      canonical,
+      showsPrice: false,
+    }),
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(localePath(lang, '/'), Astro.site).href },
+      { name: t('nav_products'), url: new URL(localePath(lang, '/products'), Astro.site).href },
+      { name: t('category_tortilla_title') },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title={t('tt_seo_title')}
+  description={t('tt_meta')}
+  lang={lang}
+  appClass=" tortilla-app"
+  brandSuffix={false}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={jsonLd(schema)}
+  />
+
+  <div class="tt-page">
+    <section class="tt-hero">
+      <div class="tt-hero-copy">
+        <nav class="tt-breadcrumb">
+          <a href={p('/products')}>{t('nav_products')}</a> / <span>{t('category_tortilla_title')}</span>
+        </nav>
+        <span class="tt-badge">{t('tt_badge')}</span>
+        <h1>{t('tt_title')}</h1>
+        <p class="tt-lead">{t('tt_intro')}</p>
+        <div class="tt-actions">
+          <button type="button" data-open-modal="sample">{t('tt_cta_primary')} <b>↗</b></button>
+          <a href={p('/areas')}>{t('tt_cta_secondary')}</a>
+        </div>
+        <div class="tt-phone">
+          <a href={PHONE_HREF}>☎ &nbsp;{PHONE}</a>
+          <small>{t('tt_phone_body')}</small>
+        </div>
+      </div>
+
+      {/* TODO: swap for a real tortilla photo once the shoot lands — the same
+          gap the homepage category card works around. A decorative panel is
+          used rather than a stock image so the page never implies a product
+          shot that isn't ours. */}
+      <div class="tt-hero-visual" role="img" aria-label={t('tt_hero_alt')}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15zM9 8a1.2 1.2 0 100 2.4A1.2 1.2 0 009 8zm6 1.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm-4.5 4a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="tt-trust">
+      <div><b>3,000</b><small>{t('tt_trust_capacity_label')}</small></div>
+      <div><b>ISO 22000</b><small>{t('tt_trust_cert_label')}</small></div>
+      <div><b>{t('tt_trust_variants_value')}</b><small>{t('tt_trust_variants_label')}</small></div>
+      <div><b>{t('tt_trust_b2b')}</b><small>{t('tt_trust_b2b_label')}</small></div>
+    </section>
+
+    <section class="tt-variants">
+      <h2>{t('tt_variants_title')}</h2>
+      <p class="tt-section-intro">{t('tt_variants_body')}</p>
+      <div class="tt-variant-grid">
+        {VARIANTS.map((variant) => (
+          <article>
+            <i class="tt-swatch" aria-hidden="true"></i>
+            <h3>{t(`tt_variant_${variant}`)}</h3>
+            <p>{t(`tt_variant_${variant}_body`)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="tt-benefits">
+      <h2>{t('tt_benefits_title')}</h2>
+      <div class="tt-benefit-grid">
+        {BENEFITS.map(([benefit, icon]) => (
+          <article>
+            <i aria-hidden="true">{icon}</i>
+            <h3>{t(`tt_benefit_${benefit}`)}</h3>
+            <p>{t(`tt_benefit_${benefit}_body`)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="tt-solutions">
+      <h2>{t('tt_solutions_title')}</h2>
+      <div class="tt-solution-grid">
+        {AUDIENCES.map(([audience, icon]) => (
+          <article>
+            <i aria-hidden="true">{icon}</i>
+            <h3>{t(`tt_for_${audience}`)}</h3>
+            <p>{t(`tt_for_${audience}_body`)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="tt-cta">
+      <div>
+        <h2>{t('tt_cta_title')}</h2>
+        <p>{t('tt_cta_body')}</p>
+      </div>
+      <div class="tt-cta-actions">
+        <button type="button" data-open-modal="sample">{t('tt_cta_primary')} <b>↗</b></button>
+        <a href={PHONE_HREF}>☎ &nbsp;{PHONE}</a>
+      </div>
+    </section>
+
+    <div class="tt-mobile-bar">
+      <button type="button" data-open-modal="sample">{t('tt_cta_primary')} ↗</button>
+      <a href={PHONE_HREF} aria-label={t('products_call_now')}>☎</a>
+    </div>
+
+    {/* 'products_page' rather than a tortilla-specific value: SampleRequest.
+        source is a choices field, so DRF rejects anything not in
+        leads/models.py SOURCE_CHOICES. Add a choice there (with a migration)
+        if sales wants this page reported separately. */}
+    <ModalHost
+      client:load
+      lang={lang}
+      messages={islandMessages(lang)}
+      sampleSource="products_page"
+      closeOnSampleSuccess={true}
+    />
+  </div>
+</BaseLayout>
+
+<script>
+  // Bridges the static CTA buttons to the ModalHost island, the same way
+  // Home.astro and Products.astro do. Without it every [data-open-modal]
+  // button on the page is inert.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+    });
+  });
+</script>

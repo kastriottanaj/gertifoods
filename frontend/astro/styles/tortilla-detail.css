@@ -1,0 +1,438 @@
+/*
+ * Tortilla landing page (/products/tortilla).
+ *
+ * Deliberately left un-minified, unlike the sibling *-pie-detail.css files:
+ * those were exported from a mockup and are not edited by hand, whereas this
+ * page is about to go through copy and layout revisions.
+ *
+ * There is no tortilla photography yet — the same gap the homepage category
+ * card works around — so the hero panel and the variant cards are drawn in
+ * CSS. Swap them for real images once the shoot lands; the markup already has
+ * the elements sized so nothing reflows.
+ */
+.tortilla-app {
+  background: #fff;
+}
+.tortilla-app .main-content {
+  max-width: none;
+  padding: 0;
+  overflow: hidden;
+}
+.tortilla-app .navbar-container {
+  max-width: 1280px;
+}
+
+.tt-page {
+  --tt-red: var(--brand-red, #da2030);
+  --tt-green: var(--brand-green, #00723b);
+  --tt-sand: #f7f2e8;
+  --tt-ink: #171717;
+  --tt-muted: #5c5c5c;
+  color: var(--tt-ink);
+  background: #fff;
+}
+.tt-page section {
+  width: min(1280px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* --- Hero ------------------------------------------------------------- */
+.tt-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 48px;
+  align-items: center;
+  padding: 56px 0 48px;
+}
+.tt-breadcrumb {
+  font-size: 13px;
+  color: var(--tt-muted);
+  margin-bottom: 18px;
+}
+.tt-breadcrumb a {
+  color: var(--tt-muted);
+  text-decoration: none;
+}
+.tt-breadcrumb a:hover {
+  color: var(--tt-red);
+  text-decoration: underline;
+}
+.tt-badge {
+  display: inline-flex;
+  background: var(--tt-green);
+  color: #fff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.tt-hero h1 {
+  margin: 18px 0 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.tt-lead {
+  margin: 18px 0 0;
+  max-width: 54ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--tt-muted);
+}
+.tt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.tt-actions button,
+.tt-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 13px 24px;
+  font-size: 15px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.tt-actions button {
+  background: var(--tt-red);
+  color: #fff;
+}
+.tt-actions button:hover {
+  background: #b81a28;
+}
+.tt-actions a {
+  background: #fff;
+  color: var(--tt-ink);
+  border-color: #dcdcdc;
+}
+.tt-actions a:hover {
+  border-color: var(--tt-ink);
+}
+.tt-phone {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tt-phone a {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--tt-ink);
+  text-decoration: none;
+}
+.tt-phone a:hover {
+  color: var(--tt-red);
+}
+.tt-phone small {
+  font-size: 13px;
+  color: var(--tt-muted);
+}
+
+/* Placeholder hero visual. TODO: replace with a real tortilla photograph. */
+.tt-hero-visual {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  background: radial-gradient(circle at 32% 30%, #fff8ea 0%, var(--tt-sand) 55%, #ede3d1 100%);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.tt-hero-visual svg {
+  width: 46%;
+  height: auto;
+  color: #c9b48c;
+}
+.tt-hero-visual span {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  font-size: 12px;
+  color: #a8926a;
+}
+
+/* --- Trust bar -------------------------------------------------------- */
+.tt-trust {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: #e6e6e6;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 64px;
+}
+.tt-trust div {
+  background: #fff;
+  padding: 20px 22px;
+}
+.tt-trust b {
+  display: block;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.tt-trust small {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--tt-muted);
+}
+
+/* --- Shared section heading ------------------------------------------- */
+.tt-page h2 {
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.tt-section-intro {
+  margin: 12px 0 0;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--tt-muted);
+}
+
+/* --- Variants --------------------------------------------------------- */
+.tt-variants {
+  padding-bottom: 64px;
+}
+.tt-variant-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.tt-variant-grid article {
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Placeholder swatch per variant. TODO: replace with product photography. */
+.tt-swatch {
+  display: block;
+  aspect-ratio: 3 / 2;
+  background: var(--tt-swatch, var(--tt-sand));
+}
+.tt-variant-grid article:nth-child(1) { --tt-swatch: linear-gradient(135deg, #f4ead6, #e2d0ad); }
+.tt-variant-grid article:nth-child(2) { --tt-swatch: linear-gradient(135deg, #e2eed6, #b9d49a); }
+.tt-variant-grid article:nth-child(3) { --tt-swatch: linear-gradient(135deg, #fbe3e0, #f0b3ab); }
+.tt-variant-grid article:nth-child(4) { --tt-swatch: linear-gradient(135deg, #f0dfc7, #ceab7c); }
+.tt-variant-grid h3 {
+  margin: 0;
+  padding: 18px 20px 0;
+  font-size: 17px;
+}
+.tt-variant-grid p {
+  margin: 6px 0 0;
+  padding: 0 20px 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--tt-muted);
+}
+
+/* --- Benefits --------------------------------------------------------- */
+.tt-benefits {
+  padding-bottom: 64px;
+}
+.tt-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+.tt-benefit-grid article {
+  background: var(--tt-sand);
+  border-radius: 16px;
+  padding: 26px 24px;
+}
+.tt-benefit-grid i {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--tt-green);
+  font-size: 19px;
+  font-style: normal;
+}
+.tt-benefit-grid h3 {
+  margin: 16px 0 0;
+  font-size: 18px;
+}
+.tt-benefit-grid p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--tt-muted);
+}
+
+/* --- Audiences -------------------------------------------------------- */
+.tt-solutions {
+  padding-bottom: 64px;
+}
+.tt-solution-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.tt-solution-grid article {
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 24px 22px;
+}
+.tt-solution-grid i {
+  font-style: normal;
+  font-size: 20px;
+  color: var(--tt-red);
+}
+.tt-solution-grid h3 {
+  margin: 12px 0 0;
+  font-size: 17px;
+}
+.tt-solution-grid p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--tt-muted);
+}
+
+/* --- Closing CTA ------------------------------------------------------ */
+.tt-cta {
+  background: var(--tt-green);
+  color: #fff;
+  border-radius: 20px;
+  padding: 44px 40px;
+  margin-bottom: 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px;
+  align-items: center;
+}
+.tt-cta h2 {
+  color: #fff;
+}
+.tt-cta p {
+  margin: 10px 0 0;
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+.tt-cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tt-cta-actions button,
+.tt-cta-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-size: 15px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+}
+.tt-cta-actions button {
+  background: #fff;
+  color: var(--tt-green);
+}
+.tt-cta-actions a {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.tt-cta-actions a:hover {
+  border-color: #fff;
+}
+
+/* --- Sticky mobile bar ------------------------------------------------ */
+.tt-mobile-bar {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .tt-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 32px;
+  }
+  .tt-hero-visual {
+    order: -1;
+  }
+  .tt-trust,
+  .tt-variant-grid,
+  .tt-solution-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tt-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+  .tt-cta {
+    grid-template-columns: 1fr;
+    padding: 32px 26px;
+  }
+}
+
+@media (max-width: 560px) {
+  .tt-page section {
+    width: calc(100% - 32px);
+  }
+  .tt-trust,
+  .tt-variant-grid,
+  .tt-solution-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Clears the fixed bar below so the last section is never covered. */
+  .tt-cta {
+    margin-bottom: 96px;
+  }
+  .tt-mobile-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #fff;
+    border-top: 1px solid #e6e6e6;
+  }
+  .tt-mobile-bar button,
+  .tt-mobile-bar a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+  }
+  .tt-mobile-bar button {
+    background: var(--tt-red);
+    color: #fff;
+  }
+  .tt-mobile-bar a {
+    background: var(--tt-sand);
+    color: var(--tt-ink);
+  }
+}
