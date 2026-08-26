@@ -8,22 +8,22 @@ asgiref==3.12.1
 # extended support in April 2026 and carried six unpatched advisories; it also
 # never supported the Python 3.14 the server runs (4.2 covers 3.8-3.12), so
 # production was on an untested pairing. 5.2 supports 3.10-3.14.
-Django==5.2.17
+Django==6.1
 django-cors-headers==4.9.0
 # Left at 3.16.1 deliberately: it declares support for Django 5.2 and has no
 # advisories, so the upgrade does not need to move it. 3.18 exists but dropping
 # Django 4.2 support is its only relevant change, and holding still here keeps
 # this a Django upgrade rather than a framework-wide one.
-djangorestframework==3.16.1
+djangorestframework==3.18.0
 djangorestframework_simplejwt==5.5.1
 geoip2fast==1.2.2
-gunicorn==23.0.0
+gunicorn==26.1.0
 # 12.2.0 carried 26 advisories, several HIGH — heap out-of-bounds writes in
 # Image.paste()/crop(), a decompression-bomb check bypass, and OS command
 # injection in WindowsViewer. Pillow parses uploaded product images and is
 # called on every catalogue response (ProductSerializer reads width/height).
 pillow==12.3.0
-psycopg2-binary==2.9.11
+psycopg2-binary==2.9.12
 PyJWT==2.13.0
 python-decouple==3.8
 # 0.5.5 carried three HIGH denial-of-service advisories (quadratic
