@@ -12,6 +12,8 @@
 // static routes priority, so if a `tortilla` product is ever seeded in the
 // admin this file would shadow the generated page. Delete it at that point (or
 // rename the DB slug) rather than leaving both.
+//
+// Layout follows the approved design mockup (desktop + mobile).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
@@ -30,17 +32,37 @@ const PHONE_HREF = 'tel:+38349111150';
 // schema and the <link rel="canonical"> name the identical URL.
 const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
 
-const VARIANTS = ['plain', 'vegetable', 'fruit', 'cinnamon'];
-const BENEFITS = [
-  ['ready', '◷'],
-  ['volume', '▤'],
-  ['consistent', '♢'],
-];
-const AUDIENCES = [
-  ['bakeries', '♨'],
-  ['horeca', '⌂'],
-  ['retail', '▰'],
-  ['catering', '♧'],
+// ---------------------------------------------------------------------------
+// PHOTOGRAPHY — UNDER-RESOLUTION, PENDING PROPER EXPORTS.
+//
+// These are the supplied images, cropped to remove the mockup UI that was
+// baked into their edges (the headline and button fragment down the hero's
+// left side; the card gutters and slivers of the neighbouring card on the
+// variants). See scripts noted in the commit message for the crop boxes.
+//
+// They are, however, far below what these slots render at:
+//
+//              source        rendered @1440 (2x)   upscale
+//   hero       356 x 302     ~1400 x 1050          ~3.9x
+//   variant    ~175 x 85     ~610 x 400            ~3.5x
+//
+// So they will look soft. They are wired up because they are what exists and
+// they read correctly as four distinct products; replace them with 1600x1200
+// (hero) and 800x520 (variants) exports when those are available. Dropping
+// files with the same names into this directory is the whole swap — the
+// aspect ratios are fixed in CSS, so nothing reflows.
+import heroImage from '../../src/assets/tortilla/hero.webp';
+import plainImage from '../../src/assets/tortilla/plain.webp';
+import vegetableImage from '../../src/assets/tortilla/vegetable.webp';
+import fruitImage from '../../src/assets/tortilla/fruit.webp';
+import cinnamonImage from '../../src/assets/tortilla/cinnamon.webp';
+
+// key -> image; the alt text is keyed off the same name (tt_variant_<key>_alt).
+const VARIANTS = [
+  ['plain', plainImage],
+  ['vegetable', vegetableImage],
+  ['fruit', fruitImage],
+  ['cinnamon', cinnamonImage],
 ];
 
 // productSchema() expects a catalogue row; this page has none, so it gets the
@@ -82,6 +104,7 @@ const schema = {
   />
 
   <div class="tt-page">
+    <!-- ── Hero ─────────────────────────────────────────────────────────── -->
     <section class="tt-hero">
       <div class="tt-hero-copy">
         <nav class="tt-breadcrumb">
@@ -90,88 +113,191 @@ const schema = {
         <span class="tt-badge">{t('tt_badge')}</span>
         <h1>{t('tt_title')}</h1>
         <p class="tt-lead">{t('tt_intro')}</p>
+
         <div class="tt-actions">
-          <button type="button" data-open-modal="sample">{t('tt_cta_primary')} <b>↗</b></button>
+          <button type="button" data-open-modal="sample">
+            {t('tt_cta_primary')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </button>
           <a href={p('/areas')}>{t('tt_cta_secondary')}</a>
         </div>
+
         <div class="tt-phone">
-          <a href={PHONE_HREF}>☎ &nbsp;{PHONE}</a>
+          <a href={PHONE_HREF}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
+            {PHONE}
+          </a>
           <small>{t('tt_phone_body')}</small>
         </div>
       </div>
 
-      {/* TODO: swap for a real tortilla photo once the shoot lands — the same
-          gap the homepage category card works around. A decorative panel is
-          used rather than a stock image so the page never implies a product
-          shot that isn't ours. */}
-      <div class="tt-hero-visual" role="img" aria-label={t('tt_hero_alt')}>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15zM9 8a1.2 1.2 0 100 2.4A1.2 1.2 0 009 8zm6 1.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm-4.5 4a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/>
-        </svg>
+      <div class="tt-hero-media">
+        {heroImage ? (
+          <img
+            src={heroImage.src}
+            width={heroImage.width}
+            height={heroImage.height}
+            alt={t('tt_hero_alt')}
+            class="tt-hero-image"
+            fetchpriority="high"
+          />
+        ) : (
+          <div class="tt-hero-image tt-placeholder" role="img" aria-label={t('tt_hero_alt')}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15zM9 8a1.2 1.2 0 100 2.4A1.2 1.2 0 009 8zm6 1.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm-4.5 4a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/></svg>
+          </div>
+        )}
+
+        {/* Handwritten accent from the mockup. The face is self-hosted and
+            subsetted — see src/assets/fonts/README.md. */}
+        <p class="tt-accent">
+          <span>{t('tt_hero_accent')}</span>
+          <svg class="tt-accent-swash" viewBox="0 0 120 12" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M2 8c22-5 48-7 78-4 14 1 26 3 38 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </p>
       </div>
     </section>
 
-    <section class="tt-trust">
-      <div><b>3,000</b><small>{t('tt_trust_capacity_label')}</small></div>
-      <div><b>ISO 22000</b><small>{t('tt_trust_cert_label')}</small></div>
-      <div><b>{t('tt_trust_variants_value')}</b><small>{t('tt_trust_variants_label')}</small></div>
-      <div><b>{t('tt_trust_b2b')}</b><small>{t('tt_trust_b2b_label')}</small></div>
-    </section>
-
-    <section class="tt-variants">
-      <h2>{t('tt_variants_title')}</h2>
-      <p class="tt-section-intro">{t('tt_variants_body')}</p>
-      <div class="tt-variant-grid">
-        {VARIANTS.map((variant) => (
-          <article>
-            <i class="tt-swatch" aria-hidden="true"></i>
-            <h3>{t(`tt_variant_${variant}`)}</h3>
-            <p>{t(`tt_variant_${variant}_body`)}</p>
-          </article>
-        ))}
+    <!-- ── Trust bar ────────────────────────────────────────────────────── -->
+    <section class="tt-trust" aria-label={t('tt_trust_standards_label')}>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v5c0 4.4-3 8.3-7 10-4-1.7-7-5.6-7-10V6l7-3z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
+        <p><b>{t('tt_trust_cert')}</b><small>{t('tt_trust_cert_label')}</small></p>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+        <p><b>{t('tt_trust_standards')}</b><small>{t('tt_trust_standards_label')}</small></p>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
+        <p><b>{t('tt_trust_capacity')}</b><small>{t('tt_trust_capacity_label')}</small></p>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M22 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/></svg>
+        <p><b>{t('tt_trust_b2b')}</b><small>{t('tt_trust_b2b_label')}</small></p>
       </div>
     </section>
 
+    <!-- ── Benefits ─────────────────────────────────────────────────────── -->
     <section class="tt-benefits">
       <h2>{t('tt_benefits_title')}</h2>
       <div class="tt-benefit-grid">
-        {BENEFITS.map(([benefit, icon]) => (
+        <article>
+          <i class="tt-icon tt-icon-red"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5z"/></svg></i>
+          <div><h3>{t('tt_benefit_ready')}</h3><p>{t('tt_benefit_ready_body')}</p></div>
+        </article>
+        <article>
+          <i class="tt-icon tt-icon-red"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="12" width="3.6" height="8" rx="1" fill="currentColor"/><rect x="10.2" y="8" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="16.4" y="4" width="3.6" height="16" rx="1" fill="currentColor"/></svg></i>
+          <div><h3>{t('tt_benefit_volume')}</h3><p>{t('tt_benefit_volume_body')}</p></div>
+        </article>
+        <article>
+          <i class="tt-icon tt-icon-green"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7.5 12.4l3 3 6-6.4"/></svg></i>
+          <div><h3>{t('tt_benefit_consistent')}</h3><p>{t('tt_benefit_consistent_body')}</p></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── Variants ─────────────────────────────────────────────────────── -->
+    <section class="tt-variants">
+      <div class="tt-section-head">
+        <h2>{t('tt_variants_title')}</h2>
+        <a href={p('/products')} class="tt-section-link">
+          {t('tt_variants_all')}
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </a>
+      </div>
+      <div class="tt-variant-grid">
+        {VARIANTS.map(([key, image]) => (
           <article>
-            <i aria-hidden="true">{icon}</i>
-            <h3>{t(`tt_benefit_${benefit}`)}</h3>
-            <p>{t(`tt_benefit_${benefit}_body`)}</p>
+            {image ? (
+              <img
+                src={image.src}
+                width={image.width}
+                height={image.height}
+                alt={t(`tt_variant_${key}_alt`)}
+                class="tt-variant-image"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div
+                class={`tt-variant-image tt-placeholder tt-swatch-${key}`}
+                role="img"
+                aria-label={t(`tt_variant_${key}_alt`)}
+              ></div>
+            )}
+            <div class="tt-variant-body">
+              <h3>{t(`tt_variant_${key}`)}</h3>
+              <p>{t(`tt_variant_${key}_body`)}</p>
+              {/* Opens the sample modal with this variant already written into
+                  the "products interested" field, so the lead tells sales which
+                  variant drew it. See ModalHost.jsx. */}
+              <button
+                type="button"
+                class="tt-variant-cta"
+                data-open-modal="sample"
+                data-modal-products={t(`tt_variant_${key}`)}
+              >
+                {t('tt_variant_more')}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+              </button>
+            </div>
           </article>
         ))}
       </div>
     </section>
 
+    <!-- ── Audiences ────────────────────────────────────────────────────── -->
     <section class="tt-solutions">
       <h2>{t('tt_solutions_title')}</h2>
       <div class="tt-solution-grid">
-        {AUDIENCES.map(([audience, icon]) => (
-          <article>
-            <i aria-hidden="true">{icon}</i>
-            <h3>{t(`tt_for_${audience}`)}</h3>
-            <p>{t(`tt_for_${audience}_body`)}</p>
-          </article>
-        ))}
+        <article>
+          <i class="tt-icon-line"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4 14c0-3.3 3.6-6 8-6s8 2.7 8 6-3.6 6-8 6-8-2.7-8-6z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M8.5 11.5l2 5M12 11l2 5.5M15.5 11.5l1.5 4.5"/></svg></i>
+          <h3>{t('tt_for_bakeries')}</h3>
+          <p>{t('tt_for_bakeries_body')}</p>
+        </article>
+        <article>
+          <i class="tt-icon-line"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M6 3v8a2 2 0 002 2v8M6 3v5M9 3v5M18 3c-1.5 1.5-2 3.5-2 6v4h3V3M18 13v8"/></svg></i>
+          <h3>{t('tt_for_horeca')}</h3>
+          <p>{t('tt_for_horeca_body')}</p>
+        </article>
+        <article>
+          <i class="tt-icon-line"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3 4h2.2l2.2 11h9.8l2.3-8H6.2"/><circle cx="9" cy="19" r="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="19" r="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></i>
+          <h3>{t('tt_for_retail')}</h3>
+          <p>{t('tt_for_retail_body')}</p>
+        </article>
+        <article>
+          <i class="tt-icon-line"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3 18h18M4.5 18a7.5 7.5 0 0115 0M12 7V4.5"/><circle cx="12" cy="3.6" r="1.1" fill="currentColor"/></svg></i>
+          <h3>{t('tt_for_catering')}</h3>
+          <p>{t('tt_for_catering_body')}</p>
+        </article>
       </div>
     </section>
 
+    <!-- ── Closing CTA ──────────────────────────────────────────────────── -->
     <section class="tt-cta">
       <div>
         <h2>{t('tt_cta_title')}</h2>
         <p>{t('tt_cta_body')}</p>
       </div>
       <div class="tt-cta-actions">
-        <button type="button" data-open-modal="sample">{t('tt_cta_primary')} <b>↗</b></button>
-        <a href={PHONE_HREF}>☎ &nbsp;{PHONE}</a>
+        <button type="button" data-open-modal="sample">
+          {t('tt_cta_primary')}
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        </button>
+        <a href={PHONE_HREF}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
+          {PHONE}
+        </a>
       </div>
     </section>
 
+    <!-- ── Sticky mobile bar ────────────────────────────────────────────── -->
     <div class="tt-mobile-bar">
-      <button type="button" data-open-modal="sample">{t('tt_cta_primary')} ↗</button>
-      <a href={PHONE_HREF} aria-label={t('products_call_now')}>☎</a>
+      <button type="button" data-open-modal="sample">{t('tt_cta_primary')}</button>
+      <a href={PHONE_HREF} aria-label={t('products_call_now')}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg>
+      </a>
     </div>
 
     {/* 'products_page' rather than a tortilla-specific value: SampleRequest.
@@ -192,11 +318,17 @@ const schema = {
   // Bridges the static CTA buttons to the ModalHost island, the same way
   // Home.astro and Products.astro do. Without it every [data-open-modal]
   // button on the page is inert.
+  //
+  // The variant cards additionally carry data-modal-products; when present the
+  // event detail becomes { modal, products } instead of a bare modal name, and
+  // ModalHost seeds the form's "products interested" field from it.
   document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const name = btn.dataset.openModal;
-      (window as any).__gfPendingModal = name;
-      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+      const products = btn.dataset.modalProducts;
+      const detail = products ? { modal: name, products } : name;
+      (window as any).__gfPendingModal = detail;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail }));
     });
   });
 </script>

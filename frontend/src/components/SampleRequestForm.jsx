@@ -27,9 +27,16 @@ const INITIAL_FORM = {
   website: '', // honeypot — must stay empty for real users
 };
 
-export default function SampleRequestForm({ source = 'other', onSuccess }) {
+// `initialProducts` seeds the "products interested" field. The tortilla landing
+// page opens this modal from a specific variant card, so the lead arrives
+// saying which variant it came from instead of leaving sales to guess. Empty
+// by default, which is the behaviour every other caller already had.
+export default function SampleRequestForm({ source = 'other', initialProducts = '', onSuccess }) {
   const { t, lang } = useLanguage();
-  const [form, setForm] = useState(INITIAL_FORM);
+  const [form, setForm] = useState(() => ({
+    ...INITIAL_FORM,
+    products_interested: initialProducts,
+  }));
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

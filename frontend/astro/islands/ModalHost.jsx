@@ -20,11 +20,28 @@ import CatalogRequestForm from '../../src/components/CatalogRequestForm';
 function ModalHostInner({ sampleSource, closeOnSampleSuccess }) {
   const { t } = useLanguage();
   const [openModal, setOpenModal] = useState(null);
+  // Which product the opening trigger named, if any. The tortilla variant cards
+  // pass one; every other trigger on the site sends a bare string and leaves
+  // this empty.
+  const [prefill, setPrefill] = useState('');
 
   useEffect(() => {
+    // A trigger sends either a bare modal name ('sample') — which is what
+    // Home.astro and Products.astro have always sent — or { modal, products }.
+    // Accepting both is what keeps this change invisible to those two pages.
+    const apply = (detail) => {
+      if (detail && typeof detail === 'object') {
+        setOpenModal(detail.modal);
+        setPrefill(detail.products || '');
+      } else {
+        setOpenModal(detail);
+        setPrefill('');
+      }
+    };
+
     const handleOpen = (e) => {
       window.__gfPendingModal = null;
-      setOpenModal(e.detail);
+      apply(e.detail);
     };
     window.addEventListener('gf:open-modal', handleOpen);
 
@@ -33,7 +50,7 @@ function ModalHostInner({ sampleSource, closeOnSampleSuccess }) {
       // state update also avoids a synchronous state cascade during hydration.
       const pendingModal = window.__gfPendingModal;
       window.__gfPendingModal = null;
-      queueMicrotask(() => setOpenModal(pendingModal));
+      queueMicrotask(() => apply(pendingModal));
     }
 
     return () => window.removeEventListener('gf:open-modal', handleOpen);
@@ -48,8 +65,13 @@ function ModalHostInner({ sampleSource, closeOnSampleSuccess }) {
         onClose={close}
         title={t('sample_form_title')}
       >
+        {/* Keyed on the prefill so re-opening from a different variant card
+            remounts the form and re-seeds the field, rather than keeping the
+            value from the previous open. */}
         <SampleRequestForm
+          key={prefill}
           source={sampleSource}
+          initialProducts={prefill}
           onSuccess={() => {
             sessionStorage.setItem('sample_request_submitted', '1');
             // Products.jsx closed the modal on success; Home.jsx left it open
