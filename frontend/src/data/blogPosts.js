@@ -212,62 +212,414 @@ export const blogPosts = [
   {
     slug: 'choosing-reliable-food-supplier',
     published: '2026-07-22',
+    updated: '2026-09-13',
     image: 'about',
+    related: ['how-half-baked-products-help-businesses', 'reduce-food-waste-with-bake-on-demand'],
     translations: {
       sq: {
         title: 'Çfarë duhet të kërkoni te një furnizues ushqimor i besueshëm',
         description: 'Pesë pika që bizneset duhet të kontrollojnë kur zgjedhin një partner furnizimi për produkte ushqimore.',
         seoTitle: 'Furnizues ushqimor i besueshëm: 5 pika për bizneset',
         seoDescription: 'Zbuloni 5 faktorët kryesorë për zgjedhjen e një furnizuesi ushqimor të besueshëm, nga siguria te furnizimi. Lexoni artikullin!',
-        category: 'Furnizimi B2B', readingTime: '5 min lexim',
-        sections: [['Standardet e sigurisë ushqimore', 'Kërkoni dëshmi për sisteme të dokumentuara të sigurisë ushqimore, gjurmueshmëri dhe kontroll të rregullt të prodhimit. Certifikimet si ISO 22000 tregojnë se proceset menaxhohen sipas një standardi të njohur.'], ['Furnizim i parashikueshëm', 'Një çmim i mirë nuk mjafton nëse produkti mungon kur ju nevojitet. Diskutoni kapacitetin, afatet, zonat e dërgesës dhe mënyrën se si trajtohen ndryshimet në porosi.'], ['Specifikime të qarta', 'Pesha, madhësia, përbërësit, ruajtja dhe udhëzimet e pjekjes duhet të jenë të qarta. Kjo ndihmon ekipin tuaj të llogarisë koston për porcion dhe të japë rezultat të njëjtë.'], ['Komunikim dhe mbështetje', 'Një partner i mirë përgjigjet shpejt, ofron mostra dhe ju ndihmon të zgjidhni formatin e duhur për volumin dhe pajisjet tuaja.']],
+        category: 'Furnizimi B2B',
+        readingTime: '5 min lexim',
+        sections: [
+          [
+            'Pse furnizuesi peshon më shumë se çmimi',
+            [
+              'Në një furrë, hotel apo restorant, produkti që blen nga furnizuesi del para klientit me emrin tënd. Nëse byreku vjen ndryshe nga java e kaluar, nëse dërgesa vonon të shtunën në mëngjes ose nëse një lot ka problem, klienti nuk e di kush e prodhoi — e di vetëm ku e bleu.',
+              'Prandaj një çmim i mirë është vetëm pika e nisjes. Pesë pikat më poshtë janë ato që ndajnë një furnizues të lirë nga një partner me të cilin mund të planifikosh.',
+            ],
+          ],
+          [
+            '1. Standarde të sigurisë ushqimore që mund t\'i shohësh',
+            [
+              'Kërko dëshmi, jo përshkrime. Një prodhues serioz ka një sistem të dokumentuar të sigurisë ushqimore, gjurmueshmëri të çdo loti nga lënda e parë deri te paketimi dhe kontrolle të rregullta gjatë prodhimit.',
+              'Certifikimet e bëjnë këtë të verifikueshme nga një palë e tretë. ISO 22000 dhe HACCP mbulojnë menaxhimin e rrezikut, IFS dhe BRC janë standardet që kërkojnë zinxhirët e mëdhenj të shitjes me pakicë, ndërsa Halal ka rëndësi për një pjesë të madhe të tregut tonë. Gerti Foods i mban të pestë. Kërkoji certifikatat dhe kontrollo datën e vlefshmërisë.',
+            ],
+          ],
+          [
+            '2. Furnizim të parashikueshëm',
+            [
+              'Produkti më i mirë nuk vlen asgjë nëse mungon në ditën që ke rezervuar një dasmë. Para se të porosisësh, pyet për kapacitetin real të prodhimit, kohën nga porosia deri te dërgesa, ditët e dërgesës në zonën tënde dhe çfarë ndodh kur duhet ta ndryshosh një porosi me pak ditë para.',
+              'Numrat konkretë ndihmojnë. Linja jonë e byrekut prodhon deri në 800 copë në orë dhe ajo e tortillave deri në 3.000, dhe dërgojmë në Kosovë, Shqipëri dhe në disa tregje të Evropës Qendrore. Një furnizues që i thotë numrat e vet hapur zakonisht i mban edhe afatet.',
+            ],
+          ],
+          [
+            '3. Specifikime të qarta për çdo produkt',
+            [
+              'Pesha e copës, madhësia, përbërësit dhe alergjenët, mënyra e ruajtjes, koha dhe temperatura e pjekjes, afati i përdorimit — të gjitha këto duhet të jenë të shkruara, jo të thëna me telefon.',
+              'Me specifikime të qarta ekipi yt llogarit koston për porcion, planifikon hapësirën në frigorifer dhe jep të njëjtin rezultat në çdo turn. Pa to, çdo ndryshim i vogël në produkt kthehet në një problem në kuzhinën tënde.',
+            ],
+          ],
+          [
+            '4. Mostra, para se të nënshkruash',
+            [
+              'Asnjë katalog nuk e zëvendëson furrën tënde. Një furnizues i sigurt për produktin e vet të jep mostra dhe të lë t\'i provosh me pajisjet, stafin dhe klientët e tu.',
+              'Piqi sipas udhëzimeve, shëno kohën dhe temperaturën që të jep rezultatin më të mirë, dhe provoje disa ditë me radhë. Nëse furnizuesi heziton të japë mostra, kjo vetë është një përgjigje.',
+            ],
+          ],
+          [
+            '5. Komunikim dhe mbështetje pas shitjes',
+            [
+              'Problemet ndodhin — një dërgesë vonon, një kuti vjen e dëmtuar, një produkt i ri nuk shitet siç prisje. Ajo që ka rëndësi është sa shpejt merr përgjigje dhe nëse ke një person konkret që e njeh biznesin tënd.',
+              'Pyet që në fillim: kush është kontakti im, në cilat orë, përmes cilit kanal? Një partner i mirë të ndihmon edhe të zgjedhësh formatin e duhur për volumin tënd, jo vetëm të shesë atë që ka në stok.',
+            ],
+          ],
+          [
+            'Pyetjet për telefonatën e parë',
+            [
+              'Cilat certifikata i mbani dhe deri kur janë të vlefshme? Sa është koha nga porosia deri te dërgesa në zonën time? Cila është sasia minimale e porosisë? A mund të marr mostra? Kush do të jetë kontakti im? Si e trajtoni një ankesë për cilësinë?',
+              'Gjashtë pyetje, dhjetë minuta. Përgjigjet — dhe mënyra si jepen — të tregojnë më shumë sesa çdo listë çmimesh.',
+            ],
+          ],
+          [
+            'Zgjidh një partner, jo një çmim',
+            [
+              'Një furnizues i besueshëm të kursen kohë çdo javë: më pak telefonata, më pak improvizime, më pak surpriza para klientit. Kjo vlen më shumë se disa cent në copë.',
+              'Nëse po kërkon një furnizues për byrek dhe tortilla gjysmë të pjekura, fillo me një mostër nga Prizreni dhe gjyko vetë.',
+            ],
+          ],
+        ],
       },
       en: {
         title: 'What to look for in a reliable food supplier',
         description: 'Five practical points businesses should check when choosing a food-product supply partner.',
         seoTitle: 'Reliable Food Supplier: 5 Things Businesses Should Check',
         seoDescription: 'Learn 5 key factors for choosing a reliable food supplier, from food safety and supply to clear specifications. Read the article!',
-        category: 'B2B supply', readingTime: '5 min read',
-        sections: [['Food-safety standards', 'Ask for evidence of documented food-safety systems, traceability and regular production controls. Certifications such as ISO 22000 show that processes are managed against a recognised standard.'], ['Predictable supply', 'A good price is not enough if stock is unavailable when needed. Discuss capacity, lead times, delivery areas and how order changes are handled.'], ['Clear specifications', 'Weight, size, ingredients, storage and baking instructions should be clear. This helps your team calculate cost per serving and produce a consistent result.'], ['Communication and support', 'A strong partner responds promptly, provides samples and helps select the right format for your volume and equipment.']],
+        category: 'B2B supply',
+        readingTime: '5 min read',
+        sections: [
+          [
+            'Why the supplier matters more than the price',
+            [
+              'In a bakery, hotel or restaurant, the product you buy from a supplier goes in front of the customer under your name. If the byrek turns out different from last week, if the delivery is late on a Saturday morning, if one batch has a problem — the customer does not know who made it. They only know where they bought it.',
+              'So a good price is only the starting point. The five points below are what separate a cheap supplier from a partner you can plan around.',
+            ],
+          ],
+          [
+            '1. Food-safety standards you can see',
+            [
+              'Ask for evidence, not descriptions. A serious producer has a documented food-safety system, traceability of every batch from raw material to packaging, and regular controls during production.',
+              'Certifications make that verifiable by a third party. ISO 22000 and HACCP cover hazard management, IFS and BRC are the standards large retail chains demand, and Halal matters for a large part of our market. Gerti Foods holds all five. Ask for the certificates and check the expiry dates.',
+            ],
+          ],
+          [
+            '2. Predictable supply',
+            [
+              'The best product is worth nothing if it is missing on the day you have a wedding booked. Before you order, ask about real production capacity, the time from order to delivery, delivery days in your area, and what happens when you need to change an order a few days out.',
+              'Concrete numbers help. Our byrek line produces up to 800 pieces an hour and the tortilla line up to 3,000, and we deliver in Kosovo, Albania and several Central European markets. A supplier who states its numbers openly usually keeps its deadlines too.',
+            ],
+          ],
+          [
+            '3. Clear specifications for every product',
+            [
+              'Piece weight, size, ingredients and allergens, storage, baking time and temperature, shelf life — all of it should be written down, not said over the phone.',
+              'With clear specifications your team can calculate cost per serving, plan freezer space and deliver the same result on every shift. Without them, every small change in the product becomes a problem in your kitchen.',
+            ],
+          ],
+          [
+            '4. Samples, before you sign',
+            [
+              'No catalogue replaces your own oven. A supplier confident in its product gives you samples and lets you test them with your equipment, your staff and your customers.',
+              'Bake them as instructed, note the time and temperature that give the best result, and run them for a few days in a row. If a supplier hesitates to provide samples, that is an answer in itself.',
+            ],
+          ],
+          [
+            '5. Communication and support after the sale',
+            [
+              'Problems happen — a delivery runs late, a box arrives damaged, a new product does not sell the way you expected. What matters is how quickly you get an answer and whether you have a named person who knows your business.',
+              'Ask at the start: who is my contact, at what hours, through which channel? A good partner also helps you choose the right format for your volume, rather than just selling what is in stock.',
+            ],
+          ],
+          [
+            'Questions for the first call',
+            [
+              'Which certificates do you hold and until when are they valid? What is the lead time to my area? What is the minimum order? Can I get samples? Who will be my contact? How do you handle a quality complaint?',
+              'Six questions, ten minutes. The answers — and the way they are given — tell you more than any price list.',
+            ],
+          ],
+          [
+            'Choose a partner, not a price',
+            [
+              'A reliable supplier saves you time every week: fewer phone calls, fewer improvisations, fewer surprises in front of the customer. That is worth more than a few cents per piece.',
+              'If you are looking for a supplier of half-baked byrek and tortillas, start with a sample from Prizren and judge for yourself.',
+            ],
+          ],
+        ],
       },
       de: {
         title: 'Worauf Sie bei einem zuverlässigen Lebensmittellieferanten achten sollten',
         description: 'Fünf praktische Punkte für Unternehmen bei der Auswahl eines Lieferpartners für Lebensmittel.',
         seoTitle: 'Zuverlässiger Lebensmittellieferant: 5 Auswahlkriterien',
         seoDescription: 'Erfahren Sie 5 wichtige Kriterien für einen zuverlässigen Lebensmittellieferanten – von Sicherheit bis Lieferfähigkeit. Jetzt Artikel lesen!',
-        category: 'B2B-Lieferung', readingTime: '5 Min. Lesezeit',
-        sections: [['Standards für Lebensmittelsicherheit', 'Fragen Sie nach dokumentierten Sicherheitssystemen, Rückverfolgbarkeit und regelmäßigen Produktionskontrollen. Zertifizierungen wie ISO 22000 zeigen, dass Prozesse nach einem anerkannten Standard geführt werden.'], ['Planbare Versorgung', 'Ein guter Preis reicht nicht, wenn Ware zum benötigten Zeitpunkt fehlt. Klären Sie Kapazität, Vorlaufzeiten, Liefergebiete und den Umgang mit Bestelländerungen.'], ['Klare Spezifikationen', 'Gewicht, Größe, Zutaten, Lagerung und Backanleitung sollten eindeutig sein. So kann Ihr Team die Portionskosten berechnen und gleichbleibende Ergebnisse erzielen.'], ['Kommunikation und Unterstützung', 'Ein guter Partner antwortet schnell, stellt Muster bereit und hilft bei der Wahl des passenden Formats für Volumen und Ausstattung.']],
+        category: 'B2B-Lieferung',
+        readingTime: '5 Min. Lesezeit',
+        sections: [
+          [
+            'Warum der Lieferant mehr zählt als der Preis',
+            [
+              'In einer Bäckerei, einem Hotel oder Restaurant kommt das Produkt, das Sie beim Lieferanten kaufen, unter Ihrem Namen vor den Kunden. Fällt der Börek anders aus als letzte Woche, kommt die Lieferung am Samstagmorgen zu spät, hat eine Charge ein Problem — der Kunde weiß nicht, wer es hergestellt hat. Er weiß nur, wo er es gekauft hat.',
+              'Ein guter Preis ist deshalb nur der Ausgangspunkt. Die fünf Punkte unten trennen einen billigen Lieferanten von einem Partner, mit dem Sie planen können.',
+            ],
+          ],
+          [
+            '1. Lebensmittelsicherheit, die Sie sehen können',
+            [
+              'Verlangen Sie Nachweise, keine Beschreibungen. Ein seriöser Hersteller hat ein dokumentiertes System für Lebensmittelsicherheit, Rückverfolgbarkeit jeder Charge vom Rohstoff bis zur Verpackung und regelmäßige Kontrollen während der Produktion.',
+              'Zertifizierungen machen das durch Dritte überprüfbar. ISO 22000 und HACCP decken das Gefahrenmanagement ab, IFS und BRC sind die Standards, die große Handelsketten verlangen, und Halal ist für einen großen Teil unseres Marktes wichtig. Gerti Foods hält alle fünf. Fragen Sie nach den Zertifikaten und prüfen Sie die Gültigkeitsdaten.',
+            ],
+          ],
+          [
+            '2. Planbare Versorgung',
+            [
+              'Das beste Produkt nützt nichts, wenn es an dem Tag fehlt, an dem Sie eine Hochzeit gebucht haben. Fragen Sie vor der Bestellung nach der tatsächlichen Produktionskapazität, der Zeit von Bestellung bis Lieferung, den Liefertagen in Ihrer Region und danach, was passiert, wenn Sie eine Bestellung wenige Tage vorher ändern müssen.',
+              'Konkrete Zahlen helfen. Unsere Börek-Linie produziert bis zu 800 Stück pro Stunde, die Tortilla-Linie bis zu 3.000, und wir liefern im Kosovo, in Albanien und in mehrere mitteleuropäische Märkte. Ein Lieferant, der seine Zahlen offen nennt, hält in der Regel auch seine Termine.',
+            ],
+          ],
+          [
+            '3. Klare Spezifikationen für jedes Produkt',
+            [
+              'Stückgewicht, Größe, Zutaten und Allergene, Lagerung, Backzeit und -temperatur, Haltbarkeit — all das gehört schriftlich festgehalten, nicht am Telefon gesagt.',
+              'Mit klaren Spezifikationen kann Ihr Team die Kosten pro Portion berechnen, den Platz im Tiefkühler planen und in jeder Schicht dasselbe Ergebnis liefern. Ohne sie wird jede kleine Änderung am Produkt zu einem Problem in Ihrer Küche.',
+            ],
+          ],
+          [
+            '4. Muster, bevor Sie unterschreiben',
+            [
+              'Kein Katalog ersetzt Ihren eigenen Ofen. Ein Lieferant, der von seinem Produkt überzeugt ist, gibt Ihnen Muster und lässt Sie diese mit Ihren Geräten, Ihrem Personal und Ihren Kunden testen.',
+              'Backen Sie sie nach Anleitung, notieren Sie Zeit und Temperatur mit dem besten Ergebnis und setzen Sie sie einige Tage hintereinander ein. Zögert ein Lieferant, Muster bereitzustellen, ist das für sich genommen schon eine Antwort.',
+            ],
+          ],
+          [
+            '5. Kommunikation und Betreuung nach dem Kauf',
+            [
+              'Probleme passieren — eine Lieferung verspätet sich, ein Karton kommt beschädigt an, ein neues Produkt verkauft sich nicht wie erwartet. Entscheidend ist, wie schnell Sie eine Antwort bekommen und ob Sie einen festen Ansprechpartner haben, der Ihr Geschäft kennt.',
+              'Fragen Sie gleich zu Beginn: Wer ist mein Kontakt, zu welchen Zeiten, über welchen Kanal? Ein guter Partner hilft Ihnen auch, das passende Format für Ihr Volumen zu wählen, statt nur zu verkaufen, was auf Lager ist.',
+            ],
+          ],
+          [
+            'Fragen für das erste Gespräch',
+            [
+              'Welche Zertifikate halten Sie und bis wann sind sie gültig? Wie lang ist die Vorlaufzeit in meine Region? Wie hoch ist die Mindestbestellmenge? Kann ich Muster bekommen? Wer wird mein Ansprechpartner sein? Wie gehen Sie mit einer Qualitätsreklamation um?',
+              'Sechs Fragen, zehn Minuten. Die Antworten — und die Art, wie sie gegeben werden — sagen mehr als jede Preisliste.',
+            ],
+          ],
+          [
+            'Wählen Sie einen Partner, keinen Preis',
+            [
+              'Ein zuverlässiger Lieferant spart Ihnen jede Woche Zeit: weniger Anrufe, weniger Improvisation, weniger Überraschungen vor dem Kunden. Das ist mehr wert als ein paar Cent pro Stück.',
+              'Wenn Sie einen Lieferanten für halbgebackene Börek und Tortillas suchen, fangen Sie mit einem Muster aus Prizren an und urteilen Sie selbst.',
+            ],
+          ],
+        ],
       },
     },
   },
   {
     slug: 'reduce-food-waste-with-bake-on-demand',
     published: '2026-07-08',
+    updated: '2026-09-13',
     image: 'pie',
+    related: ['how-half-baked-products-help-businesses', 'choosing-reliable-food-supplier'],
     translations: {
       sq: {
         title: 'Si të ulni mbetjet ushqimore me pjekje sipas kërkesës',
         description: 'Një udhëzues praktik për planifikimin e sasive dhe pjekjen sipas kërkesës në operacionet profesionale.',
         seoTitle: 'Ulni mbetjet ushqimore me pjekje sipas kërkesës',
         seoDescription: 'Mësoni si pjekja sipas kërkesës dhe sasitë më të vogla ulin mbetjet ushqimore në biznes. Lexoni udhëzuesin dhe shikoni produktet!',
-        category: 'Efikasitet operacional', readingTime: '4 min lexim',
-        sections: [['Matni kërkesën sipas orarit', 'Shënoni shitjet sipas ditës dhe orës. Edhe disa javë të dhëna ndihmojnë në identifikimin e pikave të ngarkuara dhe sasive që zakonisht mbeten pa u shitur.'], ['Piqni në sasi të vogla', 'Mbani një ekspozim tërheqës, por plotësojeni më shpesh me sasi më të vogla. Produktet gjysmë të pjekura e bëjnë këtë të mundur pa nisur çdo herë një proces të gjatë përgatitjeje.'], ['Vendosni rregulla të thjeshta', 'Përcaktoni sasinë fillestare, pikën e rimbushjes dhe orën e fundit të pjekjes për secilin produkt. Rregullat e qarta ndihmojnë çdo turn të marrë vendime të njëjta.'], ['Rishikoni dhe përmirësoni', 'Krahasoni çdo javë produktet e pjekura, të shitura dhe të mbetura. Ndryshimet e vogla në sasi dhe orar mund të sjellin kursime të qëndrueshme.']],
+        category: 'Efikasitet operacional',
+        readingTime: '4 min lexim',
+        sections: [
+          [
+            'Nga vjen mbetja në të vërtetë',
+            [
+              'Pjesa më e madhe e produktit që hidhet në mbyllje nuk vjen nga cilësia e keqe, por nga një vendim i marrë në orën gjashtë të mëngjesit: sa të piqet për gjithë ditën. Kur piqet gjithçka njëherësh, vitrina është e bukur në orën tetë dhe gjysmë e zbrazët ose e ndenjur në orën katër.',
+              'Pjekja sipas kërkesës e ndan këtë vendim në disa vendime më të vogla gjatë ditës. Produktet gjysmë të pjekura e bëjnë të mundur, sepse stoku qëndron i ngrirë dhe çdo turn mund të nxjerrë nga furra vetëm atë që i duhet, për 15–20 minuta.',
+            ],
+          ],
+          [
+            'Hapi 1: Mat kërkesën sipas orës',
+            [
+              'Për dy-tre javë, shëno sa copë shiten për çdo produkt dhe në cilën orë — një fletë letre pranë arkës mjafton. Shëno edhe sa mbeten në mbyllje.',
+              'Do të shohësh pika të qarta: mëngjesi i së premtes, pushimi i drekës, ora pas shkollës. Do të shohësh edhe produktet që mbeten çdo ditë në të njëjtën sasi. Ato dy gjëra janë e gjithë baza që të duhet.',
+            ],
+          ],
+          [
+            'Hapi 2: Piq në sasi më të vogla, më shpesh',
+            [
+              'Në vend të një pjekjeje të madhe në mëngjes, planifiko tri ose katër më të vogla: para hapjes, para pikut të drekës, në mes të pasdites. Vitrina mbetet plot, produkti është gjithmonë i ngrohtë dhe aroma e furrës punon për ty gjatë gjithë ditës.',
+              'Me byrek dhe tortilla gjysmë të pjekura, një pjekje e re do të thotë vetëm të hapësh frigoriferin dhe të ndezësh furrën. Nuk ka brumë për të përgatitur dhe nuk ka nevojë për bukëpjekës në turn.',
+            ],
+          ],
+          [
+            'Hapi 3: Vendos tri numra për çdo produkt',
+            [
+              'Sasia e hapjes: sa copë piqen para se të hapet dera. Pika e rimbushjes: kur vitrina bie nën këtë numër, futet pjekja tjetër. Ora e fundit e pjekjes: pas kësaj ore nuk piqet më, sido që të duket vitrina.',
+              'Tre numra në një fletë të ngjitur pranë furrës. Kështu çdo turn merr të njëjtin vendim, pa pasur nevojë të pyesë pronarin dhe pa u mbështetur në ndjesinë e momentit.',
+            ],
+          ],
+          [
+            'Hapi 4: Përdor stokun e ngrirë si rezervë, jo si magazinë',
+            [
+              'Stoku i ngrirë të jep mundësinë të reagosh — një grup turistësh që hyn papritur, një porosi kateringu për të nesërmen — pa pjekur paraprakisht "për çdo rast".',
+              'Mbaje sasinë e ngrirë sipas ritmit të dërgesave, jo sipas frikës se mos mbetesh pa. Një furnizues me dërgesa të rregullta dhe kapacitet të njohur e bën këtë llogari shumë më të lehtë.',
+            ],
+          ],
+          [
+            'Hapi 5: Rishiko çdo javë',
+            [
+              'Çdo të hënë, krahaso për secilin produkt: sa u poq, sa u shit, sa mbeti. Nëse mbetja është e qëndrueshme, ul sasinë e hapjes. Nëse vitrina zbrazet para pikut, ngri pikën e rimbushjes.',
+              'Ndryshimet e vogla janë ato që qëndrojnë. Pas disa javësh do të kesh numra që përputhen me biznesin tënd real, jo me mesataren e ndonjë libri.',
+            ],
+          ],
+          [
+            'Çfarë të presësh',
+            [
+              'Produkti i hedhur në mbyllje bie dukshëm, sepse vendimi për sasinë merret më afër momentit të shitjes. Klientët e pasdites marrin produkt të ngrohtë. Stafi ka një rregull të qartë në vend të një hamendjeje.',
+              'Nuk të premtojmë një përqindje — çdo lokal është ndryshe. Por metoda është e thjeshtë për t\'u provuar: dy javë matje, tre numra për produkt, një rishikim në javë.',
+            ],
+          ],
+          [
+            'Fillo me një produkt',
+            [
+              'Mos e ndrysho gjithë prodhimin njëherësh. Zgjidh produktin që të mbetet më shpesh, zbato metodën vetëm për të dhe shiko rezultatin pas dy javësh.',
+              'Nëse dëshiron ta provosh me byrek ose tortilla gjysmë të pjekura, kërko mostra dhe testoje në furrën tënde.',
+            ],
+          ],
+        ],
       },
       en: {
         title: 'How to reduce food waste with bake-on-demand',
         description: 'A practical guide to batch planning and bake-on-demand for professional food operations.',
         seoTitle: 'Bake-On-Demand: How to Cut Food Waste in Your Business',
         seoDescription: 'Learn how bake-on-demand and smaller batches can reduce food waste in professional food operations. Read the guide and see our products!',
-        category: 'Operational efficiency', readingTime: '4 min read',
-        sections: [['Measure demand by time', 'Record sales by day and hour. Even a few weeks of data helps identify busy periods and the quantities that typically remain unsold.'], ['Bake smaller batches', 'Keep the display inviting, but replenish it more often with smaller quantities. Half-baked products make this possible without restarting a long preparation process each time.'], ['Set simple rules', 'Define an opening quantity, a replenishment point and a final baking time for each item. Clear rules help every shift make consistent decisions.'], ['Review and improve', 'Compare items baked, sold and left over each week. Small adjustments to batch size and timing can create lasting savings.']],
+        category: 'Operational efficiency',
+        readingTime: '4 min read',
+        sections: [
+          [
+            'Where the waste actually comes from',
+            [
+              'Most of the product thrown away at closing time is not the result of poor quality but of a decision made at six in the morning: how much to bake for the whole day. When everything is baked at once, the display looks great at eight and is half empty or stale by four.',
+              'Bake-on-demand splits that one decision into several smaller ones through the day. Half-baked products make it possible, because stock stays frozen and any shift can pull from the oven only what it needs, in 15–20 minutes.',
+            ],
+          ],
+          [
+            'Step 1: Measure demand by the hour',
+            [
+              'For two or three weeks, note how many pieces of each product sell and at what time — a sheet of paper next to the till is enough. Note what is left at closing too.',
+              'Clear peaks will appear: Friday morning, the lunch break, the hour after school. So will the products that are left over every day in the same quantity. Those two things are all the baseline you need.',
+            ],
+          ],
+          [
+            'Step 2: Bake smaller batches, more often',
+            [
+              'Instead of one big bake in the morning, plan three or four smaller ones: before opening, before the lunch peak, mid-afternoon. The display stays full, the product is always warm, and the smell of the oven works for you all day.',
+              'With half-baked byrek and tortillas, a new bake means opening the freezer and switching on the oven. There is no dough to prepare and no baker needed on shift.',
+            ],
+          ],
+          [
+            'Step 3: Set three numbers for every product',
+            [
+              'The opening quantity: how many pieces are baked before the door opens. The refill point: when the display drops below this number, the next bake goes in. The last bake time: after this hour, nothing more is baked, whatever the display looks like.',
+              'Three numbers on a sheet stuck next to the oven. That way every shift makes the same decision, without asking the owner and without relying on the feeling of the moment.',
+            ],
+          ],
+          [
+            'Step 4: Use frozen stock as a reserve, not a warehouse',
+            [
+              'Frozen stock gives you the ability to react — a coach party walking in unannounced, a catering order for tomorrow — without pre-baking "just in case".',
+              'Size the frozen stock to your delivery rhythm, not to the fear of running out. A supplier with regular deliveries and known capacity makes that calculation much easier.',
+            ],
+          ],
+          [
+            'Step 5: Review every week',
+            [
+              'Every Monday, compare for each product: how many were baked, sold, left over. If the leftover is consistent, lower the opening quantity. If the display empties before the peak, raise the refill point.',
+              'Small adjustments are the ones that stick. After a few weeks you will have numbers that match your real business, not the average in some textbook.',
+            ],
+          ],
+          [
+            'What to expect',
+            [
+              'Product thrown away at closing drops noticeably, because the quantity decision is made closer to the moment of sale. Afternoon customers get warm product. Staff have a clear rule instead of a guess.',
+              'We will not promise you a percentage — every place is different. But the method is easy to test: two weeks of measuring, three numbers per product, one review a week.',
+            ],
+          ],
+          [
+            'Start with one product',
+            [
+              'Do not change your whole production at once. Pick the product that is left over most often, apply the method to that one only, and look at the result after two weeks.',
+              'If you want to try it with half-baked byrek or tortillas, request samples and test them in your own oven.',
+            ],
+          ],
+        ],
       },
       de: {
         title: 'Lebensmittelabfälle durch bedarfsgerechtes Backen reduzieren',
         description: 'Ein praktischer Leitfaden zur Chargenplanung und zum bedarfsgerechten Backen in professionellen Betrieben.',
         seoTitle: 'Bedarfsgerechtes Backen: Lebensmittelabfälle reduzieren',
         seoDescription: 'Erfahren Sie, wie bedarfsgerechtes Backen und kleinere Chargen Lebensmittelabfälle reduzieren. Leitfaden lesen und Produkte ansehen!',
-        category: 'Betriebliche Effizienz', readingTime: '4 Min. Lesezeit',
-        sections: [['Nachfrage nach Uhrzeit messen', 'Erfassen Sie Verkäufe nach Tag und Stunde. Schon wenige Wochen Daten zeigen Stoßzeiten und Mengen, die typischerweise unverkauft bleiben.'], ['Kleinere Chargen backen', 'Halten Sie die Auslage attraktiv und füllen Sie häufiger kleinere Mengen nach. Halbgebackene Produkte ermöglichen das ohne jedes Mal eine lange Vorbereitung zu beginnen.'], ['Einfache Regeln festlegen', 'Definieren Sie Startmenge, Nachfüllpunkt und letzte Backzeit für jeden Artikel. Klare Regeln sorgen in jeder Schicht für einheitliche Entscheidungen.'], ['Prüfen und verbessern', 'Vergleichen Sie wöchentlich gebackene, verkaufte und übrige Artikel. Kleine Anpassungen bei Menge und Zeitpunkt können dauerhaft sparen.']],
+        category: 'Betriebliche Effizienz',
+        readingTime: '4 Min. Lesezeit',
+        sections: [
+          [
+            'Woher der Abfall wirklich kommt',
+            [
+              'Der größte Teil der Ware, die bei Ladenschluss weggeworfen wird, ist nicht das Ergebnis schlechter Qualität, sondern einer Entscheidung um sechs Uhr morgens: wie viel für den ganzen Tag gebacken wird. Wird alles auf einmal gebacken, sieht die Auslage um acht großartig aus und ist um vier halb leer oder altbacken.',
+              'Bedarfsgerechtes Backen teilt diese eine Entscheidung in mehrere kleinere über den Tag auf. Halbgebackene Produkte machen das möglich, weil der Vorrat gefroren bleibt und jede Schicht in 15–20 Minuten nur das aus dem Ofen holt, was sie braucht.',
+            ],
+          ],
+          [
+            'Schritt 1: Nachfrage nach Uhrzeit messen',
+            [
+              'Notieren Sie zwei bis drei Wochen lang, wie viele Stück jedes Produkts sich verkaufen und um welche Uhrzeit — ein Blatt Papier neben der Kasse genügt. Notieren Sie auch, was bei Ladenschluss übrig ist.',
+              'Klare Spitzen werden sichtbar: der Freitagmorgen, die Mittagspause, die Stunde nach Schulschluss. Ebenso die Produkte, die jeden Tag in derselben Menge übrig bleiben. Diese beiden Dinge sind die ganze Grundlage, die Sie brauchen.',
+            ],
+          ],
+          [
+            'Schritt 2: Kleinere Chargen backen, dafür öfter',
+            [
+              'Statt einer großen Backrunde am Morgen planen Sie drei oder vier kleinere: vor der Öffnung, vor der Mittagsspitze, am mittleren Nachmittag. Die Auslage bleibt gefüllt, das Produkt ist immer warm, und der Duft aus dem Ofen arbeitet den ganzen Tag für Sie.',
+              'Mit halbgebackenen Börek und Tortillas bedeutet eine neue Backrunde nur: Tiefkühler öffnen, Ofen einschalten. Es gibt keinen Teig vorzubereiten und keinen Bäcker, der in der Schicht stehen muss.',
+            ],
+          ],
+          [
+            'Schritt 3: Drei Zahlen für jedes Produkt festlegen',
+            [
+              'Die Startmenge: wie viele Stück vor der Öffnung gebacken werden. Der Nachfüllpunkt: fällt die Auslage unter diese Zahl, geht die nächste Charge in den Ofen. Die letzte Backzeit: nach dieser Uhrzeit wird nichts mehr gebacken, egal wie die Auslage aussieht.',
+              'Drei Zahlen auf einem Zettel neben dem Ofen. So trifft jede Schicht dieselbe Entscheidung, ohne den Inhaber zu fragen und ohne sich auf das Gefühl des Moments zu verlassen.',
+            ],
+          ],
+          [
+            'Schritt 4: Gefrorenen Vorrat als Reserve nutzen, nicht als Lager',
+            [
+              'Gefrorener Vorrat gibt Ihnen die Möglichkeit zu reagieren — eine Reisegruppe, die unangekündigt hereinkommt, eine Catering-Bestellung für morgen — ohne „für alle Fälle“ vorzubacken.',
+              'Bemessen Sie den gefrorenen Vorrat nach Ihrem Lieferrhythmus, nicht nach der Angst, leer zu laufen. Ein Lieferant mit regelmäßigen Lieferungen und bekannter Kapazität macht diese Rechnung deutlich einfacher.',
+            ],
+          ],
+          [
+            'Schritt 5: Jede Woche prüfen',
+            [
+              'Vergleichen Sie jeden Montag für jedes Produkt: wie viel gebacken, verkauft, übrig geblieben. Ist der Rest konstant, senken Sie die Startmenge. Leert sich die Auslage vor der Spitze, erhöhen Sie den Nachfüllpunkt.',
+              'Kleine Anpassungen sind die, die bleiben. Nach einigen Wochen haben Sie Zahlen, die zu Ihrem tatsächlichen Geschäft passen, nicht zum Durchschnitt aus einem Lehrbuch.',
+            ],
+          ],
+          [
+            'Was Sie erwarten können',
+            [
+              'Die bei Ladenschluss weggeworfene Ware geht spürbar zurück, weil die Mengenentscheidung näher am Verkaufsmoment getroffen wird. Nachmittagskunden bekommen warme Ware. Das Personal hat eine klare Regel statt einer Vermutung.',
+              'Einen Prozentsatz versprechen wir Ihnen nicht — jeder Betrieb ist anders. Aber die Methode lässt sich leicht testen: zwei Wochen messen, drei Zahlen pro Produkt, eine Überprüfung pro Woche.',
+            ],
+          ],
+          [
+            'Mit einem Produkt anfangen',
+            [
+              'Stellen Sie nicht die ganze Produktion auf einmal um. Wählen Sie das Produkt, das am häufigsten übrig bleibt, wenden Sie die Methode nur darauf an und sehen Sie sich das Ergebnis nach zwei Wochen an.',
+              'Wenn Sie es mit halbgebackenen Börek oder Tortillas ausprobieren möchten, fordern Sie Muster an und testen Sie sie im eigenen Ofen.',
+            ],
+          ],
+        ],
       },
     },
   },
