@@ -49,6 +49,20 @@ const p = (path) => localePath(lang, path);
       </div>
     </section>
 
+    {/* The listing used to be hero + six one-line cards + a CTA: ~160 words,
+        flagged as thin by both audits. This block is the substance — how
+        supplying six markets from one factory actually works — built only on
+        facts stated elsewhere on the site. Per-market logistics belong on the
+        country pages, not here. */}
+    <section class="areas-how">
+      <div class="areas-heading"><h2>{t('areas_how_title')}</h2><p>{t('areas_how_intro')}</p></div>
+      <div class="areas-how-grid">
+        {[1, 2, 3, 4].map((n) => (
+          <article><h3>{t(`areas_how_${n}_title`)}</h3><p>{t(`areas_how_${n}_body`)}</p></article>
+        ))}
+      </div>
+    </section>
+
     <section class="areas-growth">
       <i>♧</i><div><h2>{t('areas_growth_title')}</h2><p>{t('areas_growth_body')}</p></div>
       <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a>
