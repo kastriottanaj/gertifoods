@@ -5,7 +5,9 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(
+    () => typeof window !== 'undefined' && Boolean(localStorage.getItem('access_token'))
+  );
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -16,8 +18,6 @@ export function AuthProvider({ children }) {
           localStorage.removeItem('access_token');
         })
         .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
     }
 
     const onSessionExpired = () => setUser(null);

@@ -35,4 +35,39 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  {
+    // These modules are infrastructure rather than Fast Refresh boundaries:
+    // Astro island entry points export mounts/HOCs, context modules export
+    // their matching hooks, and the router shim intentionally mirrors a
+    // library's mixed component/hook API.
+    files: [
+      'astro/islands/ProductActions.jsx',
+      'astro/islands/exitIntentModal.jsx',
+      'astro/islands/withProviders.jsx',
+      'astro/lib/shims/**/*.jsx',
+      'src/context/**/*.jsx',
+      'src/i18n/LanguageContext.jsx',
+    ],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
+    // Product data is loaded while Astro runs under Node during prerendering.
+    files: ['astro/lib/products.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    // Capitalized HOC parameters are rendered as JSX components. ESLint's
+    // base unused-variable rule does not infer that use for function args.
+    files: ['astro/islands/withProviders.jsx'],
+    rules: {
+      'no-unused-vars': ['error', {
+        varsIgnorePattern: '^[A-Z_]',
+        argsIgnorePattern: '^[A-Z_]',
+      }],
+    },
+  },
 ])
