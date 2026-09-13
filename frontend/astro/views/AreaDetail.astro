@@ -12,6 +12,7 @@
 //   hasLearnMore — Kosovo's segment cards have no "learn more" link.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
+import { areas } from '../../src/data/areas.js';
 import kosovoHero from '../../src/assets/gerti-foods-kosovo.webp';
 import albaniaHero from '../../src/assets/gerti-foods-albania.webp';
 import hungaryHero from '../../src/assets/gerti-foods-hungary.webp';
@@ -89,6 +90,15 @@ const p = (path) => localePath(lang, path);
 const country = COUNTRIES[slug];
 const name = t(nameKey);
 const k = (suffix) => t(`${slug}_${suffix}`);
+
+// t() hands back the key itself when a string is missing, so this is how the
+// page tells a market with confirmed supply facts from one without. See the
+// note on `customers` in src/data/areas.js.
+const has = (suffix) => t(`${slug}_${suffix}`) !== `${slug}_${suffix}`;
+const hasSupply = has('supply_title');
+const supplyPoints = [1, 2, 3, 4].filter((n) => has(`supply_${n}_title`));
+const faqItems = [1, 2, 3, 4].filter((n) => has(`faq_${n}_q`));
+const customers = areas.find((a) => a.slug === slug)?.customers ?? [];
 ---
 
 {/* SERP copy comes from the per-country *_seo_title / *_meta keys rather than
@@ -141,6 +151,43 @@ const k = (suffix) => t(`${slug}_${suffix}`);
         ))}
       </div>
     </section>
+
+    {/* Per-market supply facts and the questions they answer. Rendered only
+        when sales has confirmed the facts for this market (see areas.js);
+        the last point lists the customers we may name, with their links. */}
+    {hasSupply && (
+      <section class="area-supply">
+        <div class="area-supply-heading"><h2>{k('supply_title')}</h2><p>{k('supply_intro')}</p></div>
+        <div class="area-supply-grid">
+          {supplyPoints.map((n) => (
+            <article>
+              <h3>{k(`supply_${n}_title`)}</h3>
+              <p>
+                {k(`supply_${n}_body`)}
+                {n === supplyPoints[supplyPoints.length - 1] && customers.length > 0 && (
+                  <span class="area-customers">
+                    {customers.map((c) => (
+                      <a href={c.url} target="_blank" rel="noopener noreferrer">{c.name}</a>
+                    ))}
+                  </span>
+                )}
+              </p>
+            </article>
+          ))}
+        </div>
+        {faqItems.length > 0 && (
+          <div class="area-faq">
+            <h2>{k('faq_title')}</h2>
+            {faqItems.map((n) => (
+              <details>
+                <summary>{k(`faq_${n}_q`)}</summary>
+                <p>{k(`faq_${n}_a`)}</p>
+              </details>
+            ))}
+          </div>
+        )}
+      </section>
+    )}
 
     <section class="kosovo-growth"><i>⌕</i><div><h2>{k('growth_title')}</h2><p>{k('growth_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
     <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
