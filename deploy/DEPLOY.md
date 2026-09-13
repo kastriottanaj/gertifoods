@@ -193,12 +193,13 @@ npm run build        # outputs to frontend/dist (served by Nginx)
 **Do not set `VITE_API_URL` here.** Production is same-origin — nginx proxies
 `/api` to Gunicorn — so leaving it unset makes the browser call the relative
 `/api`, which is correct on whichever hostname the visitor arrived at. Pinning
-it to `https://gertifoods.com/api` breaks `www.gertifoods.com`, which serves the
-site directly rather than redirecting to the apex: every API call from `www`
-would become a cross-origin request that the API rejects (the `www` origin is
-not in `CORS_ALLOWED_ORIGINS`) and the page's own `connect-src 'self'` blocks.
-The variable exists for local development only, where Astro and Django sit on
-different ports.
+it to an absolute origin turns every API call from any other hostname into a
+cross-origin request that the API rejects (only the apex is in
+`CORS_ALLOWED_ORIGINS`) and the page's own `connect-src 'self'` blocks. Today
+`www.gertifoods.com` 301s to the apex so only one hostname serves pages, but
+the relative path costs nothing and keeps a staging or preview hostname
+working without a rebuild. The variable exists for local development only,
+where Astro and Django sit on different ports.
 
 `.env.production` is gitignored, so it does **not** survive a fresh clone and
 has to be recreated on any new build host. Two build-time guards exist because
@@ -286,6 +287,44 @@ certbot --nginx -d gertifoods.com -d www.gertifoods.com
 
 Choose "redirect" so all HTTP traffic goes to HTTPS. Certbot also installs a
 renewal timer — verify with `systemctl list-timers | grep certbot`.
+
+### The www redirect over HTTPS
+
+`deploy/nginx.conf` redirects `www.gertifoods.com` to the apex on port 80, but
+Certbot only adds a 443 server for the block it terminates TLS in. Check what
+it did to the www block; if `https://www.gertifoods.com/` answers with the site
+instead of a 301, add this alongside the other server blocks (the certificate
+already covers both names):
+
+```nginx
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name www.gertifoods.com;
+    ssl_certificate /etc/letsencrypt/live/gertifoods.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/gertifoods.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    return 301 https://gertifoods.com$request_uri;
+}
+```
+
+and make sure the main 443 block's `server_name` is `gertifoods.com` alone,
+otherwise nginx picks that block for www and the redirect never fires.
+`nginx -t && systemctl reload nginx`, then confirm all three hops land on the
+apex:
+
+```bash
+curl -sI https://www.gertifoods.com/about | grep -i '^HTTP\|^location'   # 301 -> https://gertifoods.com/about
+curl -sI http://www.gertifoods.com/about  | grep -i '^HTTP\|^location'   # 301 -> https://gertifoods.com/about
+curl -sI https://gertifoods.com/about     | grep -i '^HTTP'               # 200
+```
+
+A server-level `return` does not break renewals: Certbot's nginx plugin
+inserts its challenge `location` behind a `rewrite ... break` that
+short-circuits the `return` for `/.well-known/acme-challenge/` only. Confirm
+with `certbot renew --dry-run` after adding the block.
 
 > Note: `settings.py` enables `SECURE_SSL_REDIRECT` and HSTS when `DEBUG=False`.
 > These rely on HTTPS being live, so finish this step before sharing the link.
