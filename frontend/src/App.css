@@ -501,6 +501,9 @@
 .trust-rating em { color: #ffad00; font-style: normal; font-size: .8rem; margin-left: 4px; }
 .trust-rating span:last-child { color: #777; font-size: .66rem; }
 .google-g { font-size: 2rem; font-weight: 900; color: #4285f4; }
+/* GoogleStars.astro: grey row underneath, gold row on top clipped to --fill. */
+.gstars { position: relative; display: inline-block; color: #d7d7d7; font-style: normal; letter-spacing: 1px; line-height: 1; white-space: nowrap; }
+.gstars-fill { position: absolute; left: 0; top: 0; width: var(--fill); overflow: hidden; color: #ffad00; }
 .trust-red-icon { color: #df1828; font-size: 2rem; }
 
 .products-listing { width: min(1200px, calc(100% - 40px)); margin: 0 auto; padding: 0 0 24px; }

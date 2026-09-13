@@ -2,6 +2,8 @@
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
+import GoogleStars from '../components/GoogleStars.astro';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../lib/reviews.js';
 import '../styles/spinach-pie-detail.css';
 
 const { lang } = Astro.props;
@@ -25,7 +27,7 @@ const p = (path) => localePath(lang, path);
   </section>
 
   <section class="sp-trust">
-    <div><span class="sp-google">G</span><p><b>4.9 <i>★★★★★</i></b><small>{t('sp_reviews')}</small></p></div>
+    <div><span class="sp-google">G</span><p><b>{GOOGLE_RATING} <i><GoogleStars /></i></b><small>{GOOGLE_REVIEW_COUNT} {t('sp_reviews')}</small></p></div>
     <div><span>♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
     <div><span>◇</span><p><b>{t('sp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div>
     <div><span>▱</span><p><b>{t('sp_delivery')}</b><small>{t('sp_delivery_body')}</small></p></div>
