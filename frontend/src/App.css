@@ -572,11 +572,17 @@
   .products-listing { width: calc(100% - 20px); padding-bottom: 8px; }
   .products-listing-heading h2 { font-size: 1.15rem; }
   .products-listing-heading button { font-size: .72rem; }
-  .products-showcase .products-grid { display: block; }
-  .products-showcase .product-card { display: none; }
-  .products-showcase .product-card:first-child { display: block; }
-  .products-showcase .product-card-image { height: 108px; }
-  .products-showcase .product-card-body h3 { min-height: 0; font-size: .86rem; }
+  /* All six cards, two per row. Until 2026-09-13 this block hid every card
+     but the first, so a phone visitor saw one byrek and no catalogue — a
+     leftover from a mockup whose mobile frame only had room for one. */
+  .products-showcase .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .products-showcase .product-card-image { height: 108px; margin: 6px 6px 0; width: calc(100% - 12px); }
+  .products-showcase .product-card-body { padding: 8px 10px 12px; }
+  .products-showcase .product-card-body h3 { min-height: 2.1em; font-size: .82rem; }
+  .products-showcase .product-category { font-size: .64rem; margin-bottom: 6px; }
+  .products-showcase .product-price { font-size: .8rem; }
+  .products-showcase .product-min-order { font-size: .64rem; margin-bottom: 8px; }
+  .products-showcase .product-card .btn { width: 100%; padding: 8px 0; text-align: center; }
   .products-about { width: calc(100% - 20px); padding-bottom: 84px; }
   .products-about-heading { margin: 20px 0 16px; }
   .products-about-heading h2 { font-size: 1.15rem; }
