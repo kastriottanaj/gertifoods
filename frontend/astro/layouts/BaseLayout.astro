@@ -45,12 +45,27 @@ const {
   // hangs off. Pages that need one pass it here.
   appClass = '',
   // Keeps a page out of the index. Set by the 404 pages so Googlebot stops
-  // spending crawl budget on the endless supply of URLs that resolve to them.
+  // spending crawl budget on the endless supply of URLs that resolve to them,
+  // by the thank-you pages, and by the account pages (cart, login, register,
+  // profile, orders).
+  //
+  // The account pages used to rely on a robots.txt Disallow instead. That
+  // blocks crawling, not indexing: Google can still list a disallowed URL it
+  // finds linked from every page's navbar, and because it may never fetch the
+  // page it cannot see any robots meta tag there. A noindex the crawler is
+  // allowed to read is the mechanism Google documents for keeping a page out,
+  // so these pages now carry it and robots.txt no longer mentions them.
   //
   // 'follow' is deliberate: the page carries real links back into the site
   // (home, products, areas), and dropping them would waste the one useful
   // signal a 404 still has.
   noindex = false,
+  // Whether the early <script> below may send a returning visitor to the
+  // language edition they previously chose. Only the 404 turns it off — see
+  // the comment on the script for why — and it is a separate prop from
+  // `noindex` on purpose: the account pages are noindex too, and a German
+  // visitor opening /cart must still land on /de/cart.
+  langRedirect = true,
   // Whether to append ' | Gerti Foods' to `title`.
   //
   // The indexable pages now carry hand-written SERP titles (the *_seo_title
@@ -128,13 +143,14 @@ const exitMessages = islandMessages(lang, 'exit');
           be bounced to /en, leaving the Albanian edition unindexed.
         - Crawlers have no localStorage, so none of them ever redirect. They
           always see the edition whose URL they requested. */}
-    {/* Not on the 404, which nginx serves under the URL the visitor actually
-        asked for. Redirecting there would replace that URL with /de/404 — a
-        path that exists on disk and so answers 200, quietly turning a genuine
-        404 into a soft one. nginx already picks the right locale's 404 from
-        the URL prefix, so nothing is lost by staying put. */}
+    {/* Not on the 404 (langRedirect={false}), which nginx serves under the URL
+        the visitor actually asked for. Redirecting there would replace that
+        URL with /de/404 — a path that exists on disk and so answers 200,
+        quietly turning a genuine 404 into a soft one. nginx already picks the
+        right locale's 404 from the URL prefix, so nothing is lost by staying
+        put. */}
     {
-      isDefaultLocale && !noindex && (
+      isDefaultLocale && langRedirect && (
         <script is:inline define:vars={{ preferredHrefs }}>
           try {
             var choice = localStorage.getItem('gertifoods_lang');

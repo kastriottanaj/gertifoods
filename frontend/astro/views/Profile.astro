@@ -1,5 +1,5 @@
 ---
-// Portal page: robots-disallowed, entirely user-specific, no SEO stake.
+// Portal page: noindex, entirely user-specific, no SEO stake.
 // src/pages/Profile.jsx runs as a client-only island — no build-time render, so
 // there is never a flash of signed-out state before the real one appears.
 // The head tags come from BaseLayout, matching what <SEO> used to inject.
@@ -13,6 +13,6 @@ const t = useTranslations(lang);
 const messages = islandMessages(lang, 'portal');
 ---
 
-<BaseLayout title={t('profile_title')} description={t('profile_meta')} lang={lang}>
+<BaseLayout title={t('profile_title')} description={t('profile_meta')} lang={lang} noindex={true}>
   <ProfileIsland client:only="react" lang={lang} messages={messages} />
 </BaseLayout>

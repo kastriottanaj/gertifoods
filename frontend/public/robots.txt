@@ -1,23 +1,13 @@
 User-agent: *
 Allow: /
 
-# Account / transactional pages — no SEO value, keep out of the index.
-# Listed per language edition: the pages exist at /cart, /en/cart and /de/cart.
-Disallow: /cart
-Disallow: /orders
-Disallow: /login
-Disallow: /register
-Disallow: /profile
-Disallow: /en/cart
-Disallow: /en/orders
-Disallow: /en/login
-Disallow: /en/register
-Disallow: /en/profile
-Disallow: /de/cart
-Disallow: /de/orders
-Disallow: /de/login
-Disallow: /de/register
-Disallow: /de/profile
+# The account pages (cart, orders, login, register, profile, in all three
+# language editions) are deliberately NOT listed here. They are kept out of
+# search with a <meta name="robots" content="noindex"> instead, which only
+# works if the crawler is allowed to fetch the page and read it. A Disallow
+# would block that fetch, and Google can still index a disallowed URL it finds
+# linked from the navbar — as a bare, content-less entry — precisely because it
+# never sees the noindex.
 
 # Backend (served by Django, not the SPA)
 Disallow: /admin/

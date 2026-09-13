@@ -38,13 +38,18 @@ const STEPS = [1, 2, 3];
 
     BaseLayout also omits the canonical and the hreflang set for noindex
     pages, which is correct here: nominating /de/danke as an indexable
-    alternate of /faleminderit would contradict the robots tag. */}
+    alternate of /faleminderit would contradict the robots tag.
+
+    langRedirect is off: the form already sent the visitor to the edition it
+    was submitted from, so a stored-language redirect here could only add a
+    hop in front of the conversion event this page exists to fire. */}
 <BaseLayout
   title={t('thankyou_title')}
   description={t('thankyou_meta')}
   lang={lang}
   appClass=" ty-app"
   noindex={true}
+  langRedirect={false}
 >
   <div class="ty-page">
     <section class="ty-hero">
