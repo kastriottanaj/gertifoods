@@ -53,20 +53,17 @@ const isLandingDetail = isFamilyPack || isCheesePie || isMeatPie || isSpinachPie
 // at itself instead of all three claiming the Albanian one.
 const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
 
-// The Family Pack layout is a request-an-offer page and prints no price; every
-// other product page renders "€X / unit" below the heading.
+// The landing-style layouts (Family Pack and the three byrek pages) are
+// request-an-offer pages and print no price; the generic layout and the tuna
+// page render "€X / unit" below the heading. Only the latter get a Product
+// node — see productSchema() for why a price-less Product is worse than none.
+const showsPrice = !isLandingDetail;
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
-    productSchema({
-      product,
-      name,
-      description,
-      category,
-      unit,
-      canonical,
-      showsPrice: !isLandingDetail,
-    }),
+    ...(showsPrice
+      ? [productSchema({ product, name, description, category, unit, canonical })]
+      : []),
     breadcrumbSchema([
       { name: t('footer_home'), url: new URL(localePath(lang, '/'), Astro.site).href },
       {

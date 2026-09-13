@@ -18,7 +18,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
-import { breadcrumbSchema, productSchema, jsonLd } from '../lib/schema.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import '../styles/tortilla-detail.css';
 
 const { lang } = Astro.props;
@@ -65,21 +65,13 @@ const VARIANTS = [
   ['cinnamon', cinnamonImage],
 ];
 
-// productSchema() expects a catalogue row; this page has none, so it gets the
-// minimum the function reads. showsPrice is false — the page shows no price, so
-// attaching an Offer would advertise a figure the visitor cannot see, which is
-// exactly the mismatch Google issues manual actions for.
+// Breadcrumbs only. The page quotes no price, so it gets no Product node —
+// see productSchema() in lib/schema.js for why a price-less Product is worse
+// than none. When the tortilla line joins the Django catalogue with a price,
+// the dynamic route will emit the full Product with its Offer.
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
-    productSchema({
-      product: { slug: 'tortilla', image: null },
-      name: t('category_tortilla_title'),
-      description: t('tt_meta'),
-      category: t('category_tortilla_title'),
-      canonical,
-      showsPrice: false,
-    }),
     breadcrumbSchema([
       { name: t('footer_home'), url: new URL(localePath(lang, '/'), Astro.site).href },
       { name: t('nav_products'), url: new URL(localePath(lang, '/products'), Astro.site).href },

@@ -6,6 +6,8 @@
 
 const ORIGIN = 'https://gertifoods.com';
 const ORGANIZATION_ID = `${ORIGIN}/#organization`;
+// UN/CEFACT common code for "one" — the unit of count. See productSchema().
+const COUNT_UNIT_CODE = 'C62';
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
@@ -79,11 +81,21 @@ export const organizationSchema = {
 };
 
 /**
- * Product JSON-LD for a /products/<slug> page.
+ * Product JSON-LD for a /products/<slug> page that prints its price.
  *
  * Every string here comes from the same localised copy the page renders, not
  * from the raw API fields — structured data that disagrees with the visible
  * text is a policy violation, not just a wasted opportunity.
+ *
+ * Only call this for a page that shows the price. Google's Product rich
+ * result needs `offers`, `review` or `aggregateRating`, and a Product node
+ * carrying none of them is not "eligible later" — it is a permanent error in
+ * Search Console and every audit tool, for zero benefit. The request-an-offer
+ * pages (Family Pack, the byrek landing pages, tortilla) show no price, and
+ * an Offer with a price the visitor cannot see is the mismatch Google issues
+ * manual actions for, so those pages emit no Product node at all and keep
+ * only their BreadcrumbList. Put the price back on the page and the Product
+ * node — Offer included — comes back with it.
  *
  * @param {object}  args
  * @param {object}  args.product     Raw product from the Django catalogue.
@@ -92,7 +104,6 @@ export const organizationSchema = {
  * @param {string}  args.category    Localised category badge text.
  * @param {string}  args.unit        Localised unit ("copë" / "piece" / "Stück").
  * @param {string}  args.canonical   Absolute URL of this language edition.
- * @param {boolean} args.showsPrice  Whether the page actually prints the price.
  */
 export function productSchema({
   product,
@@ -101,7 +112,6 @@ export function productSchema({
   category,
   unit,
   canonical,
-  showsPrice,
 }) {
   const schema = {
     '@type': 'Product',
@@ -123,40 +133,48 @@ export function productSchema({
     schema.image = new URL(product.image, ORIGIN).href;
   }
 
-  // The Family Pack page is a request-an-offer page with no price on it. An
-  // Offer carrying a price the visitor cannot see is exactly the mismatch
-  // Google issues manual actions for, so that page gets the Product entity
-  // without an Offer rather than an invented one.
-  if (showsPrice) {
-    schema.offers = {
-      '@type': 'Offer',
-      url: canonical,
+  schema.offers = {
+    '@type': 'Offer',
+    url: canonical,
+    price: String(product.price),
+    priceCurrency: 'EUR',
+    availability: product.is_available
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@id': ORGANIZATION_ID },
+    businessFunction: 'http://purl.org/goodrelations/v1#Sell',
+    // The page prints "€X / unit", so say per what. Without the reference
+    // quantity, `price` alone reads as the price of the whole product.
+    //
+    // Google requires `unitCode` on a referenceQuantity, and it must be a
+    // UN/CEFACT common code or one of Merchant Center's unit names — the
+    // localised "copë" / "piece" / "Stück" in `unitText` is not one, and a
+    // referenceQuantity without unitCode failed the merchant-listing check in
+    // the Semrush audit. C62 is UN/CEFACT for "one", the count unit, which
+    // is what every catalogue product is priced per. unitText stays alongside
+    // it for anything that reads the markup as a human would.
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
       price: String(product.price),
       priceCurrency: 'EUR',
-      availability: product.is_available
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      itemCondition: 'https://schema.org/NewCondition',
-      seller: { '@id': ORGANIZATION_ID },
-      businessFunction: 'http://purl.org/goodrelations/v1#Sell',
-      // The page prints "€X / unit", so say per what. Without the reference
-      // quantity, `price` alone reads as the price of the whole product.
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: String(product.price),
-        priceCurrency: 'EUR',
-        referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitText: unit },
-      },
-      // Minimum order quantity. `minValue` rather than `value`: eligibleQuantity
-      // describes the interval of order sizes the offer is valid for, and this
-      // is its lower bound, not a fixed amount.
-      eligibleQuantity: {
+      referenceQuantity: {
         '@type': 'QuantitativeValue',
-        minValue: product.min_order_quantity,
+        value: 1,
+        unitCode: COUNT_UNIT_CODE,
         unitText: unit,
       },
-    };
-  }
+    },
+    // Minimum order quantity. `minValue` rather than `value`: eligibleQuantity
+    // describes the interval of order sizes the offer is valid for, and this
+    // is its lower bound, not a fixed amount.
+    eligibleQuantity: {
+      '@type': 'QuantitativeValue',
+      minValue: product.min_order_quantity,
+      unitCode: COUNT_UNIT_CODE,
+      unitText: unit,
+    },
+  };
 
   return schema;
 }
