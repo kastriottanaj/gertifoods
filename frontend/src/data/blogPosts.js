@@ -2,7 +2,9 @@ export const blogPosts = [
   {
     slug: 'how-half-baked-products-help-businesses',
     published: '2026-08-04',
+    updated: '2026-09-13',
     image: 'bakery',
+    related: ['reduce-food-waste-with-bake-on-demand', 'choosing-reliable-food-supplier'],
     translations: {
       sq: {
         title: 'Si i ndihmojnë produktet gjysmë të pjekura bizneset të rriten',
@@ -12,10 +14,63 @@ export const blogPosts = [
         category: 'Këshilla për biznesin',
         readingTime: '4 min lexim',
         sections: [
-          ['Cilësi e njëjtë në çdo turn', 'Produktet gjysmë të pjekura përgatiten sipas një procesi të standardizuar. Stafi përfundon pjekjen sipas kërkesës, duke ofruar të njëjtën formë, shije dhe strukturë gjatë gjithë ditës.'],
-          ['Më pak punë dhe trajnim', 'Brumi dhe mbushja kërkojnë kohë, përvojë dhe hapësirë pune. Një produkt gati për furrë e thjeshton procesin dhe i lejon ekipit të përqendrohet te shërbimi dhe shitja.'],
-          ['Kontroll më i mirë i mbetjeve', 'Pjekja në sasi më të vogla sipas kërkesës ndihmon në shmangien e rafteve të mbushura me produkte që nuk shiten. Kjo e bën planifikimin më të qartë dhe mbron marzhin e biznesit.'],
-          ['Zgjidhja e duhur për biznesin tuaj', 'Zgjidhni produkte me specifikime të qarta, furnizim të besueshëm dhe standarde të dokumentuara të sigurisë ushqimore. Testimi i mostrave në furrën tuaj është mënyra më e mirë për të përcaktuar kohën dhe rezultatin ideal.'],
+          [
+            'Çfarë do të thotë "gjysmë e pjekur"',
+            [
+              'Një produkt gjysmë i pjekur përgatitet plotësisht në fabrikë — brumi, mbushja, forma — piqet pjesërisht dhe pastaj ngrihet. Ti e ruan të ngrirë dhe e përfundon në furrën tënde: rreth 5 minuta përgatitje dhe 15–20 minuta pjekje. Korja, ngjyra dhe aroma krijohen te ti, jo në kamion.',
+              'Ky është dallimi nga produktet e gatshme që vetëm ngrohen. Klienti merr një byrek që sapo ka dalë nga furra, ndërsa ti nuk ke nevojë për një stacion brumi, një bukëpjekës në çdo turn dhe orët e punës që i shoqërojnë.',
+            ],
+          ],
+          [
+            'Cilësi e njëjtë në çdo turn',
+            [
+              'Në një furrë ose kuzhinë, cilësia varet shpesh nga kush është në turn. Byreku i së hënës në mëngjes del ndryshe nga ai i së shtunës në darkë. Produktet gjysmë të pjekura vijnë nga një proces i standardizuar: e njëjta peshë, e njëjta sasi mbushjeje, i njëjti nivel pjekjeje në çdo copë.',
+              'Puna e stafit tënd reduktohet në një hap që nuk ndryshon: furrë, kohë, temperaturë. Kjo ka rëndësi sidomos për hotelet me bufe mëngjesi, për restorantet me disa pika shërbimi dhe për çdo biznes ku klienti kthehet dhe pret pikërisht atë që mori herën e kaluar.',
+            ],
+          ],
+          [
+            'Më pak punë, më pak trajnim',
+            [
+              'Petët e byrekut kërkojnë duar me përvojë, kohë dhe hapësirë pune. Një bukëpjekës i mirë është i vështirë për t\'u gjetur dhe i shtrenjtë për t\'u mbajtur, dhe kur mungon, e ndien e gjithë dita.',
+              'Me një produkt gjysmë të pjekur, mjeshtëria qëndron në fabrikë. Çdo anëtar i ekipit mund ta menaxhojë furrën pas një trajnimi të shkurtër. Bukëpjekësi yt, nëse e ke, lirohet për produktet që e bëjnë biznesin tënd të veçantë, dhe kuzhina jote ka nevojë për më pak sipërfaqe dhe më pak pajisje.',
+            ],
+          ],
+          [
+            'Kontroll më i mirë i mbetjeve',
+            [
+              'Stoku i ngrirë qëndron deri në momentin që të nevojitet. Në vend që të piqësh gjithçka në mëngjes dhe të shpresosh se do të shitet, pjek sasi më të vogla gjatë ditës, sipas ritmit real të klientëve.',
+              'Rezultati i parë është më pak produkt i mbetur në mbyllje. Rezultati i dytë është një vitrinë që mban erë furre edhe në orën katër pasdite. Të dyja i ndihmojnë marzhit tënd. Për një metodë hap pas hapi, lexo udhëzuesin tonë për pjekjen sipas kërkesës.',
+            ],
+          ],
+          [
+            'Menu më e gjerë pa kuzhinë më të madhe',
+            [
+              'Një kafene ose hotel mund të shtojë byrek me djathë, spinaq, mish ose tuna dhe tortilla pa punësuar askënd dhe pa blerë pajisje të reja. E njëjta furrë, i njëjti staf, katër-pesë produkte më shumë.',
+              'Kjo e bën testimin të lirë. Provo një produkt për dy javë, shiko si shitet, mbaje ose hiqe. Asortimenti yt ndjek kërkesën, jo kufizimet e kuzhinës.',
+            ],
+          ],
+          [
+            'Kush përfiton më shumë',
+            [
+              'Furrat: mund të mbajnë vitrinën plot gjatë gjithë ditës me më pak orë pune dhe të shtojnë byrek pa hequr asgjë nga prodhimi i tyre. Aroma e pjekjes së freskët në pasdite sjell klientin që zakonisht kalon pa u ndalur.',
+              'Hotelet dhe restorantet: bufeja e mëngjesit dhe menyja e drekës marrin një produkt të ngrohtë që nuk kërkon bukëpjekës në turn. Sasia përshtatet me numrin e mysafirëve të asaj dite, jo me një parashikim të javës së kaluar.',
+              'Supermarketet dhe kateringu: pjekja në pikë shitjeje ose në vendin e eventit jep freski që produkti i paketuar nuk e ka. Sasi të mëdha, cilësi e njëjtë, pa staf shtesë.',
+            ],
+          ],
+          [
+            'Siguri ushqimore që mund ta dokumentosh',
+            [
+              'Klientët e biznesit — zinxhirët hotelierë, supermarketet, kompanitë e kateringut — kërkojnë gjithnjë e më shumë dëshmi për mënyrën si prodhohet ushqimi. Me një prodhim të certifikuar pas teje, përgjigjen e ke gati.',
+              'Gerti Foods prodhon sipas ISO 22000, HACCP, IFS, BRC dhe Halal. Çdo lot gjurmohet nga lënda e parë deri te paketimi. Kur zgjedh një furnizues, kërkoji certifikatat, jo vetëm premtimet.',
+            ],
+          ],
+          [
+            'Si të fillosh',
+            [
+              'Mënyra më e mirë për ta vlerësuar një produkt gjysmë të pjekur është në furrën tënde, jo në letër. Kërko mostra, piqi sipas udhëzimeve, shëno kohën dhe temperaturën që të jep rezultatin më të mirë dhe provoje për një javë në kushte reale.',
+              'Pastaj krahaso: orë pune, produkt i mbetur, reagimi i klientëve. Ne jemi në Prizren, prodhojmë deri në 800 byrekë dhe 3.000 tortilla në orë dhe furnizojmë biznese në Kosovë, Shqipëri dhe Evropën Qendrore. Fillo me një mostër.',
+            ],
+          ],
         ],
       },
       en: {
@@ -26,10 +81,63 @@ export const blogPosts = [
         category: 'Business advice',
         readingTime: '4 min read',
         sections: [
-          ['Consistent quality on every shift', 'Half-baked products are prepared through a standardised process. Staff finish them on demand, delivering a consistent shape, taste and texture throughout the day.'],
-          ['Less labour and training', 'Mixing dough and preparing fillings takes time, experience and workspace. An oven-ready product simplifies production and lets the team focus on service and sales.'],
-          ['Better waste control', 'Baking smaller batches according to demand helps avoid shelves of unsold food. That makes production planning clearer and protects the business margin.'],
-          ['Choosing the right solution', 'Look for clear product specifications, reliable supply and documented food-safety standards. Testing samples in your own oven is the best way to establish the ideal time and result.'],
+          [
+            'What "half-baked" actually means',
+            [
+              'A half-baked product is made completely at the factory — dough, filling, shape — baked part of the way, then frozen. You keep it frozen and finish it in your own oven: about 5 minutes of preparation and 15–20 minutes of baking. The crust, the colour and the aroma happen on your premises, not in a truck.',
+              'That is the difference from ready-made products that only get reheated. Your customer gets a byrek that has just come out of the oven, while you need no dough station, no baker on every shift and none of the hours that go with them.',
+            ],
+          ],
+          [
+            'Consistent quality on every shift',
+            [
+              'In a bakery or kitchen, quality often depends on who is working. Monday morning\'s byrek comes out different from Saturday night\'s. Half-baked products come from a standardised process: the same weight, the same amount of filling, the same degree of baking in every piece.',
+              'Your team\'s job shrinks to one step that never changes: oven, time, temperature. That matters most for hotels running a breakfast buffet, for restaurants with several service points, and for any business where the customer comes back expecting exactly what they had last time.',
+            ],
+          ],
+          [
+            'Less labour, less training',
+            [
+              'Byrek pastry needs experienced hands, time and workspace. A good baker is hard to find and expensive to keep, and when they are off, the whole day feels it.',
+              'With a half-baked product the craft stays in the factory. Any member of the team can run the oven after a short introduction. Your baker, if you have one, is freed for the items that make your business distinctive, and your kitchen needs less floor space and less equipment.',
+            ],
+          ],
+          [
+            'Better waste control',
+            [
+              'Frozen stock keeps until you need it. Instead of baking everything in the morning and hoping it sells, you bake smaller batches through the day, following the real rhythm of your customers.',
+              'The first result is less product left over at closing time. The second is a display that still smells of the oven at four in the afternoon. Both help your margin. For a step-by-step method, read our guide to bake-on-demand.',
+            ],
+          ],
+          [
+            'A wider menu without a bigger kitchen',
+            [
+              'A café or hotel can add cheese, spinach, meat or tuna byrek and tortillas without hiring anyone or buying new equipment. Same oven, same staff, four or five more products.',
+              'That makes testing cheap. Try a product for two weeks, see how it sells, keep it or drop it. Your range follows demand rather than the limits of your kitchen.',
+            ],
+          ],
+          [
+            'Who benefits most',
+            [
+              'Bakeries: keep the display full all day with fewer labour hours, and add byrek without taking anything away from their own production. The smell of fresh baking in the afternoon brings in the customer who usually walks past.',
+              'Hotels and restaurants: the breakfast buffet and the lunch menu get a hot product that needs no baker on shift. Quantity follows the number of guests that day, not a forecast from last week.',
+              'Supermarkets and caterers: baking at the point of sale or at the event venue gives a freshness packaged products cannot match. Large volumes, the same quality, no extra staff.',
+            ],
+          ],
+          [
+            'Food safety you can document',
+            [
+              'Business customers — hotel groups, supermarkets, catering companies — increasingly ask for evidence of how food is produced. With certified production behind you, the answer is ready.',
+              'Gerti Foods produces under ISO 22000, HACCP, IFS, BRC and Halal. Every batch is traceable from raw material to packaging. When you choose a supplier, ask for the certificates, not just the promises.',
+            ],
+          ],
+          [
+            'How to start',
+            [
+              'The best place to evaluate a half-baked product is your own oven, not a spec sheet. Request samples, bake them as instructed, note the time and temperature that give you the best result, and run them for a week under real conditions.',
+              'Then compare: hours of labour, product left over, what customers say. We are in Prizren, produce up to 800 byrek and 3,000 tortillas an hour, and supply businesses in Kosovo, Albania and Central Europe. Start with a sample.',
+            ],
+          ],
         ],
       },
       de: {
@@ -40,10 +148,63 @@ export const blogPosts = [
         category: 'Tipps für Unternehmen',
         readingTime: '4 Min. Lesezeit',
         sections: [
-          ['Gleichbleibende Qualität in jeder Schicht', 'Halbgebackene Produkte entstehen in einem standardisierten Prozess. Das Personal backt sie nach Bedarf fertig und erzielt den ganzen Tag über eine gleichmäßige Form, Geschmack und Konsistenz.'],
-          ['Weniger Arbeits- und Schulungsaufwand', 'Teig und Füllungen benötigen Zeit, Erfahrung und Arbeitsfläche. Ein ofenfertiges Produkt vereinfacht die Produktion und lässt dem Team mehr Zeit für Service und Verkauf.'],
-          ['Bessere Kontrolle über Abfälle', 'Kleinere Chargen nach Bedarf zu backen hilft, unverkaufte Ware zu vermeiden. Das verbessert die Produktionsplanung und schützt die Marge.'],
-          ['Die passende Lösung auswählen', 'Achten Sie auf klare Produktspezifikationen, zuverlässige Lieferung und dokumentierte Lebensmittelsicherheit. Testmuster im eigenen Ofen zeigen am besten die ideale Backzeit und das gewünschte Ergebnis.'],
+          [
+            'Was „halbgebacken“ wirklich bedeutet',
+            [
+              'Ein halbgebackenes Produkt wird vollständig in der Fabrik hergestellt — Teig, Füllung, Form — teilweise gebacken und dann tiefgefroren. Sie lagern es gefroren und backen es im eigenen Ofen fertig: etwa 5 Minuten Vorbereitung und 15–20 Minuten Backzeit. Kruste, Farbe und Duft entstehen bei Ihnen, nicht im Lieferwagen.',
+              'Das ist der Unterschied zu Fertigprodukten, die nur aufgewärmt werden. Ihr Kunde bekommt einen Börek, der gerade aus dem Ofen kommt, während Sie weder eine Teigstation noch einen Bäcker in jeder Schicht brauchen — und auch nicht die Arbeitsstunden, die damit verbunden sind.',
+            ],
+          ],
+          [
+            'Gleichbleibende Qualität in jeder Schicht',
+            [
+              'In einer Bäckerei oder Küche hängt die Qualität oft davon ab, wer gerade arbeitet. Der Börek vom Montagmorgen fällt anders aus als der vom Samstagabend. Halbgebackene Produkte stammen aus einem standardisierten Prozess: gleiches Gewicht, gleiche Füllmenge, gleicher Backgrad bei jedem Stück.',
+              'Die Aufgabe Ihres Teams reduziert sich auf einen Schritt, der sich nie ändert: Ofen, Zeit, Temperatur. Das zählt besonders für Hotels mit Frühstücksbuffet, für Restaurants mit mehreren Ausgabestellen und für jedes Geschäft, in dem Kunden wiederkommen und genau das erwarten, was sie beim letzten Mal bekommen haben.',
+            ],
+          ],
+          [
+            'Weniger Arbeit, weniger Einarbeitung',
+            [
+              'Börek-Teig braucht erfahrene Hände, Zeit und Arbeitsfläche. Ein guter Bäcker ist schwer zu finden und teuer zu halten, und wenn er fehlt, spürt das der ganze Tag.',
+              'Bei einem halbgebackenen Produkt bleibt das Handwerk in der Fabrik. Jedes Teammitglied kann den Ofen nach einer kurzen Einweisung bedienen. Ihr Bäcker, falls Sie einen haben, wird frei für die Produkte, die Ihr Geschäft unverwechselbar machen, und Ihre Küche braucht weniger Fläche und weniger Geräte.',
+            ],
+          ],
+          [
+            'Bessere Kontrolle über Abfälle',
+            [
+              'Gefrorener Vorrat hält, bis Sie ihn brauchen. Statt morgens alles zu backen und auf den Verkauf zu hoffen, backen Sie über den Tag verteilt kleinere Mengen — im tatsächlichen Rhythmus Ihrer Kunden.',
+              'Das erste Ergebnis: weniger Ware, die bei Ladenschluss übrig bleibt. Das zweite: eine Auslage, die auch um 16 Uhr noch nach Ofen duftet. Beides hilft Ihrer Marge. Eine Schritt-für-Schritt-Methode finden Sie in unserem Leitfaden zum bedarfsgerechten Backen.',
+            ],
+          ],
+          [
+            'Ein breiteres Angebot ohne größere Küche',
+            [
+              'Ein Café oder Hotel kann Börek mit Käse, Spinat, Fleisch oder Thunfisch sowie Tortillas ins Sortiment nehmen, ohne jemanden einzustellen oder neue Geräte zu kaufen. Gleicher Ofen, gleiches Personal, vier bis fünf Produkte mehr.',
+              'Das macht Tests günstig. Probieren Sie ein Produkt zwei Wochen lang, sehen Sie, wie es sich verkauft, behalten Sie es oder nehmen Sie es wieder heraus. Ihr Sortiment folgt der Nachfrage, nicht den Grenzen Ihrer Küche.',
+            ],
+          ],
+          [
+            'Wer am meisten profitiert',
+            [
+              'Bäckereien: halten die Auslage den ganzen Tag gefüllt, mit weniger Arbeitsstunden, und nehmen Börek ins Sortiment, ohne etwas aus der eigenen Produktion zu streichen. Der Duft frischen Gebäcks am Nachmittag holt den Kunden herein, der sonst vorbeigeht.',
+              'Hotels und Restaurants: Frühstücksbuffet und Mittagskarte bekommen ein warmes Produkt, für das kein Bäcker in der Schicht stehen muss. Die Menge richtet sich nach der Gästezahl des Tages, nicht nach einer Prognose von letzter Woche.',
+              'Supermärkte und Caterer: Backen am Verkaufspunkt oder am Veranstaltungsort bringt eine Frische, die verpackte Ware nicht bieten kann. Große Mengen, gleiche Qualität, kein zusätzliches Personal.',
+            ],
+          ],
+          [
+            'Lebensmittelsicherheit, die Sie belegen können',
+            [
+              'Geschäftskunden — Hotelgruppen, Supermärkte, Cateringunternehmen — fragen immer öfter nach Nachweisen darüber, wie Lebensmittel hergestellt werden. Mit einer zertifizierten Produktion im Rücken haben Sie die Antwort parat.',
+              'Gerti Foods produziert nach ISO 22000, HACCP, IFS, BRC und Halal. Jede Charge ist vom Rohstoff bis zur Verpackung rückverfolgbar. Wenn Sie einen Lieferanten auswählen, verlangen Sie die Zertifikate, nicht nur die Versprechen.',
+            ],
+          ],
+          [
+            'So fangen Sie an',
+            [
+              'Der beste Ort, ein halbgebackenes Produkt zu beurteilen, ist Ihr eigener Ofen, nicht ein Datenblatt. Fordern Sie Muster an, backen Sie sie nach Anleitung, notieren Sie Zeit und Temperatur mit dem besten Ergebnis und setzen Sie sie eine Woche lang unter realen Bedingungen ein.',
+              'Dann vergleichen Sie: Arbeitsstunden, übrig gebliebene Ware, Rückmeldungen der Kunden. Wir sitzen in Prizren, produzieren bis zu 800 Börek und 3.000 Tortillas pro Stunde und beliefern Unternehmen im Kosovo, in Albanien und in Mitteleuropa. Fangen Sie mit einem Muster an.',
+            ],
+          ],
         ],
       },
     },

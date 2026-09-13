@@ -25,6 +25,7 @@ const translations = {
     blog_not_found: 'Artikulli nuk u gjet',
     blog_cta_title: 'Gati ta provoni në biznesin tuaj?',
     blog_cta_body: 'Shikoni produktet tona gjysmë të pjekura ose kërkoni mostra për ekipin tuaj.',
+    blog_related: 'Lexo edhe',
 
     // Home
     home_seo_title: 'Byrek e tortilla gjysmë të pjekura për biznese në Kosovë',
@@ -775,6 +776,7 @@ const translations = {
     blog_not_found: 'Article not found',
     blog_cta_title: 'Ready to try it in your business?',
     blog_cta_body: 'Explore our half-baked products or request samples for your team.',
+    blog_related: 'Read also',
 
     // Home
     home_seo_title: 'Half-Baked Byrek & Tortillas for Businesses in Kosovo',
@@ -1503,6 +1505,7 @@ const translations = {
     blog_not_found: 'Artikel nicht gefunden',
     blog_cta_title: 'Bereit für einen Test in Ihrem Betrieb?',
     blog_cta_body: 'Entdecken Sie unsere halbgebackenen Produkte oder fordern Sie Muster für Ihr Team an.',
+    blog_related: 'Lesen Sie auch',
 
     // Home
     home_seo_title: 'Halbgebackener Börek & Tortillas für Unternehmen im Kosovo',

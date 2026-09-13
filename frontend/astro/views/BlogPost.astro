@@ -22,6 +22,19 @@ const p = (path) => localePath(lang, path);
 const post = getBlogPost(slug);
 const content = post.translations[lang] || post.translations[DEFAULT_LANG];
 
+// A section body is one paragraph (string) or several (array). The posts were
+// written as single paragraphs first; the longer ones need real structure.
+const paragraphs = (body) => (Array.isArray(body) ? body : [body]);
+
+// Posts this one points to, resolved to the reader's language. Internal
+// links between the three articles are the only in-content links the blog
+// has, so they earn their place twice: readers get the next step, crawlers
+// get a path between related pages.
+const related = (post.related ?? []).map(getBlogPost).filter(Boolean).map((r) => ({
+  href: p(`/blog/${r.slug}`),
+  title: (r.translations[lang] || r.translations[DEFAULT_LANG]).title,
+}));
+
 // BlogPost.jsx hard-codes this as gertifoods.com/blog/<slug>. Derived from the
 // actual URL here so each language edition points the Article schema at its own
 // canonical rather than all three claiming the Albanian one.
@@ -33,7 +46,9 @@ const schema = {
   headline: content.title,
   description: content.description,
   datePublished: post.published,
-  dateModified: post.published,
+  // A rewrite is a modification, not a new publication: the URL and the
+  // subject are the same. `updated` is set when a post's body is reworked.
+  dateModified: post.updated ?? post.published,
   mainEntityOfPage: canonical,
   inLanguage: lang,
   author: { '@type': 'Organization', name: 'Gerti Foods' },
@@ -71,8 +86,21 @@ const schema = {
     <img class="blog-article-hero" src={images[post.image].src} width={images[post.image].width} height={images[post.image].height} alt={t(imageAlt[post.image])} fetchpriority="high" />
     <div class="blog-article-body">
       {content.sections.map(([heading, body]) => (
-        <section><h2>{heading}</h2><p>{body}</p></section>
+        <section>
+          <h2>{heading}</h2>
+          {paragraphs(body).map((text) => <p>{text}</p>)}
+        </section>
       ))}
+      {related.length > 0 && (
+        <nav class="blog-related" aria-label={t('blog_related')}>
+          <h2>{t('blog_related')}</h2>
+          <ul>
+            {related.map(({ href, title }) => (
+              <li><a href={href}>{title}</a></li>
+            ))}
+          </ul>
+        </nav>
+      )}
       <aside><h2>{t('blog_cta_title')}</h2><p>{t('blog_cta_body')}</p><a href={p('/products')} class="btn btn-primary">{t('areas_cta_products')}</a></aside>
     </div>
     <a href={p('/blog')} class="blog-back">← {t('blog_back')}</a>

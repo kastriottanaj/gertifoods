@@ -1820,6 +1820,13 @@
 .blog-article-body section { margin-bottom: 36px; }
 .blog-article-body h2 { font-size: 1.65rem; margin-bottom: 10px; line-height: 1.3; }
 .blog-article-body p { color: var(--text-light); font-size: 1.06rem; line-height: 1.8; }
+.blog-article-body p + p { margin-top: 14px; }
+.blog-related { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--border, #e6e1d8); }
+.blog-related h2 { font-size: 1.15rem; margin-bottom: 12px; }
+.blog-related ul { list-style: none; padding: 0; margin: 0; }
+.blog-related li + li { margin-top: 8px; }
+.blog-related a { color: var(--primary); font-weight: 600; text-decoration: none; }
+.blog-related a:hover { text-decoration: underline; }
 .blog-article-body aside { background: #f7f4ef; border-left: 4px solid var(--primary); border-radius: var(--radius); padding: 28px; margin-top: 48px; }
 .blog-article-body aside p { margin-bottom: 18px; }
 .blog-back { display: inline-block; color: var(--primary); font-weight: 700; margin-bottom: 54px; }
