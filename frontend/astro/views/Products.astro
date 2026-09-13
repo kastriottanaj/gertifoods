@@ -13,8 +13,6 @@ import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import ModalHost from '../islands/ModalHost.jsx';
 import heroImage from '../../src/assets/about-us.webp';
-import GoogleStars from '../components/GoogleStars.astro';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../lib/reviews.js';
 import tortillaImage from '../../src/assets/tortilla/plain.webp';
 
 const { lang } = Astro.props;
@@ -58,9 +56,13 @@ const messages = islandMessages(lang);
     </section>
 
     <section class="products-trust">
-      <div class="trust-item trust-rating"><span class="google-g">G</span><div><small>{t('products_google_rating')}</small><b>{GOOGLE_RATING} <em><GoogleStars /></em></b><span>({GOOGLE_REVIEW_COUNT} {t('products_reviews')})</span></div></div>
+      {/* Three verifiable facts. This bar used to lead with a Google rating;
+          with three reviews on the profile that is not a selling point, and
+          the certifications are. The list itself is not translated: the
+          names are the same in every language. */}
+      <div class="trust-item"><span class="trust-red-icon">♢</span><div><small>{t('products_certified')}</small><span>ISO 22000 · HACCP · IFS · BRC · Halal</span></div></div>
       <div class="trust-item"><span class="trust-red-icon">◎</span><div><small>{t('products_years')}</small><span>{t('products_years_body')}</span></div></div>
-      <div class="trust-item"><span class="trust-red-icon">♢</span><div><small>{t('products_food_safety')}</small><span>{t('products_food_safety_body')}</span></div></div>
+      <div class="trust-item"><span class="trust-red-icon">◴</span><div><small>{t('products_capacity')}</small><span>{t('products_capacity_body')}</span></div></div>
     </section>
 
     <section class="products-listing" id="products-grid">

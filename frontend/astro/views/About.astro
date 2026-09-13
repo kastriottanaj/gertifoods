@@ -2,8 +2,6 @@
 // Astro port of src/pages/About.jsx — same markup, classes and copy, with
 // <a href> in place of react-router's <Link to>.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GoogleStars from '../components/GoogleStars.astro';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../lib/reviews.js';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import heroImage from '../../src/assets/gerti-foods-about-us.webp';
 import storyImage from '../../src/assets/bakery-interior.webp';
@@ -42,11 +40,11 @@ const p = (path) => localePath(lang, path);
     </section>
 
     <section class="about-facts">
-      <div class="about-fact about-google"><span class="about-google-g">G</span><div><small>{t('products_google_rating')}</small><b>{GOOGLE_RATING} <em><GoogleStars /></em></b><span>({GOOGLE_REVIEW_COUNT} {t('products_reviews')})</span></div></div>
-      <div class="about-fact"><i>◎</i><div><b>ISO 22000</b><span>{t('about_certified_quality')}</span></div></div>
+      <div class="about-fact"><i>♢</i><div><b>5 {t('about_certifications')}</b><span>ISO 22000 · HACCP · IFS · BRC · Halal</span></div></div>
+      <div class="about-fact"><i>◎</i><div><b>800</b><span>{t('about_byrek_hour')}</span></div></div>
       <div class="about-fact"><i>▣</i><div><b>{t('about_founded')}</b><span>2024</span></div></div>
       <div class="about-fact"><i>♨</i><div><b>600+ {t('about_years')}</b><span>{t('about_hasi_heritage')}</span></div></div>
-      <div class="about-fact"><i>◴</i><div><b>6,000</b><span>{t('about_tortillas_hour')}</span></div></div>
+      <div class="about-fact"><i>◴</i><div><b>3,000</b><span>{t('about_tortillas_hour')}</span></div></div>
     </section>
 
     <section class="about-benefits">

@@ -2,8 +2,6 @@
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
-import GoogleStars from '../components/GoogleStars.astro';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../lib/reviews.js';
 import '../styles/cheese-pie-detail.css';
 
 const { lang } = Astro.props;
@@ -27,7 +25,7 @@ const p = (path) => localePath(lang, path);
   </section>
 
   <section class="cp-trust">
-    <div><span class="cp-google">G</span><p><b>{GOOGLE_RATING} <i><GoogleStars /></i></b><small>{GOOGLE_REVIEW_COUNT} {t('cp_reviews')}</small></p></div>
+    <div><span>◴</span><p><b>15–20 min</b><small>{t('cp_oven_time')}</small></p></div>
     <div><span>♢</span><p><b>ISO 22000</b><small>{t('fp_food_safety')}</small></p></div>
     <div><span>◇</span><p><b>{t('cp_min_order')}</b><small>50 {t('products_unit_piece')}</small></p></div>
     <div><span>▱</span><p><b>{t('cp_delivery')}</b><small>{t('cp_delivery_body')}</small></p></div>
