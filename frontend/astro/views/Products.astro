@@ -13,6 +13,7 @@ import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import ModalHost from '../islands/ModalHost.jsx';
 import heroImage from '../../src/assets/about-us.webp';
+import tortillaImage from '../../src/assets/tortilla/plain.webp';
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
@@ -88,7 +89,36 @@ const messages = islandMessages(lang);
             </div>
           </div>
         ))}
+        {/* The tortilla line is not in the Django catalogue yet (see
+            views/TortillaDetail.astro), so the loop above cannot produce it,
+            and until this card existed the catalogue page was the one page on
+            the site that did not link to it. A static card with no price:
+            the tortilla page quotes on request. */}
+        <div class="product-card product-card-static">
+          <img src={tortillaImage.src} width={tortillaImage.width} height={tortillaImage.height} alt={t('tt_hero_alt')} class="product-card-image" loading="lazy" decoding="async" />
+          <div class="product-card-body">
+            <h3>{t('category_tortilla_title')}</h3>
+            <p class="product-category">{t('products_tortilla_card_body')}</p>
+            <p class="product-price">{t('products_price_on_request')}</p>
+            <p class="product-min-order">{t('products_tortilla_capacity')}</p>
+            <a href={p('/products/tortilla')} class="btn btn-primary">{t('products_view')}</a>
+          </div>
+        </div>
         {products.length === 0 && <p>{t('products_empty')}</p>}
+      </div>
+    </section>
+
+    {/* The listing used to be hero, trust bar, five cards and a CTA — under
+        200 words, flagged as thin by both audits for the page that targets
+        "produkte gjysmë të pjekura". This is the substance: range, how it
+        works in the customer's kitchen, who it is for, how it is made. Facts
+        only, all stated elsewhere on the site. */}
+    <section class="products-about">
+      <div class="products-about-heading"><h2>{t('products_about_title')}</h2><p>{t('products_about_intro')}</p></div>
+      <div class="products-about-grid">
+        {[1, 2, 3, 4].map((n) => (
+          <article><h3>{t(`products_about_${n}_title`)}</h3><p>{t(`products_about_${n}_body`)}</p></article>
+        ))}
       </div>
     </section>
 
