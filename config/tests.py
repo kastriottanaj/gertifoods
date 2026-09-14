@@ -194,6 +194,31 @@ class SitemapSourceDriftTests(SimpleTestCase):
             'frontend/src/data/blogPosts.js',
         )
 
+    def test_blog_dates_match_the_frontend_data(self):
+        """
+        The dates are duplicated too, and the page reports `updated ??
+        published` as Article.dateModified. If a rework bumps `updated` in
+        blogPosts.js but not here, the sitemap keeps telling crawlers the post
+        is untouched while the page itself says otherwise.
+        """
+        source = (self.DATA_DIR / 'blogPosts.js').read_text(encoding='utf-8')
+        # Each post opens with slug, published and (optionally) updated, in
+        # that order, before any nested content.
+        frontend = {
+            slug: {'published': published, 'updated': updated or None}
+            for slug, published, updated in re.findall(
+                r"slug:\s*'([^']+)',\s*published:\s*'([^']+)',(?:\s*updated:\s*'([^']+)',)?",
+                source,
+            )
+        }
+
+        self.assertEqual(
+            BLOG_POSTS,
+            frontend,
+            'config/sitemaps.py BLOG_POSTS dates have drifted from '
+            'frontend/src/data/blogPosts.js',
+        )
+
     def test_default_lang_is_in_supported_langs(self):
         self.assertIn(DEFAULT_LANG, SUPPORTED_LANGS)
 

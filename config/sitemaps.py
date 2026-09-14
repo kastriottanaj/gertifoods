@@ -105,11 +105,24 @@ AREA_SOURCES = (
 )
 
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
-# publication dates synchronized until blog content moves to a shared CMS/API.
+# dates synchronized until blog content moves to a shared CMS/API. `updated` is
+# the date a post's body was last reworked, or None if it hasn't been since
+# publication — the same `updated ?? published` the page itself reports as
+# Article.dateModified (frontend/astro/views/BlogPost.astro), so the sitemap
+# and the schema never disagree about when a post last changed.
 BLOG_POSTS = {
-    'how-half-baked-products-help-businesses': '2026-08-04',
-    'choosing-reliable-food-supplier': '2026-07-22',
-    'reduce-food-waste-with-bake-on-demand': '2026-07-08',
+    'how-half-baked-products-help-businesses': {
+        'published': '2026-08-04',
+        'updated': '2026-09-13',
+    },
+    'choosing-reliable-food-supplier': {
+        'published': '2026-07-22',
+        'updated': '2026-09-13',
+    },
+    'reduce-food-waste-with-bake-on-demand': {
+        'published': '2026-07-08',
+        'updated': '2026-09-13',
+    },
 }
 
 
@@ -189,7 +202,8 @@ class BlogSitemap(LocalizedSitemap):
         from datetime import date
 
         path, _lang = item
-        return date.fromisoformat(BLOG_POSTS[path.rsplit('/', 1)[1]])
+        post = BLOG_POSTS[path.rsplit('/', 1)[1]]
+        return date.fromisoformat(post['updated'] or post['published'])
 
 
 class ProductSitemap(LocalizedSitemap):
