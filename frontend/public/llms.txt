@@ -61,3 +61,7 @@ This site registers WebMCP tools (see [WebMCP documentation](https://developer.c
 - [Email info@gertifoods.com](mailto:info@gertifoods.com): general and sales (arlinda@gertifoods.com).
 - Address: Str. Kalaja e Shkupit, Prizren 20000, Kosovo.
 - Languages: Albanian (sq) at the paths above; English under /en/ and German under /de/ (e.g. https://gertifoods.com/en/products, https://gertifoods.com/de/products).
+
+## Optional
+
+- [llms-full.txt](https://gertifoods.com/llms-full.txt): the full text of every public page — company, products, delivery per country, all blog posts — in one English file, generated at build time.

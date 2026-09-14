@@ -60,6 +60,16 @@ export default defineConfig([
     },
   },
   {
+    // Astro endpoints (pages/*.txt.js and the like) are plain build-time
+    // functions, not React components. They call useTranslations() from
+    // lib/i18n.js, which the hooks rule mistakes for a React Hook by its name
+    // alone — the .astro pages make the same call unlinted.
+    files: ['astro/pages/**/*.js'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
+  {
     // Capitalized HOC parameters are rendered as JSX components. ESLint's
     // base unused-variable rule does not infer that use for function args.
     files: ['astro/islands/withProviders.jsx'],
