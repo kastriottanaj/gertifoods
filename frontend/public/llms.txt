@@ -8,9 +8,13 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 
 ## Products
 
-- [Byrek / Pies (Pite)](https://gertifoods.com/products): cheese, spinach, meat and tuna byrek, consistent in every pack. Up to 800 pcs/hour.
-- [Tortillas](https://gertifoods.com/products): fresh tortillas — plain, vegetable, fruit and cinnamon. Up to 3,000 pcs/hour.
-- [Family Packs](https://gertifoods.com/products): retail- and home-format multi-piece packs with shelf-appeal packaging.
+- [Products catalog](https://gertifoods.com/products): full searchable product list with prices and minimum order quantities. All byrek are half-baked and delivered frozen, finish in 15–20 minutes, and have a minimum order of 50 pieces; up to 800 pcs/hour.
+- [Cheese byrek](https://gertifoods.com/products/pite-me-djathe): traditional flaky pastry filled with white cheese.
+- [Spinach byrek with cheese](https://gertifoods.com/products/pite-me-spinaq): traditional flaky pastry filled with spinach and cheese.
+- [Meat byrek](https://gertifoods.com/products/pite-me-mish): traditional flaky pastry filled with seasoned minced meat.
+- [Tuna byrek](https://gertifoods.com/products/pite-me-tuna): traditional flaky pastry filled with tuna.
+- [Mixed byrek family pack](https://gertifoods.com/products/family-pack-pite-4): all four byrek varieties in one retail-ready pack.
+- [Wholesale tortillas](https://gertifoods.com/products/tortilla): fresh tortillas in four variants — plain, vegetable, fruit and cinnamon — for bakeries, hotels and restaurants. Up to 3,000 pcs/hour.
 
 ## Customers Served
 
@@ -22,11 +26,25 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 ## Key Pages
 
 - [Home](https://gertifoods.com/): company overview and lead capture.
-- [Products catalog](https://gertifoods.com/products): full searchable product list.
 - [About](https://gertifoods.com/about): company story, Hasi heritage, certifications and capacity.
-- [Areas served](https://gertifoods.com/areas): Kosovo, Albania, Hungary, Croatia, Slovakia and Germany.
-- [Blog](https://gertifoods.com/blog): practical guidance for food businesses on sourcing, efficiency and bake-on-demand operations.
+- [Areas served](https://gertifoods.com/areas): overview of the six markets and how cross-border supply works.
 - [Imprint](https://gertifoods.com/imprint): legal and company details.
+
+## Areas Served
+
+- [Kosovo](https://gertifoods.com/areas/kosovo): home market. Delivered on the company's own truck within 24–48 hours of order confirmation, on request rather than a fixed schedule; minimum order one pallet.
+- [Albania](https://gertifoods.com/areas/albania): delivered on the company's own truck within a week of order confirmation, on request rather than a fixed schedule.
+- [Hungary](https://gertifoods.com/areas/hungary)
+- [Croatia](https://gertifoods.com/areas/croatia)
+- [Slovakia](https://gertifoods.com/areas/slovakia)
+- [Germany](https://gertifoods.com/areas/germany)
+
+## Blog
+
+- [Blog index](https://gertifoods.com/blog): practical guidance for food businesses on sourcing, efficiency and bake-on-demand operations.
+- [Half-Baked Products: How They Help Food Businesses Grow](https://gertifoods.com/blog/how-half-baked-products-help-businesses)
+- [Reliable Food Supplier: 5 Things Businesses Should Check](https://gertifoods.com/blog/choosing-reliable-food-supplier)
+- [Bake-On-Demand: How to Cut Food Waste in Your Business](https://gertifoods.com/blog/reduce-food-waste-with-bake-on-demand)
 
 ## Agent Tools Available
 
@@ -42,4 +60,4 @@ This site registers WebMCP tools (see [WebMCP documentation](https://developer.c
 - [WhatsApp](https://wa.me/38349111150): message the sales team.
 - [Email info@gertifoods.com](mailto:info@gertifoods.com): general and sales (arlinda@gertifoods.com).
 - Address: Str. Kalaja e Shkupit, Prizren 20000, Kosovo.
-- Languages: Albanian (sq), English (en), German (de).
+- Languages: Albanian (sq) at the paths above; English under /en/ and German under /de/ (e.g. https://gertifoods.com/en/products, https://gertifoods.com/de/products).
