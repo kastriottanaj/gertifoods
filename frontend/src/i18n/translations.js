@@ -29,7 +29,7 @@ const translations = {
 
     // Home
     home_seo_title: 'Byrek e tortilla gjysmë të pjekura për biznese në Kosovë',
-    home_meta: 'Kroasanë, pica dhe byrekë gjysmë të pjekur për bizneset në Prizren, Kosovë. Cilësi e qëndrueshme në 15–20 minuta. Kërkoni mostra falas sot!',
+    home_meta: 'Byrek e tortilla gjysmë të pjekura për furra, hotele, restorante dhe supermarkete në Prizren, Kosovë. Piqen për 15–20 minuta — kërko mostra falas!',
     home_hero_eyebrow: 'Gjysmë të pjekura · Shkallë industriale · Prizren, Kosovë',
     home_hero_title: 'Byrek e tortilla gati për furrën tënde. Pa bukëpjekës.',
     home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
