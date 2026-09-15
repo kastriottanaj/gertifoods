@@ -8,6 +8,7 @@ import { useTranslations } from '../lib/i18n.js';
 import { getProducts } from '../lib/products.js';
 import { blogPosts } from '../../src/data/blogPosts.js';
 import { areas } from '../../src/data/areas.js';
+import { supplySegments } from '../../src/data/supply.js';
 
 const LANG = 'en';
 
@@ -19,6 +20,7 @@ export async function GET({ site }) {
     products: await getProducts(),
     blogPosts,
     areas,
+    supplySegments,
   });
   return new Response(body, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },

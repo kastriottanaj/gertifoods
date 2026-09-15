@@ -1,6 +1,14 @@
 User-agent: *
 Allow: /
 
+# The buyer-segment and city landing pages (/furnizim/byrektore … /furnizim/lakror,
+# plus their /en/ and /de/ editions) are covered by the Allow above; they are
+# named here so nobody tightening this file later mistakes them for a section
+# that was meant to stay out. They are listed in sitemap-supply.xml.
+Allow: /furnizim/
+Allow: /en/furnizim/
+Allow: /de/furnizim/
+
 # The account pages (cart, orders, login, register, profile, in all three
 # language editions) are deliberately NOT listed here. They are kept out of
 # search with a <meta name="robots" content="noindex"> instead, which only

@@ -31,8 +31,9 @@ import { productCopy } from './productCopy.js';
  * @param {Array} args.products        getProducts() result
  * @param {Array} args.blogPosts       src/data/blogPosts.js
  * @param {Array} args.areas           src/data/areas.js
+ * @param {Array} args.supplySegments  src/data/supply.js
  */
-export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas }) {
+export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, supplySegments = [] }) {
   const ORIGIN = origin.replace(/\/$/, '');
   // The address a language-neutral path is served at, absolute.
   const url = (l, path) => `${ORIGIN}${localePath(l, path)}`;
@@ -287,6 +288,43 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas }) {
         line(`  A: ${text(k(`faq_${n}_a`))}`);
       }
       line();
+    }
+  }
+
+  // ---------------------------------------------------------------- supply
+  // The /furnizim/<slug> landing pages, one per buyer type or city. Rendered
+  // from the same supply_<slug>_* keys SupplyLanding.astro prints, so the
+  // hero, the four "why" points, the product list and the FAQ here are the
+  // page's own words.
+  if (supplySegments.length) {
+    heading(2, text('supply_links_title') ?? 'Supply by type of business');
+    for (const segment of supplySegments) {
+      const k = (suffix) => `supply_${segment.slug.replaceAll('-', '_')}_${suffix}`;
+      heading(3, `${text(k('name'))} (${url(lang, `/furnizim/${segment.slug}`)})`);
+      para(`${text(k('hero_line_1'))} ${text(k('hero_line_2'))} ${text(k('hero_strong'))}.`);
+      para(text(k('hero_body')));
+      bullets([
+        [k('delivery'), k('delivery_body')],
+        [k('quality'), k('quality_body')],
+        [k('time'), k('time_body')],
+      ]);
+      if (has(k('why_title'))) {
+        heading(4, text(k('why_title')));
+        bullets(numbered(k('why'), 4, 'title', 'body'));
+      }
+      if (has(k('products_title'))) {
+        heading(4, text(k('products_title')));
+        para(text(k('products_intro')));
+      }
+      const faq = [1, 2, 3, 4].filter((n) => has(k(`faq_${n}_q`)));
+      if (faq.length) {
+        heading(4, text(k('faq_title')) ?? 'Frequently asked questions');
+        for (const n of faq) {
+          line(`- Q: ${text(k(`faq_${n}_q`))}`);
+          line(`  A: ${text(k(`faq_${n}_a`))}`);
+        }
+        line();
+      }
     }
   }
 
