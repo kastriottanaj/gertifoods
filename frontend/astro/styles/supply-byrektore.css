@@ -98,15 +98,6 @@
 .bk-band .bk-btn-outline { font-size: 13.5px; }
 .bk-band .bk-btn-white { font-size: 13.5px; }
 
-/* Footer */
-.bk-footer { background: #1b1b1b; color: #bdbdbd; font-size: 13px; }
-.bk-footer-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 22px 0; }
-.bk-footer img { display: block; width: auto; height: 30px; }
-.bk-footer-inner > span, .bk-footer-inner > a:not(:first-child) { position: relative; padding-left: 20px; }
-.bk-footer-inner > span::before, .bk-footer-inner > a:not(:first-child)::before { content: ""; position: absolute; left: 0; top: 50%; height: 16px; transform: translateY(-50%); border-left: 1px solid #444; }
-.bk-footer a:hover { color: #fff; }
-.bk-footer nav { margin-left: auto; display: flex; gap: 8px; color: #9a9a9a; }
-
 /* Phone call bar — phones only */
 .bk-callbar { display: none; }
 
@@ -143,10 +134,8 @@
   .bk-variety-grid { grid-template-columns: 1fr; }
   .bk-variety { padding: 18px 20px; }
   .bk-band-actions .bk-btn { width: 100%; }
-  .bk-footer-inner { padding-bottom: 96px; }
-  .bk-footer-inner > span, .bk-footer-inner > a:not(:first-child) { padding-left: 0; }
-  .bk-footer-inner > span::before, .bk-footer-inner > a:not(:first-child)::before { display: none; }
-  .bk-footer nav { margin-left: 0; width: 100%; }
+  /* Room under the site footer for the call bar. */
+  .byrektore-landing-app .footer-bottom { padding-bottom: 96px; }
   .bk-callbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 950; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--red); color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
   .bk-callbar svg { width: 20px; height: 20px; }
   /* Keep the site's WhatsApp button clear of the call bar. */

@@ -2,11 +2,13 @@
 // /furnizim/byrektore — the byrek-shop landing page, built to Kastriot's
 // mockup (2026-09-15) rather than the shared SupplyLanding template.
 //
-// The mockup brings its own header and footer (four links, a language
-// dropdown, one red call to action; a one-line dark footer), so the site's
-// Navbar and Footer are switched off for this page. Everything below the
-// header follows the mockup top to bottom: hero with a handwritten note over
-// the photo, certification strip, three benefits, the four varieties, a red call-to-action band, and on phones a sticky call bar.
+// The mockup brings its own header (four links, a language dropdown, one red
+// call to action), so the site's Navbar is switched off for this page; the
+// site Footer stays — the mockup's one-line footer was too thin for a page
+// that has to stand on its own. Everything between follows the mockup top to
+// bottom: hero with a handwritten note over the photo, certification strip,
+// three benefits, the four varieties, a red call-to-action band, and on
+// phones a sticky call bar.
 //
 // Copy stays under supply_byrektore_* in translations.js like the sibling
 // pages, so the SupplyLinks strip, llms-full.txt and the sitemap need no
@@ -66,7 +68,6 @@ const schema = {
   appClass=" byrektore-landing-app"
   brandSuffix={false}
   showNavbar={false}
-  showFooter={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
 
@@ -200,19 +201,6 @@ const schema = {
         </div>
       </div>
     </section>
-
-    <footer class="bk-footer">
-      <div class="bk-wrap bk-footer-inner">
-        <a href={p('/')} aria-label="Gerti Foods"><img src={logo.src} width={logo.width} height={logo.height} alt="Gerti Foods" loading="lazy" decoding="async" /></a>
-        <span>{t('lp_footer_location')}</span>
-        <a href="mailto:info@gertifoods.com">info@gertifoods.com</a>
-        <nav>
-          <a href={p('/imprint')}>{t('nav_imprint')}</a>
-          <span aria-hidden="true">·</span>
-          <a href={p('/imprint')}>{t('lp_footer_privacy')}</a>
-        </nav>
-      </div>
-    </footer>
 
     <a href={PHONE_HREF} class="bk-callbar">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
