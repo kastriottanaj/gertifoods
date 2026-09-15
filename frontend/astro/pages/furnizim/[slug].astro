@@ -3,6 +3,7 @@
 // locale, unprefixed. One entry per segment in src/data/supply.js.
 import SupplyLanding from '../../views/SupplyLanding.astro';
 import SupplyByrektore from '../../views/SupplyByrektore.astro';
+import SupplyFurraBuke from '../../views/SupplyFurraBuke.astro';
 import { DEFAULT_LANG } from '../../lib/i18n.js';
 import { supplySegments } from '../../../src/data/supply.js';
 
@@ -12,8 +13,9 @@ export function getStaticPaths() {
 
 const { slug } = Astro.params;
 // Pages redesigned to their own mockup get their own view; the rest share
-// SupplyLanding. Add a line here when the next page gets its design.
-const View = slug === 'byrektore' ? SupplyByrektore : SupplyLanding;
+// SupplyLanding. Add an entry here when the next page gets its design.
+const VIEWS = { byrektore: SupplyByrektore, 'furra-buke': SupplyFurraBuke };
+const View = VIEWS[slug] ?? SupplyLanding;
 ---
 
 <View lang={DEFAULT_LANG} slug={slug} />

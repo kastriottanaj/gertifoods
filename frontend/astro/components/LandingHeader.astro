@@ -1,0 +1,76 @@
+---
+// Header for the landing pages built to Kastriot's mockups (the redesigned
+// /furnizim/<slug> pages): logo, four links, a language dropdown and one red
+// call to action; on phones logo, language and a hamburger menu. It replaces
+// the site Navbar on those pages (BaseLayout showNavbar={false}).
+//
+// The call-to-action label is the page's own key, since the mockups word it
+// differently per page. `langStyle` follows the mockups too: 'code' shows the
+// plain "DE ▾" of the byrektore mockup, 'name' the boxed "Shqip ▾" of the
+// furra-buke one.
+//
+// Styles live in ../styles/landing.css, imported by the page's own stylesheet.
+import {
+  useTranslations,
+  localePath,
+  alternatePath,
+  normalizePath,
+  SUPPORTED_LANGS,
+  LANG_LABELS,
+} from '../lib/i18n.js';
+import logo from '../../src/assets/gerti-foods-logo.webp';
+
+const { lang, ctaLabel, langStyle = 'code' } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+const currentPath = normalizePath(Astro.url.pathname);
+const langLabel = langStyle === 'name' ? LANG_LABELS[lang] : lang.toUpperCase();
+
+const LINKS = [
+  ['/products', 'nav_products'],
+  ['/furnizim', 'footer_col_business'],
+  ['/areas', 'lp_nav_areas'],
+  ['/about', 'nav_about'],
+];
+---
+
+<header class="lp-header">
+  <div class="lp-wrap lp-header-inner">
+    <a href={p('/')} class="lp-logo" aria-label="Gerti Foods">
+      <img src={logo.src} width={logo.width} height={logo.height} alt="Gerti Foods" />
+    </a>
+    <nav class="lp-nav">
+      {LINKS.map(([path, key]) => <a href={p(path)}>{t(key)}</a>)}
+    </nav>
+    <details class={`lp-lang${langStyle === 'name' ? ' lp-lang-boxed' : ''}`}>
+      <summary>{langLabel} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+      <div>
+        {SUPPORTED_LANGS.map((code) => (
+          <a href={alternatePath(code, currentPath)} hreflang={code} data-lang-choice={code} aria-current={code === lang ? 'true' : undefined}>{LANG_LABELS[code]}</a>
+        ))}
+      </div>
+    </details>
+    <button type="button" class="lp-btn lp-btn-red lp-header-cta" data-open-modal="sample">{ctaLabel}</button>
+    <details class="lp-menu">
+      <summary aria-label={t('lp_menu')}><span></span><span></span><span></span></summary>
+      <nav>
+        {LINKS.map(([path, key]) => <a href={p(path)}>{t(key)}</a>)}
+        <button type="button" class="lp-btn lp-btn-red" data-open-modal="sample">{ctaLabel}</button>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  // Same language-preference hook as LanguageSwitcher.astro, so choosing a
+  // language here is remembered the way it is everywhere else.
+  document.querySelectorAll<HTMLElement>('[data-lang-choice]').forEach((el) => {
+    el.addEventListener('click', () => {
+      try {
+        localStorage.setItem('gertifoods_lang', el.dataset.langChoice!);
+      } catch {
+        /* ignore */
+      }
+    });
+  });
+</script>

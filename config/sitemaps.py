@@ -134,11 +134,19 @@ SUPPLY_SOURCES = (
 
 # Pages redesigned to their own mockup render from their own view and
 # stylesheet as well; those files date that page only.
+LANDING_SHARED = (
+    f'{ASTRO}/components/LandingHeader.astro',
+    f'{ASTRO}/styles/landing.css',
+)
 SUPPLY_EXTRA_SOURCES = {
     'byrektore': (
         f'{ASTRO}/views/SupplyByrektore.astro',
         f'{ASTRO}/styles/supply-byrektore.css',
-    ),
+    ) + LANDING_SHARED,
+    'furra-buke': (
+        f'{ASTRO}/views/SupplyFurraBuke.astro',
+        f'{ASTRO}/styles/supply-furra-buke.css',
+    ) + LANDING_SHARED,
 }
 
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and

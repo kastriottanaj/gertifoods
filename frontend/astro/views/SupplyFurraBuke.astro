@@ -1,44 +1,30 @@
 ---
-// /furnizim/byrektore — the byrek-shop landing page, built to Kastriot's
-// mockup (2026-09-15) rather than the shared SupplyLanding template.
+// /furnizim/furra-buke — the bakery landing page, built to Kastriot's mockup
+// (2026-09-16). Same system as the byrektore page (LandingHeader, the shared
+// landing.css) with its own hero photo — the composite of the Cheese Pie pack
+// and tortilla wraps on the bakery background — and a two-card product
+// section: the byrek range and the tortilla line, with the pallet minimum
+// under them. The mockup's testimonial is left out, as on byrektore.
 //
-// The mockup brings its own header (LandingHeader: four links, a language
-// dropdown, one red call to action), so the site's Navbar is switched off for
-// this page; the site Footer stays — the mockup's one-line footer was too thin
-// for a page that has to stand on its own. Everything between follows the
-// mockup top to bottom: hero with a handwritten note over the photo,
-// certification strip, three benefits, the four varieties, a red
-// call-to-action band, and on phones a sticky call bar.
-//
-// Copy stays under supply_byrektore_* in translations.js like the sibling
-// pages, so the SupplyLinks strip, llms-full.txt and the sitemap need no
-// special case. The "Angebot anfordern" buttons open the site's sample/offer
-// modal, the same form and lead event the product pages use.
+// Copy stays under supply_furra_buke_* in translations.js like the sibling
+// pages; the "request a quote" buttons open the site's sample/offer modal.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LandingHeader from '../components/LandingHeader.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
-import heroImage from '../../src/assets/bakery-interior.webp';
-import pieImage from '../../src/assets/products/Pie.webp';
-import '../styles/supply-byrektore.css';
+import heroImage from '../../src/assets/furra-buke-hero.webp';
+import tortillaImage from '../../src/assets/products/Tortillas.webp';
+import '../styles/supply-furra-buke.css';
 
 const PHONE = '+383 49 111 150';
 const PHONE_HREF = 'tel:+38349111150';
 
-// The four varieties, in catalogue order; names from the shared product keys.
-const VARIETIES = [
-  ['pite-me-djathe', 'products_name_pite_me_djathe'],
-  ['pite-me-spinaq', 'products_name_pite_me_spinaq'],
-  ['pite-me-mish', 'products_name_pite_me_mish'],
-  ['pite-me-tuna', 'products_name_pite_me_tuna'],
-];
-
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
-const k = (suffix) => t(`supply_byrektore_${suffix}`);
+const k = (suffix) => t(`supply_furra_buke_${suffix}`);
 const messages = islandMessages(lang);
 
 const schema = {
@@ -57,16 +43,16 @@ const schema = {
   title={k('seo_title')}
   description={k('meta')}
   lang={lang}
-  appClass=" landing-app byrektore-landing-app"
+  appClass=" landing-app furra-buke-landing-app"
   brandSuffix={false}
   showNavbar={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
 
-  <div class="lp bk">
-    <LandingHeader lang={lang} ctaLabel={k('cta_primary')} />
+  <div class="lp fb">
+    <LandingHeader lang={lang} ctaLabel={k('cta_primary')} langStyle="name" />
 
-    <section class="lp-hero bk-hero">
+    <section class="lp-hero fb-hero">
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="lp-hero-img" fetchpriority="high" />
       <div class="lp-hero-shade"></div>
       <div class="lp-wrap lp-hero-inner">
@@ -78,7 +64,7 @@ const schema = {
             {k('cta_primary')}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
           </button>
-          <a href="#sorten" class="lp-btn lp-btn-outline">
+          <a href="#produktet" class="lp-btn lp-btn-outline">
             {k('cta_secondary')}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 4v12.17l-5.59-5.58L4 12l8 8 8-8-1.41-1.41L13 16.17V4z"/></svg>
           </a>
@@ -92,13 +78,9 @@ const schema = {
           <span>{k('hero_meta')}</span>
         </p>
       </div>
-      <div class="bk-note" aria-hidden="true">
-        <span>{k('note')}</span>
-        <svg viewBox="0 0 60 60" class="bk-note-arrow"><path d="M50 6c-6 14-18 26-40 34" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M18 34l-8 6 10 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
     </section>
 
-    <section class="lp-trust">
+    <section class="lp-trust fb-trust">
       <div class="lp-wrap lp-trust-inner">
         <div class="lp-trust-lead">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
@@ -110,7 +92,7 @@ const schema = {
       </div>
     </section>
 
-    <section class="lp-wrap lp-benefits">
+    <section class="lp-wrap lp-benefits fb-benefits">
       <h2>{k('why_title')}</h2>
       <div class="lp-benefit-grid">
         <article>
@@ -118,7 +100,7 @@ const schema = {
           <div><h3>{k('why_1_title')}</h3><p>{k('why_1_body')}</p></div>
         </article>
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M12 7.5v5"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3.5 2"/></svg>
           <div><h3>{k('why_2_title')}</h3><p>{k('why_2_body')}</p></div>
         </article>
         <article>
@@ -128,26 +110,40 @@ const schema = {
       </div>
     </section>
 
-    <section id="sorten" class="lp-wrap bk-products">
+    <section id="produktet" class="lp-wrap fb-products">
       <h2 class="lp-section-title">{k('products_title')}</h2>
-      <p class="bk-products-intro">{k('products_intro')}</p>
-      <div class="bk-products-grid">
-        <a href={p('/products/pite-me-djathe')} class="bk-featured">
-          <img src={pieImage.src} width={pieImage.width} height={pieImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" />
-          <b>{t('products_name_pite_me_djathe')}</b>
-        </a>
-        <div class="bk-variety-grid">
-          {VARIETIES.map(([slug, nameKey]) => (
-            <a href={p(`/products/${slug}`)} class="bk-variety">
-              <span class="bk-thumb" style={`background-image:url(${pieImage.src})`} aria-hidden="true"></span>
-              <span>
-                <b>{t(nameKey)}</b>
-                <i>{k('product_cta')} →</i>
-              </span>
+      <div class="fb-cards">
+        <article class="fb-card">
+          <span class="fb-card-img fb-card-figure">
+            <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" />
+          </span>
+          <div>
+            <h3>{k('byrek_title')}</h3>
+            <p>{k('byrek_sub')}</p>
+            <p>{k('byrek_min')}</p>
+            <a href={p('/products')} class="lp-btn lp-btn-red fb-card-btn">
+              {k('byrek_cta')}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
             </a>
-          ))}
-        </div>
+          </div>
+        </article>
+        <article class="fb-card">
+          <img src={tortillaImage.src} width={tortillaImage.width} height={tortillaImage.height} alt={k('tortilla_alt')} class="fb-card-img" loading="lazy" decoding="async" />
+          <div>
+            <h3>{k('tortilla_title')}</h3>
+            <p>{k('tortilla_sub')}</p>
+            <p>{k('tortilla_min')}</p>
+            <a href={p('/products/tortilla')} class="lp-btn lp-btn-red fb-card-btn">
+              {k('tortilla_cta')}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+          </div>
+        </article>
       </div>
+      <p class="fb-min">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="17.5" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        {k('min_delivery')}
+      </p>
     </section>
 
     <section class="lp-band">
@@ -155,7 +151,7 @@ const schema = {
         <div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div>
         <div class="lp-band-actions">
           <button type="button" class="lp-btn lp-btn-white" data-open-modal="sample">{k('cta_band_primary')}</button>
-          <a href={PHONE_HREF} class="lp-btn lp-btn-outline">
+          <a href={PHONE_HREF} class="fb-band-call">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
             {k('cta_call')}
           </a>
@@ -169,7 +165,7 @@ const schema = {
     </a>
   </div>
 
-  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_byrektore" closeOnSampleSuccess={true} />
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_furra_buke" closeOnSampleSuccess={true} />
 </BaseLayout>
 
 <script>
@@ -181,7 +177,6 @@ const schema = {
       const name = btn.dataset.openModal;
       (window as any).__gfPendingModal = name;
       window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
-      // Close the phone menu if the click came from inside it.
       document.querySelector<HTMLDetailsElement>('.lp-menu')?.removeAttribute('open');
     });
   });

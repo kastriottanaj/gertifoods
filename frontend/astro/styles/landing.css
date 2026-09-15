@@ -1,0 +1,121 @@
+/* Shared styles for the landing pages built to Kastriot's mockups (the
+   redesigned /furnizim/<slug> pages). Everything the mockups have in common
+   lives here under .lp-*: the page frame, buttons, the header
+   (LandingHeader.astro), hero typography, the certification strip, the
+   benefits row, the red call-to-action band and the phone call bar. Each
+   page's own stylesheet imports this and adds only what is specific to it. */
+.landing-app .main-content { max-width: none; padding: 0; }
+.lp { --red: #da2030; --red-dark: #b8162a; --green: #00723b; --ink: #171717; --muted: #6b6b6b; --line: #e6e4df; --soft: #f5f4f0; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.45; }
+.lp-wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+.lp h1, .lp h2, .lp h3 { margin: 0; letter-spacing: -0.02em; }
+.lp a { text-decoration: none; color: inherit; }
+
+/* Buttons */
+.lp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 7px; border: 1.5px solid transparent; font: 700 15px/1 inherit; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s, border-color .15s; }
+.lp-btn svg { width: 18px; height: 18px; flex: none; }
+.lp-btn-red { background: var(--red); border-color: var(--red); color: #fff; }
+.lp-btn-red:hover { background: var(--red-dark); border-color: var(--red-dark); }
+.lp-btn-outline { background: transparent; border-color: rgba(255,255,255,.85); color: #fff; }
+.lp-btn-outline:hover { background: rgba(255,255,255,.12); }
+.lp-btn-white { background: #fff; border-color: #fff; color: var(--red); }
+.lp-btn-white:hover { background: #f7f7f7; }
+
+/* Header */
+.lp-header { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--line); }
+.lp-header-inner { display: flex; align-items: center; gap: 26px; min-height: 64px; }
+.lp-logo img { display: block; width: auto; height: 34px; }
+.lp-nav { display: flex; gap: 26px; margin-left: 48px; font-size: 14px; font-weight: 600; }
+.lp-nav a:hover { color: var(--red); }
+.lp-lang { position: relative; margin-left: auto; font-size: 14px; font-weight: 600; }
+.lp-lang summary { list-style: none; cursor: pointer; padding: 8px 6px; display: flex; align-items: center; gap: 4px; }
+.lp-lang summary::-webkit-details-marker { display: none; }
+.lp-lang summary svg { width: 14px; height: 14px; }
+.lp-lang-boxed summary { padding: 8px 12px; border: 1px solid #d9d6cf; border-radius: 7px; font-weight: 500; }
+.lp-lang div { position: absolute; right: 0; top: calc(100% + 4px); min-width: 130px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
+.lp-lang div a { padding: 8px 10px; border-radius: 6px; font-weight: 500; }
+.lp-lang div a:hover, .lp-lang div a[aria-current] { background: var(--soft); }
+.lp-header-cta { min-height: 40px; padding: 0 18px; font-size: 13px; }
+.lp-menu { display: none; position: relative; }
+.lp-menu summary { list-style: none; cursor: pointer; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 0 8px; }
+.lp-menu summary::-webkit-details-marker { display: none; }
+.lp-menu summary span { display: block; height: 2.5px; border-radius: 2px; background: var(--ink); }
+.lp-menu nav { position: absolute; right: 0; top: calc(100% + 8px); width: min(300px, calc(100vw - 32px)); padding: 10px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+.lp-menu nav a { padding: 12px; border-radius: 6px; font-weight: 600; }
+.lp-menu nav a:hover { background: var(--soft); }
+.lp-menu nav .lp-btn { margin: 8px 4px 2px; }
+
+/* Hero typography (each page positions its own photo) */
+.lp-hero { position: relative; overflow: hidden; display: flex; align-items: center; color: #fff; background: #1d1713; }
+.lp-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lp-hero-shade { position: absolute; inset: 0; }
+.lp-hero-inner { position: relative; z-index: 2; padding: 46px 0 42px; }
+.lp-eyebrow { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.82); }
+.lp-hero h1 { font-size: 44px; line-height: 1.08; font-weight: 800; max-width: 560px; }
+.lp-hero-body { margin: 16px 0 0; max-width: 470px; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,.92); }
+.lp-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+.lp-hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0 0; font-size: 14px; color: rgba(255,255,255,.92); }
+.lp-hero-meta a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.lp-hero-meta svg { width: 18px; height: 18px; }
+
+/* Certification strip */
+.lp-trust { background: #fff; border-bottom: 1px solid var(--line); }
+.lp-trust-inner { display: flex; align-items: center; min-height: 56px; font-size: 13.5px; font-weight: 600; }
+.lp-trust-lead { display: flex; align-items: center; gap: 10px; padding-right: 30px; }
+.lp-trust-lead svg { width: 22px; height: 22px; color: var(--red); }
+.lp-trust-list { display: flex; flex: 1; margin: 0; padding: 0; list-style: none; }
+.lp-trust-list li { flex: 1; text-align: center; padding: 0 12px; border-left: 1px solid var(--line); color: #333; }
+
+/* Benefits */
+.lp-benefits { padding: 46px 0 26px; }
+.lp-benefits h2 { font-size: 27px; font-weight: 800; margin-bottom: 24px; }
+.lp-benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.lp-benefit-grid article { display: flex; gap: 14px; align-items: flex-start; padding: 4px 26px 4px 0; }
+.lp-benefit-grid article + article { padding-left: 26px; border-left: 1px solid var(--line); }
+.lp-benefit-grid svg { width: 38px; height: 38px; flex: none; color: var(--red); }
+.lp-benefit-grid h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 4px; }
+.lp-benefit-grid p { margin: 0; font-size: 13.5px; color: var(--muted); }
+
+/* Section headings shared by the product sections */
+.lp-section-title { font-size: 27px; font-weight: 800; }
+
+/* Call-to-action band */
+.lp-band { background: var(--red); color: #fff; }
+.lp-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 30px 0; }
+.lp-band h2 { font-size: 27px; font-weight: 800; margin-bottom: 6px; }
+.lp-band p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,.92); }
+.lp-band-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: flex-end; }
+.lp-band .lp-btn { font-size: 13.5px; }
+
+/* Phone call bar — phones only */
+.lp-callbar { display: none; }
+
+@media (max-width: 900px) {
+  .lp-nav, .lp-header-cta { display: none; }
+  .lp-menu { display: block; }
+  .lp-benefit-grid { grid-template-columns: 1fr; }
+  .lp-benefit-grid article + article { padding: 18px 0 0; margin-top: 18px; border-left: 0; border-top: 1px solid var(--line); }
+  .lp-band-inner { flex-direction: column; align-items: stretch; }
+  .lp-band-actions { justify-content: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .lp-wrap { width: calc(100% - 40px); }
+  .lp-hero h1 { font-size: 36px; }
+  .lp-hero-body { font-size: 16px; }
+  .lp-hero-actions { flex-direction: column; }
+  .lp-hero-actions .lp-btn { width: 100%; min-height: 52px; }
+  .lp-hero-meta { font-size: 13.5px; }
+  .lp-trust-inner { flex-direction: column; align-items: stretch; padding: 12px 0; }
+  .lp-trust-lead { justify-content: center; padding: 6px 0 12px; border-bottom: 1px solid var(--line); }
+  .lp-trust-list { padding-top: 12px; }
+  .lp-trust-list li { padding: 0 4px; font-size: 12px; white-space: nowrap; }
+  .lp-trust-list li:first-child { border-left: 0; }
+  .lp-benefits h2, .lp-section-title, .lp-band h2 { font-size: 24px; }
+  .lp-band-actions .lp-btn { width: 100%; }
+  .lp-callbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 950; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--red); color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
+  .lp-callbar svg { width: 20px; height: 20px; }
+  /* Room under the site footer for the call bar, and keep the WhatsApp
+     button clear of it. */
+  .landing-app .footer-bottom { padding-bottom: 96px; }
+  .landing-app .wa-btn { bottom: 88px; }
+}

@@ -4,6 +4,7 @@
 // resolves. The slug stays Albanian across editions, like /de/products/pite-me-djathe.
 import SupplyLanding from '../../../views/SupplyLanding.astro';
 import SupplyByrektore from '../../../views/SupplyByrektore.astro';
+import SupplyFurraBuke from '../../../views/SupplyFurraBuke.astro';
 import { PREFIXED_LANGS } from '../../../lib/i18n.js';
 import { supplySegments } from '../../../../src/data/supply.js';
 
@@ -15,8 +16,9 @@ export function getStaticPaths() {
 
 const { lang, slug } = Astro.params;
 // Pages redesigned to their own mockup get their own view; the rest share
-// SupplyLanding. Add a line here when the next page gets its design.
-const View = slug === 'byrektore' ? SupplyByrektore : SupplyLanding;
+// SupplyLanding. Add an entry here when the next page gets its design.
+const VIEWS = { byrektore: SupplyByrektore, 'furra-buke': SupplyFurraBuke };
+const View = VIEWS[slug] ?? SupplyLanding;
 ---
 
 <View lang={lang} slug={slug} />
