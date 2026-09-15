@@ -7,6 +7,7 @@ import brandLogo from '../../src/assets/gerti-foods-logo.webp';
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
+const segmentHref = (path) => p(lang === 'de' ? '/products' : path);
 
 // Resolved at build time rather than in the browser. The copyright year
 // therefore reflects the last deploy, so a site left unbuilt across New Year
@@ -54,10 +55,15 @@ const year = new Date().getFullYear();
 
     <div class="footer-section">
       <h4>{t('footer_col_business')}</h4>
+      {/* Each buyer type links to its own /furnizim page (src/data/supply.js);
+          catering has no page of its own yet and keeps the catalogue. Those
+          pages address Kosovo and Albania, so the German edition — read by
+          German-market buyers — keeps every link on the catalogue instead. */}
       <ul class="footer-links">
-        <li><a href={p('/products')}>{t('segment_bakeries_title')}</a></li>
-        <li><a href={p('/products')}>{t('segment_horeca_title')}</a></li>
-        <li><a href={p('/products')}>{t('segment_retail_title')}</a></li>
+        {lang !== 'de' && <li><a href={p('/furnizim/byrektore')}>{t('segment_byrektore_title')}</a></li>}
+        <li><a href={segmentHref('/furnizim/furra-buke')}>{t('segment_bakeries_title')}</a></li>
+        <li><a href={segmentHref('/furnizim/lokale-restorante')}>{t('segment_horeca_title')}</a></li>
+        <li><a href={segmentHref('/furnizim/markete')}>{t('segment_retail_title')}</a></li>
         <li><a href={p('/products')}>{t('segment_catering_title')}</a></li>
       </ul>
     </div>

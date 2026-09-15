@@ -1,0 +1,42 @@
+---
+// A strip of cards linking to /furnizim/<slug> landing pages.
+//
+// Used by the Kosovo and Albania area pages (their `supplyPages` in
+// src/data/areas.js) and by every supply page, which lists its siblings — so
+// the seven pages form one linked cluster rather than seven orphans that only
+// the sitemap knows about. Each card reuses the page's own name and H1 copy
+// (supply_<slug>_name, supply_<slug>_hero_*), so there is nothing extra to
+// translate per page. Renders nothing for an empty list.
+//
+// The markup is the area-supply card grid, so it inherits the country pages'
+// styles and needs no CSS of its own.
+import { useTranslations, localePath } from '../lib/i18n.js';
+
+const { lang, slugs = [] } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+const k = (slug, suffix) => t(`supply_${slug.replaceAll('-', '_')}_${suffix}`);
+---
+
+{
+  slugs.length > 0 && (
+    <section class="area-supply supply-links">
+      <div class="area-supply-heading">
+        <h2>{t('supply_links_title')}</h2>
+      </div>
+      <div class="area-supply-grid">
+        {slugs.map((slug) => (
+          <article>
+            <h3>{k(slug, 'name')}</h3>
+            <p>
+              {k(slug, 'hero_line_1')} {k(slug, 'hero_line_2')} {k(slug, 'hero_strong')}
+            </p>
+            <a href={p(`/furnizim/${slug}`)} class="albania-learn">
+              {t('supply_links_cta')} →
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}

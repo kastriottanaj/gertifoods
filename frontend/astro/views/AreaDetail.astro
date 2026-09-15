@@ -11,6 +11,7 @@
 //   hasTime      — Kosovo shows three hero benefits, every other country four.
 //   hasLearnMore — Kosovo's segment cards have no "learn more" link.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SupplyLinks from '../components/SupplyLinks.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { areas } from '../../src/data/areas.js';
 import kosovoHero from '../../src/assets/gerti-foods-kosovo.webp';
@@ -75,12 +76,16 @@ const COUNTRIES = {
 // the translation-key prefix changes.
 // The fourth entry is the alt-text key: these five photos are reused on every
 // country page, so the description belongs to the image, not the segment.
+// The fifth is where the card's "learn more" goes: the buyer type's own
+// /furnizim landing page where one exists, the catalogue otherwise. Those
+// pages address Kosovo and Albania, so only countries listing `supplyPages`
+// in areas.js send their cards there; the other markets keep the catalogue.
 const SEGMENTS = [
-  ['bakeries', bakeryImage, '♨', 'img_alt_bakery_interior'],
-  ['hotels', hotelImage, '⌂', 'img_alt_production_line'],
-  ['restaurants', restaurantImage, '♧', 'img_alt_pie_pack'],
-  ['supermarkets', supermarketImage, '▰', 'img_alt_retail_pack'],
-  ['catering', restaurantImage, '⌂', 'img_alt_pie_pack'],
+  ['bakeries', bakeryImage, '♨', 'img_alt_bakery_interior', '/furnizim/furra-buke'],
+  ['hotels', hotelImage, '⌂', 'img_alt_production_line', '/furnizim/lokale-restorante'],
+  ['restaurants', restaurantImage, '♧', 'img_alt_pie_pack', '/furnizim/lokale-restorante'],
+  ['supermarkets', supermarketImage, '▰', 'img_alt_retail_pack', '/furnizim/markete'],
+  ['catering', restaurantImage, '⌂', 'img_alt_pie_pack', '/products'],
 ];
 
 const { lang, slug, nameKey } = Astro.props;
@@ -98,7 +103,9 @@ const has = (suffix) => t(`${slug}_${suffix}`) !== `${slug}_${suffix}`;
 const hasSupply = has('supply_title');
 const supplyPoints = [1, 2, 3, 4].filter((n) => has(`supply_${n}_title`));
 const faqItems = [1, 2, 3, 4].filter((n) => has(`faq_${n}_q`));
-const customers = areas.find((a) => a.slug === slug)?.customers ?? [];
+const area = areas.find((a) => a.slug === slug);
+const customers = area?.customers ?? [];
+const supplyPages = area?.supplyPages ?? [];
 ---
 
 {/* SERP copy comes from the per-country *_seo_title / *_meta keys rather than
@@ -136,7 +143,7 @@ const customers = areas.find((a) => a.slug === slug)?.customers ?? [];
     <section class="kosovo-segments">
       <h2>{k('serve_title')}</h2>
       <div class="kosovo-segment-grid">
-        {SEGMENTS.map(([segment, image, icon, altKey]) => (
+        {SEGMENTS.map(([segment, image, icon, altKey, href]) => (
           <article>
             <img src={image.src} width={image.width} height={image.height} alt={t(altKey)} loading="lazy" decoding="async" />
             <i>{icon}</i>
@@ -144,7 +151,7 @@ const customers = areas.find((a) => a.slug === slug)?.customers ?? [];
               <h3>{k(`segment_${segment}`)}</h3>
               <p>{k(`segment_${segment}_body`)}</p>
               {country.hasLearnMore && (
-                <a href={p('/products')} class="albania-learn">{t('about_view_products')} →</a>
+                <a href={p(supplyPages.length > 0 ? href : '/products')} class="albania-learn">{t('about_view_products')} →</a>
               )}
             </div>
           </article>
@@ -188,6 +195,8 @@ const customers = areas.find((a) => a.slug === slug)?.customers ?? [];
         )}
       </section>
     )}
+
+    <SupplyLinks lang={lang} slugs={supplyPages} />
 
     <section class="kosovo-growth"><i>⌕</i><div><h2>{k('growth_title')}</h2><p>{k('growth_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
     <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>

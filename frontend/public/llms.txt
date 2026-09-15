@@ -28,6 +28,13 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 - [Home](https://gertifoods.com/): company overview and lead capture.
 - [About](https://gertifoods.com/about): company story, Hasi heritage, certifications and capacity.
 - [Areas served](https://gertifoods.com/areas): overview of the six markets and how cross-border supply works.
+- [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — half-baked byrek in four varieties, minimum 50 pieces per variety, oven-ready in 15–20 minutes, free samples on request.
+- [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add half-baked byrek and tortillas to the range without an extra baker; byrek bakes in 15–20 minutes, minimum 50 pieces per variety.
+- [Supply for cafés, restaurants and hotels](https://gertifoods.com/furnizim/lokale-restorante): landing page for HORECA venues in Kosovo and Albania — byrek baked to order in 15–20 minutes with no extra cook, tortillas for wraps on the menu, Halal certified.
+- [Supply for markets and supermarkets](https://gertifoods.com/furnizim/markete): landing page for retailers in Kosovo and Albania — the retail-ready mixed byrek Family Pack plus single byrek for in-store ovens; delivered frozen by the company's own truck, minimum one pallet.
+- [Byrek supply in Tirana](https://gertifoods.com/furnizim/tirane): city page for Tirana businesses — own-truck delivery from Prizren within a week of confirmation, no fixed delivery days, minimum one pallet.
+- [Byrek supply in Pristina](https://gertifoods.com/furnizim/prishtine): city page for Pristina businesses — own-truck delivery from Prizren within 24–48 hours of confirmation, no fixed delivery days, minimum one pallet.
+- [Lakror wholesale for southern Albania](https://gertifoods.com/furnizim/lakror): the same half-baked byrek presented in the southern-Albanian vocabulary (lakror) for buyers in Korçë, Gjirokastër and the south; bakes in a standard oven, not a saç.
 - [Imprint](https://gertifoods.com/imprint): legal and company details.
 
 ## Areas Served

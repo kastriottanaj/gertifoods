@@ -104,6 +104,27 @@ AREA_SOURCES = (
     'frontend/src/data/areas.js',
 )
 
+# Buyer-segment landing pages (/furnizim/<slug>) are defined in
+# frontend/src/data/supply.js; keep this list in sync.
+SUPPLY_SLUGS = [
+    'byrektore',
+    'furra-buke',
+    'lokale-restorante',
+    'markete',
+    'tirane',
+    'prishtine',
+    'lakror',
+]
+
+# One template renders every segment page, told apart by its translation keys
+# (supply_byrektore_*), the same arrangement as the area pages above.
+SUPPLY_SOURCES = (
+    f'{ASTRO}/views/SupplyLanding.astro',
+    f'{ASTRO}/pages/furnizim/[slug].astro',
+    f'{ASTRO}/pages/[lang]/furnizim/[slug].astro',
+    'frontend/src/data/supply.js',
+)
+
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
 # dates synchronized until blog content moves to a shared CMS/API. `updated` is
 # the date a post's body was last reworked, or None if it hasn't been since
@@ -191,6 +212,21 @@ class AreaSitemap(LocalizedSitemap):
         return last_commit(AREA_SOURCES, path.rsplit('/', 1)[1])
 
 
+class SupplySitemap(LocalizedSitemap):
+    changefreq = 'monthly'
+    priority = 0.8
+
+    def paths(self):
+        return [f'/furnizim/{slug}' for slug in SUPPLY_SLUGS]
+
+    def lastmod(self, item):
+        path, _lang = item
+        # Keys cannot carry a hyphen, so /furnizim/furra-buke's copy lives
+        # under supply_furra_buke_ (see SupplyLanding.astro).
+        slug = path.rsplit('/', 1)[1].replace('-', '_')
+        return last_commit(SUPPLY_SOURCES, f'supply_{slug}')
+
+
 class BlogSitemap(LocalizedSitemap):
     changefreq = 'monthly'
     priority = 0.7
@@ -237,6 +273,7 @@ class ProductSitemap(LocalizedSitemap):
 SITEMAPS = {
     'pages': PageSitemap,
     'areas-we-serve': AreaSitemap,
+    'supply': SupplySitemap,
     'products': ProductSitemap,
     'blog': BlogSitemap,
 }

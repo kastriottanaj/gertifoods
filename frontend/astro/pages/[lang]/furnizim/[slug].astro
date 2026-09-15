@@ -1,0 +1,18 @@
+---
+// /en/furnizim/byrektore, /de/furnizim/byrektore — every buyer segment in
+// every prefixed language, so the hreflang set BaseLayout declares always
+// resolves. The slug stays Albanian across editions, like /de/products/pite-me-djathe.
+import SupplyLanding from '../../../views/SupplyLanding.astro';
+import { PREFIXED_LANGS } from '../../../lib/i18n.js';
+import { supplySegments } from '../../../../src/data/supply.js';
+
+export function getStaticPaths() {
+  return PREFIXED_LANGS.flatMap((lang) =>
+    supplySegments.map((segment) => ({ params: { lang, slug: segment.slug } }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+---
+
+<SupplyLanding lang={lang} slug={slug} />

@@ -1,0 +1,15 @@
+---
+// /furnizim/byrektore … — buyer-segment landing pages in Albanian, the default
+// locale, unprefixed. One entry per segment in src/data/supply.js.
+import SupplyLanding from '../../views/SupplyLanding.astro';
+import { DEFAULT_LANG } from '../../lib/i18n.js';
+import { supplySegments } from '../../../src/data/supply.js';
+
+export function getStaticPaths() {
+  return supplySegments.map((segment) => ({ params: { slug: segment.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<SupplyLanding lang={DEFAULT_LANG} slug={slug} />

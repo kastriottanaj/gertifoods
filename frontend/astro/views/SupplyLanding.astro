@@ -1,0 +1,161 @@
+---
+// Buyer-segment landing page: /furnizim/<slug> (see src/data/supply.js).
+//
+// One template for every segment, told apart only by the translation-key
+// prefix — the same shape AreaDetail.astro uses for the six countries. The
+// markup reuses the country-page classes (kosovo-hero, area-supply, area-faq,
+// kosovo-growth) so a new segment renders in the site's existing styles with
+// no CSS of its own; a segment that later needs a distinct layout gets its own
+// view rather than flags in this one.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SupplyLinks from '../components/SupplyLinks.astro';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
+import { getSupplySegment, supplySegments } from '../../src/data/supply.js';
+import bakeryImage from '../../src/assets/bakery-interior.webp';
+import venueImage from '../../src/assets/gerti-foods-about-us.webp';
+import albaniaImage from '../../src/assets/gerti-foods-albania.webp';
+import kosovoImage from '../../src/assets/gerti-foods-kosovo.webp';
+import pieImage from '../../src/assets/products/Pie.webp';
+import familyPackImage from '../../src/assets/products/Family-pack.webp';
+
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+
+// Hero photo per segment. The two bakery-type buyers share the bakery
+// interior; venues get the photo AreaDetail already uses for its hotel card;
+// markets get the retail pack; the city and regional pages reuse their
+// country's area-page photo.
+const HEROES = {
+  byrektore: bakeryImage,
+  'furra-buke': bakeryImage,
+  'lokale-restorante': venueImage,
+  markete: familyPackImage,
+  tirane: albaniaImage,
+  prishtine: kosovoImage,
+  lakror: albaniaImage,
+};
+
+// Everything a segment page can list, keyed by product path. Names come from
+// the shared products_name_* keys so the strip and the product pages agree;
+// the tortilla line has no catalogue row and so a label of its own.
+const CATALOGUE = {
+  '/products/pite-me-djathe': ['products_name_pite_me_djathe', pieImage],
+  '/products/pite-me-spinaq': ['products_name_pite_me_spinaq', pieImage],
+  '/products/pite-me-mish': ['products_name_pite_me_mish', pieImage],
+  '/products/pite-me-tuna': ['products_name_pite_me_tuna', pieImage],
+  '/products/family-pack-pite-4': ['products_name_family_pack_pite_4', familyPackImage],
+  '/products/tortilla': ['supply_product_tortilla', pieImage],
+};
+
+// The default strip: the four byrek and the tortilla line. A segment in
+// supply.js may name its own list instead.
+const DEFAULT_PRODUCTS = [
+  '/products/pite-me-djathe',
+  '/products/pite-me-spinaq',
+  '/products/pite-me-mish',
+  '/products/pite-me-tuna',
+  '/products/tortilla',
+];
+
+const { lang, slug } = Astro.props;
+const products = getSupplySegment(slug)?.products ?? DEFAULT_PRODUCTS;
+// Every other supply page, so the seven form one linked cluster.
+const siblings = supplySegments.map((s) => s.slug).filter((s) => s !== slug);
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+// Slugs may carry hyphens (furra-buke); keys cannot, so the prefix is
+// supply_furra_buke_ — the same slug-to-key rule productCopy() applies.
+const k = (suffix) => t(`supply_${slug.replaceAll('-', '_')}_${suffix}`);
+
+const name = k('name');
+const heroImage = HEROES[slug];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    // Two levels only: there is no /furnizim hub page, so the visible
+    // "Furnizim" crumb is a label, not a link, and has no URL to declare.
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title={k('seo_title')}
+  description={k('meta')}
+  lang={lang}
+  appClass=" supply-landing-app"
+  brandSuffix={false}
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
+
+  <div class="kosovo-page supply-page">
+    <section class="kosovo-hero">
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
+      <div class="kosovo-hero-shade"></div>
+      <div class="kosovo-hero-content">
+        <nav class="kosovo-breadcrumb"><a href={p('/')}>{t('footer_home')}</a> / <span>{t('supply_breadcrumb')}</span> / <span>{name}</span></nav>
+        <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_strong')}</strong></h1>
+        <p>{k('hero_body')}</p>
+        <div class="kosovo-benefits">
+          <article><i>▱</i><div><b>{k('delivery')}</b><span>{k('delivery_body')}</span></div></article>
+          <article><i>◎</i><div><b>{k('quality')}</b><span>{k('quality_body')}</span></div></article>
+          <article><i>◷</i><div><b>{k('time')}</b><span>{k('time_body')}</span></div></article>
+        </div>
+        <div class="kosovo-hero-actions"><a href={p('/products')}>{t('areas_cta_products')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+      </div>
+    </section>
+
+    <section class="area-supply">
+      <div class="area-supply-heading"><h2>{k('why_title')}</h2></div>
+      <div class="area-supply-grid">
+        {[1, 2, 3, 4].map((n) => (
+          <article>
+            <h3>{k(`why_${n}_title`)}</h3>
+            <p>{k(`why_${n}_body`)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="kosovo-segments">
+      <h2>{k('products_title')}</h2>
+      <p>{k('products_intro')}</p>
+      <div class="kosovo-segment-grid">
+        {products.map((productPath) => {
+          const [nameKey, image] = CATALOGUE[productPath];
+          const altKey = image === familyPackImage ? 'img_alt_retail_pack' : 'img_alt_pie_pack';
+          return (
+            <article>
+              <img src={image.src} width={image.width} height={image.height} alt={t(altKey)} loading="lazy" decoding="async" />
+              <div>
+                <h3>{t(nameKey)}</h3>
+                <a href={p(productPath)} class="albania-learn">{t('about_view_products')} →</a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="area-supply">
+      <div class="area-faq">
+        <h2>{k('faq_title')}</h2>
+        {[1, 2, 3, 4].map((n) => (
+          <details>
+            <summary>{k(`faq_${n}_q`)}</summary>
+            <p>{k(`faq_${n}_a`)}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <SupplyLinks lang={lang} slugs={siblings} />
+
+    <section class="kosovo-growth"><i>⌕</i><div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
+    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+  </div>
+</BaseLayout>
