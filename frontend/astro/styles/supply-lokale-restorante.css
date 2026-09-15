@@ -1,0 +1,25 @@
+/* /furnizim/lokale-restorante — what is specific to
+   SupplyLokaleRestorante.astro on top of landing.css: the kitchen hero, the
+   pack's position in it for the product card, and the phone layout with the
+   text block on the kitchen background. */
+@import './landing.css';
+
+/* Hero: the composite photo spans the full width; its left side is already
+   dark, a light gradient keeps the text legible on top of it. */
+.lr-hero { min-height: 470px; }
+.lr-hero .lp-hero-img { object-position: 62% 50%; }
+.lr-hero .lp-hero-shade { background: linear-gradient(90deg, rgba(20,15,11,.74) 0%, rgba(20,15,11,.55) 36%, rgba(20,15,11,.05) 62%, rgba(20,15,11,0) 100%); }
+.lr-hero .lp-hero-inner { padding: 50px 0 46px; }
+
+/* The pack sits a little further right in this composite than in the
+   bakery one. */
+.lr-card-figure img { object-position: 60% 52%; transform-origin: 60% 54%; }
+
+@media (max-width: 640px) {
+  /* Text block on the kitchen background, then the products as their own
+     band — the phone mockup shows them one under the other. */
+  .lr-hero { min-height: 0; flex-direction: column; align-items: stretch; background: #1d1713; }
+  .lr-hero .lp-hero-img { position: static; width: 100%; height: 240px; object-position: 64% 50%; order: 2; }
+  .lr-hero .lp-hero-shade { display: none; }
+  .lr-hero .lp-hero-inner { order: 1; margin: 0; width: 100%; padding: 32px 20px 28px; background: linear-gradient(rgba(20,15,11,.82), rgba(20,15,11,.9)), var(--lr-kitchen) center / cover no-repeat; }
+}

@@ -19,6 +19,7 @@ import {
   LANG_LABELS,
 } from '../lib/i18n.js';
 import logo from '../../src/assets/gerti-foods-logo.webp';
+import { supplySegments } from '../../src/data/supply.js';
 
 const { lang, ctaLabel, langStyle = 'code' } = Astro.props;
 const t = useTranslations(lang);
@@ -26,12 +27,12 @@ const p = (path) => localePath(lang, path);
 const currentPath = normalizePath(Astro.url.pathname);
 const langLabel = langStyle === 'name' ? LANG_LABELS[lang] : lang.toUpperCase();
 
-const LINKS = [
-  ['/products', 'nav_products'],
-  ['/furnizim', 'footer_col_business'],
-  ['/areas', 'lp_nav_areas'],
-  ['/about', 'nav_about'],
-];
+// "Për bizneset" opens a dropdown of the buyer-segment pages (the mockups
+// mark it with a caret); the hub itself is the first entry.
+const SEGMENTS = supplySegments.map((s) => [
+  `/furnizim/${s.slug}`,
+  t(`supply_${s.slug.replaceAll('-', '_')}_name`),
+]);
 ---
 
 <header class="lp-header">
@@ -40,7 +41,16 @@ const LINKS = [
       <img src={logo.src} width={logo.width} height={logo.height} alt="Gerti Foods" />
     </a>
     <nav class="lp-nav">
-      {LINKS.map(([path, key]) => <a href={p(path)}>{t(key)}</a>)}
+      <a href={p('/products')}>{t('nav_products')}</a>
+      <details class="lp-nav-drop">
+        <summary>{t('footer_col_business')} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+        <div>
+          <a href={p('/furnizim')}>{t('supply_links_all')}</a>
+          {SEGMENTS.map(([path, name]) => <a href={p(path)}>{name}</a>)}
+        </div>
+      </details>
+      <a href={p('/areas')}>{t('lp_nav_areas')}</a>
+      <a href={p('/about')}>{t('nav_about')}</a>
     </nav>
     <details class={`lp-lang${langStyle === 'name' ? ' lp-lang-boxed' : ''}`}>
       <summary>{langLabel} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
@@ -54,7 +64,10 @@ const LINKS = [
     <details class="lp-menu">
       <summary aria-label={t('lp_menu')}><span></span><span></span><span></span></summary>
       <nav>
-        {LINKS.map(([path, key]) => <a href={p(path)}>{t(key)}</a>)}
+        <a href={p('/products')}>{t('nav_products')}</a>
+        <a href={p('/furnizim')}>{t('footer_col_business')}</a>
+        <a href={p('/areas')}>{t('lp_nav_areas')}</a>
+        <a href={p('/about')}>{t('nav_about')}</a>
         <button type="button" class="lp-btn lp-btn-red" data-open-modal="sample">{ctaLabel}</button>
       </nav>
     </details>

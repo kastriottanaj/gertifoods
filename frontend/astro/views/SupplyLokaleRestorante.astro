@@ -1,22 +1,24 @@
 ---
-// /furnizim/furra-buke — the bakery landing page, built to Kastriot's mockup
-// (2026-09-16). Same system as the byrektore page (LandingHeader, the shared
-// landing.css) with its own hero photo — the composite of the Cheese Pie pack
-// and tortilla wraps on the bakery background — and a two-card product
-// section: the byrek range and the tortilla line, with the pallet minimum
-// under them. The mockup's testimonial is left out, as on byrektore.
+// /furnizim/lokale-restorante — the cafés/restaurants/hotels landing page,
+// built to Kastriot's mockup (2026-09-16). Same system as the furra-buke
+// page — LandingHeader, the shared landing.css cards and strip — with its own
+// hero (the pack and wraps in a restaurant kitchen), centred section
+// headings and three icons of its own: oven, snowflake, wrap. On phones the
+// text block sits on the kitchen background, then the products band follows.
+// The mockup's testimonial is left out, as on the other pages.
 //
-// Copy stays under supply_furra_buke_* in translations.js like the sibling
-// pages; the "request a quote" buttons open the site's sample/offer modal.
+// Copy stays under supply_lokale_restorante_* in translations.js; the
+// "request a quote" buttons open the site's sample/offer modal.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LandingHeader from '../components/LandingHeader.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
-import heroImage from '../../src/assets/furra-buke-hero.webp';
+import heroImage from '../../src/assets/lokale-restorante-hero.webp';
+import kitchenImage from '../../src/assets/hospitality-kitchen.webp';
 import tortillaImage from '../../src/assets/products/Tortillas.webp';
-import '../styles/supply-furra-buke.css';
+import '../styles/supply-lokale-restorante.css';
 
 const PHONE = '+383 49 111 150';
 const PHONE_HREF = 'tel:+38349111150';
@@ -24,7 +26,7 @@ const PHONE_HREF = 'tel:+38349111150';
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
-const k = (suffix) => t(`supply_furra_buke_${suffix}`);
+const k = (suffix) => t(`supply_lokale_restorante_${suffix}`);
 const messages = islandMessages(lang);
 
 const schema = {
@@ -43,16 +45,16 @@ const schema = {
   title={k('seo_title')}
   description={k('meta')}
   lang={lang}
-  appClass=" landing-app furra-buke-landing-app"
+  appClass=" landing-app lokale-landing-app"
   brandSuffix={false}
   showNavbar={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
 
-  <div class="lp fb">
+  <div class="lp lr">
     <LandingHeader lang={lang} ctaLabel={k('cta_primary')} langStyle="name" />
 
-    <section class="lp-hero fb-hero">
+    <section class="lp-hero lr-hero" style={`--lr-kitchen: url(${kitchenImage.src})`}>
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="lp-hero-img" fetchpriority="high" />
       <div class="lp-hero-shade"></div>
       <div class="lp-wrap lp-hero-inner">
@@ -92,29 +94,29 @@ const schema = {
       </div>
     </section>
 
-    <section class="lp-wrap lp-benefits lp-benefits-rule">
-      <h2>{k('why_title')}</h2>
+    <section class="lp-wrap lp-benefits">
+      <h2 class="lp-center">{k('why_title')}</h2>
       <div class="lp-benefit-grid">
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M6.5 14.5A3.5 3.5 0 015 8a3.5 3.5 0 016.2-2.2A3.5 3.5 0 0117 6.5a3.5 3.5 0 011 7V19H6.5z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M6.5 16h11"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M3.5 9h17"/><rect x="7" y="12" width="10" height="5" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="7" cy="6.5" r=".9" fill="currentColor"/><circle cx="10.5" cy="6.5" r=".9" fill="currentColor"/><circle cx="14" cy="6.5" r=".9" fill="currentColor"/></svg>
           <div><h3>{k('why_1_title')}</h3><p>{k('why_1_body')}</p></div>
         </article>
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3.5 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M12 3l-2 2M12 3l2 2M12 21l-2-2M12 21l2-2M4.2 7.5l2.7-.7M4.2 7.5l.7 2.7M19.8 16.5l-2.7.7M19.8 16.5l-.7-2.7M4.2 16.5l2.7.7M4.2 16.5l.7-2.7M19.8 7.5l-2.7-.7M19.8 7.5l-.7 2.7"/></g></svg>
           <div><h3>{k('why_2_title')}</h3><p>{k('why_2_body')}</p></div>
         </article>
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M4 20h16"/><rect x="6" y="12" width="3" height="6" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="10.5" y="8" width="3" height="10" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="15" y="4" width="3" height="14" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5L15.5 5.2a2.6 2.6 0 013.8 3.6L9 19.2A2.4 2.4 0 015 19.5z"/><path d="M8.6 12.4l3 3M11.6 9.4l3 3"/><path d="M15.5 5.2c1 .3 2 1.4 2.3 2.4"/></g></svg>
           <div><h3>{k('why_3_title')}</h3><p>{k('why_3_body')}</p></div>
         </article>
       </div>
     </section>
 
     <section id="produktet" class="lp-wrap lp-products">
-      <h2 class="lp-section-title">{k('products_title')}</h2>
+      <h2 class="lp-section-title lp-center">{k('products_title')}</h2>
       <div class="lp-cards">
         <article class="lp-card">
-          <span class="lp-card-img lp-card-figure">
+          <span class="lp-card-img lp-card-figure lr-card-figure">
             <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" />
           </span>
           <div>
@@ -165,7 +167,7 @@ const schema = {
     </a>
   </div>
 
-  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_furra_buke" closeOnSampleSuccess={true} />
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_lokale_restorante" closeOnSampleSuccess={true} />
 </BaseLayout>
 
 <script>
