@@ -78,6 +78,13 @@ PAGE_ROUTES = {
         'sources': page_sources('areas', 'Areas.astro'),
         'keys': 'areas',
     },
+    # Hub for the /furnizim/<slug> landing pages (SupplySitemap below).
+    '/furnizim': {
+        'changefreq': 'monthly',
+        'priority': 0.8,
+        'sources': page_sources('furnizim', 'Supply.astro'),
+        'keys': 'supply_index',
+    },
     '/imprint': {
         'changefreq': 'yearly',
         'priority': 0.3,

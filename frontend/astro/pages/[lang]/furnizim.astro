@@ -1,0 +1,11 @@
+---
+// /en/furnizim, /de/furnizim — the hub in the prefixed languages.
+import Supply from '../../views/Supply.astro';
+import { localeStaticPaths } from '../../lib/i18n.js';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.params;
+---
+
+<Supply lang={lang} />

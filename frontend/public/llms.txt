@@ -27,6 +27,7 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 
 One landing page per buyer type and city for the Albanian-speaking markets (Kosovo and Albania), each in Albanian, English and German (/en/…, /de/…). The pages share the product range; what differs is the buyer's problem, the delivery facts for that market, and the FAQ.
 
+- [Supply by type of business](https://gertifoods.com/furnizim): the hub listing the seven pages below, with how ordering works for every buyer type.
 - [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — half-baked byrek in four varieties, minimum 50 pieces per variety, oven-ready in 15–20 minutes, free samples on request.
 - [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add half-baked byrek and tortillas to the range without an extra baker; byrek bakes in 15–20 minutes, minimum 50 pieces per variety.
 - [Supply for cafés, restaurants and hotels](https://gertifoods.com/furnizim/lokale-restorante): landing page for HORECA venues in Kosovo and Albania — byrek baked to order in 15–20 minutes with no extra cook, tortillas for wraps on the menu, Halal certified.

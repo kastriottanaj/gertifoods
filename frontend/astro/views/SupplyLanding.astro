@@ -73,10 +73,9 @@ const heroImage = HEROES[slug];
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
-    // Two levels only: there is no /furnizim hub page, so the visible
-    // "Furnizim" crumb is a label, not a link, and has no URL to declare.
     breadcrumbSchema([
       { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name: t('supply_breadcrumb'), url: new URL(p('/furnizim'), Astro.site).href },
       { name },
     ]),
   ],
@@ -97,7 +96,7 @@ const schema = {
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
       <div class="kosovo-hero-shade"></div>
       <div class="kosovo-hero-content">
-        <nav class="kosovo-breadcrumb"><a href={p('/')}>{t('footer_home')}</a> / <span>{t('supply_breadcrumb')}</span> / <span>{name}</span></nav>
+        <nav class="kosovo-breadcrumb"><a href={p('/')}>{t('footer_home')}</a> / <a href={p('/furnizim')}>{t('supply_breadcrumb')}</a> / <span>{name}</span></nav>
         <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_strong')}</strong></h1>
         <p>{k('hero_body')}</p>
         <div class="kosovo-benefits">

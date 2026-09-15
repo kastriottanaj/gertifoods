@@ -12,7 +12,10 @@
 // styles and needs no CSS of its own.
 import { useTranslations, localePath } from '../lib/i18n.js';
 
-const { lang, slugs = [] } = Astro.props;
+// `title`/`intro` override the default heading (the hub uses its own);
+// `showAll` adds a link to the /furnizim hub after the grid — on everywhere
+// except the hub itself.
+const { lang, slugs = [], title, intro, showAll = true } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
 const k = (slug, suffix) => t(`supply_${slug.replaceAll('-', '_')}_${suffix}`);
@@ -22,7 +25,8 @@ const k = (slug, suffix) => t(`supply_${slug.replaceAll('-', '_')}_${suffix}`);
   slugs.length > 0 && (
     <section class="area-supply supply-links">
       <div class="area-supply-heading">
-        <h2>{t('supply_links_title')}</h2>
+        <h2>{title ?? t('supply_links_title')}</h2>
+        {intro && <p>{intro}</p>}
       </div>
       <div class="area-supply-grid">
         {slugs.map((slug) => (
@@ -37,6 +41,9 @@ const k = (slug, suffix) => t(`supply_${slug.replaceAll('-', '_')}_${suffix}`);
           </article>
         ))}
       </div>
+      {showAll && (
+        <p class="supply-links-all"><a href={p('/furnizim')} class="albania-learn">{t('supply_links_all')} →</a></p>
+      )}
     </section>
   )
 }

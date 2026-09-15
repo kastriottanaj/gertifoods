@@ -1,0 +1,62 @@
+---
+// /furnizim — the hub for the buyer-segment and city landing pages listed in
+// src/data/supply.js. Same shape as the areas index (Areas.astro): a hero, the
+// list, a short "how it works" block so the page is more than a menu, and the
+// contact band. The list itself is the shared SupplyLinks strip, so the hub,
+// the country pages and the segment pages all present the set the same way.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SupplyLinks from '../components/SupplyLinks.astro';
+import { useTranslations } from '../lib/i18n.js';
+import { supplySegments } from '../../src/data/supply.js';
+import heroImage from '../../src/assets/areas-we-serve.webp';
+
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const k = (suffix) => t(`supply_index_${suffix}`);
+const slugs = supplySegments.map((s) => s.slug);
+---
+
+<BaseLayout
+  title={k('seo_title')}
+  description={k('meta')}
+  brandSuffix={false}
+  lang={lang}
+  appClass=" supply-index-app"
+>
+  <div class="areas-page areas-showcase supply-index">
+    <section class="areas-hero">
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
+      <div class="areas-hero-shade"></div>
+      <div class="areas-hero-content">
+        <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_strong')}</strong></h1>
+        <p>{k('intro')}</p>
+        <div class="areas-benefits">
+          <article><i>▱</i><div><b>{t('areas_reliable')}</b><span>{t('areas_reliable_body')}</span></div></article>
+          <article><i>◎</i><div><b>{t('areas_quality')}</b><span>{t('areas_quality_body')}</span></div></article>
+          <article><i>♧</i><div><b>{t('areas_partner')}</b><span>{t('areas_partner_body')}</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <SupplyLinks lang={lang} slugs={slugs} title={k('listing_title')} intro={k('listing_intro')} showAll={false} />
+
+    <section class="areas-how">
+      <div class="areas-heading"><h2>{k('how_title')}</h2><p>{k('how_intro')}</p></div>
+      <div class="areas-how-grid">
+        {[1, 2, 3, 4].map((n) => (
+          <article><h3>{k(`how_${n}_title`)}</h3><p>{k(`how_${n}_body`)}</p></article>
+        ))}
+      </div>
+    </section>
+
+    <section class="areas-growth">
+      <i>♧</i><div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div>
+      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a>
+      <a href="tel:+38349111150" class="areas-growth-phone">☎ &nbsp; +383 49 111 150</a>
+    </section>
+
+    <div class="areas-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+  </div>
+</BaseLayout>

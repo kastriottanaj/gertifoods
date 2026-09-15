@@ -297,7 +297,8 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   // hero, the four "why" points, the product list and the FAQ here are the
   // page's own words.
   if (supplySegments.length) {
-    heading(2, text('supply_links_title') ?? 'Supply by type of business');
+    heading(2, `${text('supply_index_listing_title') ?? 'Supply by type of business'} (${url(lang, '/furnizim')})`);
+    para(text('supply_index_intro'));
     for (const segment of supplySegments) {
       const k = (suffix) => `supply_${segment.slug.replaceAll('-', '_')}_${suffix}`;
       heading(3, `${text(k('name'))} (${url(lang, `/furnizim/${segment.slug}`)})`);
