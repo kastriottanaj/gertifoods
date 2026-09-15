@@ -132,6 +132,15 @@ SUPPLY_SOURCES = (
     'frontend/src/data/supply.js',
 )
 
+# Pages redesigned to their own mockup render from their own view and
+# stylesheet as well; those files date that page only.
+SUPPLY_EXTRA_SOURCES = {
+    'byrektore': (
+        f'{ASTRO}/views/SupplyByrektore.astro',
+        f'{ASTRO}/styles/supply-byrektore.css',
+    ),
+}
+
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
 # dates synchronized until blog content moves to a shared CMS/API. `updated` is
 # the date a post's body was last reworked, or None if it hasn't been since
@@ -230,8 +239,9 @@ class SupplySitemap(LocalizedSitemap):
         path, _lang = item
         # Keys cannot carry a hyphen, so /furnizim/furra-buke's copy lives
         # under supply_furra_buke_ (see SupplyLanding.astro).
-        slug = path.rsplit('/', 1)[1].replace('-', '_')
-        return last_commit(SUPPLY_SOURCES, f'supply_{slug}')
+        slug = path.rsplit('/', 1)[1]
+        sources = SUPPLY_SOURCES + SUPPLY_EXTRA_SOURCES.get(slug, ())
+        return last_commit(sources, f"supply_{slug.replace('-', '_')}")
 
 
 class BlogSitemap(LocalizedSitemap):

@@ -40,6 +40,9 @@ const {
   preloadHero = false,
   // App.jsx hides the footer on the /products landing page.
   showFooter = true,
+  // Landing pages built to their own mockup (the /furnizim/byrektore page)
+  // bring their own header and footer, so both site bars can be switched off.
+  showNavbar = true,
   // App.jsx appends per-route modifiers to the .app element (e.g.
   // ' products-landing-app', ' kosovo-landing-app') that page-specific CSS
   // hangs off. Pages that need one pass it here.
@@ -299,7 +302,7 @@ const exitMessages = islandMessages(lang, 'exit');
     {/* Element order mirrors App.jsx exactly: everything, footer and floating
         widgets included, lives inside .app. */}
     <div class={`app${appClass}`}>
-      <Navbar lang={lang} />
+      {showNavbar && <Navbar lang={lang} />}
       <main class="main-content">
         <slot />
       </main>

@@ -1,0 +1,154 @@
+/* /furnizim/byrektore — styles for SupplyByrektore.astro, built to the
+   2026-09-15 mockup. Scoped under .bk; the page brings its own header and
+   footer, so the site bars are off and the main column is reset to full
+   width the way the product landing pages do it. */
+.byrektore-landing-app .main-content { max-width: none; padding: 0; }
+.bk { --red: #da2030; --red-dark: #b8162a; --green: #00723b; --ink: #171717; --muted: #6b6b6b; --line: #e6e4df; --soft: #f5f4f0; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.45; }
+.bk-wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+.bk h1, .bk h2, .bk h3 { margin: 0; letter-spacing: -0.02em; }
+.bk a { text-decoration: none; color: inherit; }
+
+/* Buttons */
+.bk-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 7px; border: 1.5px solid transparent; font: 700 15px/1 inherit; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s, border-color .15s; }
+.bk-btn svg { width: 18px; height: 18px; flex: none; }
+.bk-btn-red { background: var(--red); border-color: var(--red); color: #fff; }
+.bk-btn-red:hover { background: var(--red-dark); border-color: var(--red-dark); }
+.bk-btn-outline { background: transparent; border-color: rgba(255,255,255,.85); color: #fff; }
+.bk-btn-outline:hover { background: rgba(255,255,255,.12); }
+.bk-btn-white { background: #fff; border-color: #fff; color: var(--red); }
+.bk-btn-white:hover { background: #f7f7f7; }
+
+/* Header */
+.bk-header { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--line); }
+.bk-header-inner { display: flex; align-items: center; gap: 26px; min-height: 64px; }
+.bk-logo img { display: block; width: auto; height: 34px; }
+.bk-nav { display: flex; gap: 26px; margin-left: 48px; font-size: 14px; font-weight: 600; }
+.bk-nav a:hover { color: var(--red); }
+.bk-lang { position: relative; margin-left: auto; font-size: 14px; font-weight: 600; }
+.bk-lang summary { list-style: none; cursor: pointer; padding: 8px 6px; display: flex; align-items: center; gap: 4px; }
+.bk-lang summary::-webkit-details-marker { display: none; }
+.bk-lang summary svg { width: 14px; height: 14px; }
+.bk-lang div { position: absolute; right: 0; top: 100%; min-width: 130px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
+.bk-lang div a { padding: 8px 10px; border-radius: 6px; font-weight: 500; }
+.bk-lang div a:hover, .bk-lang div a[aria-current] { background: var(--soft); }
+.bk-header-cta { min-height: 40px; padding: 0 18px; font-size: 13px; }
+.bk-menu { display: none; position: relative; }
+.bk-menu summary { list-style: none; cursor: pointer; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 0 8px; }
+.bk-menu summary::-webkit-details-marker { display: none; }
+.bk-menu summary span { display: block; height: 2.5px; border-radius: 2px; background: var(--ink); }
+.bk-menu nav { position: absolute; right: 0; top: calc(100% + 8px); width: min(300px, calc(100vw - 32px)); padding: 10px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+.bk-menu nav a { padding: 12px; border-radius: 6px; font-weight: 600; }
+.bk-menu nav a:hover { background: var(--soft); }
+.bk-menu nav .bk-btn { margin: 8px 4px 2px; }
+
+/* Hero */
+.bk-hero { position: relative; overflow: hidden; min-height: 410px; display: flex; align-items: center; color: #fff; background: #1d1713; }
+.bk-hero-img { position: absolute; top: 0; bottom: 0; left: 30%; width: 70%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.bk-hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, #1d1713 0%, #1d1713 27%, rgba(29,23,19,.88) 42%, rgba(29,23,19,.38) 64%, rgba(29,23,19,.12) 100%); }
+.bk-hero-inner { position: relative; z-index: 2; padding: 46px 0 42px; }
+.bk-eyebrow { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.82); }
+.bk-hero h1 { font-size: 44px; line-height: 1.08; font-weight: 800; max-width: 560px; }
+.bk-hero-body { margin: 16px 0 0; max-width: 470px; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,.92); }
+.bk-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+.bk-hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0 0; font-size: 14px; color: rgba(255,255,255,.92); }
+.bk-hero-meta a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.bk-hero-meta svg { width: 18px; height: 18px; }
+.bk-note { position: absolute; z-index: 2; right: 6%; top: 56%; width: 210px; color: #fff; font: 400 21px/1.15 'Bradley Hand', 'Segoe Script', 'Snell Roundhand', 'Comic Sans MS', cursive; transform: rotate(-7deg); text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+.bk-note-arrow { width: 46px; height: 46px; margin: 4px 0 0 118px; transform: rotate(10deg); }
+
+/* Certification strip */
+.bk-trust { background: #fff; border-bottom: 1px solid var(--line); }
+.bk-trust-inner { display: flex; align-items: center; min-height: 56px; font-size: 13.5px; font-weight: 600; }
+.bk-trust-lead { display: flex; align-items: center; gap: 10px; padding-right: 30px; }
+.bk-trust-lead svg { width: 22px; height: 22px; color: var(--red); }
+.bk-trust-list { display: flex; flex: 1; margin: 0; padding: 0; list-style: none; }
+.bk-trust-list li { flex: 1; text-align: center; padding: 0 12px; border-left: 1px solid var(--line); color: #333; }
+
+/* Benefits */
+.bk-benefits { padding: 46px 0 26px; }
+.bk-benefits h2 { font-size: 27px; font-weight: 800; margin-bottom: 24px; }
+.bk-benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.bk-benefit-grid article { display: flex; gap: 14px; align-items: flex-start; padding: 4px 26px 4px 0; }
+.bk-benefit-grid article + article { padding-left: 26px; border-left: 1px solid var(--line); }
+.bk-benefit-grid svg { width: 38px; height: 38px; flex: none; color: var(--red); }
+.bk-benefit-grid h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 4px; }
+.bk-benefit-grid p { margin: 0; font-size: 13.5px; color: var(--muted); }
+
+/* Varieties */
+.bk-products { padding: 42px 0 52px; }
+.bk-products h2 { font-size: 27px; font-weight: 800; }
+.bk-products-intro { margin: 6px 0 22px; font-size: 14.5px; color: #4a4a4a; }
+.bk-products-grid { display: grid; grid-template-columns: 4fr 7fr; gap: 24px; align-items: start; }
+.bk-featured { display: block; }
+.bk-featured img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 62%; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.bk-featured b { display: block; margin-top: 10px; text-align: center; font-size: 14px; }
+.bk-variety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.bk-variety { display: flex; align-items: center; gap: 18px; padding: 30px 22px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: box-shadow .15s, border-color .15s; }
+.bk-variety:hover { border-color: #d5d2cb; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+.bk-thumb { flex: none; width: 72px; height: 72px; border-radius: 50%; background-color: #f0ebe3; background-size: 158%; background-position: 50% 45%; border: 1px solid var(--line); }
+.bk-variety b { display: block; font-size: 15px; margin-bottom: 4px; }
+.bk-variety i { font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--red); }
+
+/* Call-to-action band */
+.bk-band { background: var(--red); color: #fff; }
+.bk-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 30px 0; }
+.bk-band h2 { font-size: 27px; font-weight: 800; margin-bottom: 6px; }
+.bk-band p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,.92); }
+.bk-band-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: flex-end; }
+.bk-band .bk-btn-outline { font-size: 13.5px; }
+.bk-band .bk-btn-white { font-size: 13.5px; }
+
+/* Footer */
+.bk-footer { background: #1b1b1b; color: #bdbdbd; font-size: 13px; }
+.bk-footer-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 22px 0; }
+.bk-footer img { display: block; width: auto; height: 30px; }
+.bk-footer-inner > span, .bk-footer-inner > a:not(:first-child) { position: relative; padding-left: 20px; }
+.bk-footer-inner > span::before, .bk-footer-inner > a:not(:first-child)::before { content: ""; position: absolute; left: 0; top: 50%; height: 16px; transform: translateY(-50%); border-left: 1px solid #444; }
+.bk-footer a:hover { color: #fff; }
+.bk-footer nav { margin-left: auto; display: flex; gap: 8px; color: #9a9a9a; }
+
+/* Phone call bar — phones only */
+.bk-callbar { display: none; }
+
+@media (max-width: 900px) {
+  .bk-nav, .bk-header-cta { display: none; }
+  .bk-menu { display: block; }
+  .bk-lang { margin-left: auto; }
+  .bk-benefit-grid { grid-template-columns: 1fr; }
+  .bk-benefit-grid article + article { padding: 18px 0 0; margin-top: 18px; border-left: 0; border-top: 1px solid var(--line); }
+  .bk-products-grid { grid-template-columns: 1fr; }
+  .bk-band-inner { flex-direction: column; align-items: stretch; }
+  .bk-band-actions { justify-content: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .bk-wrap { width: calc(100% - 40px); }
+  .bk-hero { min-height: 0; align-items: flex-end; }
+  .bk-hero-img { left: 0; width: 100%; object-position: 50% 30%; }
+  .bk-hero-shade { background: linear-gradient(180deg, rgba(22,17,12,.2) 0%, rgba(22,17,12,.55) 32%, rgba(22,17,12,.9) 62%, rgba(22,17,12,.95) 100%); }
+  .bk-hero-inner { padding: 200px 0 32px; }
+  .bk-hero h1 { font-size: 36px; }
+  .bk-hero-body { font-size: 16px; }
+  .bk-hero-actions { flex-direction: column; }
+  .bk-hero-actions .bk-btn { width: 100%; min-height: 52px; }
+  .bk-hero-meta { font-size: 13.5px; }
+  .bk-note { right: 5%; top: 44px; width: 175px; font-size: 18px; }
+  .bk-note-arrow { margin-left: 104px; }
+  .bk-trust-inner { flex-direction: column; align-items: stretch; padding: 12px 0; }
+  .bk-trust-lead { justify-content: center; padding: 6px 0 12px; border-bottom: 1px solid var(--line); }
+  .bk-trust-list { padding-top: 12px; }
+  .bk-trust-list li { padding: 0 4px; font-size: 12px; white-space: nowrap; }
+  .bk-trust-list li:first-child { border-left: 0; }
+  .bk-benefits h2, .bk-products h2, .bk-band h2 { font-size: 24px; }
+  .bk-variety-grid { grid-template-columns: 1fr; }
+  .bk-variety { padding: 18px 20px; }
+  .bk-band-actions .bk-btn { width: 100%; }
+  .bk-footer-inner { padding-bottom: 96px; }
+  .bk-footer-inner > span, .bk-footer-inner > a:not(:first-child) { padding-left: 0; }
+  .bk-footer-inner > span::before, .bk-footer-inner > a:not(:first-child)::before { display: none; }
+  .bk-footer nav { margin-left: 0; width: 100%; }
+  .bk-callbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 950; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--red); color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
+  .bk-callbar svg { width: 20px; height: 20px; }
+  /* Keep the site's WhatsApp button clear of the call bar. */
+  .byrektore-landing-app .wa-btn { bottom: 88px; }
+}

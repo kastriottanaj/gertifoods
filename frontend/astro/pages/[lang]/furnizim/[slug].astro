@@ -3,6 +3,7 @@
 // every prefixed language, so the hreflang set BaseLayout declares always
 // resolves. The slug stays Albanian across editions, like /de/products/pite-me-djathe.
 import SupplyLanding from '../../../views/SupplyLanding.astro';
+import SupplyByrektore from '../../../views/SupplyByrektore.astro';
 import { PREFIXED_LANGS } from '../../../lib/i18n.js';
 import { supplySegments } from '../../../../src/data/supply.js';
 
@@ -13,6 +14,9 @@ export function getStaticPaths() {
 }
 
 const { lang, slug } = Astro.params;
+// Pages redesigned to their own mockup get their own view; the rest share
+// SupplyLanding. Add a line here when the next page gets its design.
+const View = slug === 'byrektore' ? SupplyByrektore : SupplyLanding;
 ---
 
-<SupplyLanding lang={lang} slug={slug} />
+<View lang={lang} slug={slug} />

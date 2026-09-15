@@ -1,0 +1,250 @@
+---
+// /furnizim/byrektore — the byrek-shop landing page, built to Kastriot's
+// mockup (2026-09-15) rather than the shared SupplyLanding template.
+//
+// The mockup brings its own header and footer (four links, a language
+// dropdown, one red call to action; a one-line dark footer), so the site's
+// Navbar and Footer are switched off for this page. Everything below the
+// header follows the mockup top to bottom: hero with a handwritten note over
+// the photo, certification strip, three benefits, the four varieties, a red call-to-action band, and on phones a sticky call bar.
+//
+// Copy stays under supply_byrektore_* in translations.js like the sibling
+// pages, so the SupplyLinks strip, llms-full.txt and the sitemap need no
+// special case. The "Angebot anfordern" buttons open the site's sample/offer
+// modal, the same form and lead event the product pages use.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import {
+  useTranslations,
+  localePath,
+  alternatePath,
+  normalizePath,
+  SUPPORTED_LANGS,
+  LANG_LABELS,
+} from '../lib/i18n.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
+import heroImage from '../../src/assets/bakery-interior.webp';
+import pieImage from '../../src/assets/products/Pie.webp';
+import logo from '../../src/assets/gerti-foods-logo.webp';
+import '../styles/supply-byrektore.css';
+
+const PHONE = '+383 49 111 150';
+const PHONE_HREF = 'tel:+38349111150';
+
+// The four varieties, in catalogue order; names from the shared product keys.
+const VARIETIES = [
+  ['pite-me-djathe', 'products_name_pite_me_djathe'],
+  ['pite-me-spinaq', 'products_name_pite_me_spinaq'],
+  ['pite-me-mish', 'products_name_pite_me_mish'],
+  ['pite-me-tuna', 'products_name_pite_me_tuna'],
+];
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+const k = (suffix) => t(`supply_byrektore_${suffix}`);
+const messages = islandMessages(lang);
+const currentPath = normalizePath(Astro.url.pathname);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name: t('supply_breadcrumb'), url: new URL(p('/furnizim'), Astro.site).href },
+      { name: k('name') },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title={k('seo_title')}
+  description={k('meta')}
+  lang={lang}
+  appClass=" byrektore-landing-app"
+  brandSuffix={false}
+  showNavbar={false}
+  showFooter={false}
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
+
+  <div class="bk">
+    <header class="bk-header">
+      <div class="bk-wrap bk-header-inner">
+        <a href={p('/')} class="bk-logo" aria-label="Gerti Foods">
+          <img src={logo.src} width={logo.width} height={logo.height} alt="Gerti Foods" />
+        </a>
+        <nav class="bk-nav">
+          <a href={p('/products')}>{t('nav_products')}</a>
+          <a href={p('/furnizim')}>{t('footer_col_business')}</a>
+          <a href={p('/areas')}>{t('nav_areas')}</a>
+          <a href={p('/about')}>{t('nav_about')}</a>
+        </nav>
+        <details class="bk-lang">
+          <summary>{lang.toUpperCase()} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+          <div>
+            {SUPPORTED_LANGS.map((code) => (
+              <a href={alternatePath(code, currentPath)} hreflang={code} data-lang-choice={code} aria-current={code === lang ? 'true' : undefined}>{LANG_LABELS[code]}</a>
+            ))}
+          </div>
+        </details>
+        <button type="button" class="bk-btn bk-btn-red bk-header-cta" data-open-modal="sample">{k('cta_primary')}</button>
+        <details class="bk-menu">
+          <summary aria-label={t('lp_menu')}><span></span><span></span><span></span></summary>
+          <nav>
+            <a href={p('/products')}>{t('nav_products')}</a>
+            <a href={p('/furnizim')}>{t('footer_col_business')}</a>
+            <a href={p('/areas')}>{t('nav_areas')}</a>
+            <a href={p('/about')}>{t('nav_about')}</a>
+            <button type="button" class="bk-btn bk-btn-red" data-open-modal="sample">{k('cta_primary')}</button>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <section class="bk-hero">
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="bk-hero-img" fetchpriority="high" />
+      <div class="bk-hero-shade"></div>
+      <div class="bk-wrap bk-hero-inner">
+        <p class="bk-eyebrow">{k('eyebrow')}</p>
+        <h1>{k('hero_line_1')}<br />{k('hero_line_2')}</h1>
+        <p class="bk-hero-body">{k('hero_body')}</p>
+        <div class="bk-hero-actions">
+          <button type="button" class="bk-btn bk-btn-red" data-open-modal="sample">
+            {k('cta_primary')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </button>
+          <a href="#sorten" class="bk-btn bk-btn-outline">
+            {k('cta_secondary')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 4v12.17l-5.59-5.58L4 12l8 8 8-8-1.41-1.41L13 16.17V4z"/></svg>
+          </a>
+        </div>
+        <p class="bk-hero-meta">
+          <a href={PHONE_HREF}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+            {PHONE}
+          </a>
+          <span aria-hidden="true">·</span>
+          <span>{k('hero_meta')}</span>
+        </p>
+      </div>
+      <div class="bk-note" aria-hidden="true">
+        <span>{k('note')}</span>
+        <svg viewBox="0 0 60 60" class="bk-note-arrow"><path d="M50 6c-6 14-18 26-40 34" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M18 34l-8 6 10 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </section>
+
+    <section class="bk-trust">
+      <div class="bk-wrap bk-trust-inner">
+        <div class="bk-trust-lead">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
+          <b>{k('trust')}</b>
+        </div>
+        <ul class="bk-trust-list">
+          <li>ISO 22000</li><li>HACCP</li><li>IFS</li><li>BRC</li><li>Halal</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="bk-wrap bk-benefits">
+      <h2>{k('why_title')}</h2>
+      <div class="bk-benefit-grid">
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M6.5 14.5A3.5 3.5 0 015 8a3.5 3.5 0 016.2-2.2A3.5 3.5 0 0117 6.5a3.5 3.5 0 011 7V19H6.5z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M6.5 16h11"/></svg>
+          <div><h3>{k('why_1_title')}</h3><p>{k('why_1_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M12 7.5v5"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>
+          <div><h3>{k('why_2_title')}</h3><p>{k('why_2_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M4 20h16"/><rect x="6" y="12" width="3" height="6" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="10.5" y="8" width="3" height="10" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="15" y="4" width="3" height="14" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+          <div><h3>{k('why_3_title')}</h3><p>{k('why_3_body')}</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="sorten" class="bk-wrap bk-products">
+      <h2>{k('products_title')}</h2>
+      <p class="bk-products-intro">{k('products_intro')}</p>
+      <div class="bk-products-grid">
+        <a href={p('/products/pite-me-djathe')} class="bk-featured">
+          <img src={pieImage.src} width={pieImage.width} height={pieImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" />
+          <b>{t('products_name_pite_me_djathe')}</b>
+        </a>
+        <div class="bk-variety-grid">
+          {VARIETIES.map(([slug, nameKey]) => (
+            <a href={p(`/products/${slug}`)} class="bk-variety">
+              <span class="bk-thumb" style={`background-image:url(${pieImage.src})`} aria-hidden="true"></span>
+              <span>
+                <b>{t(nameKey)}</b>
+                <i>{k('product_cta')} →</i>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bk-band">
+      <div class="bk-wrap bk-band-inner">
+        <div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div>
+        <div class="bk-band-actions">
+          <button type="button" class="bk-btn bk-btn-white" data-open-modal="sample">{k('cta_band_primary')}</button>
+          <a href={PHONE_HREF} class="bk-btn bk-btn-outline">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+            {k('cta_call')}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bk-footer">
+      <div class="bk-wrap bk-footer-inner">
+        <a href={p('/')} aria-label="Gerti Foods"><img src={logo.src} width={logo.width} height={logo.height} alt="Gerti Foods" loading="lazy" decoding="async" /></a>
+        <span>{t('lp_footer_location')}</span>
+        <a href="mailto:info@gertifoods.com">info@gertifoods.com</a>
+        <nav>
+          <a href={p('/imprint')}>{t('nav_imprint')}</a>
+          <span aria-hidden="true">·</span>
+          <a href={p('/imprint')}>{t('lp_footer_privacy')}</a>
+        </nav>
+      </div>
+    </footer>
+
+    <a href={PHONE_HREF} class="bk-callbar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+      {k('call_now')}
+    </a>
+  </div>
+
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_byrektore" closeOnSampleSuccess={true} />
+</BaseLayout>
+
+<script>
+  // Same modal bridge as Home.astro / Products.astro: the static buttons
+  // dispatch an event the ModalHost island listens for, with the pending slot
+  // covering a click that lands before the island has hydrated.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+      // Close the phone menu if the click came from inside it.
+      document.querySelector<HTMLDetailsElement>('.bk-menu')?.removeAttribute('open');
+    });
+  });
+  // Same language-preference hook as LanguageSwitcher.astro, so choosing a
+  // language here is remembered the way it is everywhere else.
+  document.querySelectorAll<HTMLElement>('[data-lang-choice]').forEach((el) => {
+    el.addEventListener('click', () => {
+      try {
+        localStorage.setItem('gertifoods_lang', el.dataset.langChoice!);
+      } catch {
+        /* ignore */
+      }
+    });
+  });
+</script>
