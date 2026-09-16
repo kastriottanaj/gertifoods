@@ -39,6 +39,13 @@ def page_sources(name, view):
     )
 
 
+# Files every landing page built to Kastriot's mockups shares (the /furnizim
+# hub and the seven segment pages): a change there touches all of them.
+LANDING_SHARED = (
+    f'{ASTRO}/components/LandingHeader.astro',
+    f'{ASTRO}/styles/landing.css',
+)
+
 # Frontend (Astro) routes that aren't backed by a DB model. 'keys' is the
 # prefix this page's copy carries in frontend/src/i18n/translations.js, so an
 # edit to the text alone still dates the page (see config/source_lastmod.py).
@@ -82,7 +89,9 @@ PAGE_ROUTES = {
     '/furnizim': {
         'changefreq': 'monthly',
         'priority': 0.8,
-        'sources': page_sources('furnizim', 'Supply.astro'),
+        'sources': page_sources('furnizim', 'Supply.astro')
+        + (f'{ASTRO}/styles/supply-index.css',)
+        + LANDING_SHARED,
         'keys': 'supply_index',
     },
     '/imprint': {
@@ -134,10 +143,6 @@ SUPPLY_SOURCES = (
 
 # Pages redesigned to their own mockup render from their own view and
 # stylesheet as well; those files date that page only.
-LANDING_SHARED = (
-    f'{ASTRO}/components/LandingHeader.astro',
-    f'{ASTRO}/styles/landing.css',
-)
 SUPPLY_EXTRA_SOURCES = {
     'byrektore': (
         f'{ASTRO}/views/SupplyByrektore.astro',

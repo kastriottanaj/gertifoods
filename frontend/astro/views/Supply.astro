@@ -1,21 +1,37 @@
 ---
-// /furnizim — the hub for the buyer-segment and city landing pages listed in
-// src/data/supply.js. Same shape as the areas index (Areas.astro): a hero, the
-// list, a short "how it works" block so the page is more than a menu, and the
-// contact band. The list itself is the shared SupplyLinks strip, so the hub,
-// the country pages and the segment pages all present the set the same way.
+// /furnizim — the hub for the buyer-segment and city landing pages, built to
+// Kastriot's mockup (2026-09-17) on the same system as the seven pages
+// (LandingHeader, the shared landing.css). What is its own: the delivery
+// truck as the hero with a three-item meta line (the six countries, phone,
+// "delivery times and quantities by country"), three benefits (samples,
+// oven, calendar), the four buyer-type cards with the red top edge, and the
+// row of delivery-area pills linking to the country pages. The city and
+// regional pages stay reachable from the header dropdown, the country pages
+// and the footer. The mockup's testimonial is left out as everywhere.
+//
+// Copy stays under supply_index_* in translations.js; the "request a quote"
+// buttons open the site's sample/offer modal.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SupplyLinks from '../components/SupplyLinks.astro';
-import { useTranslations } from '../lib/i18n.js';
-import { supplySegments } from '../../src/data/supply.js';
-import heroImage from '../../src/assets/areas-we-serve.webp';
+import LandingHeader from '../components/LandingHeader.astro';
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import { areas } from '../../src/data/areas.js';
+import heroImage from '../../src/assets/furnizim-hero.webp';
+import '../styles/supply-index.css';
 
-const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
+const PHONE = '+383 49 111 150';
+const PHONE_HREF = 'tel:+38349111150';
+
+// The four buyer types, in the mockup's order; each card's copy is its own key.
+const SEGMENTS = ['byrektore', 'furra-buke', 'lokale-restorante', 'markete'];
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
 const k = (suffix) => t(`supply_index_${suffix}`);
-const slugs = supplySegments.map((s) => s.slug);
+const messages = islandMessages(lang);
+const countries = areas.map((a) => t(a.nameKey)).join(' · ');
 ---
 
 <BaseLayout
@@ -23,40 +39,136 @@ const slugs = supplySegments.map((s) => s.slug);
   description={k('meta')}
   brandSuffix={false}
   lang={lang}
-  appClass=" supply-index-app"
+  appClass=" landing-app supply-index-app"
+  showNavbar={false}
 >
-  <div class="areas-page areas-showcase supply-index">
-    <section class="areas-hero">
-      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
-      <div class="areas-hero-shade"></div>
-      <div class="areas-hero-content">
-        <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_strong')}</strong></h1>
-        <p>{k('intro')}</p>
-        <div class="areas-benefits">
-          <article><i>▱</i><div><b>{t('areas_reliable')}</b><span>{t('areas_reliable_body')}</span></div></article>
-          <article><i>◎</i><div><b>{t('areas_quality')}</b><span>{t('areas_quality_body')}</span></div></article>
-          <article><i>♧</i><div><b>{t('areas_partner')}</b><span>{t('areas_partner_body')}</span></div></article>
+  <div class="lp sx">
+    <LandingHeader lang={lang} ctaLabel={k('cta_primary')} langStyle="name" />
+
+    <section class="lp-hero sx-hero" style={`--sx-hero: url(${heroImage.src})`}>
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="lp-hero-img" fetchpriority="high" />
+      <div class="lp-hero-shade"></div>
+      <div class="lp-wrap lp-hero-inner">
+        <p class="lp-eyebrow">{k('eyebrow')}</p>
+        <h1>{k('hero_line_1')}<br />{k('hero_line_2')}</h1>
+        <p class="lp-hero-body">{k('intro')}</p>
+        <div class="lp-hero-actions">
+          <button type="button" class="lp-btn lp-btn-red" data-open-modal="sample">
+            {k('cta_primary')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </button>
+          <a href="#bizneset" class="lp-btn lp-btn-outline">
+            {k('cta_secondary')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 4v12.17l-5.59-5.58L4 12l8 8 8-8-1.41-1.41L13 16.17V4z"/></svg>
+          </a>
         </div>
+        <p class="lp-hero-meta sx-hero-meta">
+          <span class="lp-hero-meta-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+            {countries}
+          </span>
+          <a href={PHONE_HREF} class="lp-hero-meta-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+            {PHONE}
+          </a>
+          <span class="lp-hero-meta-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+            {k('meta_note')}
+          </span>
+        </p>
       </div>
     </section>
 
-    <SupplyLinks lang={lang} slugs={slugs} title={k('listing_title')} intro={k('listing_intro')} showAll={false} />
+    <section class="lp-trust lp-trust-centered lp-trust-tint">
+      <div class="lp-wrap lp-trust-inner">
+        <div class="lp-trust-lead">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5l7.5 3v5.3c0 5.3-3.6 9.3-7.5 10.7-3.9-1.4-7.5-5.4-7.5-10.7V5.5z"/></svg>
+          <b>{k('trust')}</b>
+        </div>
+        <ul class="lp-trust-list">
+          <li>ISO 22000</li><li>HACCP</li><li>IFS</li><li>BRC</li><li>Halal</li>
+        </ul>
+      </div>
+    </section>
 
-    <section class="areas-how">
-      <div class="areas-heading"><h2>{k('how_title')}</h2><p>{k('how_intro')}</p></div>
-      <div class="areas-how-grid">
-        {[1, 2, 3, 4].map((n) => (
-          <article><h3>{k(`how_${n}_title`)}</h3><p>{k(`how_${n}_body`)}</p></article>
+    <section class="lp-wrap lp-benefits">
+      <h2>{k('why_title')}</h2>
+      <div class="lp-benefit-grid">
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+          <div><h3>{k('why_1_title')}</h3><p>{k('why_1_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M3.5 9h17"/><rect x="7" y="12" width="10" height="5" rx=".6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="7" cy="6.5" r=".9" fill="currentColor"/><circle cx="10.5" cy="6.5" r=".9" fill="currentColor"/><circle cx="14" cy="6.5" r=".9" fill="currentColor"/></svg>
+          <div><h3>{k('why_2_title')}</h3><p>{k('why_2_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></g><g fill="currentColor"><circle cx="8" cy="13" r="1"/><circle cx="12" cy="13" r="1"/><circle cx="16" cy="13" r="1"/><circle cx="8" cy="16.5" r="1"/><circle cx="12" cy="16.5" r="1"/></g></svg>
+          <div><h3>{k('why_3_title')}</h3><p>{k('why_3_body')}</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="bizneset" class="lp-wrap sx-segments">
+      <h2 class="lp-section-title">{k('listing_title')}</h2>
+      <div class="sx-cards">
+        {SEGMENTS.map((slug) => {
+          const key = slug.replaceAll('-', '_');
+          return (
+            <article class="sx-card">
+              <h3>{k(`seg_${key}_title`)}</h3>
+              <p>{k(`seg_${key}_body`)}</p>
+              <a href={p(`/furnizim/${slug}`)} class="lp-btn lp-btn-ghost lp-card-btn">
+                {k(`seg_${key}_cta`)}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+      <div class="sx-areas">
+        <b>{k('areas_label')}</b>
+        {areas.map((area) => (
+          <a href={p(`/areas/${area.slug}`)} class="lp-btn lp-btn-ghost sx-area">
+            {t(area.nameKey)}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </a>
         ))}
       </div>
     </section>
 
-    <section class="areas-growth">
-      <i>♧</i><div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div>
-      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a>
-      <a href="tel:+38349111150" class="areas-growth-phone">☎ &nbsp; +383 49 111 150</a>
+    <section class="lp-band">
+      <div class="lp-wrap lp-band-inner">
+        <div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div>
+        <div class="lp-band-actions lp-band-stack">
+          <button type="button" class="lp-btn lp-btn-white" data-open-modal="sample">{k('cta_band_primary')}</button>
+          <a href={PHONE_HREF} class="lp-band-call">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+            {k('cta_call')}
+          </a>
+        </div>
+      </div>
     </section>
 
-    <div class="areas-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+    <a href={PHONE_HREF} class="lp-callbar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+      {k('call_now')}
+    </a>
   </div>
+
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_index" closeOnSampleSuccess={true} />
 </BaseLayout>
+
+<script>
+  // Same modal bridge as Home.astro / Products.astro: the static buttons
+  // dispatch an event the ModalHost island listens for, with the pending slot
+  // covering a click that lands before the island has hydrated.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+      document.querySelector<HTMLDetailsElement>('.lp-menu')?.removeAttribute('open');
+    });
+  });
+</script>
