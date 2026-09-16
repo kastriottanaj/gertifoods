@@ -163,6 +163,10 @@ SUPPLY_EXTRA_SOURCES = {
         f'{ASTRO}/views/SupplyPrishtine.astro',
         f'{ASTRO}/styles/supply-prishtine.css',
     ) + LANDING_SHARED,
+    'lakror': (
+        f'{ASTRO}/views/SupplyLakror.astro',
+        f'{ASTRO}/styles/supply-lakror.css',
+    ) + LANDING_SHARED,
 }
 
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and

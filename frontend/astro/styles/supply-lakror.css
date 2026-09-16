@@ -1,0 +1,25 @@
+/* /furnizim/lakror — what is specific to SupplyLakror.astro on top of
+   landing.css: the bakery-and-pack composite as the hero and how it splits
+   on phones, and the Cheese Pie card crop. */
+@import './landing.css';
+
+/* Hero: the composite spans the full width; its left side is already dark,
+   a light gradient keeps the text legible. */
+.lk-hero { min-height: 470px; }
+.lk-hero .lp-hero-img { object-position: 62% 50%; }
+.lk-hero .lp-hero-shade { background: linear-gradient(90deg, rgba(20,15,11,.78) 0%, rgba(20,15,11,.58) 36%, rgba(20,15,11,.06) 62%, rgba(20,15,11,0) 100%); }
+.lk-hero .lp-hero-inner { padding: 50px 0 46px; }
+.lk-hero-meta .lp-hero-meta-item:first-child { margin-left: 0; }
+
+/* The byrek card shows the plain pack shot, cropped to the pie */
+.lk-card-pie { object-position: 50% 64%; }
+
+@media (max-width: 640px) {
+  /* Text over the dim bakery, then the pack as its own band — the phone
+     mockup shows them one under the other. */
+  .lk-hero { min-height: 0; flex-direction: column; align-items: stretch; }
+  .lk-hero .lp-hero-img { position: static; width: 100%; height: 240px; object-position: 70% 50%; order: 2; }
+  .lk-hero .lp-hero-shade { display: none; }
+  .lk-hero .lp-hero-inner { order: 1; margin: 0; width: 100%; padding: 32px 20px 28px; background: linear-gradient(rgba(20,15,11,.84), rgba(20,15,11,.9)), var(--lk-hero) 12% 50% / cover no-repeat; }
+  .lk-hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+}

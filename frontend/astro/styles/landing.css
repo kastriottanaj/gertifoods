@@ -100,6 +100,7 @@
 /* Section headings shared by the product sections */
 .lp-section-title { font-size: 27px; font-weight: 800; }
 .lp-center { text-align: center; }
+.lp-section-sub { margin: 6px 0 0; font-size: 14.5px; color: #4a4a4a; }
 
 /* Two product cards side by side (the byrek range and the tortilla line),
    with the pallet note under them */
@@ -131,7 +132,8 @@
 
 /* Extra items on the hero meta line (pallet minimum, delivery time, area) */
 .lp-hero-meta-item { display: inline-flex; align-items: center; gap: 8px; margin-left: 18px; }
-.lp-hero-meta-item svg { width: 20px; height: 20px; }
+.lp-hero-meta-item svg { width: 20px; height: 20px; flex: none; }
+.lp-hero-meta-item small { display: block; font-size: 12.5px; color: rgba(255,255,255,.78); }
 
 /* Three vertical product cards: image (or the Family Pack's big 4) on top,
    title, body and an outlined or filled button; a delivery line under them */

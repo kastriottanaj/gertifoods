@@ -9,6 +9,7 @@ import SupplyLokaleRestorante from '../../../views/SupplyLokaleRestorante.astro'
 import SupplyMarkete from '../../../views/SupplyMarkete.astro';
 import SupplyTirane from '../../../views/SupplyTirane.astro';
 import SupplyPrishtine from '../../../views/SupplyPrishtine.astro';
+import SupplyLakror from '../../../views/SupplyLakror.astro';
 import { PREFIXED_LANGS } from '../../../lib/i18n.js';
 import { supplySegments } from '../../../../src/data/supply.js';
 
@@ -28,6 +29,7 @@ const VIEWS = {
   markete: SupplyMarkete,
   tirane: SupplyTirane,
   prishtine: SupplyPrishtine,
+  lakror: SupplyLakror,
 };
 const View = VIEWS[slug] ?? SupplyLanding;
 ---
