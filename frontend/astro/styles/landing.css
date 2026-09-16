@@ -66,6 +66,10 @@
 .lp-hero-meta a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
 .lp-hero-meta svg { width: 18px; height: 18px; }
 
+/* Photo credit for a licensed hero photo: small caption, bottom right */
+.lp-hero-credit { position: absolute; z-index: 2; right: 14px; bottom: 8px; margin: 0; font-size: 10.5px; color: rgba(255,255,255,.72); text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.lp-hero-credit a { text-decoration: underline; }
+
 /* Certification strip */
 .lp-trust { background: #fff; border-bottom: 1px solid var(--line); }
 .lp-trust-inner { display: flex; align-items: center; min-height: 56px; font-size: 13.5px; font-weight: 600; }
@@ -195,6 +199,7 @@
   .lp-card { flex-direction: column; align-items: stretch; }
   .lp-card-img { width: 100%; max-width: none; }
   .lp-hero-meta-item { margin-left: 0; width: 100%; }
+  .lp-hero-credit { position: static; display: block; order: 3; padding: 6px 20px 8px; background: #1d1713; }
   .lp-card-pack { padding: 22px 18px; }
   .lp-four { font-size: 96px; }
   .lp-delivery { align-items: flex-start; }
