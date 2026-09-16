@@ -1,14 +1,15 @@
 ---
-// /furnizim/markete — the markets/supermarkets landing page, built to
-// Kastriot's mockup (2026-09-16). Same system as the other redesigned pages
-// (LandingHeader, the shared landing.css) with what is its own: the pack in
-// front of supermarket shelves as the hero, a two-item meta line (phone and
-// the pallet minimum), a tinted certification strip, three product cards —
-// the Family Pack with its big "4", single byrek, tortillas — and the
-// delivery-times line under them. On phones the text sits on the shelves
-// with the pack as a band beneath. The mockup's testimonial is left out.
+// /furnizim/tirane — the Tirana city page, built to Kastriot's mockup
+// (2026-09-16). Same system as the other redesigned pages (LandingHeader,
+// the shared landing.css) with what is its own: Skanderbeg Square as the
+// hero photo, a three-item meta line (delivery time and pallet minimum,
+// phone, the area served), the tinted certification strip, three benefits
+// (truck, oven, calendar) and the three product cards — byrek, tortillas
+// and the Family Pack as "4 shije". The delivery facts are the ones the
+// Albania area page states: own truck, within a week, one pallet. The
+// mockup's testimonial is left out as on the other pages.
 //
-// Copy stays under supply_markete_* in translations.js; the "request a
+// Copy stays under supply_tirane_* in translations.js; the "request a
 // quote" buttons open the site's sample/offer modal.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LandingHeader from '../components/LandingHeader.astro';
@@ -16,9 +17,10 @@ import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
-import heroImage from '../../src/assets/markete-hero.webp';
+import heroImage from '../../src/assets/tirane-hero.webp';
+import pieImage from '../../src/assets/products/Pie.webp';
 import tortillaImage from '../../src/assets/products/Tortillas.webp';
-import '../styles/supply-markete.css';
+import '../styles/supply-tirane.css';
 
 const PHONE = '+383 49 111 150';
 const PHONE_HREF = 'tel:+38349111150';
@@ -26,7 +28,7 @@ const PHONE_HREF = 'tel:+38349111150';
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
-const k = (suffix) => t(`supply_markete_${suffix}`);
+const k = (suffix) => t(`supply_tirane_${suffix}`);
 const messages = islandMessages(lang);
 
 const schema = {
@@ -45,16 +47,16 @@ const schema = {
   title={k('seo_title')}
   description={k('meta')}
   lang={lang}
-  appClass=" landing-app markete-landing-app"
+  appClass=" landing-app tirane-landing-app"
   brandSuffix={false}
   showNavbar={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
 
-  <div class="lp mk">
+  <div class="lp tr">
     <LandingHeader lang={lang} ctaLabel={k('cta_primary')} langStyle="name" />
 
-    <section class="lp-hero mk-hero" style={`--mk-hero: url(${heroImage.src})`}>
+    <section class="lp-hero tr-hero" style={`--tr-hero: url(${heroImage.src})`}>
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="lp-hero-img" fetchpriority="high" />
       <div class="lp-hero-shade"></div>
       <div class="lp-wrap lp-hero-inner">
@@ -71,16 +73,18 @@ const schema = {
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 4v12.17l-5.59-5.58L4 12l8 8 8-8-1.41-1.41L13 16.17V4z"/></svg>
           </a>
         </div>
-        <p class="lp-hero-meta">
-          <a href={PHONE_HREF}>
+        <p class="lp-hero-meta tr-hero-meta">
+          <span class="lp-hero-meta-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
+            {k('meta_delivery')}
+          </span>
+          <a href={PHONE_HREF} class="lp-hero-meta-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
             {PHONE}
           </a>
-          <span aria-hidden="true">·</span>
-          <span>{k('hero_meta')}</span>
           <span class="lp-hero-meta-item">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>
-            {k('hero_min')}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+            {k('meta_area')}
           </span>
         </p>
       </div>
@@ -102,7 +106,7 @@ const schema = {
       <h2>{k('why_title')}</h2>
       <div class="lp-benefit-grid">
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 10.5h10.6L20.5 7H7"/><circle cx="9.5" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></g></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></g></svg>
           <div><h3>{k('why_1_title')}</h3><p>{k('why_1_body')}</p></div>
         </article>
         <article>
@@ -110,7 +114,7 @@ const schema = {
           <div><h3>{k('why_2_title')}</h3><p>{k('why_2_body')}</p></div>
         </article>
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></g></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></g><g fill="currentColor"><circle cx="8" cy="13" r="1"/><circle cx="12" cy="13" r="1"/><circle cx="16" cy="13" r="1"/><circle cx="8" cy="16.5" r="1"/><circle cx="12" cy="16.5" r="1"/></g></svg>
           <div><h3>{k('why_3_title')}</h3><p>{k('why_3_body')}</p></div>
         </article>
       </div>
@@ -119,26 +123,11 @@ const schema = {
     <section id="produktet" class="lp-wrap lp-products">
       <h2 class="lp-section-title">{k('products_title')}</h2>
       <div class="lp-cards-3">
-        <article class="lp-card-v lp-card-pack">
-          <span class="lp-four" aria-hidden="true">4</span>
-          <div>
-            <h3>{k('pack_title')}</h3>
-            <p class="lp-pack-count">{k('pack_count')}</p>
-            <p class="lp-pack-sub">{k('pack_sub')}</p>
-            <p>{k('pack_body')}</p>
-            <a href={p('/products/family-pack-pite-4')} class="lp-btn lp-btn-red lp-card-btn">
-              {k('pack_cta')}
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-            </a>
-          </div>
-        </article>
         <article class="lp-card-v">
-          <span class="lp-card-v-figure">
-            <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('img_alt_pie_pack')} loading="lazy" decoding="async" />
-          </span>
+          <img src={pieImage.src} width={pieImage.width} height={pieImage.height} alt={t('img_alt_pie_pack')} class="lp-card-v-img tr-card-pie" loading="lazy" decoding="async" />
           <div>
             <h3>{k('byrek_title')}</h3>
-            <p>{k('byrek_body')}</p>
+            <p>{k('byrek_sub')}</p>
             <a href={p('/products')} class="lp-btn lp-btn-ghost lp-card-btn">
               {k('byrek_cta')}
               <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
@@ -156,12 +145,18 @@ const schema = {
             </a>
           </div>
         </article>
+        <article class="lp-card-v">
+          <span class="lp-four-box" aria-hidden="true"><span class="lp-four">4</span><i>{k('pack_flavours')}</i></span>
+          <div>
+            <h3>{k('pack_title')}</h3>
+            <p>{k('pack_body')}</p>
+            <a href={p('/products/family-pack-pite-4')} class="lp-btn lp-btn-ghost lp-card-btn">
+              {k('pack_cta')}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+          </div>
+        </article>
       </div>
-      <p class="lp-delivery">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6.5A1.5 1.5 0 014.5 5H14v9H3zM14 8h4.2L21 11.2V14h-7z"/><circle cx="7" cy="17" r="2" fill="currentColor"/><circle cx="17.5" cy="17" r="2" fill="currentColor"/></svg>
-        <i aria-hidden="true"></i>
-        {k('delivery_line')}
-      </p>
     </section>
 
     <section class="lp-band">
@@ -183,7 +178,7 @@ const schema = {
     </a>
   </div>
 
-  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_markete" closeOnSampleSuccess={true} />
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="supply_tirane" closeOnSampleSuccess={true} />
 </BaseLayout>
 
 <script>

@@ -7,6 +7,7 @@ import SupplyByrektore from '../../../views/SupplyByrektore.astro';
 import SupplyFurraBuke from '../../../views/SupplyFurraBuke.astro';
 import SupplyLokaleRestorante from '../../../views/SupplyLokaleRestorante.astro';
 import SupplyMarkete from '../../../views/SupplyMarkete.astro';
+import SupplyTirane from '../../../views/SupplyTirane.astro';
 import { PREFIXED_LANGS } from '../../../lib/i18n.js';
 import { supplySegments } from '../../../../src/data/supply.js';
 
@@ -24,6 +25,7 @@ const VIEWS = {
   'furra-buke': SupplyFurraBuke,
   'lokale-restorante': SupplyLokaleRestorante,
   markete: SupplyMarkete,
+  tirane: SupplyTirane,
 };
 const View = VIEWS[slug] ?? SupplyLanding;
 ---

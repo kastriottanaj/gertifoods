@@ -1,0 +1,26 @@
+/* /furnizim/tirane — what is specific to SupplyTirane.astro on top of
+   landing.css: Skanderbeg Square as the hero photo on the right, the
+   three-item meta line, the Cheese Pie card crop, and the phone layout with
+   the text over the dimmed square and the photo as a band beneath. */
+@import './landing.css';
+
+/* Hero: the square photo fills the width; a dark gradient from the left
+   carries the text, the statue and tower stay clear on the right. */
+.tr-hero { min-height: 470px; }
+.tr-hero .lp-hero-img { object-position: 78% 40%; }
+.tr-hero .lp-hero-shade { background: linear-gradient(90deg, rgba(18,14,10,.9) 0%, rgba(18,14,10,.78) 34%, rgba(18,14,10,.3) 60%, rgba(18,14,10,.08) 100%); }
+.tr-hero .lp-hero-inner { padding: 50px 0 46px; }
+.tr-hero-meta .lp-hero-meta-item:first-child { margin-left: 0; }
+
+/* The byrek card shows the plain pack shot, cropped to the pie */
+.tr-card-pie { object-position: 50% 64%; }
+
+@media (max-width: 640px) {
+  /* Text over the dimmed square, then the photo as its own band — the phone
+     mockup shows them one under the other. */
+  .tr-hero { min-height: 0; flex-direction: column; align-items: stretch; }
+  .tr-hero .lp-hero-img { position: static; width: 100%; height: 230px; object-position: 78% 40%; order: 2; }
+  .tr-hero .lp-hero-shade { display: none; }
+  .tr-hero .lp-hero-inner { order: 1; margin: 0; width: 100%; padding: 32px 20px 28px; background: linear-gradient(rgba(18,14,10,.86), rgba(18,14,10,.92)), var(--tr-hero) 30% 50% / cover no-repeat; }
+  .tr-hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+}

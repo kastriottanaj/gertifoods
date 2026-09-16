@@ -113,9 +113,47 @@
 .lp-min { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0 0; font-size: 14px; font-weight: 600; color: #333; }
 .lp-min svg { width: 26px; height: 26px; color: #444; }
 
-/* Band: the phone as a plain link with a divider, not a button */
+/* Band: the phone as a plain link with a divider, not a button; the stacked
+   variant puts it under the button, aligned right, without the divider */
 .lp-band-call { display: inline-flex; align-items: center; gap: 10px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,.55); font-size: 14.5px; font-weight: 600; }
 .lp-band-call svg { width: 18px; height: 18px; }
+.lp-band-stack { flex-direction: column; align-items: flex-end; gap: 12px; }
+.lp-band-stack .lp-band-call { padding-left: 0; border-left: 0; }
+
+/* Certification strip on a warm tint, lead in ink with a solid red shield */
+.lp-trust-tint { background: #faf6f1; }
+.lp-trust-tint .lp-trust-lead { color: var(--ink); }
+.lp-trust-tint .lp-trust-lead svg { color: var(--red); }
+
+/* Extra items on the hero meta line (pallet minimum, delivery time, area) */
+.lp-hero-meta-item { display: inline-flex; align-items: center; gap: 8px; margin-left: 18px; }
+.lp-hero-meta-item svg { width: 20px; height: 20px; }
+
+/* Three vertical product cards: image (or the Family Pack's big 4) on top,
+   title, body and an outlined or filled button; a delivery line under them */
+.lp-cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 18px; }
+.lp-card-v { display: flex; flex-direction: column; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.lp-card-v > div { padding: 12px 4px 4px; }
+.lp-card-v h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+.lp-card-v p { margin: 0 0 6px; font-size: 13.5px; color: var(--muted); }
+.lp-card-v-img, .lp-card-v-figure, .lp-four-box { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; background: var(--soft); }
+.lp-card-v-figure { position: relative; overflow: hidden; }
+.lp-card-v-figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 50%; transform: scale(1.5); transform-origin: 68% 50%; }
+.lp-btn-ghost { background: #fff; border-color: var(--red); color: var(--red); }
+.lp-btn-ghost:hover { background: #fdf2f3; }
+.lp-four { flex: none; font-size: 118px; line-height: .85; font-weight: 900; font-style: italic; color: var(--red); letter-spacing: -.06em; }
+.lp-four-box { display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; }
+.lp-four-box i { font-size: 30px; font-weight: 800; font-style: italic; color: var(--red); margin-top: 22px; }
+/* The Family Pack as a text card: the 4 beside the text, on a warm tint */
+.lp-card-pack { flex-direction: row; align-items: flex-start; gap: 18px; padding: 26px 22px; background: #faf6f1; border-color: #f0e9e1; }
+.lp-card-pack > div { padding: 0; }
+.lp-card-pack .lp-four { margin-top: 2px; }
+.lp-pack-count { font-size: 13.5px; color: #333; }
+.lp-pack-sub { font-size: 12.5px; }
+.lp-card-pack .lp-card-btn { margin-top: 12px; }
+.lp-delivery { display: flex; align-items: center; gap: 14px; margin: 22px 0 0; font-size: 14px; font-weight: 600; color: #333; }
+.lp-delivery svg { width: 28px; height: 28px; flex: none; color: var(--red); }
+.lp-delivery i { width: 1px; height: 22px; background: var(--line); }
 
 /* Call-to-action band */
 .lp-band { background: var(--red); color: #fff; }
@@ -133,9 +171,10 @@
   .lp-menu { display: block; }
   .lp-benefit-grid { grid-template-columns: 1fr; }
   .lp-benefit-grid article + article { padding: 18px 0 0; margin-top: 18px; border-left: 0; border-top: 1px solid var(--line); }
-  .lp-cards { grid-template-columns: 1fr; }
+  .lp-cards, .lp-cards-3 { grid-template-columns: 1fr; }
   .lp-band-inner { flex-direction: column; align-items: stretch; }
   .lp-band-actions { justify-content: flex-start; }
+  .lp-band-stack { align-items: flex-start; }
   .lp-band-call { padding-left: 0; border-left: 0; }
 }
 
@@ -155,6 +194,10 @@
   .lp-trust-centered .lp-trust-list li { padding: 0 6px; }
   .lp-card { flex-direction: column; align-items: stretch; }
   .lp-card-img { width: 100%; max-width: none; }
+  .lp-hero-meta-item { margin-left: 0; width: 100%; }
+  .lp-card-pack { padding: 22px 18px; }
+  .lp-four { font-size: 96px; }
+  .lp-delivery { align-items: flex-start; }
   .lp-band-actions .lp-btn { width: 100%; }
   .lp-callbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 950; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--red); color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
   .lp-callbar svg { width: 20px; height: 20px; }
