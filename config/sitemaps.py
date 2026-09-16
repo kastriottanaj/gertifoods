@@ -151,6 +151,10 @@ SUPPLY_EXTRA_SOURCES = {
         f'{ASTRO}/views/SupplyLokaleRestorante.astro',
         f'{ASTRO}/styles/supply-lokale-restorante.css',
     ) + LANDING_SHARED,
+    'markete': (
+        f'{ASTRO}/views/SupplyMarkete.astro',
+        f'{ASTRO}/styles/supply-markete.css',
+    ) + LANDING_SHARED,
 }
 
 # Published posts are stored in frontend/src/data/blogPosts.js; keep slugs and
