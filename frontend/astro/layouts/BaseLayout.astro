@@ -13,8 +13,13 @@ import {
   SUPPORTED_LANGS,
   OG_LOCALES,
   normalizePath,
+  stripLocale,
   alternatePath,
 } from '../lib/i18n.js';
+// The key the lead forms park a submitted conversion under. Imported rather
+// than retyped so the inline pixel script below and conversion.js cannot drift
+// apart on the spelling of it.
+import { PENDING_LEAD_KEY } from '../../src/lib/conversion.js';
 import { organizationSchema, jsonLd } from '../lib/schema.js';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
@@ -123,6 +128,54 @@ const preferredHrefs = Object.fromEntries(
 );
 const isDefaultLocale = lang === DEFAULT_LANG;
 
+// --- Meta Pixel -----------------------------------------------------------
+
+// The one place the pixel ID is written down. The head script and the
+// <noscript> fallback in the body both take it from here.
+//
+// Replaced 2026-10-05. The original pixel (1627574088940579) sat outside the
+// GertiFoods business manager, so its events could not be used by the ad
+// account that is about to spend against them. This one was created inside the
+// business and is the only pixel the site talks to.
+const META_PIXEL_ID = '1396559496012591';
+
+// ViewContent: the pages where a visit is real buying interest, and therefore
+// worth building a Custom Audience on and excluding converters from — a product
+// detail page, and a /furnizim buyer-segment landing page.
+//
+// Classified here at build time from the locale-stripped path. Matching
+// location.pathname in the browser instead would make every page in the site
+// pay for a rule that almost all of them fail.
+//
+// The listing and city pages (/products, /areas/*) are left out deliberately.
+// They sit one click from everything, so firing ViewContent there would fill
+// the audience with people who were passing through and dilute the signal the
+// ad account optimises against. Adding one back is a line in this table.
+//
+// No content_type is sent. That field tells Meta the ids name entries in a
+// product catalog, and no catalog feed is connected to this pixel — claiming
+// one would only produce Events Manager diagnostics about ids matching nothing.
+const route = stripLocale(path);
+const productSlug = route.match(/^\/products\/(.+)$/)?.[1];
+const supplyMatch = route.match(/^\/furnizim(?:\/(.+))?$/);
+
+let pixelContent = null;
+if (productSlug) {
+  pixelContent = {
+    content_ids: [productSlug],
+    content_name: title ?? fullTitle,
+    content_category: 'product',
+  };
+} else if (supplyMatch) {
+  pixelContent = {
+    // The hub page has no slug of its own; name it after its own path so the
+    // audience rule can tell the hub from the seven segment pages under it.
+    content_ids: [supplyMatch[1] ?? 'furnizim'],
+    content_name: title ?? fullTitle,
+    content_category: 'supply',
+  };
+}
+
 // Strings for the exit-intent popup (~1.2 KB). Inlined rather than imported by
 // the popup module: keeping LanguageProvider out of the client build is what
 // lets Rollup drop the 107 KB translation table entirely.
@@ -214,7 +267,7 @@ const exitMessages = islandMessages(lang, 'exit');
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVDQVNJ5JE"></script>
 
     <!-- Meta Pixel Code -->
-    <script is:inline>
+    <script is:inline define:vars={{ META_PIXEL_ID, PENDING_LEAD_KEY, pixelContent }}>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -225,6 +278,9 @@ const exitMessages = islandMessages(lang, 'exit');
       'https://connect.facebook.net/en_US/fbevents.js');
 
       // Keep marketing tracking disabled until the visitor has consented.
+      // Everything below — the advanced matching included — is queued rather
+      // than sent while consent is revoked, and released by CookieConsent.astro
+      // on acceptance.
       fbq('consent', 'revoke');
       try {
         if (localStorage.getItem('gf_cookie_consent') === 'granted') {
@@ -232,8 +288,44 @@ const exitMessages = islandMessages(lang, 'exit');
         }
       } catch (e) {}
 
-      fbq('init', '1627574088940579');
+      // Advanced matching. Meta only counts user data as manual advanced
+      // matching when it arrives in the init call itself — fbq('set', …) is
+      // ignored for this purpose — so the digests a submitted form parked in
+      // sessionStorage have to be read here, before init, rather than attached
+      // to the Lead event later on.
+      //
+      // In practice only the thank-you page finds a record: completeLead()
+      // writes one immediately before redirecting there and flushPendingLead()
+      // removes it on arrival. A redirect the visitor interrupts can leave one
+      // behind, in which case their own digests ride along on the next page
+      // they open in that tab — harmless, and gone when the tab closes. The values are already SHA-256 hashed by events.js, so no
+      // plaintext email or phone number is ever stored or transmitted.
+      var gfUserData;
+      try {
+        var gfPending = sessionStorage.getItem(PENDING_LEAD_KEY);
+        if (gfPending) gfUserData = JSON.parse(gfPending).am || undefined;
+      } catch (e) {}
+
+      if (gfUserData) fbq('init', META_PIXEL_ID, gfUserData);
+      else fbq('init', META_PIXEL_ID);
+
+      // Lets the one form that does not redirect — the catalog request — attach
+      // its own advanced matching before it fires Lead. Re-initialising the
+      // same pixel is Meta's documented way to supply user data that was not
+      // known at page load; their own Tag Manager template does it, and the
+      // duplicate-id warning only appears when two init calls land back to
+      // back. Defined here so the pixel ID stays in one file.
+      window.gfPixelUserData = function (userData) {
+        fbq('init', META_PIXEL_ID, userData);
+      };
+
       fbq('track', 'PageView');
+
+      // ViewContent for product and /furnizim pages, classified at build time
+      // (see pixelContent above). Sent from here rather than from a bundled
+      // script so it does not wait on the JS bundle: a visitor who reads a
+      // product page and leaves before it loads still lands in the audience.
+      if (pixelContent) fbq('track', 'ViewContent', pixelContent);
     </script>
     <!-- End Meta Pixel Code -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -295,7 +387,7 @@ const exitMessages = islandMessages(lang, 'exit');
         height="1"
         width="1"
         style="display:none"
-        src="https://www.facebook.com/tr?id=1627574088940579&amp;ev=PageView&amp;noscript=1"
+        src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
         alt=""
       /></noscript
     >
@@ -321,6 +413,52 @@ const exitMessages = islandMessages(lang, 'exit');
       is:inline
       set:html={JSON.stringify(exitMessages).replace(/</g, '\\u003c')}
     />
+
+    <script>
+      // Contact: the WhatsApp, phone and email links.
+      //
+      // For a wholesale bakery these are not a soft signal. Most buyers would
+      // sooner ask what a pallet costs than fill in a form, so a large share of
+      // real enquiries start with one of these clicks and none of them were
+      // being measured at all — neither platform could see them, so neither
+      // could optimise for them or retarget the people who made them.
+      //
+      // Delegated from the document rather than wired per link: there are 37
+      // tel: links, 13 wa.me links and 5 mailto: links across the views, and a
+      // listener on each would be 55 places to forget. One listener here counts
+      // every one, including the floating WhatsApp button, the thank-you page
+      // CTA and each number written into a landing page's body.
+      //
+      // No batching race to defer around, unlike the lead events: wa.me and
+      // mailto: open in a new tab or hand off to another app, and tel: hands
+      // off to the dialer. This document stays loaded either way, so the hit
+      // has time to leave.
+      import { track } from '../../src/lib/events.js';
+
+      const CONTACT_CHANNELS: Array<[string, string]> = [
+        ['a[href^="https://wa.me/"], a[href*="api.whatsapp.com"]', 'whatsapp'],
+        ['a[href^="tel:"]', 'phone'],
+        ['a[href^="mailto:"]', 'email'],
+      ];
+
+      document.addEventListener('click', (event) => {
+        const origin = event.target as Element | null;
+        if (!origin || typeof origin.closest !== 'function') return;
+
+        for (const [selector, channel] of CONTACT_CHANNELS) {
+          if (!origin.closest(selector)) continue;
+          track('contact', {
+            // GA4's own convention for "which channel did they use" on a
+            // contact-style event.
+            ga4: { method: channel, page_path: location.pathname },
+            // Meta has no field for it, so it rides in the one Events Manager
+            // will break the event down by.
+            meta: { content_category: channel },
+          });
+          return;
+        }
+      });
+    </script>
 
     <script>
       // Exit-intent watcher — the detection half of the old ExitIntentPopup.jsx,

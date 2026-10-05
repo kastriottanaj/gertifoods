@@ -2,7 +2,7 @@ import { useState } from 'react';
 import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
-import { trackLead } from '../lib/conversion';
+import { trackLeadInPlace } from '../lib/conversion';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
@@ -33,11 +33,12 @@ export default function CatalogRequestForm({ onSuccess }) {
       });
       setSuccess(true);
       if (onSuccess) onSuccess();
-      // trackLead, not completeLead: this form's payoff is the catalog email
-      // Django sends on submit, and redirecting the tab to the thank-you page
-      // would pull the visitor away from the success message telling them to
-      // go check their inbox. GA4 still gets the same generate_lead event as
-      // the other two forms.
+      // trackLeadInPlace, not completeLead: this form's payoff is the catalog
+      // email Django sends on submit, and redirecting the tab to the thank-you
+      // page would pull the visitor away from the success message telling them
+      // to go check their inbox. GA4 and Meta still get the same lead event as
+      // the other two forms; only the email is available to match Meta's side
+      // on here, which happens to be the field it weighs most heavily.
       //
       // There used to be a window.open() for an instant download here. It
       // pointed at /media/catalog/Katallogu_2026.pdf, a file that has never
@@ -46,7 +47,12 @@ export default function CatalogRequestForm({ onSuccess }) {
       // popup-blocked regardless. The delivery this form actually promises, in
       // all three languages, is the email ("the full catalog was just sent to
       // your email"), which leads/emails.py has been sending all along.
-      trackLead({ formName: 'catalog_request', source: 'catalog_modal', lang });
+      trackLeadInPlace({
+        formName: 'catalog_request',
+        source: 'catalog_modal',
+        lang,
+        pii: { email: form.email },
+      });
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {

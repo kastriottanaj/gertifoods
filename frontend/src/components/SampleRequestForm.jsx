@@ -56,7 +56,18 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
       // and it must be on disk before the visitor navigates away — otherwise
       // the popup would be armed again the moment they came back.
       if (onSuccess) onSuccess();
-      completeLead({ formName: 'sample_request', source, lang });
+      // fullName rather than first/last: this form asks for one contact name,
+      // and advancedMatching() splits it. Hashed before storage, as above.
+      completeLead({
+        formName: 'sample_request',
+        source,
+        lang,
+        pii: {
+          email: form.email,
+          phone: form.phone,
+          fullName: form.contact_name,
+        },
+      });
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {

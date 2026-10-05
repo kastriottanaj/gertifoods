@@ -30,12 +30,26 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
     try {
       const recaptcha_token = await getRecaptchaToken('lead_submit');
       await api.post('/leads/lead/', { ...form, source, recaptcha_token });
-      // Kept even though the redirect follows: completeLead waits up to 800ms
-      // for GA to acknowledge the event, and the visitor should see the
-      // submission land rather than a form that appears to do nothing. It is
-      // also what stays on screen if navigation is ever blocked.
+      // Kept even though the redirect follows: completeLead hashes the match
+      // data before it navigates, so the form is briefly still on screen and
+      // should look like the submission landed rather than like a button that
+      // did nothing. It is also what stays on screen if navigation is ever
+      // blocked.
       setSuccess(true);
-      completeLead({ formName: 'hero_lead', source, lang });
+      // pii is hashed inside completeLead and never stored or sent in the
+      // clear — it is what lets Meta match this conversion to an account
+      // instead of filing it against an anonymous browser.
+      completeLead({
+        formName: 'hero_lead',
+        source,
+        lang,
+        pii: {
+          email: form.email,
+          phone: form.phone,
+          firstName: form.first_name,
+          lastName: form.last_name,
+        },
+      });
     } catch (err) {
       const data = err.response?.data;
       if (data && typeof data === 'object') {

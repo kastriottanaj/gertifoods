@@ -1,12 +1,18 @@
-// Lead conversion: the GA4 event and the thank-you redirect that every
+// Lead conversion: the analytics events and the thank-you redirect that every
 // successful lead submission runs through.
 //
-// This module imports nothing, deliberately. The three lead forms are React
-// islands, so anything they import ships to the browser — reaching into
-// astro/lib/i18n.js for the paths would drag the 107 KB translation table back
-// into every bundle that islandMessages.js was written to keep it out of. The
-// Astro side re-exports THANK_YOU_PATHS from here instead, so the URLs still
-// have exactly one definition.
+// The event fan-out itself lives in events.js — this module is the lead path
+// specifically: what a submitted form is worth telling the ad platforms, and
+// the ordering problem of firing an event on a page that is about to navigate.
+//
+// events.js is the only thing imported here, and it imports nothing in turn.
+// That restraint is deliberate and worth keeping: the three lead forms are
+// React islands, so anything reachable from this module ships to the browser —
+// reaching into astro/lib/i18n.js for the paths would drag the 107 KB
+// translation table back into every bundle that islandMessages.js was written
+// to keep it out of. The Astro side re-exports THANK_YOU_PATHS from here
+// instead, so the URLs still have exactly one definition.
+import { track, advancedMatching, applyPixelUserData, newEventId } from './events.js';
 
 /**
  * Where each language's thank-you page lives.
@@ -33,30 +39,36 @@ export function thankYouPath(lang) {
 }
 
 /**
- * Sends GA4's recommended `generate_lead` event for a submitted lead form.
+ * Sends the lead conversion to GA4 (generate_lead) and Meta (Lead).
  *
  * Safe to call only from a page that is going to stay open — see
  * completeLead() for why, and use that instead when a redirect follows.
  *
  * `form_source` rather than `source`: GA4 already uses `source` for traffic
  * acquisition, so sending our own would collide with a dimension that means
- * something else entirely. All three params need registering as custom
+ * something else entirely. All three GA4 params need registering as custom
  * dimensions in GA4 admin before they show up in reports.
  *
- * @param {{formName: string, source: string, lang: string}} details
+ * Meta gets the same two facts under the names its reporting understands:
+ * content_name and content_category are the fields Events Manager breaks a
+ * custom conversion down by, so 'hero_lead' vs 'sample_request' can be
+ * optimised for separately without defining two events.
+ *
+ * @param {{formName: string, source: string, lang: string, eventID?: string}} details
  */
-export function trackLead({ formName, source, lang }) {
-  const gtag = typeof window !== 'undefined' ? window.gtag : undefined;
-  // Absent when an ad blocker removed the tag. Nothing to do; the lead itself
-  // is already safe in the database either way.
-  if (typeof gtag !== 'function') return false;
-
-  gtag('event', 'generate_lead', {
-    form_name: formName,
-    form_source: source,
-    form_language: lang,
+export function trackLead({ formName, source, lang, eventID }) {
+  return track('lead', {
+    ga4: {
+      form_name: formName,
+      form_source: source,
+      form_language: lang,
+    },
+    meta: {
+      content_name: formName,
+      content_category: source,
+    },
+    eventID,
   });
-  return true;
 }
 
 // The key the exit-intent watcher in BaseLayout.astro checks before arming.
@@ -64,17 +76,26 @@ export function trackLead({ formName, source, lang }) {
 // it; it now means "this visitor has already converted this session".
 const SUBMITTED_KEY = 'sample_request_submitted';
 
-// Where completeLead() parks the details for flushPendingLead() to pick up on
-// the next page. sessionStorage, not a query parameter: it keeps the
-// thank-you URL clean (one page_location per language in GA4 rather than a
-// scatter of ?form=… variants) and it cannot be forged by sharing a link.
-const PENDING_KEY = 'gf_pending_lead';
+/**
+ * Where completeLead() parks the conversion for flushPendingLead() to pick up
+ * on the next page.
+ *
+ * sessionStorage, not a query parameter: it keeps the thank-you URL clean (one
+ * page_location per language in GA4 rather than a scatter of ?form=… variants)
+ * and it cannot be forged by sharing a link.
+ *
+ * Exported because BaseLayout.astro reads the record too — its pixel init
+ * needs the hashed advanced-matching digests before it can call fbq('init'),
+ * and an inline <script> in the document head cannot import a module. Passing
+ * this constant in with define:vars keeps the key from being spelled twice.
+ */
+export const PENDING_LEAD_KEY = 'gf_pending_lead';
 
 /**
  * Records the lead and sends the visitor to the thank-you page in their
- * language. The GA4 event is fired on arrival, by flushPendingLead().
+ * language. The analytics events are fired on arrival, by flushPendingLead().
  *
- * Firing it here instead — before the redirect — is the obvious approach and
+ * Firing them here instead — before the redirect — is the obvious approach and
  * it does not work. gtag.js does not transmit an event when it is called: it
  * batches, and the hit only leaves the browser about four to five seconds
  * later. `event_callback` is no help, because it acknowledges in ~6ms, long
@@ -83,13 +104,28 @@ const PENDING_KEY = 'gf_pending_lead';
  * batch and GA received nothing at all. Waiting out the batch instead would
  * mean sitting on a submitted form for five seconds.
  *
- * Deferring the event to the page that is not about to unload avoids the race
- * entirely, and lets the redirect happen immediately.
+ * Deferring the events to the page that is not about to unload avoids the race
+ * entirely, and lets the redirect happen immediately. The Meta Pixel is less
+ * prone to it than gtag, but it rides along on the same mechanism rather than
+ * being fired twice from two places.
+ *
+ * async because the advanced-matching digests are hashed before anything is
+ * written down. Callers need not await it — it performs the navigation itself —
+ * and the hashing adds well under a millisecond.
  *
  * assign() rather than replace(): Back should return to the page they
  * submitted from, which is the ordinary expectation after a form post.
+ *
+ * @param {{formName: string, source: string, lang: string,
+ *          pii?: {email?: string, phone?: string, firstName?: string,
+ *                 lastName?: string, fullName?: string}}} details
  */
-export function completeLead(details) {
+export async function completeLead(details) {
+  // Hashed here rather than on the thank-you page so the plaintext email and
+  // phone never leave this function: what gets stored, and later sent, is a
+  // set of SHA-256 digests. Never throws — see advancedMatching.
+  const am = await advancedMatching(details.pii);
+
   // Set for every form rather than only the sample request. The exit-intent
   // popup re-arms on each page load, so without this someone who submitted the
   // hero form would land on the thank-you page and be asked to request samples
@@ -99,11 +135,17 @@ export function completeLead(details) {
   try {
     sessionStorage.setItem(SUBMITTED_KEY, '1');
     sessionStorage.setItem(
-      PENDING_KEY,
+      PENDING_LEAD_KEY,
       JSON.stringify({
         formName: details.formName,
         source: details.source,
         lang: details.lang,
+        // Read by BaseLayout's pixel init on the thank-you page, which is the
+        // only place Meta will accept it as manual advanced matching.
+        am,
+        // Minted before the redirect so the browser event and any later
+        // server-side send of the same conversion agree on one id.
+        eventID: newEventId(),
       })
     );
   } catch {
@@ -115,10 +157,29 @@ export function completeLead(details) {
 }
 
 /**
- * Fires the pending `generate_lead` event, if this visitor actually arrived
- * here by submitting a form. Called by the thank-you page.
+ * Records a lead without navigating away.
  *
- * The record is removed before the event is sent, so a reload of the
+ * For the catalog form, whose payoff is the email Django sends on submit — the
+ * success message tells the visitor to go and check their inbox, so pulling the
+ * tab to the thank-you page would take them away from the one instruction that
+ * matters. Nothing is about to unload, so there is no batching race to defer
+ * around and the events go out immediately.
+ *
+ * The advanced matching has to be attached by re-initialising the pixel here,
+ * because this page's init call ran long before the visitor typed an email
+ * address. See applyPixelUserData.
+ */
+export async function trackLeadInPlace({ formName, source, lang, pii }) {
+  const am = await advancedMatching(pii);
+  if (am) applyPixelUserData(am);
+  return trackLead({ formName, source, lang, eventID: newEventId() });
+}
+
+/**
+ * Fires the pending lead events, if this visitor actually arrived here by
+ * submitting a form. Called by the thank-you page.
+ *
+ * The record is removed before the events are sent, so a reload of the
  * thank-you page cannot count the same lead twice — and someone who reaches
  * the URL directly, from a bookmark or a shared link, has no record at all
  * and therefore registers no conversion.
@@ -126,15 +187,24 @@ export function completeLead(details) {
 export function flushPendingLead() {
   let pending;
   try {
-    const raw = sessionStorage.getItem(PENDING_KEY);
+    const raw = sessionStorage.getItem(PENDING_LEAD_KEY);
     if (!raw) return null;
-    sessionStorage.removeItem(PENDING_KEY);
+    sessionStorage.removeItem(PENDING_LEAD_KEY);
     pending = JSON.parse(raw);
   } catch {
     return null;
   }
 
   if (!pending || !pending.formName) return null;
-  trackLead(pending);
+
+  // `am` is deliberately not passed on: BaseLayout already handed those
+  // digests to fbq('init') while this document was parsing, which is the only
+  // point at which Meta counts them as advanced matching.
+  trackLead({
+    formName: pending.formName,
+    source: pending.source,
+    lang: pending.lang,
+    eventID: pending.eventID,
+  });
   return pending;
 }
