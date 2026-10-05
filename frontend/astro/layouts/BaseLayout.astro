@@ -362,6 +362,22 @@ const exitMessages = islandMessages(lang, 'exit');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
     <meta name="author" content="Gerti Foods" />
+
+    {/* Meta (Facebook) domain verification.
+        Claims gertifoods.com for the GertiFoods business portfolio, which is
+        what lets Meta attribute conversions to this domain under iOS
+        Aggregated Event Measurement — and stops anyone else claiming it in
+        their own Business Manager.
+
+        It has to be server-rendered inside <head>: Meta's crawler fetches the
+        raw HTML and does not execute JavaScript, so a tag injected at runtime
+        would never be seen. Astro writes this into the static HTML of every
+        page at build time, so it satisfies that regardless of which URL Meta
+        checks. */}
+    <meta
+      name="facebook-domain-verification"
+      content="izq5uco7ndeab80u6lguwnbvmr457c"
+    />
     <meta property="og:site_name" content="Gerti Foods" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://gertifoods.com/favicon-512.png" />
