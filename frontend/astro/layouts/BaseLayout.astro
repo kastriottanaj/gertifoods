@@ -268,23 +268,50 @@ const exitMessages = islandMessages(lang, 'exit');
 
     <!-- Meta Pixel Code -->
     <script is:inline define:vars={{ META_PIXEL_ID, PENDING_LEAD_KEY, pixelContent }}>
+      // Meta's snippet, with the one line that fetches fbevents.js taken out of
+      // it. What remains defines window.fbq and its queue and contacts nobody.
+      //
+      // The original loaded the library immediately and relied on
+      // fbq('consent', 'revoke') to hold the events back. That stops Meta
+      // being told what the visitor did, but it does not stop Meta being told
+      // the visitor exists: requesting fbevents.js from connect.facebook.net
+      // hands over their IP address and the page they are on, before they have
+      // agreed to anything. Under GDPR and the ePrivacy rules that request is
+      // itself the thing consent is required for, so now nothing is fetched
+      // until the banner is answered.
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
+      n.queue=[]}(window, document,'script');
 
-      // Keep marketing tracking disabled until the visitor has consented.
-      // Everything below — the advanced matching included — is queued rather
-      // than sent while consent is revoked, and released by CookieConsent.astro
-      // on acceptance.
+      // Fetches the library. Called only once consent exists — from the
+      // returning-visitor branch below, or by CookieConsent.astro the moment
+      // Accept is clicked.
+      //
+      // Nothing is lost by loading late. Every fbq(...) call made before this
+      // runs sits in fbq.queue, and fbevents.js replays the queue in order the
+      // moment it arrives: the consent state first, then init with its
+      // advanced matching, then PageView and ViewContent. A visitor who reads
+      // two pages and then accepts is still counted for both.
+      window.gfLoadPixel = function () {
+        if (window.gfPixelRequested) return;
+        window.gfPixelRequested = true;
+        var t = document.createElement('script');
+        t.async = true;
+        t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      };
+
+      // Belt and braces: even once the library is loaded, nothing is
+      // transmitted until consent is granted. Queued here so it is the first
+      // instruction Meta processes.
       fbq('consent', 'revoke');
       try {
         if (localStorage.getItem('gf_cookie_consent') === 'granted') {
           fbq('consent', 'grant');
+          window.gfLoadPixel();
         }
       } catch (e) {}
 
@@ -382,15 +409,13 @@ const exitMessages = islandMessages(lang, 'exit');
     <slot name="head" />
   </head>
   <body>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display:none"
-        src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-        alt=""
-      /></noscript
-    >
+    {/* Meta's <noscript> PageView beacon is deliberately absent.
+        A <noscript> image fires the instant the document is parsed. It cannot
+        read localStorage, cannot be told about consent, and cannot be held
+        back — so it reported every no-JS visitor to Meta whether or not they
+        had accepted anything, which is precisely what the banner exists to
+        prevent. The traffic it measured is a rounding error; the exposure was
+        not. */}
     {/* Element order mirrors App.jsx exactly: everything, footer and floating
         widgets included, lives inside .app. */}
     <div class={`app${appClass}`}>

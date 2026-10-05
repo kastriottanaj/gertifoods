@@ -81,6 +81,13 @@ const c = COPY[lang] || COPY.en;
     if (typeof (window as any).fbq === 'function') {
       (window as any).fbq('consent', granted ? 'grant' : 'revoke');
     }
+    // The Meta library is not fetched until this moment: BaseLayout ships only
+    // the fbq stub, so a visitor who never answers the banner — or declines —
+    // makes no request to Meta at all. Accepting is what loads it, and the
+    // events queued on the way here replay in order as soon as it arrives.
+    if (granted && typeof (window as any).gfLoadPixel === 'function') {
+      (window as any).gfLoadPixel();
+    }
   }
 
   let answered = false;
