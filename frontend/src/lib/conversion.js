@@ -116,7 +116,13 @@ export const PENDING_LEAD_KEY = 'gf_pending_lead';
  * assign() rather than replace(): Back should return to the page they
  * submitted from, which is the ordinary expectation after a form post.
  *
- * @param {{formName: string, source: string, lang: string,
+ * `eventID` is minted by the caller, not here, because it has to travel to
+ * Django with the form POST as well — the server sends its own copy of this
+ * conversion through the Conversions API, and Meta only recognises the two as
+ * one event when they carry the same id. A caller that omits it still works;
+ * the browser event simply stands alone.
+ *
+ * @param {{formName: string, source: string, lang: string, eventID?: string,
  *          pii?: {email?: string, phone?: string, firstName?: string,
  *                 lastName?: string, fullName?: string}}} details
  */
@@ -143,9 +149,9 @@ export async function completeLead(details) {
         // Read by BaseLayout's pixel init on the thank-you page, which is the
         // only place Meta will accept it as manual advanced matching.
         am,
-        // Minted before the redirect so the browser event and any later
-        // server-side send of the same conversion agree on one id.
-        eventID: newEventId(),
+        // The id the form already posted to Django, so the pixel's copy of
+        // this conversion and the server's deduplicate against each other.
+        eventID: details.eventID || newEventId(),
       })
     );
   } catch {
@@ -169,10 +175,10 @@ export async function completeLead(details) {
  * because this page's init call ran long before the visitor typed an email
  * address. See applyPixelUserData.
  */
-export async function trackLeadInPlace({ formName, source, lang, pii }) {
+export async function trackLeadInPlace({ formName, source, lang, pii, eventID }) {
   const am = await advancedMatching(pii);
   if (am) applyPixelUserData(am);
-  return trackLead({ formName, source, lang, eventID: newEventId() });
+  return trackLead({ formName, source, lang, eventID: eventID || newEventId() });
 }
 
 /**

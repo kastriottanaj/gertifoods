@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { trackLeadInPlace } from '../lib/conversion';
+import { newEventId } from '../lib/events';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
@@ -26,10 +27,15 @@ export default function CatalogRequestForm({ onSuccess }) {
     setError('');
     try {
       const recaptcha_token = await getRecaptchaToken('sample_request_submit');
+      // One id for one conversion, minted before the POST: Django sends its
+      // own copy of this event through the Conversions API, and Meta treats
+      // the two as the same conversion only if they carry the same id.
+      const eventID = newEventId();
       await api.post('/leads/sample-request/', {
         ...form,
         source: 'catalog_request',
         recaptcha_token,
+        event_id: eventID,
       });
       setSuccess(true);
       if (onSuccess) onSuccess();
@@ -51,6 +57,7 @@ export default function CatalogRequestForm({ onSuccess }) {
         formName: 'catalog_request',
         source: 'catalog_modal',
         lang,
+        eventID,
         pii: { email: form.email },
       });
     } catch (err) {

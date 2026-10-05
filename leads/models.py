@@ -53,6 +53,41 @@ class Lead(models.Model):
         default=False,
         help_text='Whether the sales notification email was delivered to the SMTP server.',
     )
+    # --- Meta ad attribution -------------------------------------------
+    #
+    # event_id is minted in the browser before the form is posted and used by
+    # BOTH copies of the conversion — the pixel's and the one leads/capi.py
+    # sends from the server. Meta deduplicates on (event_name, event_id), so
+    # the two paths can both fire without the lead being counted twice.
+    #
+    # fbc and fbp are Meta's click and browser identifiers, read off the
+    # first-party cookies the pixel sets on this domain. Stored rather than
+    # only forwarded: they are what will later let "this lead became a
+    # customer" be reported back to Meta, which is the signal that teaches it
+    # to find businesses that actually sign rather than businesses that
+    # fill in forms.
+    event_id = models.CharField(
+        max_length=64,
+        blank=True,
+        help_text='Shared id that deduplicates the pixel and server copies of this conversion.',
+    )
+    fbc = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Meta click id (_fbc cookie). Present only when the visitor arrived from an ad.",
+    )
+    fbp = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Meta browser id (_fbp cookie).',
+    )
+    # Whether Meta accepted the server-side copy of this conversion. Same
+    # reasoning as sales_notified: the send is best-effort and swallows its
+    # failures, so without this a silently broken token would be invisible.
+    capi_sent = models.BooleanField(
+        default=False,
+        help_text='Whether the Conversions API accepted this lead.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -137,6 +172,41 @@ class SampleRequest(models.Model):
     sales_notified = models.BooleanField(
         default=False,
         help_text='Whether the sales notification email was delivered to the SMTP server.',
+    )
+    # --- Meta ad attribution -------------------------------------------
+    #
+    # event_id is minted in the browser before the form is posted and used by
+    # BOTH copies of the conversion — the pixel's and the one leads/capi.py
+    # sends from the server. Meta deduplicates on (event_name, event_id), so
+    # the two paths can both fire without the lead being counted twice.
+    #
+    # fbc and fbp are Meta's click and browser identifiers, read off the
+    # first-party cookies the pixel sets on this domain. Stored rather than
+    # only forwarded: they are what will later let "this lead became a
+    # customer" be reported back to Meta, which is the signal that teaches it
+    # to find businesses that actually sign rather than businesses that
+    # fill in forms.
+    event_id = models.CharField(
+        max_length=64,
+        blank=True,
+        help_text='Shared id that deduplicates the pixel and server copies of this conversion.',
+    )
+    fbc = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Meta click id (_fbc cookie). Present only when the visitor arrived from an ad.",
+    )
+    fbp = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='Meta browser id (_fbp cookie).',
+    )
+    # Whether Meta accepted the server-side copy of this conversion. Same
+    # reasoning as sales_notified: the send is best-effort and swallows its
+    # failures, so without this a silently broken token would be invisible.
+    capi_sent = models.BooleanField(
+        default=False,
+        help_text='Whether the Conversions API accepted this lead.',
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

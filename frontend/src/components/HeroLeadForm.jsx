@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { completeLead } from '../lib/conversion';
+import { newEventId } from '../lib/events';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
@@ -29,7 +30,16 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
     setError('');
     try {
       const recaptcha_token = await getRecaptchaToken('lead_submit');
-      await api.post('/leads/lead/', { ...form, source, recaptcha_token });
+      // One id for one conversion, minted before the POST: Django sends its
+      // own copy of this event through the Conversions API, and Meta treats
+      // the two as the same conversion only if they carry the same id.
+      const eventID = newEventId();
+      await api.post('/leads/lead/', {
+        ...form,
+        source,
+        recaptcha_token,
+        event_id: eventID,
+      });
       // Kept even though the redirect follows: completeLead hashes the match
       // data before it navigates, so the form is briefly still on screen and
       // should look like the submission landed rather than like a button that
@@ -43,6 +53,7 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
         formName: 'hero_lead',
         source,
         lang,
+        eventID,
         pii: {
           email: form.email,
           phone: form.phone,

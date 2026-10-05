@@ -3,6 +3,7 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { completeLead } from '../lib/conversion';
+import { newEventId } from '../lib/events';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const BUSINESS_TYPES = [
@@ -49,7 +50,16 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
     setError('');
     try {
       const recaptcha_token = await getRecaptchaToken('sample_request_submit');
-      await api.post('/leads/sample-request/', { ...form, source, recaptcha_token });
+      // One id for one conversion, minted before the POST: Django sends its
+      // own copy of this event through the Conversions API, and Meta treats
+      // the two as the same conversion only if they carry the same id.
+      const eventID = newEventId();
+      await api.post('/leads/sample-request/', {
+        ...form,
+        source,
+        recaptcha_token,
+        event_id: eventID,
+      });
       setSuccess(true);
       // Before completeLead, deliberately: onSuccess is what writes the
       // sample_request_submitted flag that suppresses the exit-intent popup,
@@ -62,6 +72,7 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
         formName: 'sample_request',
         source,
         lang,
+        eventID,
         pii: {
           email: form.email,
           phone: form.phone,

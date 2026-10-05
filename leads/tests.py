@@ -215,3 +215,192 @@ class HeaderSafeTests(SimpleTestCase):
 
     def test_collapses_runs_of_whitespace(self):
         self.assertEqual(_header_safe('  a   b  '), 'a b')
+
+
+class _MetaResponse:
+    """Stands in for Meta's Graph API response to a Conversions API POST."""
+
+    def __init__(self, payload, request=None):
+        self.payload = payload
+        self.request = request
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return None
+
+    def read(self):
+        return json.dumps(self.payload).encode()
+
+
+@override_settings(
+    META_CAPI_ENABLED=True,
+    META_CAPI_ACCESS_TOKEN='test-token',
+    META_PIXEL_ID='1396559496012591',
+    META_CAPI_API_VERSION='v24.0',
+    META_CAPI_TIMEOUT=3,
+    META_CAPI_TEST_EVENT_CODE='',
+    RECAPTCHA_ENABLED=False,
+)
+class ConversionsApiTests(APITestCase):
+    """The server-side copy of a lead conversion.
+
+    What matters here is not that Meta is called, but that calling it can never
+    cost a lead, and that the two copies of one conversion stay recognisable as
+    one event.
+    """
+
+    url = reverse('lead-create')
+    payload = {
+        'first_name': 'Arben',
+        'last_name': 'Krasniqi',
+        'email': 'Arben@Byrektore-ABC.com',
+        'phone': '049 111 150',
+        'source': 'home_hero',
+        'event_id': 'evt-abc-123',
+    }
+
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+        self.sent = []
+
+    def _capture(self, request, timeout=None):
+        self.sent.append(json.loads(request.data.decode()))
+        return _MetaResponse({'events_received': 1})
+
+    def post(self, payload=None, **extra):
+        with patch('leads.capi.urlopen', side_effect=self._capture):
+            return self.client.post(self.url, payload or self.payload, format='json', **extra)
+
+    def test_sends_the_conversion_and_records_it(self):
+        response = self.post()
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(self.sent), 1)
+        self.assertTrue(Lead.objects.get().capi_sent)
+
+    def test_shares_the_event_id_with_the_pixel(self):
+        """Deduplication is the whole reason both copies may be sent."""
+        self.post()
+
+        event = self.sent[0]['data'][0]
+        self.assertEqual(event['event_id'], 'evt-abc-123')
+        self.assertEqual(event['event_name'], 'Lead')
+        self.assertEqual(event['action_source'], 'website')
+        self.assertEqual(Lead.objects.get().event_id, 'evt-abc-123')
+
+    def test_sends_no_plaintext_pii(self):
+        self.post()
+
+        body = json.dumps(self.sent[0])
+        self.assertNotIn('Arben@', body)
+        self.assertNotIn('Byrektore-ABC', body)
+        self.assertNotIn('049 111 150', body)
+        self.assertNotIn('Krasniqi', body)
+
+    def test_hashes_match_the_browsers_normalisation(self):
+        """Server and browser must derive one digest for one person."""
+        import hashlib
+
+        self.post()
+        user_data = self.sent[0]['data'][0]['user_data']
+        sha = lambda v: hashlib.sha256(v.encode()).hexdigest()
+
+        self.assertEqual(user_data['em'], [sha('arben@byrektore-abc.com')])
+        # 049… is a Kosovo mobile, so it gains the 383 country code.
+        self.assertEqual(user_data['ph'], [sha('38349111150')])
+        self.assertEqual(user_data['fn'], [sha('arben')])
+        self.assertEqual(user_data['ln'], [sha('krasniqi')])
+
+    def test_forwards_the_meta_cookies_for_matching(self):
+        self.client.cookies['_fbc'] = 'fb.1.1700000000.IwAR123'
+        self.client.cookies['_fbp'] = 'fb.1.1700000000.987654321'
+
+        self.post(**{'HTTP_USER_AGENT': 'Mozilla/5.0 Test', 'HTTP_REFERER': 'https://gertifoods.com/furnizim/byrektore'})
+
+        event = self.sent[0]['data'][0]
+        self.assertEqual(event['user_data']['fbc'], 'fb.1.1700000000.IwAR123')
+        self.assertEqual(event['user_data']['fbp'], 'fb.1.1700000000.987654321')
+        self.assertEqual(event['user_data']['client_user_agent'], 'Mozilla/5.0 Test')
+        self.assertEqual(event['event_source_url'], 'https://gertifoods.com/furnizim/byrektore')
+        # Stored too, because the offline "became a customer" event will need
+        # them long after this request is gone.
+        lead = Lead.objects.get()
+        self.assertEqual(lead.fbc, 'fb.1.1700000000.IwAR123')
+        self.assertEqual(lead.fbp, 'fb.1.1700000000.987654321')
+
+    def test_labels_the_form_the_way_the_pixel_does(self):
+        self.post()
+
+        custom = self.sent[0]['data'][0]['custom_data']
+        self.assertEqual(custom['content_name'], 'hero_lead')
+        self.assertEqual(custom['content_category'], 'home_hero')
+
+    def test_a_meta_outage_does_not_cost_the_lead(self):
+        """The single most important property in this module."""
+        from urllib.error import URLError
+
+        with patch('leads.capi.urlopen', side_effect=URLError('meta is down')):
+            response = self.client.post(self.url, self.payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        lead = Lead.objects.get()
+        self.assertEqual(lead.email, 'Arben@Byrektore-ABC.com')
+        self.assertFalse(lead.capi_sent)
+
+    def test_a_rejected_token_does_not_cost_the_lead(self):
+        from urllib.error import HTTPError
+
+        error = HTTPError('url', 401, 'Unauthorized', {}, None)
+        with patch('leads.capi.urlopen', side_effect=error):
+            response = self.client.post(self.url, self.payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertFalse(Lead.objects.get().capi_sent)
+
+    def test_without_an_event_id_nothing_is_sent(self):
+        """An unpaired copy could be counted a second time by Meta."""
+        payload = {k: v for k, v in self.payload.items() if k != 'event_id'}
+        self.client.cookies['_fbc'] = 'fb.1.1700000000.IwAR123'
+
+        response = self.post(payload)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.sent, [])
+        lead = Lead.objects.get()
+        self.assertFalse(lead.capi_sent)
+        # The attribution is still worth keeping: it is what will later say
+        # this customer came from an ad, whether or not the event went out.
+        self.assertEqual(lead.fbc, 'fb.1.1700000000.IwAR123')
+
+    @override_settings(META_CAPI_ENABLED=False)
+    def test_disabled_by_default_without_a_token(self):
+        response = self.post()
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.sent, [])
+
+    @override_settings(META_CAPI_TEST_EVENT_CODE='TEST12345')
+    def test_test_event_code_keeps_checks_out_of_the_real_dataset(self):
+        self.post()
+
+        self.assertEqual(self.sent[0]['test_event_code'], 'TEST12345')
+
+    def test_token_travels_in_the_header_not_the_url(self):
+        """A token in the query string lands in every proxy's access log."""
+        captured = {}
+
+        def capture(request, timeout=None):
+            captured['url'] = request.full_url
+            captured['auth'] = request.get_header('Authorization')
+            return _MetaResponse({'events_received': 1})
+
+        with patch('leads.capi.urlopen', side_effect=capture):
+            self.client.post(self.url, self.payload, format='json')
+
+        self.assertNotIn('test-token', captured['url'])
+        self.assertIn('1396559496012591', captured['url'])
+        self.assertIn('v24.0', captured['url'])
+        self.assertEqual(captured['auth'], 'Bearer test-token')

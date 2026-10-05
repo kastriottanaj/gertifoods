@@ -17,10 +17,18 @@ class LeadAdmin(admin.ModelAdmin):
     )
     # Filtering on sales_notified is the point: it answers "which leads did we
     # never actually hear about?" in one click.
-    list_filter = ('sales_notified', 'status', 'source', 'created_at')
+    list_filter = ('capi_sent', 'sales_notified', 'status', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('first_name', 'last_name', 'email', 'phone')
-    readonly_fields = ('sales_notified', 'created_at', 'updated_at')
+    readonly_fields = (
+        'sales_notified',
+        'capi_sent',
+        'event_id',
+        'fbc',
+        'fbp',
+        'created_at',
+        'updated_at',
+    )
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
 
@@ -33,6 +41,14 @@ class LeadAdmin(admin.ModelAdmin):
         }),
         ('Tracking', {
             'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
+        }),
+        # Ad attribution. Read-only: every value here is recorded by the
+        # server or minted by the browser, never typed. fbc being populated is
+        # what says this lead arrived from a Meta ad; capi_sent being false
+        # across many rows means the access token has stopped working.
+        ('Meta', {
+            'classes': ('collapse',),
+            'fields': ('capi_sent', 'event_id', 'fbc', 'fbp'),
         }),
     )
 
@@ -48,10 +64,18 @@ class SampleRequestAdmin(admin.ModelAdmin):
         'sales_notified',
         'created_at',
     )
-    list_filter = ('sales_notified', 'status', 'business_type', 'source', 'created_at')
+    list_filter = ('capi_sent', 'sales_notified', 'status', 'business_type', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('company_name', 'contact_name', 'email', 'phone', 'city')
-    readonly_fields = ('sales_notified', 'created_at', 'updated_at')
+    readonly_fields = (
+        'sales_notified',
+        'capi_sent',
+        'event_id',
+        'fbc',
+        'fbp',
+        'created_at',
+        'updated_at',
+    )
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
 
@@ -71,5 +95,13 @@ class SampleRequestAdmin(admin.ModelAdmin):
         }),
         ('Tracking', {
             'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
+        }),
+        # Ad attribution. Read-only: every value here is recorded by the
+        # server or minted by the browser, never typed. fbc being populated is
+        # what says this lead arrived from a Meta ad; capi_sent being false
+        # across many rows means the access token has stopped working.
+        ('Meta', {
+            'classes': ('collapse',),
+            'fields': ('capi_sent', 'event_id', 'fbc', 'fbp'),
         }),
     )

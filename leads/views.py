@@ -8,6 +8,7 @@ from .emails import (
     send_sample_confirmation,
     notify_sales_lead,
 )
+from .capi import build_user_data, send_lead_event
 from .geo import get_client_ip, email_lang_for_ip
 from .models import Lead, SampleRequest
 from .serializers import LeadSerializer, SampleRequestSerializer
@@ -55,6 +56,63 @@ class RecaptchaCreateMixin:
         return super().create(request, *args, **kwargs)
 
 
+def _report_conversion(request, record, *, form_name, source, email, phone, **names):
+    """Send the server-side copy of this conversion to Meta.
+
+    Best-effort, like the notification emails: the lead is already saved, and
+    no analytics failure is worth turning a captured lead into a 500. capi.py
+    swallows its own errors; the result is recorded so a broken access token is
+    visible in the admin rather than only in the log.
+
+    `source` is passed in rather than read from the record because the two do
+    not always agree: the catalog form is stored with source='catalog_request'
+    but reports itself to the pixel as 'catalog_modal'. Both copies of one
+    conversion must describe themselves identically, or Events Manager shows
+    the same form under two names depending on which copy arrived first.
+
+    fbc/fbp come from the request cookies rather than the posted payload. The
+    pixel sets them as first-party cookies on this domain, so they arrive with
+    the form POST for free — and reading them here means they cannot be forged
+    by whatever posted the form.
+    """
+    fbc = request.COOKIES.get('_fbc', '')
+    fbp = request.COOKIES.get('_fbp', '')
+
+    # Recorded whatever happens to the send. fbc in particular is the only
+    # durable record that this lead came from a Meta ad, and it is needed long
+    # after this request to report back whether the lead became a customer.
+    record.fbc = fbc
+    record.fbp = fbp
+
+    if not record.event_id:
+        # No id means the browser never minted one — an old cached bundle, or a
+        # client that is not our form. Sending anyway would risk Meta counting
+        # this conversion twice, once per path, with nothing tying them
+        # together, so keep the attribution and skip the send.
+        record.save(update_fields=['fbc', 'fbp'])
+        return
+
+    user_data = build_user_data(
+        email=email,
+        phone=phone,
+        client_ip=get_client_ip(request),
+        user_agent=request.META.get('HTTP_USER_AGENT', ''),
+        fbc=fbc,
+        fbp=fbp,
+        **names,
+    )
+    record.capi_sent = send_lead_event(
+        form_name=form_name,
+        source=source,
+        event_id=record.event_id,
+        user_data=user_data,
+        # The page the form was submitted from. Meta uses it for attribution,
+        # and the Referer is the only server-side witness to it.
+        event_source_url=request.META.get('HTTP_REFERER', ''),
+    )
+    record.save(update_fields=['fbc', 'fbp', 'capi_sent'])
+
+
 class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
@@ -71,6 +129,18 @@ class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateA
         # admin rather than only in the log.
         lead.sales_notified = notify_sales_lead(lead)
         lead.save(update_fields=['sales_notified'])
+        # 'hero_lead' matches the formName the pixel sends for this form, so
+        # both copies of the conversion describe themselves identically.
+        _report_conversion(
+            self.request,
+            lead,
+            form_name='hero_lead',
+            source=lead.source,
+            email=lead.email,
+            phone=lead.phone,
+            first_name=lead.first_name,
+            last_name=lead.last_name,
+        )
 
 
 class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
@@ -94,3 +164,20 @@ class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generic
             notified = send_sample_confirmation(sample_request, lang=lang)
         sample_request.sales_notified = bool(notified)
         sample_request.save(update_fields=['sales_notified'])
+        _report_conversion(
+            self.request,
+            sample_request,
+            form_name=(
+                'catalog_request'
+                if sample_request.source == 'catalog_request'
+                else 'sample_request'
+            ),
+            source=(
+                'catalog_modal'
+                if sample_request.source == 'catalog_request'
+                else sample_request.source
+            ),
+            email=sample_request.email,
+            phone=sample_request.phone,
+            full_name=sample_request.contact_name,
+        )

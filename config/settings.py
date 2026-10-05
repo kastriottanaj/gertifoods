@@ -225,6 +225,34 @@ RECAPTCHA_ALLOWED_HOSTNAMES = config(
     'RECAPTCHA_ALLOWED_HOSTNAMES', default='', cast=Csv()
 )
 
+# Meta Conversions API — the server-side copy of every lead conversion.
+#
+# Disabled until an access token is configured, so local development and the
+# test suite never make an outbound request to Meta, and a missing token
+# degrades to pixel-only tracking rather than erroring on every submission.
+#
+# Generate the token in Events Manager -> the dataset -> Settings ->
+# Conversions API -> Generate access token, and set it in the server .env only.
+# It is a bearer credential for the ad account: anyone holding it can write
+# conversions into the dataset.
+META_PIXEL_ID = config('META_PIXEL_ID', default='1396559496012591')
+META_CAPI_ACCESS_TOKEN = config('META_CAPI_ACCESS_TOKEN', default='')
+META_CAPI_ENABLED = config(
+    'META_CAPI_ENABLED', default=bool(META_CAPI_ACCESS_TOKEN), cast=bool
+)
+# Pinned rather than floating. v24.0 is supported until February 2028; an
+# unpinned call is silently served by the oldest version still available, which
+# is the one about to be withdrawn. v26.0 is current as of this writing — bump
+# this setting, no code change needed.
+META_CAPI_API_VERSION = config('META_CAPI_API_VERSION', default='v24.0')
+# Short on purpose: the send happens inside the form submission, so this is
+# latency the visitor waits through. A lead that is already saved is worth more
+# than a conversion event, and the browser pixel is still carrying its own copy.
+META_CAPI_TIMEOUT = config('META_CAPI_TIMEOUT', default=3, cast=int)
+# Set to a code from Events Manager -> Test Events to route events to that tab
+# instead of counting them. Must be empty in production.
+META_CAPI_TEST_EVENT_CODE = config('META_CAPI_TEST_EVENT_CODE', default='')
+
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))
 
