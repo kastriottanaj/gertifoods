@@ -3,7 +3,8 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { completeLead } from '../lib/conversion';
-import { newEventId } from '../lib/events';
+import { newEventId, hasMarketingConsent } from '../lib/events';
+import { getAttribution } from '../lib/attribution';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
@@ -39,6 +40,11 @@ export default function HeroLeadForm({ source = 'home_hero' }) {
         source,
         recaptcha_token,
         event_id: eventID,
+        // Where this visitor came from, and whether they agreed to be told
+        // about. The attribution is recorded either way — it is our own note
+        // about our own enquiry — but it only reaches Meta with consent.
+        ...getAttribution(),
+        marketing_consent: hasMarketingConsent(),
       });
       // Kept even though the redirect follows: completeLead hashes the match
       // data before it navigates, so the form is briefly still on screen and

@@ -14,7 +14,43 @@ from rest_framework import serializers
 from .models import Lead, SampleRequest
 
 
-class LeadSerializer(serializers.ModelSerializer):
+# The attribution columns, and the width of each in leads/models.py.
+ATTRIBUTION_FIELDS = (
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_content',
+    'utm_term',
+    'fbclid',
+    'gclid',
+    'landing_page',
+    'referrer',
+)
+MAX_ATTRIBUTION_LENGTH = 255
+
+
+class TruncatesAttributionMixin:
+    """Clips over-long attribution values instead of rejecting the submission.
+
+    A referrer URL has no practical length limit, and ad platforms append
+    click ids of their own choosing. Validating these against the column width
+    means a 300-character referrer answers 400 and the visitor is told their
+    enquiry failed — losing a real lead over a field nobody will ever read in
+    full. The frontend already clips to the same length; this is the guard for
+    anything that does not, and a truncated referrer is still perfectly usable.
+    """
+
+    def to_internal_value(self, data):
+        if hasattr(data, 'get'):
+            data = data.copy()
+            for name in ATTRIBUTION_FIELDS:
+                value = data.get(name)
+                if isinstance(value, str) and len(value) > MAX_ATTRIBUTION_LENGTH:
+                    data[name] = value[:MAX_ATTRIBUTION_LENGTH]
+        return super().to_internal_value(data)
+
+
+class LeadSerializer(TruncatesAttributionMixin, serializers.ModelSerializer):
     recaptcha_token = serializers.CharField(write_only=True, required=False)
 
     class Meta:
@@ -28,6 +64,16 @@ class LeadSerializer(serializers.ModelSerializer):
             'message',
             'source',
             'event_id',
+            'utm_source',
+            'utm_medium',
+            'utm_campaign',
+            'utm_content',
+            'utm_term',
+            'fbclid',
+            'gclid',
+            'landing_page',
+            'referrer',
+            'marketing_consent',
             'recaptcha_token',
         ]
         read_only_fields = ['id']
@@ -37,7 +83,7 @@ class LeadSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-class SampleRequestSerializer(serializers.ModelSerializer):
+class SampleRequestSerializer(TruncatesAttributionMixin, serializers.ModelSerializer):
     recaptcha_token = serializers.CharField(write_only=True, required=False)
 
     class Meta:
@@ -54,6 +100,16 @@ class SampleRequestSerializer(serializers.ModelSerializer):
             'message',
             'source',
             'event_id',
+            'utm_source',
+            'utm_medium',
+            'utm_campaign',
+            'utm_content',
+            'utm_term',
+            'fbclid',
+            'gclid',
+            'landing_page',
+            'referrer',
+            'marketing_consent',
             'recaptcha_token',
         ]
         read_only_fields = ['id']

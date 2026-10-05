@@ -250,6 +250,26 @@ export async function advancedMatching(pii) {
 }
 
 /**
+ * Whether the visitor accepted the cookie banner.
+ *
+ * Read by the lead forms and sent to Django with the submission. The server
+ * cannot work it out for itself — the choice is kept in localStorage, which
+ * never reaches it — and it needs to know, because the Conversions API send is
+ * a transmission of personal data to Meta for advertising and is therefore
+ * exactly what the banner asks about. Without this, declining the banner would
+ * stop the pixel and change nothing about the server.
+ *
+ * Defaults to false: an unanswered banner is not consent.
+ */
+export function hasMarketingConsent() {
+  try {
+    return localStorage.getItem('gf_cookie_consent') === 'granted';
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Attaches advanced-matching data to the pixel for events fired from here on.
  *
  * Meta only treats user data as manual advanced matching when it arrives in

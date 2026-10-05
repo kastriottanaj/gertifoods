@@ -3,7 +3,8 @@ import api from '../services/api';
 import Honeypot from './Honeypot';
 import { useLanguage } from '../i18n/LanguageContext';
 import { trackLeadInPlace } from '../lib/conversion';
-import { newEventId } from '../lib/events';
+import { newEventId, hasMarketingConsent } from '../lib/events';
+import { getAttribution } from '../lib/attribution';
 import { getRecaptchaToken } from '../lib/recaptcha';
 
 const INITIAL_FORM = {
@@ -36,6 +37,8 @@ export default function CatalogRequestForm({ onSuccess }) {
         source: 'catalog_request',
         recaptcha_token,
         event_id: eventID,
+        ...getAttribution(),
+        marketing_consent: hasMarketingConsent(),
       });
       setSuccess(true);
       if (onSuccess) onSuccess();

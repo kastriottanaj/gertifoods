@@ -53,6 +53,41 @@ class Lead(models.Model):
         default=False,
         help_text='Whether the sales notification email was delivered to the SMTP server.',
     )
+    # --- Where this lead came from -------------------------------------
+    #
+    # Recorded by frontend/src/lib/attribution.js on arrival and posted with
+    # the form. Without these, Meta can report what a lead costs but nothing
+    # can report which campaign produced the leads that became customers —
+    # the campaign lives in Meta and `status` lives here, and only these
+    # columns join them.
+    #
+    # Dedicated columns rather than one JSON blob so the admin can filter and
+    # group by campaign, which is the entire reason they exist.
+    utm_source = models.CharField(max_length=255, blank=True)
+    utm_medium = models.CharField(max_length=255, blank=True)
+    utm_campaign = models.CharField(max_length=255, blank=True)
+    utm_content = models.CharField(max_length=255, blank=True)
+    utm_term = models.CharField(max_length=255, blank=True)
+    fbclid = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Meta click id from the ad URL. Also used to rebuild `fbc` when the pixel was blocked.",
+    )
+    gclid = models.CharField(max_length=255, blank=True, help_text='Google Ads click id.')
+    landing_page = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='First page of the visit that produced this lead.',
+    )
+    referrer = models.CharField(max_length=255, blank=True, help_text='External page they arrived from.')
+    # Consent as it stood when the form was submitted. Recorded for two
+    # reasons: it decides whether this lead may be sent to Meta at all, and
+    # GDPR expects an advertiser to be able to show which consent a given
+    # transmission rested on.
+    marketing_consent = models.BooleanField(
+        default=False,
+        help_text='Whether the visitor had accepted marketing cookies when they submitted.',
+    )
     # --- Meta ad attribution -------------------------------------------
     #
     # event_id is minted in the browser before the form is posted and used by
@@ -172,6 +207,41 @@ class SampleRequest(models.Model):
     sales_notified = models.BooleanField(
         default=False,
         help_text='Whether the sales notification email was delivered to the SMTP server.',
+    )
+    # --- Where this lead came from -------------------------------------
+    #
+    # Recorded by frontend/src/lib/attribution.js on arrival and posted with
+    # the form. Without these, Meta can report what a lead costs but nothing
+    # can report which campaign produced the leads that became customers —
+    # the campaign lives in Meta and `status` lives here, and only these
+    # columns join them.
+    #
+    # Dedicated columns rather than one JSON blob so the admin can filter and
+    # group by campaign, which is the entire reason they exist.
+    utm_source = models.CharField(max_length=255, blank=True)
+    utm_medium = models.CharField(max_length=255, blank=True)
+    utm_campaign = models.CharField(max_length=255, blank=True)
+    utm_content = models.CharField(max_length=255, blank=True)
+    utm_term = models.CharField(max_length=255, blank=True)
+    fbclid = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Meta click id from the ad URL. Also used to rebuild `fbc` when the pixel was blocked.",
+    )
+    gclid = models.CharField(max_length=255, blank=True, help_text='Google Ads click id.')
+    landing_page = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='First page of the visit that produced this lead.',
+    )
+    referrer = models.CharField(max_length=255, blank=True, help_text='External page they arrived from.')
+    # Consent as it stood when the form was submitted. Recorded for two
+    # reasons: it decides whether this lead may be sent to Meta at all, and
+    # GDPR expects an advertiser to be able to show which consent a given
+    # transmission rested on.
+    marketing_consent = models.BooleanField(
+        default=False,
+        help_text='Whether the visitor had accepted marketing cookies when they submitted.',
     )
     # --- Meta ad attribution -------------------------------------------
     #

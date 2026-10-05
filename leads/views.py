@@ -1,3 +1,5 @@
+import time
+
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException, ValidationError
@@ -78,11 +80,31 @@ def _report_conversion(request, record, *, form_name, source, email, phone, **na
     fbc = request.COOKIES.get('_fbc', '')
     fbp = request.COOKIES.get('_fbp', '')
 
+    # Rebuild Meta's click parameter from the ad URL when the cookie is absent.
+    #
+    # The pixel normally writes _fbc on arrival, but it is not loaded until the
+    # cookie banner is accepted, and an ad blocker may stop it entirely — so
+    # the visitor most worth matching, the one who just clicked an ad, is
+    # exactly the one whose cookie may be missing. fbclid survives in the URL
+    # either way, and `fb.1.<ms>.<fbclid>` is the format Meta documents for
+    # constructing it.
+    if not fbc and record.fbclid:
+        fbc = 'fb.1.%d.%s' % (int(time.time() * 1000), record.fbclid)
+
     # Recorded whatever happens to the send. fbc in particular is the only
     # durable record that this lead came from a Meta ad, and it is needed long
     # after this request to report back whether the lead became a customer.
     record.fbc = fbc
     record.fbp = fbp
+
+    # Consent. The browser pixel is not even loaded until the banner is
+    # accepted; sending the same conversion from the server regardless would
+    # defeat that entirely — same personal data, same recipient, different
+    # door. The attribution above is still recorded, because that is our own
+    # note about our own enquiry and goes nowhere.
+    if not record.marketing_consent:
+        record.save(update_fields=['fbc', 'fbp'])
+        return
 
     if not record.event_id:
         # No id means the browser never minted one — an old cached bundle, or a

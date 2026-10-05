@@ -475,6 +475,13 @@ const exitMessages = islandMessages(lang, 'exit');
       // off to the dialer. This document stays loaded either way, so the hit
       // has time to leave.
       import { track } from '../../src/lib/events.js';
+      import { captureAttribution } from '../../src/lib/attribution.js';
+
+      // Records the campaign markers on this arrival, before the visitor
+      // clicks away and the query string is lost. Runs on every page because
+      // any page can be an ad's landing page — the seven /furnizim pages exist
+      // precisely to be one.
+      captureAttribution();
 
       const CONTACT_CHANNELS: Array<[string, string]> = [
         ['a[href^="https://wa.me/"], a[href*="api.whatsapp.com"]', 'whatsapp'],

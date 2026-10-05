@@ -259,6 +259,7 @@ class ConversionsApiTests(APITestCase):
         'phone': '049 111 150',
         'source': 'home_hero',
         'event_id': 'evt-abc-123',
+        'marketing_consent': True,
     }
 
     def setUp(self):
@@ -404,3 +405,140 @@ class ConversionsApiTests(APITestCase):
         self.assertIn('1396559496012591', captured['url'])
         self.assertIn('v24.0', captured['url'])
         self.assertEqual(captured['auth'], 'Bearer test-token')
+
+
+@override_settings(
+    META_CAPI_ENABLED=True,
+    META_CAPI_ACCESS_TOKEN='test-token',
+    META_PIXEL_ID='1396559496012591',
+    META_CAPI_TEST_EVENT_CODE='',
+    RECAPTCHA_ENABLED=False,
+)
+class AttributionTests(APITestCase):
+    """Which campaign paid for a lead, and whether Meta may be told about it.
+
+    The attribution columns exist to join two systems that could not see each
+    other: the campaign, which lives in Meta, and 'this company now buys from
+    us', which is a status field in the admin.
+    """
+
+    url = reverse('lead-create')
+    base = {
+        'first_name': 'Arben',
+        'last_name': 'Krasniqi',
+        'email': 'arben@byrektore.example',
+        'phone': '049111150',
+        'source': 'home_hero',
+        'event_id': 'evt-1',
+    }
+
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+        self.sent = []
+
+    def _capture(self, request, timeout=None):
+        self.sent.append(json.loads(request.data.decode()))
+        return _MetaResponse({'events_received': 1})
+
+    def post(self, **extra_payload):
+        payload = {**self.base, **extra_payload}
+        with patch('leads.capi.urlopen', side_effect=self._capture):
+            return self.client.post(self.url, payload, format='json')
+
+    def test_records_the_campaign_that_produced_the_lead(self):
+        self.post(
+            marketing_consent=True,
+            utm_source='facebook', utm_medium='paid_social',
+            utm_campaign='byrektore-oct', utm_content='video-a',
+            landing_page='/furnizim/byrektore', referrer='https://l.facebook.com/',
+        )
+
+        lead = Lead.objects.get()
+        self.assertEqual(lead.utm_campaign, 'byrektore-oct')
+        self.assertEqual(lead.utm_source, 'facebook')
+        self.assertEqual(lead.utm_content, 'video-a')
+        self.assertEqual(lead.landing_page, '/furnizim/byrektore')
+        self.assertEqual(lead.referrer, 'https://l.facebook.com/')
+
+    def test_campaign_survives_to_the_converted_customer(self):
+        """The whole point: cost per customer, not cost per lead."""
+        self.post(marketing_consent=True, utm_campaign='byrektore-oct')
+
+        lead = Lead.objects.get()
+        lead.status = 'converted'
+        lead.save()
+
+        converted = Lead.objects.filter(status='converted', utm_campaign='byrektore-oct')
+        self.assertEqual(converted.count(), 1)
+
+    # --- consent --------------------------------------------------------
+    def test_without_consent_nothing_is_sent_to_meta(self):
+        """The pixel is not even loaded without consent; the server must match."""
+        self.post(marketing_consent=False, utm_campaign='byrektore-oct')
+
+        self.assertEqual(self.sent, [])
+        lead = Lead.objects.get()
+        self.assertFalse(lead.capi_sent)
+        self.assertFalse(lead.marketing_consent)
+
+    def test_consent_is_not_assumed_when_the_field_is_absent(self):
+        """An old cached bundle posts no consent field. That is not a yes."""
+        self.post()
+
+        self.assertEqual(self.sent, [])
+        self.assertFalse(Lead.objects.get().marketing_consent)
+
+    def test_the_lead_is_still_captured_without_consent(self):
+        """Declining marketing cookies is not declining to be a customer."""
+        self.post(marketing_consent=False, utm_campaign='byrektore-oct')
+
+        lead = Lead.objects.get()
+        self.assertEqual(lead.email, 'arben@byrektore.example')
+        self.assertEqual(lead.utm_campaign, 'byrektore-oct')
+        self.assertEqual(len(mail.outbox), 1)  # sales still hears about it
+
+    def test_with_consent_the_conversion_goes_out(self):
+        self.post(marketing_consent=True, utm_campaign='byrektore-oct')
+
+        self.assertEqual(len(self.sent), 1)
+        self.assertTrue(Lead.objects.get().capi_sent)
+
+    # --- fbc reconstruction ---------------------------------------------
+    def test_rebuilds_fbc_from_fbclid_when_the_cookie_is_missing(self):
+        """The ad clicker is exactly who the blocked pixel loses."""
+        self.post(marketing_consent=True, fbclid='IwAR0abcdef')
+
+        fbc = self.sent[0]['data'][0]['user_data']['fbc']
+        self.assertTrue(fbc.startswith('fb.1.'), fbc)
+        self.assertTrue(fbc.endswith('.IwAR0abcdef'), fbc)
+        self.assertEqual(Lead.objects.get().fbclid, 'IwAR0abcdef')
+
+    def test_the_real_cookie_wins_over_the_reconstruction(self):
+        self.client.cookies['_fbc'] = 'fb.1.1700000000.REALCOOKIE'
+
+        self.post(marketing_consent=True, fbclid='IwAR0abcdef')
+
+        self.assertEqual(self.sent[0]['data'][0]['user_data']['fbc'], 'fb.1.1700000000.REALCOOKIE')
+
+    def test_no_fbclid_and_no_cookie_means_no_fbc(self):
+        self.post(marketing_consent=True)
+
+        self.assertNotIn('fbc', self.sent[0]['data'][0]['user_data'])
+
+    def test_overlong_values_are_truncated_not_rejected(self):
+        """A referrer has no length limit; losing a real lead over one is absurd."""
+        response = self.post(marketing_consent=True, referrer='https://x.example/' + 'a' * 400)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        lead = Lead.objects.get()
+        self.assertEqual(len(lead.referrer), 255)
+        self.assertTrue(lead.referrer.startswith('https://x.example/'))
+        # And the lead itself is intact, which is the part that matters.
+        self.assertEqual(lead.email, 'arben@byrektore.example')
+
+    def test_overlong_campaign_also_truncates(self):
+        response = self.post(marketing_consent=True, utm_campaign='c' * 400)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(Lead.objects.get().utm_campaign), 255)
