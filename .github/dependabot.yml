@@ -8,6 +8,13 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # Django 5.2 is the LTS line (security fixes until April 2028); 6.0 and 6.1
+    # are short-lived feature releases. Without this, every weekly group PR
+    # bundles a Django major upgrade with the routine updates. Lift it when
+    # moving to 6.2 LTS (April 2027). 5.2.x patch releases still come through.
+    ignore:
+      - dependency-name: "Django"
+        update-types: ["version-update:semver-major"]
     groups:
       python-packages:
         patterns:
