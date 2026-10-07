@@ -38,7 +38,7 @@ psycopg2-binary==2.9.13
 # bypass in jwt.decode() and a RecursionError on crafted token headers. 2.15.0
 # is the first release clear of all of them (2.14.0 still has two). Not
 # upgraded yet: it needs its own test pass against simplejwt.
-PyJWT==2.13.0
+PyJWT==2.15.1
 python-decouple==3.8
 # 0.5.5 carried three HIGH denial-of-service advisories (quadratic
 # group_comments, ReDoS on dollar-quoted literals, O(subtree) TokenList init).
