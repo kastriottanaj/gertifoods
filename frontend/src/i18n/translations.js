@@ -398,6 +398,9 @@ const translations = {
     cart_placing: 'Duke bërë porosinë...',
     cart_remove: 'Hiq',
     cart_not_approved: 'Llogaria juaj duhet të aprovohet para se të bëni porosi. Ju lutemi na kontaktoni.',
+    cart_item_unavailable_one: 'Produkti “{products}” nuk është më në dispozicion. Ju lutemi hiqeni nga shporta dhe provoni përsëri.',
+    cart_item_unavailable_many: 'Këto produkte nuk janë më në dispozicion: {products}. Ju lutemi hiqini nga shporta dhe provoni përsëri.',
+    cart_order_failed: 'Porosia nuk u dërgua. Ju lutemi provoni përsëri ose na kontaktoni.',
 
     // Orders
     orders_title: 'Porositë e Mia',
@@ -1500,6 +1503,9 @@ const translations = {
     cart_placing: 'Placing Order...',
     cart_remove: 'Remove',
     cart_not_approved: 'Your account must be approved before placing orders. Please contact us.',
+    cart_item_unavailable_one: 'The product “{products}” is no longer available. Please remove it from your cart and try again.',
+    cart_item_unavailable_many: 'These products are no longer available: {products}. Please remove them from your cart and try again.',
+    cart_order_failed: 'Your order could not be placed. Please try again or contact us.',
 
     // Orders
     orders_title: 'My Orders',
@@ -2603,6 +2609,9 @@ const translations = {
     cart_placing: 'Bestellung wird aufgegeben...',
     cart_remove: 'Entfernen',
     cart_not_approved: 'Ihr Konto muss genehmigt werden, bevor Sie Bestellungen aufgeben können. Bitte kontaktieren Sie uns.',
+    cart_item_unavailable_one: 'Das Produkt „{products}“ ist nicht mehr verfügbar. Bitte entfernen Sie es aus dem Warenkorb und versuchen Sie es erneut.',
+    cart_item_unavailable_many: 'Diese Produkte sind nicht mehr verfügbar: {products}. Bitte entfernen Sie sie aus dem Warenkorb und versuchen Sie es erneut.',
+    cart_order_failed: 'Ihre Bestellung konnte nicht aufgegeben werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.',
 
     // Orders
     orders_title: 'Meine Bestellungen',

@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import SEO from '../components/SEO';
 import api from '../services/api';
+import { orderErrorMessage } from '../lib/orderErrors';
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, clearCart, total } = useCart();
@@ -34,18 +35,7 @@ export default function Cart() {
       clearCart();
       navigate('/orders');
     } catch (err) {
-      // `detail` only carries permission errors. Everything else — a quantity
-      // below the product's minimum, a line whose product went unavailable —
-      // comes back as field errors, and reporting those as "your account is
-      // not approved" sent people to sales asking about approval when the real
-      // problem was the order. Show what the server actually objected to, and
-      // keep the approval message for when that is genuinely the answer.
-      const data = err.response?.data;
-      const fieldErrors =
-        data && typeof data === 'object' && !data.detail
-          ? Object.values(data).flat().filter((m) => typeof m === 'string')
-          : [];
-      setError(data?.detail || fieldErrors.join(' ') || t('cart_not_approved'));
+      setError(orderErrorMessage(err.response, items, t));
     } finally {
       setSubmitting(false);
     }
