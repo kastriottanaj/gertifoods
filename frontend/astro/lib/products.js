@@ -65,9 +65,12 @@ export async function getProducts() {
       next = Array.isArray(data) ? null : data.next;
     }
   } catch (err) {
+    // Node's fetch reports every network failure as a bare "fetch failed" and
+    // keeps the reason (ECONNREFUSED, DNS, TLS) only on err.cause.
+    const reason = err.cause?.message ?? err.message;
     if (ALLOW_EMPTY) {
       console.warn(
-        `\n[products] Could not reach ${API_URL} (${err.message}).\n` +
+        `\n[products] Could not reach ${API_URL} (${reason}).\n` +
           `[products] ALLOW_EMPTY_CATALOG=1 is set, so building with an empty catalogue.\n` +
           `[products] /products will render no items and no product pages will exist.\n`
       );
@@ -75,11 +78,12 @@ export async function getProducts() {
       return cache;
     }
     throw new Error(
-      `Could not load the product catalogue from ${API_URL} (${err.message}).\n\n` +
+      `Could not load the product catalogue from ${API_URL} (${reason}).\n\n` +
         `The build needs Django running so product pages can be generated:\n` +
         `  ./venv/bin/python manage.py runserver 127.0.0.1:8000\n\n` +
         `Point the build elsewhere with BUILD_API_URL, or set ALLOW_EMPTY_CATALOG=1\n` +
-        `to build without a catalogue (no product pages will be generated).`
+        `to build without a catalogue (no product pages will be generated).`,
+      { cause: err }
     );
   }
 
