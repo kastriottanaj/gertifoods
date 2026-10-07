@@ -1,6 +1,5 @@
 # Pinned exactly so a deploy installs what was tested. Audited against OSV
-# (https://osv.dev) on 2026-10-07; every pin below was clean at that date
-# except PyJWT, whose advisories were published on 2026-09-30 (see its note).
+# (https://osv.dev) on 2026-10-07; every pin below was clean at that date.
 #
 # Re-check with:
 #   python3 -c "import json,urllib.request as u; [print(n, [v['id'] for v in json.load(u.urlopen(u.Request('https://api.osv.dev/v1/query', json.dumps({'package':{'name':n,'ecosystem':'PyPI'},'version':x}).encode(), {'Content-Type':'application/json'}))).get('vulns',[])]) for n,x in (l.strip().split('==') for l in open('requirements.txt') if '==' in l)]"
@@ -34,10 +33,11 @@ gunicorn==26.2.0
 # called on every catalogue response (ProductSerializer reads width/height).
 pillow==12.3.0
 psycopg2-binary==2.9.13
-# 2.13.0 has advisories published 2026-09-30, among them a claim-verification
-# bypass in jwt.decode() and a RecursionError on crafted token headers. 2.15.0
-# is the first release clear of all of them (2.14.0 still has two). Not
-# upgraded yet: it needs its own test pass against simplejwt.
+# 2.13.0 carried 14 advisories published 2026-09-30, among them a
+# claim-verification bypass in jwt.decode() and a RecursionError on crafted
+# token headers; 2.15.0 is the first release clear of all of them (2.14.0
+# still had two). Tokens issued by either version verify under the other, so
+# the upgrade, or a rollback, leaves existing logins valid.
 PyJWT==2.15.1
 python-decouple==3.8
 # 0.5.5 carried three HIGH denial-of-service advisories (quadratic
