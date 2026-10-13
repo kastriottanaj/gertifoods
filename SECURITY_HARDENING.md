@@ -136,6 +136,15 @@ cd /var/www/gertifoods && sudo -u gertifoods ./venv/bin/python manage.py shell -
 
 SPF/DKIM (see Operational reminders) are still outstanding too.
 
+**Resolved the same day.** The account had no app password at all, so the
+value in `.env` had never been a valid one. A new app password went into the
+server `.env` (previous file kept at `/root/env.bak-2026-10-13-130455`), the
+check above passed in 0.33s, and a Gunicorn HUP loaded it. A labelled test
+email to the sales inbox and a digest of the three real backlogged requests
+(sample requests #5–#7, 7–23 September, with their original dates) were both
+accepted by Gmail; those three are now `sales_notified = true`. Leads #1–#4
+were the owner's own test submissions and were deliberately not sent.
+
 ### Verification (live, 2026-10-13)
 Fast-forward deploy of `c675a75`, no migrations, `check --deploy` clean,
 graceful HUP: three new workers booted, zero errors and zero 5xx since. Pages,
