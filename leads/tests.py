@@ -1,6 +1,8 @@
 import json
 import socket
 import time
+from datetime import timedelta
+from smtplib import SMTPRecipientsRefused
 from unittest.mock import patch
 
 from django.conf import settings
@@ -8,13 +10,14 @@ from django.core import mail
 from django.core.cache import cache
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.throttling import SimpleRateThrottle
 
-from .emails import _header_safe
+from .emails import CUSTOMER_EMAIL_STATUS, _header_safe
 from .geo import get_client_ip
-from .models import Lead
+from .models import Lead, SampleRequest
 from .recaptcha import RecaptchaUnavailable, verify_recaptcha
 
 
@@ -205,6 +208,127 @@ class SalesNotificationTests(APITestCase):
         self.assertNotIn('\n', subject)
         self.assertNotIn('\r', subject)
         self.assertEqual(mail.outbox[0].to, [settings.SALES_EMAIL])
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    META_CAPI_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+)
+class CustomerEmailTests(APITestCase):
+    """
+    The catalog and thank-you emails go to whatever address the form is given.
+
+    These pin what keeps that useful to nobody but the prospect: nothing the
+    visitor typed reaches the recipient, one address gets one email of a kind
+    a day, the whole site sends at most CUSTOMER_EMAIL_DAILY_LIMIT — and sales
+    hears whenever one was held back or failed, so a real prospect is never
+    silently left without their catalog.
+    """
+
+    url = reverse('sample-request')
+    recipient = 'someone@elsewhere.example'
+
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+
+    def _request(self, source='catalog_request', **fields):
+        payload = {
+            'company_name': 'Furra Test',
+            'contact_name': 'Ardit Hoxha',
+            'email': self.recipient,
+            'source': source,
+            **fields,
+        }
+        response = self.client.post(self.url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def _to(self, address):
+        return [message for message in mail.outbox if message.to == [address]]
+
+    def _status_line(self, key):
+        return f'Email-i për klientin: {CUSTOMER_EMAIL_STATUS[key]}\n'
+
+    def test_the_recipient_sees_nothing_the_visitor_typed(self):
+        spam = 'Claim your prize at http://spam.example'
+        for source in ('catalog_request', 'exit_popup'):
+            with self.subTest(source=source):
+                address = f'{source}@elsewhere.example'
+                self._request(source, email=address, contact_name=spam, company_name=spam)
+
+                [email] = self._to(address)
+                self.assertNotIn('spam.example', email.subject + email.body)
+
+    def test_the_catalog_still_arrives_attached(self):
+        self._request()
+
+        [email] = self._to(self.recipient)
+        self.assertEqual(len(email.attachments), 1)
+        self.assertIn(self._status_line('sent'), self._to(settings.SALES_EMAIL)[0].body)
+
+    def test_one_address_gets_one_catalog_a_day(self):
+        self._request()
+        with self.assertLogs('leads.emails', 'WARNING'):
+            self._request(email=self.recipient.upper())
+
+        self.assertEqual(len(self._to(self.recipient)), 1)
+        self.assertEqual(self._to(self.recipient.upper()), [])
+        # Sales still hears about both requests, and why the second sent nothing.
+        notifications = self._to(settings.SALES_EMAIL)
+        self.assertEqual(len(notifications), 2)
+        self.assertIn(self._status_line('repeat'), notifications[1].body)
+
+    def test_samples_then_the_catalog_is_not_a_repeat(self):
+        self._request(source='exit_popup')
+        self._request(source='catalog_request')
+
+        self.assertEqual(len(self._to(self.recipient)), 2)
+
+    def test_a_day_later_the_same_address_is_served_again(self):
+        self._request()
+        SampleRequest.objects.update(created_at=timezone.now() - timedelta(hours=25))
+
+        self._request()
+
+        self.assertEqual(len(self._to(self.recipient)), 2)
+
+    @override_settings(CUSTOMER_EMAIL_DAILY_LIMIT=2)
+    def test_past_the_daily_limit_sales_is_told_to_follow_up(self):
+        for n in range(2):
+            self._request(email=f'prospect{n}@bakery.example')
+
+        with self.assertLogs('leads.emails', 'WARNING'):
+            self._request()
+
+        self.assertEqual(len(self._to('prospect0@bakery.example')), 1)
+        self.assertEqual(len(self._to('prospect1@bakery.example')), 1)
+        self.assertEqual(self._to(self.recipient), [])
+        # Held back, not lost: the request is saved and sales knows to act.
+        self.assertEqual(SampleRequest.objects.count(), 3)
+        self.assertIn(self._status_line('daily_limit'), self._to(settings.SALES_EMAIL)[-1].body)
+
+    @override_settings(CATALOG_PATH='/nonexistent/catalog.pdf')
+    def test_a_missing_catalog_is_reported_to_sales(self):
+        with self.assertLogs('leads.emails', 'ERROR'):
+            self._request()
+
+        self.assertEqual(self._to(self.recipient), [])
+        self.assertIn(self._status_line('no_catalog'), self._to(settings.SALES_EMAIL)[0].body)
+
+    def test_a_bounced_address_is_reported_to_sales(self):
+        deliver = mail.EmailMessage.send
+
+        def refuse_the_prospect(message, *args, **kwargs):
+            if message.to == [self.recipient]:
+                raise SMTPRecipientsRefused({self.recipient: (550, b'No such user')})
+            return deliver(message, *args, **kwargs)
+
+        with patch.object(mail.EmailMessage, 'send', autospec=True, side_effect=refuse_the_prospect), \
+                self.assertLogs('leads.emails', 'ERROR'):
+            self._request()
+
+        self.assertIn(self._status_line('failed'), self._to(settings.SALES_EMAIL)[0].body)
 
 
 @override_settings(

@@ -1,19 +1,29 @@
 import logging
+from datetime import timedelta
 from pathlib import Path
 
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.utils import timezone
+
+from .models import SampleRequest
 
 logger = logging.getLogger(__name__)
 
 
-# Customer-facing email copy per language. {greeting} is filled with the
-# contact/company name. Sales-team notifications stay in Albanian (internal).
+# Customer-facing email copy per language. Sales-team notifications stay in
+# Albanian (internal).
+#
+# The greeting names nobody, on purpose. These go to whatever address the form
+# was given, and the name used to come from the same form — text of the
+# visitor's choosing, sent to an address of their choosing, from our own
+# mailbox. That made the catalog form a way to put any message in front of
+# anyone under the Gerti Foods name.
 EMAIL_COPY = {
     'sq': {
         'catalog_subject': 'Katalogu i produkteve — Gerti Foods',
         'catalog_body': (
-            'Përshëndetje {greeting},\n\n'
+            'Përshëndetje,\n\n'
             'Faleminderit për interesimin tënd! Bashkëngjitur do të gjesh '
             'katalogun e plotë të produkteve të Gerti Foods.\n\n'
             'Nëse dëshiron mostra falas ose listën e çmimeve me shumicë, '
@@ -24,7 +34,7 @@ EMAIL_COPY = {
         ),
         'sample_subject': 'E pranuam kërkesën tënde — Gerti Foods',
         'sample_body': (
-            'Përshëndetje {greeting},\n\n'
+            'Përshëndetje,\n\n'
             'Faleminderit për kërkesën tënde! E pranuam dhe ekipi ynë do të të '
             'kontaktojë shumë shpejt.\n\n'
             'Gatuar me dashni nga Kosova,\n'
@@ -35,7 +45,7 @@ EMAIL_COPY = {
     'en': {
         'catalog_subject': 'Product catalog — Gerti Foods',
         'catalog_body': (
-            'Hello {greeting},\n\n'
+            'Hello,\n\n'
             "Thank you for your interest! Attached you'll find the complete "
             'Gerti Foods product catalog.\n\n'
             "If you'd like free samples or our wholesale price list, simply "
@@ -46,7 +56,7 @@ EMAIL_COPY = {
         ),
         'sample_subject': 'We received your request — Gerti Foods',
         'sample_body': (
-            'Hello {greeting},\n\n'
+            'Hello,\n\n'
             "Thank you for your request! We've received it and our team will "
             'be in touch very soon.\n\n'
             'Baked with love in Kosovo,\n'
@@ -57,7 +67,7 @@ EMAIL_COPY = {
     'de': {
         'catalog_subject': 'Produktkatalog — Gerti Foods',
         'catalog_body': (
-            'Hallo {greeting},\n\n'
+            'Hallo,\n\n'
             'vielen Dank für Ihr Interesse! Im Anhang finden Sie den '
             'vollständigen Produktkatalog von Gerti Foods.\n\n'
             'Wenn Sie kostenlose Muster oder unsere Großhandelspreisliste '
@@ -69,7 +79,7 @@ EMAIL_COPY = {
         ),
         'sample_subject': 'Wir haben Ihre Anfrage erhalten — Gerti Foods',
         'sample_body': (
-            'Hallo {greeting},\n\n'
+            'Hallo,\n\n'
             'vielen Dank für Ihre Anfrage! Wir haben sie erhalten und unser '
             'Team meldet sich in Kürze bei Ihnen.\n\n'
             'Mit Liebe gebacken im Kosovo,\n'
@@ -127,43 +137,101 @@ def _send(subject, body, to, attachments=None):
 # Customer-facing (localized by visitor IP -> lang)
 # --------------------------------------------------------------------------
 
+# What became of the visitor's own email, as the sales notification reports
+# it. A held-back or failed email is only worth knowing about where someone can
+# act on it, which is the sales inbox rather than the log.
+CUSTOMER_EMAIL_STATUS = {
+    'sent': 'u dërgua',
+    'repeat': 'nuk u dërgua: e njëjta adresë bëri të njëjtën kërkesë në 24 orët e fundit',
+    'daily_limit': (
+        'NUK u dërgua: u arrit kufiri ditor i email-eve automatike. '
+        'Dërgoje manualisht.'
+    ),
+    'no_catalog': 'NUK u dërgua: skedari i katalogut mungon në server. Dërgoje manualisht.',
+    'failed': 'NUK u dërgua: dërgimi dështoi. Dërgoje manualisht.',
+}
+
+
+def _hold_back_reason(sample_request):
+    """Why the visitor's own email must not go out, or None if it may.
+
+    The address is whatever the form was given, so without limits the form
+    sends our mail wherever it is told to. Two of them:
+
+    - One email of each kind per address per 24 hours. Repeats to one address
+      are what turn the form into a way to flood someone's inbox, and a real
+      prospect has no use for a second copy the same day. Per kind, so asking
+      for samples and then for the catalog still gets both.
+    - CUSTOMER_EMAIL_DAILY_LIMIT across the whole site, so that traffic which
+      gets past reCAPTCHA and the per-IP throttle from many addresses still
+      cannot turn the sales mailbox into a bulk sender.
+
+    Both count saved requests rather than sent mail, so a request that was held
+    back still counts — repeating it keeps it held back.
+    """
+    sr = sample_request
+    recent = SampleRequest.objects.filter(
+        created_at__gte=timezone.now() - timedelta(hours=24),
+    ).exclude(pk=sr.pk)
+    same_kind = (
+        recent.filter(source='catalog_request')
+        if sr.source == 'catalog_request'
+        else recent.exclude(source='catalog_request')
+    )
+    if same_kind.filter(email__iexact=sr.email).exists():
+        return 'repeat'
+    if recent.count() >= settings.CUSTOMER_EMAIL_DAILY_LIMIT:
+        return 'daily_limit'
+    return None
+
+
+def _email_customer(sample_request, subject, body, attachments=None):
+    """Send the visitor's own email unless a limit holds it back.
+
+    Returns a CUSTOMER_EMAIL_STATUS key for the sales notification.
+    """
+    reason = _hold_back_reason(sample_request)
+    if reason:
+        logger.warning(
+            'Customer email held back (%s): SampleRequest #%s', reason, sample_request.pk
+        )
+        return reason
+    sent = _send(subject, body, sample_request.email, attachments=attachments)
+    return 'sent' if sent else 'failed'
+
+
 def send_catalog_email(sample_request, lang='en'):
     """Catalog request: email the PDF to the prospect, then alert sales."""
     sr = sample_request
     catalog_path = Path(settings.CATALOG_PATH)
-    greeting = sr.contact_name or sr.company_name
 
     if catalog_path.exists():
-        _send(
+        status = _email_customer(
+            sr,
             _copy(lang, 'catalog_subject'),
-            _copy(lang, 'catalog_body').format(greeting=greeting),
-            sr.email,
+            _copy(lang, 'catalog_body'),
             attachments=[catalog_path],
         )
     else:
         logger.error('Catalog file missing at %s (SampleRequest #%s)',
                      catalog_path, sr.pk)
+        status = 'no_catalog'
 
-    return notify_sales_sample(sr, label='Kërkesë katalog')
+    return notify_sales_sample(sr, label='Kërkesë katalog', customer_email=status)
 
 
 def send_sample_confirmation(sample_request, lang='en'):
     """Free-sample / contact request: thank the prospect, then alert sales."""
     sr = sample_request
-    greeting = sr.contact_name or sr.company_name
-    _send(
-        _copy(lang, 'sample_subject'),
-        _copy(lang, 'sample_body').format(greeting=greeting),
-        sr.email,
-    )
-    return notify_sales_sample(sr, label='Kërkesë mostrash')
+    status = _email_customer(sr, _copy(lang, 'sample_subject'), _copy(lang, 'sample_body'))
+    return notify_sales_sample(sr, label='Kërkesë mostrash', customer_email=status)
 
 
 # --------------------------------------------------------------------------
 # Sales-facing notifications (always Albanian — internal team)
 # --------------------------------------------------------------------------
 
-def notify_sales_sample(sample_request, label='Kërkesë e re'):
+def notify_sales_sample(sample_request, label='Kërkesë e re', customer_email=None):
     """Email the sales team the full details of a SampleRequest."""
     sr = sample_request
     body = (
@@ -178,6 +246,8 @@ def notify_sales_sample(sample_request, label='Kërkesë e re'):
         f'Mesazhi: {sr.message or "—"}\n'
         f'Burimi: {sr.get_source_display()}\n'
     )
+    if customer_email:
+        body += f'Email-i për klientin: {CUSTOMER_EMAIL_STATUS[customer_email]}\n'
     return _send(
         _header_safe(f'{label} — {sr.company_name}'), body, settings.SALES_EMAIL
     )

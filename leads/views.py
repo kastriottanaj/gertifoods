@@ -179,7 +179,9 @@ class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generic
         # Germany -> German, everyone else -> English.
         lang = email_lang_for_ip(get_client_ip(self.request))
         # Catalog requests get the PDF emailed instantly; all other sample/
-        # contact requests get a thank-you. Both also alert sales. Best-effort.
+        # contact requests get a thank-you — unless a repeat or the daily limit
+        # holds it back (leads/emails.py). Both always alert sales, saying
+        # whether the visitor's email went out. Best-effort.
         if sample_request.source == 'catalog_request':
             notified = send_catalog_email(sample_request, lang=lang)
         else:

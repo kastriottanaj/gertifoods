@@ -269,6 +269,15 @@ META_CAPI_TEST_EVENT_CODE = config('META_CAPI_TEST_EVENT_CODE', default='')
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))
 
+# Ceiling on automatic emails to visitors — catalogs and thank-yous — per
+# rolling 24 hours, site-wide. Those go to whatever address a form was given,
+# so this bounds what anyone can make the sales mailbox send, however many IPs
+# they rotate through. When it was set (October 2026) the busiest day had seen
+# two requests. Past it, a request is still saved and the sales notification
+# says to follow up by hand (leads/emails.py). Raise it before a campaign that
+# could genuinely outgrow it.
+CUSTOMER_EMAIL_DAILY_LIMIT = config('CUSTOMER_EMAIL_DAILY_LIMIT', default=50, cast=int)
+
 # Canonical public origin. The sitemap views derive this from the request host,
 # but `manage.py ping_indexnow` has no request, so it needs to be told.
 # Keep in sync with `site` in frontend/astro.config.mjs.
