@@ -5,6 +5,148 @@ reasoning and changes are easy to recall later. Newest pass first.
 
 ---
 
+## Pass 2 — Re-audit after the Astro migration (2026-10-13)
+
+A second full read-through, four months on, focused on what had changed since
+Pass 1 — the Astro frontend, the Meta Conversions API, campaign attribution,
+reCAPTCHA v3 and the WebMCP tools — and on whether Pass 1's fixes survived the
+migration. No critical or high findings. Two medium findings were fixed,
+deployed and verified live; one low finding did not hold up against production
+data and was withdrawn.
+
+### Still sound
+Every Pass 1 fix holds: throttles key off the IP nginx appends (and
+`leads/geo.py` now applies the same rule), the refresh token is httpOnly and
+path-scoped, the honeypot and reCAPTCHA v3 are live (the site key ships in the
+production bundle), the CSP/HSTS headers are served, the admin is off the
+default path and DEBUG is off. No raw-HTML sinks in the Astro build — every
+`set:html` is JSON-LD with `<` escaped. All 13 Python pins clean on OSV; CORS
+rejects foreign origins live; `/.git`, `/.env` and `/media/` listings are not
+exposed.
+
+### Summary table
+
+| # | Finding | Severity | Status | Commit(s) |
+|---|---------|----------|--------|-----------|
+| 1 | A hung mail server could hold lead requests until Gunicorn killed the worker | Medium | ✅ Fixed & live | `2484d7a` |
+| 2 | Catalog form could send visitor-written text to any inbox | Medium | ✅ Fixed & live | `c675a75` |
+| 3 | Throttle counters evicted early by the DB cache's 300-row default | Low | ❌ Withdrawn — did not hold | — |
+| 4 | Smaller hardening items (listed below) | Low | ⏸️ Open | — |
+
+---
+
+### #1 — No SMTP timeout on lead submissions
+
+**What:** The lead views send their email inside the request, and Django's
+`EMAIL_TIMEOUT` defaults to `None` (wait forever). A mail server that accepts
+the connection and goes quiet would hold the request until Gunicorn kills the
+worker at 30s: a 502 for a lead that was in fact saved, a likely resubmission,
+and — with three sync workers — every other API request stalled meanwhile.
+
+**Fix:** `EMAIL_TIMEOUT = 10` (per socket operation, `.env`-overridable).
+Gmail answers each step in well under a second; a sample request sends two
+emails, so a hung server now costs about 20s and the request completes inside
+Gunicorn's 30s. A budget test pins reCAPTCHA + two emails + Meta below the
+worker timeout.
+
+**Files:** `config/settings.py`, `leads/tests.py`.
+
+**Impact:** Preventive — production has logged no worker timeouts. Tested
+against a real socket that listens but never answers (fails without the
+timeout).
+
+---
+
+### #2 — Catalog form as a mail relay
+
+**What:** The catalog and thank-you emails go to whatever address the form is
+given, and greeted the recipient with the name typed into the same form. Anyone
+could send Gerti Foods-branded mail opening with up to 255 characters of their
+own text, plus the 3.4 MB catalog, to any address — limited only by reCAPTCHA
+and the 10/hour per-IP throttle — at the risk of Google flagging the sending
+mailbox, which is the one sales works from.
+
+**Fix:**
+- The greeting names nobody ("Përshëndetje," / "Hello," / "Hallo,").
+- One automatic email of each kind per address per 24 hours (per kind, so
+  samples-then-catalog still gets both).
+- At most `CUSTOMER_EMAIL_DAILY_LIMIT` (default 50) automatic emails per
+  rolling 24 hours, site-wide. Raise it in `.env` before a campaign that could
+  outgrow it; the busiest day so far had two requests.
+- Held-back requests are still saved, the API still answers 201, and the sales
+  notification ends with `Email-i për klientin: …` — "Dërgoje manualisht" when
+  someone needs to act. That also covers a missing catalog file, which used to
+  leave the prospect with nothing and sales unaware.
+
+**Decisions:** The catalog stays an **attachment**, not a link — it is the
+reward for filling in the form, and once text and volume are bounded the
+attachment adds size, not abuse. The 50/day cap was chosen over relying on the
+per-address limit alone.
+
+**Files:** `leads/emails.py`, `leads/views.py`, `config/settings.py`,
+`leads/tests.py` (eight new tests — the first for this flow).
+
+---
+
+### #3 — Throttle cache eviction (WITHDRAWN)
+
+**Claimed:** The database cache keeps Django's default `MAX_ENTRIES = 300`, so
+busy days would cull live throttle counters early.
+
+**What the data showed:** 28 throttle rows in production (1 live) and a peak of
+7 distinct IPs/hour on the API over three weeks of logs. Since the Astro move
+pages are static and ordinary visitors rarely touch the API. Eviction would
+need hundreds of distinct IPs within an hour — an attacker who already gets past
+per-IP limits by IP count alone. **Decision:** no change; revisit only if API
+traffic grows by ~100×.
+
+---
+
+### Open low items (not done)
+- No cap on the number of items in one order (`orders/serializers.py`).
+- CSP `script-src 'unsafe-inline'` plus broad `*.google.com` sinks. The nginx
+  comment saying a nonce needs Django rendering predates Astro, which can hash
+  inline scripts at build time.
+- `npm audit`: 7 transitive, build-time-only advisories (`npm audit fix`).
+- `leads/recaptcha.py` doesn't catch `OSError` — a dropped connection to Google
+  becomes a 500 instead of the intended 503.
+- nginx advertises its version (`server_tokens off;`); the Gunicorn unit has no
+  systemd sandboxing; login throttling is per-IP only.
+
+---
+
+### Found while verifying the deploy — email has never been delivered
+
+**Not a security finding, but the most important one of this pass.** The
+production SMTP login fails: Gmail closes the connection during `AUTH`, 0.35s
+in (not the new timeout — reproduced with a 60s one); earlier attempts were
+rejected with `535`. All 7 leads and sample requests ever saved have
+`sales_notified = false`, so **no sales notification and no catalog email has
+ever reached anyone.** The leads themselves are saved and visible in the admin.
+
+**To fix:** generate a new App Password for the sending account (2-Step
+Verification must be on; the Workspace admin must allow app passwords), set
+`EMAIL_HOST_PASSWORD` in the server `.env`, reload Gunicorn, and confirm
+without sending anything:
+
+```bash
+cd /var/www/gertifoods && sudo -u gertifoods ./venv/bin/python manage.py shell -c \
+  "from django.core.mail import get_connection; c = get_connection(); c.open(); c.close(); print('SMTP login OK')"
+```
+
+SPF/DKIM (see Operational reminders) are still outstanding too.
+
+### Verification (live, 2026-10-13)
+Fast-forward deploy of `c675a75`, no migrations, `check --deploy` clean,
+graceful HUP: three new workers booted, zero errors and zero 5xx since. Pages,
+product API and sitemap 200; lead endpoints 405 to GET (new code loaded);
+orders 401. Production resolves `EMAIL_TIMEOUT = 10`,
+`CUSTOMER_EMAIL_DAILY_LIMIT = 50`, `DEBUG = False`; the hold-back query runs on
+the production database (PostgreSQL 18) without writing anything. No `.env`,
+nginx or frontend change was needed.
+
+---
+
 ## Pass 1 — Full codebase security audit (2026-06-17)
 
 A detailed read-through of the whole codebase (Django backend, React frontend,
