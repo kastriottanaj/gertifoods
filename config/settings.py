@@ -205,6 +205,19 @@ EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+# The lead views send their email inside the request, and Django's default here
+# is None — wait forever. A mail server that accepts the connection and then
+# goes quiet would hold the request until Gunicorn kills the worker at 30s: the
+# visitor gets a 502 for a lead that was in fact saved, likely submits again,
+# and every other API request queues behind the three workers meanwhile.
+#
+# The value is per socket operation, not per email. Gmail answers each step in
+# well under a second, so 10s only ever fires on a genuine hang, with room left
+# for the slowest step — the reply after the 3.4 MB catalog upload. A sample
+# request sends two emails, so a hung server costs it about 20s: inside
+# Gunicorn's 30s, the budget every outbound call in one request shares with
+# RECAPTCHA_TIMEOUT and META_CAPI_TIMEOUT below.
+EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=10, cast=int)
 DEFAULT_FROM_EMAIL = config(
     'DEFAULT_FROM_EMAIL',
     default='Gerti Foods <info@gertifoods.com>',

@@ -1,4 +1,6 @@
 import json
+import socket
+import time
 from unittest.mock import patch
 
 from django.conf import settings
@@ -203,6 +205,72 @@ class SalesNotificationTests(APITestCase):
         self.assertNotIn('\n', subject)
         self.assertNotIn('\r', subject)
         self.assertEqual(mail.outbox[0].to, [settings.SALES_EMAIL])
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    META_CAPI_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
+    EMAIL_HOST='127.0.0.1',
+    EMAIL_HOST_USER='',
+    EMAIL_HOST_PASSWORD='',
+    EMAIL_USE_TLS=False,
+    EMAIL_TIMEOUT=1,
+)
+class SilentMailServerTests(APITestCase):
+    """
+    A mail server that accepts the connection and then says nothing.
+
+    That is the failure EMAIL_TIMEOUT exists for, and a mocked send() cannot
+    reproduce it: the danger was never an exception, it was a socket that
+    never returns. So this points the real SMTP backend at a socket that
+    listens but never answers — the kernel completes the handshake, smtplib
+    waits for a greeting that never comes.
+    """
+
+    url = reverse('lead-create')
+    payload = SalesNotificationTests.payload
+
+    def setUp(self):
+        cache.clear()
+        silent = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        silent.bind(('127.0.0.1', 0))
+        silent.listen(1)
+        self.addCleanup(silent.close)
+        self.port = silent.getsockname()[1]
+        # Turns "the timeout was not applied" into a slow failure below rather
+        # than a test run that never ends.
+        previous = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(10)
+        self.addCleanup(socket.setdefaulttimeout, previous)
+
+    def test_costs_the_visitor_seconds_not_the_worker(self):
+        with self.settings(EMAIL_PORT=self.port), self.assertLogs('leads.emails', 'ERROR'):
+            started = time.monotonic()
+            response = self.client.post(self.url, self.payload, format='json')
+            elapsed = time.monotonic() - started
+
+        self.assertLess(elapsed, 5)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # Saved, and honestly marked as not notified — not a 502 for a lead
+        # that exists, which is what a killed worker produced.
+        self.assertFalse(Lead.objects.get().sales_notified)
+
+
+class OutboundTimeoutBudgetTests(SimpleTestCase):
+    # deploy/gunicorn.service passes no --timeout, so this is Gunicorn's default.
+    GUNICORN_WORKER_TIMEOUT = 30
+
+    def test_a_hung_service_cannot_outlast_the_worker(self):
+        # The slowest request is a sample request: reCAPTCHA, two emails, then
+        # Meta. Each call here is allowed one stalled step before giving up.
+        self.assertIsNotNone(settings.EMAIL_TIMEOUT)
+        worst_case = (
+            settings.RECAPTCHA_TIMEOUT
+            + 2 * settings.EMAIL_TIMEOUT
+            + settings.META_CAPI_TIMEOUT
+        )
+        self.assertLess(worst_case, self.GUNICORN_WORKER_TIMEOUT)
 
 
 class HeaderSafeTests(SimpleTestCase):
