@@ -213,8 +213,8 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 #
 # The value is per socket operation, not per email. Gmail answers each step in
 # well under a second, so 10s only ever fires on a genuine hang, with room left
-# for the slowest step — the reply after the 3.4 MB catalog upload. A sample
-# request sends two emails, so a hung server costs it about 20s: inside
+# for the slowest step — the reply after the 3.4 MB catalog upload. A form
+# submission sends up to two emails, so a hung server costs it about 20s: inside
 # Gunicorn's 30s, the budget every outbound call in one request shares with
 # RECAPTCHA_TIMEOUT and META_CAPI_TIMEOUT below.
 EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=10, cast=int)
@@ -269,13 +269,13 @@ META_CAPI_TEST_EVENT_CODE = config('META_CAPI_TEST_EVENT_CODE', default='')
 # Catalog auto-delivery: the PDF emailed to prospects who request it.
 CATALOG_PATH = config('CATALOG_PATH', default=str(BASE_DIR / 'assets' / 'catalog.pdf'))
 
-# Ceiling on automatic emails to visitors — catalogs and thank-yous — per
-# rolling 24 hours, site-wide. Those go to whatever address a form was given,
-# so this bounds what anyone can make the sales mailbox send, however many IPs
-# they rotate through. When it was set (October 2026) the busiest day had seen
-# two requests. Past it, a request is still saved and the sales notification
-# says to follow up by hand (leads/emails.py). Raise it before a campaign that
-# could genuinely outgrow it.
+# Ceiling on automatic emails to visitors — catalogs and confirmations, from
+# every form together — per rolling 24 hours, site-wide. Those go to whatever
+# address a form was given, so this bounds what anyone can make the sales
+# mailbox send, however many IPs they rotate through. When it was set (October
+# 2026) the busiest day had seen two requests. Past it, a request is still
+# saved and the sales notification says to follow up by hand
+# (leads/emails.py). Raise it before a campaign that could genuinely outgrow it.
 CUSTOMER_EMAIL_DAILY_LIMIT = config('CUSTOMER_EMAIL_DAILY_LIMIT', default=50, cast=int)
 
 # Canonical public origin. The sitemap views derive this from the request host,

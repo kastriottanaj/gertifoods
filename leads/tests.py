@@ -1,4 +1,5 @@
 import json
+import re
 import socket
 import time
 from datetime import timedelta
@@ -15,7 +16,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.throttling import SimpleRateThrottle
 
-from .emails import CUSTOMER_EMAIL_STATUS, _header_safe
+from .emails import CUSTOMER_EMAIL_STATUS, EMAIL_COPY, _header_safe
 from .geo import get_client_ip
 from .models import Lead, SampleRequest
 from .recaptcha import RecaptchaUnavailable, verify_recaptcha
@@ -170,11 +171,14 @@ class SalesNotificationTests(APITestCase):
         cache.clear()
         mail.outbox = []
 
+    def _to_sales(self):
+        return [message for message in mail.outbox if message.to == [settings.SALES_EMAIL]]
+
     def test_records_that_the_notification_was_sent(self):
         response = self.client.post(self.url, self.payload, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(self._to_sales()), 1)
         self.assertTrue(Lead.objects.get().sales_notified)
 
     def test_records_a_failure_without_losing_the_lead(self):
@@ -196,7 +200,7 @@ class SalesNotificationTests(APITestCase):
         response = self.client.post(self.url, hostile, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(self._to_sales()), 1)
         self.assertTrue(Lead.objects.get().sales_notified)
 
     def test_the_subject_carries_no_injected_header(self):
@@ -204,10 +208,11 @@ class SalesNotificationTests(APITestCase):
 
         self.client.post(self.url, hostile, format='json')
 
-        subject = mail.outbox[0].subject
-        self.assertNotIn('\n', subject)
-        self.assertNotIn('\r', subject)
-        self.assertEqual(mail.outbox[0].to, [settings.SALES_EMAIL])
+        [notification] = self._to_sales()
+        self.assertNotIn('\n', notification.subject)
+        self.assertNotIn('\r', notification.subject)
+        recipients = [address for message in mail.outbox for address in message.recipients()]
+        self.assertNotIn('attacker@evil.example', recipients)
 
 
 @override_settings(
@@ -330,6 +335,85 @@ class CustomerEmailTests(APITestCase):
 
         self.assertIn(self._status_line('failed'), self._to(settings.SALES_EMAIL)[0].body)
 
+    def _contact(self, **fields):
+        payload = {
+            'first_name': 'Ardit',
+            'last_name': 'Hoxha',
+            'email': self.recipient,
+            'phone': '+38349111150',
+            'source': 'home_hero',
+            **fields,
+        }
+        response = self.client.post(reverse('lead-create'), payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_the_contact_form_confirms_to_the_visitor(self):
+        spam = 'Claim your prize at http://spam.example'
+        self._contact(first_name=spam, last_name=spam, message=spam)
+
+        [email] = self._to(self.recipient)
+        self.assertEqual(email.subject, EMAIL_COPY['en']['confirmation_subject'])
+        self.assertNotIn('spam.example', email.subject + email.body)
+        self.assertIn(self._status_line('sent'), self._to(settings.SALES_EMAIL)[0].body)
+        self.assertTrue(Lead.objects.get().sales_notified)
+
+    def test_contact_and_sample_forms_confirm_once_between_them(self):
+        # Both send the same confirmation, so using both is one email, not two.
+        self._contact()
+        with self.assertLogs('leads.emails', 'WARNING'):
+            self._request(source='exit_popup')
+
+        self.assertEqual(len(self._to(self.recipient)), 1)
+        self.assertIn(self._status_line('repeat'), self._to(settings.SALES_EMAIL)[1].body)
+
+    def test_the_contact_form_does_not_cost_the_catalog(self):
+        self._contact()
+        self._request(source='catalog_request')
+
+        self.assertEqual(len(self._to(self.recipient)), 2)
+
+    @override_settings(CUSTOMER_EMAIL_DAILY_LIMIT=2)
+    def test_the_contact_form_shares_the_daily_limit(self):
+        # One of each, so the limit only trips if both forms are counted.
+        self._contact(email='prospect0@bakery.example')
+        self._request(email='prospect1@bakery.example')
+
+        with self.assertLogs('leads.emails', 'WARNING'):
+            self._contact()
+
+        self.assertEqual(self._to(self.recipient), [])
+        self.assertEqual(Lead.objects.count(), 2)
+        self.assertIn(self._status_line('daily_limit'), self._to(settings.SALES_EMAIL)[-1].body)
+
+
+class EmailCopyTests(SimpleTestCase):
+    """The confirmation repeats what the thank-you page promises, in every language."""
+
+    PROMISES = {
+        'sq': 'brenda një dite pune',
+        'en': 'within one business day',
+        'de': 'innerhalb eines Werktages',
+    }
+
+    def test_every_language_has_every_email(self):
+        for lang, copy in EMAIL_COPY.items():
+            with self.subTest(lang=lang):
+                self.assertEqual(set(copy), set(EMAIL_COPY['en']))
+
+    def test_the_confirmation_keeps_the_thank_you_pages_promise(self):
+        translations = (
+            settings.BASE_DIR / 'frontend' / 'src' / 'i18n' / 'translations.js'
+        ).read_text(encoding='utf-8')
+        page_bodies = re.findall(r"thankyou_body: '((?:[^'\\]|\\.)*)'", translations)
+        self.assertEqual(len(page_bodies), len(self.PROMISES))
+
+        for lang, promise in self.PROMISES.items():
+            with self.subTest(lang=lang):
+                # If the page's promise changes, this email has to change with it.
+                self.assertTrue(any(promise in body for body in page_bodies))
+                self.assertIn(promise, EMAIL_COPY[lang]['confirmation_body'])
+                self.assertIn('https://wa.me/38349111150', EMAIL_COPY[lang]['confirmation_body'])
+
 
 @override_settings(
     RECAPTCHA_ENABLED=False,
@@ -386,8 +470,8 @@ class OutboundTimeoutBudgetTests(SimpleTestCase):
     GUNICORN_WORKER_TIMEOUT = 30
 
     def test_a_hung_service_cannot_outlast_the_worker(self):
-        # The slowest request is a sample request: reCAPTCHA, two emails, then
-        # Meta. Each call here is allowed one stalled step before giving up.
+        # The slowest requests are form submissions: reCAPTCHA, two emails,
+        # then Meta. Each call here is allowed one stalled step before giving up.
         self.assertIsNotNone(settings.EMAIL_TIMEOUT)
         worst_case = (
             settings.RECAPTCHA_TIMEOUT
@@ -688,7 +772,8 @@ class AttributionTests(APITestCase):
         lead = Lead.objects.get()
         self.assertEqual(lead.email, 'arben@byrektore.example')
         self.assertEqual(lead.utm_campaign, 'byrektore-oct')
-        self.assertEqual(len(mail.outbox), 1)  # sales still hears about it
+        # Sales still hears about it.
+        self.assertEqual([m.to for m in mail.outbox].count([settings.SALES_EMAIL]), 1)
 
     def test_with_consent_the_conversion_goes_out(self):
         self.post(marketing_consent=True, utm_campaign='byrektore-oct')

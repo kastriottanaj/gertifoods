@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils import timezone
 
-from .models import SampleRequest
+from .models import Lead, SampleRequest
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 # visitor's choosing, sent to an address of their choosing, from our own
 # mailbox. That made the catalog form a way to put any message in front of
 # anyone under the Gerti Foods name.
+#
+# The confirmation answers both the contact form and the sample form, and
+# repeats what the thank-you page they land on already promises — keep it in
+# step with the thankyou_* strings in frontend/src/i18n/translations.js.
 EMAIL_COPY = {
     'sq': {
         'catalog_subject': 'Katalogu i produkteve — Gerti Foods',
@@ -32,11 +36,18 @@ EMAIL_COPY = {
             'Ekipi i Gerti Foods\n'
             'www.gertifoods.com · +383 49 111 150'
         ),
-        'sample_subject': 'E pranuam kërkesën tënde — Gerti Foods',
-        'sample_body': (
+        'confirmation_subject': 'E morëm kërkesën tënde — Gerti Foods',
+        'confirmation_body': (
             'Përshëndetje,\n\n'
-            'Faleminderit për kërkesën tënde! E pranuam dhe ekipi ynë do të të '
-            'kontaktojë shumë shpejt.\n\n'
+            'Faleminderit që na kontaktove! E morëm kërkesën tënde. Ekipi ynë '
+            'të kontakton brenda një dite pune me ofertë dhe mostra falas.\n\n'
+            'Çfarë ndodh tani:\n'
+            '1. E shqyrtojmë kërkesën: produktet që të interesojnë dhe sasitë që '
+            'i duhen biznesit tënd.\n'
+            '2. Të kontaktojmë në telefon ose me email, me çmimet me shumicë.\n'
+            '3. Provon mostrat falas në furrën tënde, para se të vendosësh.\n\n'
+            'Ke nevojë për përgjigje më shpejt? Na shkruaj në WhatsApp: '
+            'https://wa.me/38349111150\n\n'
             'Gatuar me dashni nga Kosova,\n'
             'Ekipi i Gerti Foods\n'
             'www.gertifoods.com · +383 49 111 150'
@@ -54,11 +65,19 @@ EMAIL_COPY = {
             'The Gerti Foods Team\n'
             'www.gertifoods.com · +383 49 111 150'
         ),
-        'sample_subject': 'We received your request — Gerti Foods',
-        'sample_body': (
+        'confirmation_subject': 'We received your request — Gerti Foods',
+        'confirmation_body': (
             'Hello,\n\n'
-            "Thank you for your request! We've received it and our team will "
-            'be in touch very soon.\n\n'
+            "Thank you for getting in touch! We've received your request. Our "
+            'team will get back to you within one business day with a quote '
+            'and free samples.\n\n'
+            'What happens next:\n'
+            "1. We review your request: the products you're interested in and "
+            'the volumes your business needs.\n'
+            "2. We get in touch by phone or email with wholesale pricing.\n"
+            '3. You try the samples, free, in your own oven before you commit.\n\n'
+            'Need an answer sooner? Message us on WhatsApp: '
+            'https://wa.me/38349111150\n\n'
             'Baked with love in Kosovo,\n'
             'The Gerti Foods Team\n'
             'www.gertifoods.com · +383 49 111 150'
@@ -77,11 +96,21 @@ EMAIL_COPY = {
             'Ihr Gerti Foods Team\n'
             'www.gertifoods.com · +383 49 111 150'
         ),
-        'sample_subject': 'Wir haben Ihre Anfrage erhalten — Gerti Foods',
-        'sample_body': (
+        'confirmation_subject': 'Wir haben Ihre Anfrage erhalten — Gerti Foods',
+        'confirmation_body': (
             'Hallo,\n\n'
-            'vielen Dank für Ihre Anfrage! Wir haben sie erhalten und unser '
-            'Team meldet sich in Kürze bei Ihnen.\n\n'
+            'vielen Dank für Ihre Nachricht! Wir haben Ihre Anfrage erhalten. '
+            'Unser Team meldet sich innerhalb eines Werktages mit Angebot und '
+            'kostenlosen Mustern.\n\n'
+            'So geht es weiter:\n'
+            '1. Wir prüfen Ihre Anfrage: die gewünschten Produkte und die Mengen, '
+            'die Ihr Betrieb benötigt.\n'
+            '2. Wir melden uns telefonisch oder per E-Mail mit den '
+            'Großhandelspreisen.\n'
+            '3. Sie testen die Muster kostenlos im eigenen Ofen, bevor Sie sich '
+            'entscheiden.\n\n'
+            'Sie brauchen schneller eine Antwort? Schreiben Sie uns auf WhatsApp: '
+            'https://wa.me/38349111150\n\n'
             'Mit Liebe gebacken im Kosovo,\n'
             'Ihr Gerti Foods Team\n'
             'www.gertifoods.com · +383 49 111 150'
@@ -142,7 +171,7 @@ def _send(subject, body, to, attachments=None):
 # act on it, which is the sales inbox rather than the log.
 CUSTOMER_EMAIL_STATUS = {
     'sent': 'u dërgua',
-    'repeat': 'nuk u dërgua: e njëjta adresë bëri të njëjtën kërkesë në 24 orët e fundit',
+    'repeat': 'nuk u dërgua: e njëjta adresë dërgoi një kërkesë tjetër në 24 orët e fundit',
     'daily_limit': (
         'NUK u dërgua: u arrit kufiri ditor i email-eve automatike. '
         'Dërgoje manualisht.'
@@ -152,52 +181,64 @@ CUSTOMER_EMAIL_STATUS = {
 }
 
 
-def _hold_back_reason(sample_request):
+def _hold_back_reason(record):
     """Why the visitor's own email must not go out, or None if it may.
 
-    The address is whatever the form was given, so without limits the form
-    sends our mail wherever it is told to. Two of them:
+    `record` is the Lead or SampleRequest just saved. The address is whatever
+    the form was given, so without limits the forms send our mail wherever
+    they are told to. Two of them:
 
     - One email of each kind per address per 24 hours. Repeats to one address
-      are what turn the form into a way to flood someone's inbox, and a real
-      prospect has no use for a second copy the same day. Per kind, so asking
-      for samples and then for the catalog still gets both.
-    - CUSTOMER_EMAIL_DAILY_LIMIT across the whole site, so that traffic which
-      gets past reCAPTCHA and the per-IP throttle from many addresses still
-      cannot turn the sales mailbox into a bulk sender.
+      are what turn a form into a way to flood someone's inbox, and a real
+      prospect has no use for a second copy the same day. The kinds are the
+      catalog and the confirmation: the contact form and the sample form send
+      the same confirmation, so using both counts once, while asking for
+      samples and then for the catalog still gets both.
+    - CUSTOMER_EMAIL_DAILY_LIMIT across the whole site, every form together,
+      so that traffic which gets past reCAPTCHA and the per-IP throttle from
+      many addresses still cannot turn the sales mailbox into a bulk sender.
 
     Both count saved requests rather than sent mail, so a request that was held
     back still counts — repeating it keeps it held back.
     """
-    sr = sample_request
-    recent = SampleRequest.objects.filter(
-        created_at__gte=timezone.now() - timedelta(hours=24),
-    ).exclude(pk=sr.pk)
-    same_kind = (
-        recent.filter(source='catalog_request')
-        if sr.source == 'catalog_request'
-        else recent.exclude(source='catalog_request')
-    )
-    if same_kind.filter(email__iexact=sr.email).exists():
+    since = timezone.now() - timedelta(hours=24)
+    samples = SampleRequest.objects.filter(created_at__gte=since)
+    leads = Lead.objects.filter(created_at__gte=since)
+    if isinstance(record, Lead):
+        leads = leads.exclude(pk=record.pk)
+    else:
+        samples = samples.exclude(pk=record.pk)
+
+    if isinstance(record, SampleRequest) and record.source == 'catalog_request':
+        same_kind = [samples.filter(source='catalog_request')]
+    else:
+        same_kind = [samples.exclude(source='catalog_request'), leads]
+    if any(qs.filter(email__iexact=record.email).exists() for qs in same_kind):
         return 'repeat'
-    if recent.count() >= settings.CUSTOMER_EMAIL_DAILY_LIMIT:
+    if samples.count() + leads.count() >= settings.CUSTOMER_EMAIL_DAILY_LIMIT:
         return 'daily_limit'
     return None
 
 
-def _email_customer(sample_request, subject, body, attachments=None):
+def _email_customer(record, subject, body, attachments=None):
     """Send the visitor's own email unless a limit holds it back.
 
     Returns a CUSTOMER_EMAIL_STATUS key for the sales notification.
     """
-    reason = _hold_back_reason(sample_request)
+    reason = _hold_back_reason(record)
     if reason:
         logger.warning(
-            'Customer email held back (%s): SampleRequest #%s', reason, sample_request.pk
+            'Customer email held back (%s): %s #%s', reason, type(record).__name__, record.pk
         )
         return reason
-    sent = _send(subject, body, sample_request.email, attachments=attachments)
+    sent = _send(subject, body, record.email, attachments=attachments)
     return 'sent' if sent else 'failed'
+
+
+def _status_line(customer_email):
+    if not customer_email:
+        return ''
+    return f'Email-i për klientin: {CUSTOMER_EMAIL_STATUS[customer_email]}\n'
 
 
 def send_catalog_email(sample_request, lang='en'):
@@ -221,10 +262,20 @@ def send_catalog_email(sample_request, lang='en'):
 
 
 def send_sample_confirmation(sample_request, lang='en'):
-    """Free-sample / contact request: thank the prospect, then alert sales."""
+    """Sample request: confirm to the prospect, then alert sales."""
     sr = sample_request
-    status = _email_customer(sr, _copy(lang, 'sample_subject'), _copy(lang, 'sample_body'))
+    status = _email_customer(
+        sr, _copy(lang, 'confirmation_subject'), _copy(lang, 'confirmation_body')
+    )
     return notify_sales_sample(sr, label='Kërkesë mostrash', customer_email=status)
+
+
+def send_lead_confirmation(lead, lang='en'):
+    """Contact form: confirm to the visitor, then alert sales."""
+    status = _email_customer(
+        lead, _copy(lang, 'confirmation_subject'), _copy(lang, 'confirmation_body')
+    )
+    return notify_sales_lead(lead, customer_email=status)
 
 
 # --------------------------------------------------------------------------
@@ -246,14 +297,13 @@ def notify_sales_sample(sample_request, label='Kërkesë e re', customer_email=N
         f'Mesazhi: {sr.message or "—"}\n'
         f'Burimi: {sr.get_source_display()}\n'
     )
-    if customer_email:
-        body += f'Email-i për klientin: {CUSTOMER_EMAIL_STATUS[customer_email]}\n'
+    body += _status_line(customer_email)
     return _send(
         _header_safe(f'{label} — {sr.company_name}'), body, settings.SALES_EMAIL
     )
 
 
-def notify_sales_lead(lead):
+def notify_sales_lead(lead, customer_email=None):
     """Email the sales team the details of a low-friction Lead."""
     body = (
         f'Lead i ri nga website:\n\n'
@@ -262,7 +312,7 @@ def notify_sales_lead(lead):
         f'Telefoni: {lead.phone}\n'
         f'Mesazhi: {lead.message or "—"}\n'
         f'Burimi: {lead.get_source_display()}\n'
-    )
+    ) + _status_line(customer_email)
     return _send(
         _header_safe(f'Lead i ri — {lead.first_name} {lead.last_name}'),
         body,

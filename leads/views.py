@@ -7,8 +7,8 @@ from rest_framework.throttling import ScopedRateThrottle
 
 from .emails import (
     send_catalog_email,
+    send_lead_confirmation,
     send_sample_confirmation,
-    notify_sales_lead,
 )
 from .capi import build_user_data, send_lead_event
 from .geo import get_client_ip, email_lang_for_ip
@@ -145,11 +145,14 @@ class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateA
 
     def perform_create(self, serializer):
         lead = serializer.save()
-        # Notify sales of every captured lead. Email sending is best-effort —
-        # a mail failure can't roll back the lead we just saved — but the
-        # outcome is recorded so an undelivered notification is visible in the
-        # admin rather than only in the log.
-        lead.sales_notified = notify_sales_lead(lead)
+        # Confirm to the visitor — in their language by IP, like the sample
+        # form, and subject to the same limits (leads/emails.py) — then notify
+        # sales of every captured lead. Email sending is best-effort — a mail
+        # failure can't roll back the lead we just saved — but the outcome is
+        # recorded so an undelivered notification is visible in the admin
+        # rather than only in the log.
+        lang = email_lang_for_ip(get_client_ip(self.request))
+        lead.sales_notified = send_lead_confirmation(lead, lang=lang)
         lead.save(update_fields=['sales_notified'])
         # 'hero_lead' matches the formName the pixel sends for this form, so
         # both copies of the conversion describe themselves identically.
