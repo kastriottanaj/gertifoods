@@ -26,6 +26,7 @@ staticfiles/
 # checkout on the server, so an untracked one is a stray `git add -A` away
 # from being committed.
 .env.backup-*
+.env.bak-*
 .env.production.backup-*
 
 # Node
