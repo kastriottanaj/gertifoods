@@ -134,7 +134,10 @@ cd /var/www/gertifoods && sudo -u gertifoods ./venv/bin/python manage.py shell -
   "from django.core.mail import get_connection; c = get_connection(); c.open(); c.close(); print('SMTP login OK')"
 ```
 
-SPF/DKIM (see Operational reminders) are still outstanding too.
+*Correction (2026-10-18):* this line used to say SPF/DKIM were still
+outstanding. They were not — `gertifoods.com` already published SPF
+(`include:_spf.google.com`), a Google DKIM key and DMARC `p=none`; the claim
+came from a stale note, not from DNS.
 
 **Resolved the same day.** The account had no app password at all, so the
 value in `.env` had never been a valid one. A new app password went into the
@@ -144,6 +147,19 @@ email to the sales inbox and a digest of the three real backlogged requests
 (sample requests #5–#7, 7–23 September, with their original dates) were both
 accepted by Gmail; those three are now `sales_notified = true`. Leads #1–#4
 were the owner's own test submissions and were deliberately not sent.
+
+**Superseded 2026-10-18 — the site now sends through Resend** (`4fb8ded`).
+Mail goes out from `info@mail.gertifoods.com`, a subdomain verified in Resend
+(EU, Ireland) with its own DKIM/SPF records under `mail.gertifoods.com`, so
+automated mail keeps a reputation separate from the sales mailbox. The
+credential is a Resend API key with Sending access to that domain only, put on
+the server without passing through chat; no Google password is involved any
+more, and the app password created above should be revoked. The subdomain has
+no inbox, so every email sets Reply-To: visitor emails → `SALES_EMAIL`, lead
+notifications → the prospect. Incoming mail for `@gertifoods.com` is unchanged
+(MX still Google). Verified: domain verified in Resend, Django login to
+`smtp.resend.com` OK, a real confirmation to `delivered@resend.dev` accepted.
+Rollback: restore `/root/env.bak-2026-10-18-204336` and HUP.
 
 ### Verification (live, 2026-10-13)
 Fast-forward deploy of `c675a75`, no migrations, `check --deploy` clean,
@@ -391,5 +407,7 @@ These were applied directly on the Hetzner box and are not tracked in the repo:
 - **Dependabot** opens weekly PRs — review and merge them to stay patched.
 - **HSTS `preload`** is set but the domain is not enrolled; don't submit to
   hstspreload.org unless every subdomain will stay HTTPS-only forever.
-- **Unrelated pre-existing TODO** (from deploy memory, not this pass): add
-  SPF/DKIM DNS records so outbound mail doesn't land in spam.
+- **Mail authentication** is in place: `gertifoods.com` publishes SPF, Google
+  DKIM and DMARC `p=none` (reports to the sales inbox), and the site's own mail
+  is DKIM-signed for `mail.gertifoods.com` by Resend. Once the DMARC reports
+  show only legitimate senders, consider `p=quarantine`.
