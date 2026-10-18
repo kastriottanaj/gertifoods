@@ -140,11 +140,17 @@ def _header_safe(value):
     return ' '.join(str(value).split())
 
 
-def _send(subject, body, to, attachments=None):
+def _send(subject, body, to, attachments=None, reply_to=None):
     """
     Send one email. Best-effort: any failure is logged and swallowed so an
     SMTP problem can never break lead capture — the lead is already saved by
     the time these are called. Returns True on success, False otherwise.
+
+    Every caller names a reply_to, because the From address need not have an
+    inbox: the site sends from a dedicated subdomain (mail.gertifoods.com,
+    through Resend) so that automated mail keeps its own reputation, and a
+    reply to that address would bounce. The Reply-To header sends it where a
+    person will read it instead.
     """
     try:
         msg = EmailMessage(
@@ -152,6 +158,7 @@ def _send(subject, body, to, attachments=None):
             body=body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[to] if isinstance(to, str) else list(to),
+            reply_to=[reply_to] if reply_to else None,
         )
         for path in attachments or []:
             msg.attach_file(str(path))
@@ -231,7 +238,9 @@ def _email_customer(record, subject, body, attachments=None):
             'Customer email held back (%s): %s #%s', reason, type(record).__name__, record.pk
         )
         return reason
-    sent = _send(subject, body, record.email, attachments=attachments)
+    sent = _send(
+        subject, body, record.email, attachments=attachments, reply_to=settings.SALES_EMAIL
+    )
     return 'sent' if sent else 'failed'
 
 
@@ -298,8 +307,12 @@ def notify_sales_sample(sample_request, label='Kërkesë e re', customer_email=N
         f'Burimi: {sr.get_source_display()}\n'
     )
     body += _status_line(customer_email)
+    # Reply-To is the prospect, so answering the notification answers them.
     return _send(
-        _header_safe(f'{label} — {sr.company_name}'), body, settings.SALES_EMAIL
+        _header_safe(f'{label} — {sr.company_name}'),
+        body,
+        settings.SALES_EMAIL,
+        reply_to=sr.email,
     )
 
 
@@ -317,4 +330,5 @@ def notify_sales_lead(lead, customer_email=None):
         _header_safe(f'Lead i ri — {lead.first_name} {lead.last_name}'),
         body,
         settings.SALES_EMAIL,
+        reply_to=lead.email,
     )

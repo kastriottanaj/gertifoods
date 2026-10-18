@@ -134,14 +134,20 @@ DATABASE_PASSWORD=CHANGE_ME_STRONG_DB_PASSWORD
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 
-# Email (real SMTP for catalog auto-delivery + lead notifications)
+# Email (catalog auto-delivery, confirmations, lead notifications) goes out
+# through Resend from mail.gertifoods.com — a subdomain verified in Resend, so
+# automated mail keeps a reputation of its own. It has no inbox: every email
+# sets Reply-To, so replies reach SALES_EMAIL (or, on a notification, the
+# prospect). The password is a Resend API key with Sending access to
+# mail.gertifoods.com only.
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.your-provider.com
+EMAIL_HOST=smtp.resend.com
 EMAIL_PORT=587
-EMAIL_HOST_USER=info@gertifoods.com
-EMAIL_HOST_PASSWORD=<smtp-password>
+EMAIL_HOST_USER=resend
+EMAIL_HOST_PASSWORD=<resend-sending-access-api-key>
 EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL=Gerti Foods <info@gertifoods.com>
+DEFAULT_FROM_EMAIL=Gerti Foods <info@mail.gertifoods.com>
+SALES_EMAIL=arlinda@gertifoods.com
 
 # Google reCAPTCHA v3 (create keys for both production hostnames)
 RECAPTCHA_ENABLED=True

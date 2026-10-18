@@ -218,11 +218,14 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 # Gunicorn's 30s, the budget every outbound call in one request shares with
 # RECAPTCHA_TIMEOUT and META_CAPI_TIMEOUT below.
 EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=10, cast=int)
+# The sending subdomain verified in Resend. It has no inbox, so every email the
+# site sends carries a Reply-To that a person reads (leads/emails.py).
 DEFAULT_FROM_EMAIL = config(
     'DEFAULT_FROM_EMAIL',
-    default='Gerti Foods <info@gertifoods.com>',
+    default='Gerti Foods <info@mail.gertifoods.com>',
 )
-# Sales team inbox that receives a notification for each catalog request.
+# Sales team inbox: receives the notification for every lead and request, and
+# is the Reply-To on every email a visitor receives.
 SALES_EMAIL = config('SALES_EMAIL', default='arlinda@gertifoods.com')
 
 # Invisible reCAPTCHA v3 protection for public lead forms. It stays disabled

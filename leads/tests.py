@@ -385,6 +385,20 @@ class CustomerEmailTests(APITestCase):
         self.assertEqual(Lead.objects.count(), 2)
         self.assertIn(self._status_line('daily_limit'), self._to(settings.SALES_EMAIL)[-1].body)
 
+    def test_every_reply_reaches_a_person(self):
+        # The From address is on the sending subdomain, which has no inbox, so
+        # each email has to say where a reply goes: the visitor's own emails
+        # to sales, a notification to the prospect it is about.
+        self._request()
+        self._contact(email='lead@bakery.example')
+
+        self.assertEqual(self._to(self.recipient)[0].reply_to, [settings.SALES_EMAIL])
+        self.assertEqual(self._to('lead@bakery.example')[0].reply_to, [settings.SALES_EMAIL])
+        self.assertEqual(
+            [n.reply_to for n in self._to(settings.SALES_EMAIL)],
+            [[self.recipient], ['lead@bakery.example']],
+        )
+
 
 class EmailCopyTests(SimpleTestCase):
     """The confirmation repeats what the thank-you page promises, in every language."""
