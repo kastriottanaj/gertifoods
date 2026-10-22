@@ -31,7 +31,7 @@ gunicorn==26.2.0
 # Image.paste()/crop(), a decompression-bomb check bypass, and OS command
 # injection in WindowsViewer. Pillow parses uploaded product images and is
 # called on every catalogue response (ProductSerializer reads width/height).
-pillow==12.3.0
+pillow==13.0.0
 psycopg2-binary==2.9.13
 # 2.13.0 carried 14 advisories published 2026-09-30, among them a
 # claim-verification bypass in jwt.decode() and a RecursionError on crafted
