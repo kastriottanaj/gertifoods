@@ -18,26 +18,8 @@ import translations from '../../src/i18n/translations.js';
 import { DEFAULT_LANG } from './i18n.js';
 
 // Everything the public islands render: the three lead forms and the modal
-// chrome, plus the product add-to-cart controls.
-const PUBLIC_PREFIXES = [
-  'hero_form_',
-  'sample_form_',
-  'catalog_form_',
-  'modal_',
-  'product_',
-];
-
-// The portal pages (login, register, cart, orders, profile) on top of that.
-// These pages are robots-disallowed and low traffic, but the subset is still
-// only ~5 KB, so there is no reason to ship them the full table either.
-const PORTAL_PREFIXES = [
-  ...PUBLIC_PREFIXES,
-  'login_',
-  'register_',
-  'cart_',
-  'orders_',
-  'profile_',
-];
+// chrome.
+const PUBLIC_PREFIXES = ['hero_form_', 'sample_form_', 'catalog_form_', 'modal_'];
 
 // The exit-intent popup renders only the sample form inside a modal. This
 // subset is ~1.2 KB and ships in every page's HTML, because the popup can fire
@@ -47,7 +29,6 @@ const EXIT_PREFIXES = ['sample_form_', 'modal_'];
 
 const SCOPES = {
   public: PUBLIC_PREFIXES,
-  portal: PORTAL_PREFIXES,
   exit: EXIT_PREFIXES,
 };
 

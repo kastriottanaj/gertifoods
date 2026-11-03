@@ -54,25 +54,23 @@ const {
   appClass = '',
   // Keeps a page out of the index. Set by the 404 pages so Googlebot stops
   // spending crawl budget on the endless supply of URLs that resolve to them,
-  // by the thank-you pages, and by the account pages (cart, login, register,
-  // profile, orders).
+  // and by the thank-you pages.
   //
-  // The account pages used to rely on a robots.txt Disallow instead. That
-  // blocks crawling, not indexing: Google can still list a disallowed URL it
-  // finds linked from every page's navbar, and because it may never fetch the
-  // page it cannot see any robots meta tag there. A noindex the crawler is
-  // allowed to read is the mechanism Google documents for keeping a page out,
-  // so these pages now carry it and robots.txt no longer mentions them.
+  // Not a robots.txt Disallow: that blocks crawling, not indexing. Google can
+  // still list a disallowed URL it finds linked, and because it may never
+  // fetch the page it cannot see a robots meta tag there. A noindex the
+  // crawler is allowed to read is the mechanism Google documents for keeping
+  // a page out.
   //
   // 'follow' is deliberate: the page carries real links back into the site
   // (home, products, areas), and dropping them would waste the one useful
   // signal a 404 still has.
   noindex = false,
   // Whether the early <script> below may send a returning visitor to the
-  // language edition they previously chose. Only the 404 turns it off — see
-  // the comment on the script for why — and it is a separate prop from
-  // `noindex` on purpose: the account pages are noindex too, and a German
-  // visitor opening /cart must still land on /de/cart.
+  // language edition they previously chose. The 404 and the thank-you pages
+  // turn it off (see the comment on the script, and ThankYou.astro, for why).
+  // It is a separate prop from `noindex` because the two are independent
+  // choices, even though every noindex page today also turns this off.
   langRedirect = true,
   // Whether to append ' | Gerti Foods' to `title`.
   //
@@ -83,9 +81,9 @@ const {
   // 'Gerti Foods' twice on the area pages, so they pass brandSuffix={false}
   // and the string reaches <title> verbatim.
   //
-  // The default stays true for the account pages (cart, login, register,
-  // profile, orders) and the 404, whose titles are short interface labels that
-  // read as orphans in a tab or a bookmark without the brand after them.
+  // The default stays true for the 404 and the thank-you pages, whose titles
+  // are short interface labels that read as orphans in a tab or a bookmark
+  // without the brand after them.
   brandSuffix = true,
 } = Astro.props;
 

@@ -174,7 +174,7 @@ chown -R gertifoods:gertifoods /var/www/gertifoods
 ## 7. Frontend: build the site
 
 The frontend is an Astro build that renders every page to static HTML and
-hydrates only the interactive parts (lead forms, cart, portal) as React islands.
+hydrates only the interactive parts (the lead forms and their modals) as React islands.
 
 Two things are baked in at **build time**, so both must be right before you run
 the build:

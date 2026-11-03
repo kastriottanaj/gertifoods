@@ -6,16 +6,16 @@
 // description and minimum order are now in the HTML. The price is not: every
 // public page says "price on request" (decided 2026-11-03).
 //
-// The signed-out state — everything a crawler and an anonymous visitor sees —
-// is static HTML. The add-to-cart control is an island that appears only once a
-// session is confirmed, and hides the login prompt when it does.
+// Everything is static HTML. The one island is the sample-request modal
+// behind the page's call to action: visitors ask for prices, they do not
+// log in or order here (customer accounts were removed 2026-11-03).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
-import ProductActions from '../islands/ProductActions.jsx';
+import ModalHost from '../islands/ModalHost.jsx';
 import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
 import MeatPieDetail from './MeatPieDetail.astro';
@@ -99,10 +99,12 @@ const schema = {
         <p class="product-detail-description">{description}</p>
         <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 
-        <ProductActions client:only="react" lang={lang} messages={messages} product={product} unit={unit} />
-        <p class="login-prompt" data-product-anon>{t('product_login_prompt')}</p>
+        <button type="button" class="btn btn-primary" data-open-modal="sample">{t('tp_quote')}</button>
       </div>
     </div>
+    {/* 'products_page' rather than a per-product value: SampleRequest.source
+        only accepts the values in leads/models.py SOURCE_CHOICES. */}
+    <ModalHost client:load lang={lang} messages={messages} sampleSource="products_page" closeOnSampleSuccess={true} />
   </div>}
 </BaseLayout>
 

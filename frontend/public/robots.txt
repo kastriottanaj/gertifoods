@@ -9,15 +9,13 @@ Allow: /furnizim/
 Allow: /en/furnizim/
 Allow: /de/furnizim/
 
-# The account pages (cart, orders, login, register, profile, in all three
-# language editions) are deliberately NOT listed here. They are kept out of
-# search with a <meta name="robots" content="noindex"> instead, which only
-# works if the crawler is allowed to fetch the page and read it. A Disallow
-# would block that fetch, and Google can still index a disallowed URL it finds
-# linked from the navbar — as a bare, content-less entry — precisely because it
-# never sees the noindex.
+# The old account pages (cart, orders, login, register, profile, in all three
+# language editions) were removed on 2026-11-03 and now answer 404, which is
+# what drops them from search. They are deliberately NOT listed here: a
+# Disallow would stop crawlers fetching them, so they would never see the 404
+# and the dead URLs would linger in the index.
 
-# Backend (served by Django, not the SPA)
+# Backend (served by Django, not the static site)
 Disallow: /admin/
 Disallow: /api/
 
