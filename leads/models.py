@@ -153,12 +153,31 @@ class SampleRequest(models.Model):
         ('other', 'Other'),
     ]
 
+    # Every page that opens the sample form sends its own value here, and DRF
+    # rejects anything missing from this list with a 400 — the visitor sees
+    # '"x" is not a valid choice.' and the lead is lost. A new landing page
+    # must add its sampleSource below; leads/tests.py reads the values out of
+    # the frontend and fails if one is missing or longer than max_length.
     SOURCE_CHOICES = [
         ('home_hero', 'Home Hero'),
         ('exit_popup', 'Exit Popup'),
         ('products_page', 'Products Page'),
+        ('products_hero', 'Products Hero'),
         ('contact_page', 'Contact Page'),
         ('catalog_request', 'Catalog Request'),
+        ('cheese_pie_detail', 'Cheese Byrek Page'),
+        ('meat_pie_detail', 'Meat Byrek Page'),
+        ('spinach_pie_detail', 'Spinach Byrek Page'),
+        ('tuna_pie_detail', 'Tuna Byrek Page'),
+        ('family_pack_detail', 'Family Pack Page'),
+        ('supply_index', 'Furnizim Hub'),
+        ('supply_byrektore', 'Furnizim: Byrektore'),
+        ('supply_furra_buke', 'Furnizim: Furra Buke'),
+        ('supply_lakror', 'Furnizim: Lakror'),
+        ('supply_lokale_restorante', 'Furnizim: Lokale & Restorante'),
+        ('supply_markete', 'Furnizim: Markete'),
+        ('supply_prishtine', 'Furnizim: Prishtinë'),
+        ('supply_tirane', 'Furnizim: Tiranë'),
         ('other', 'Other'),
     ]
 
@@ -186,7 +205,8 @@ class SampleRequest(models.Model):
     )
     message = models.TextField(blank=True)
     source = models.CharField(
-        max_length=20,
+        # 20 was too short for 'supply_lokale_restorante' (24).
+        max_length=40,
         choices=SOURCE_CHOICES,
         default='other',
         help_text='Which page or CTA captured this lead.',

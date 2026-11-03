@@ -833,3 +833,81 @@ class AttributionTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(Lead.objects.get().utm_campaign), 255)
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    META_CAPI_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+)
+class FormSourceDriftTests(APITestCase):
+    """
+    Each page that opens a lead form names itself in `source`, a choices
+    field: DRF answers a value missing from SOURCE_CHOICES with a 400, the
+    visitor sees '"x" is not a valid choice.' and the lead is lost. That
+    happened to fourteen pages for weeks — the byrek and Family Pack pages
+    from 2026-08-13, the /furnizim pages from 2026-09-15 — because nothing
+    tied the values the frontend sends to the list the backend accepts.
+    These read the values out of the frontend source, so a new page that
+    forgets to register its source fails here, not in front of a prospect.
+    """
+
+    FRONTEND = settings.BASE_DIR / 'frontend'
+
+    def _frontend_files(self):
+        for folder in ('astro', 'src'):
+            for pattern in ('*.astro', '*.jsx'):
+                yield from (self.FRONTEND / folder).rglob(pattern)
+
+    def _values(self, *patterns):
+        found = set()
+        for path in self._frontend_files():
+            text = path.read_text(encoding='utf-8')
+            for pattern in patterns:
+                found.update(re.findall(pattern, text, re.S))
+        return found
+
+    def _assert_accepted(self, model, values):
+        field = model._meta.get_field('source')
+        choices = {value for value, _ in model.SOURCE_CHOICES}
+        for value in sorted(values):
+            with self.subTest(model=model.__name__, source=value):
+                self.assertIn(value, choices)
+                self.assertLessEqual(len(value), field.max_length)
+
+    def test_every_sample_form_source_is_accepted(self):
+        values = self._values(
+            r'\bsampleSource="([a-z_]+)"',              # <ModalHost sampleSource="...">
+            r"\bsampleSource = '([a-z_]+)'",            # ModalHost's default
+            r'<SampleRequestForm\b[^>]*?\bsource="([a-z_]+)"',
+            r"SampleRequestForm\(\{ source = '([a-z_]+)'",  # the form's default
+        )
+        # Guards against the patterns silently matching nothing after a
+        # rename, which would make this test pass vacuously.
+        self.assertTrue({'cheese_pie_detail', 'supply_byrektore', 'exit_popup'} <= values, values)
+        self._assert_accepted(SampleRequest, values)
+
+    def test_every_hero_lead_form_source_is_accepted(self):
+        values = self._values(
+            r'<HeroLeadForm(?:Island)?\b[^>]*?\bsource="([a-z_]+)"',
+            r"HeroLeadForm\(\{ source = '([a-z_]+)'",
+        )
+        self.assertIn('home_hero', values)
+        self._assert_accepted(Lead, values)
+
+    def test_a_request_from_the_longest_page_source_is_saved(self):
+        cache.clear()
+        response = self.client.post(
+            reverse('sample-request'),
+            {
+                'company_name': 'Restorant Test',
+                'email': 'kuzhina@restorant.example',
+                'source': 'supply_lokale_restorante',
+            },
+            format='json',
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
+        self.assertEqual(
+            SampleRequest.objects.get(email='kuzhina@restorant.example').source,
+            'supply_lokale_restorante',
+        )
