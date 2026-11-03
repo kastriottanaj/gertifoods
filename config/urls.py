@@ -30,9 +30,7 @@ urlpatterns = [
         {'sitemaps': sitemaps, 'template_name': 'sitemaps/urlset.xml'},
         name='sitemap-section',
     ),
-    path('api/accounts/', include('accounts.urls')),
     path('api/', include('products.urls')),
-    path('api/', include('orders.urls')),
     path('api/leads/', include('leads.urls')),
 ]
 

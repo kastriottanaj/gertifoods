@@ -17,7 +17,6 @@ from config.sitemaps import (
 from config.source_lastmod import TRANSLATIONS
 from products.models import Category, Product
 
-PRIVATE_PATHS = ('/cart', '/orders', '/login', '/register', '/profile')
 SITEMAP_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9'
 
 
@@ -49,15 +48,6 @@ class SitemapTests(SimpleTestCase):
         for path in PAGE_ROUTES:
             for lang in SUPPORTED_LANGS:
                 self.assertIn(
-                    f'<loc>https://testserver{locale_path(lang, path)}</loc>', xml
-                )
-
-    def test_pages_sitemap_excludes_account_pages(self):
-        xml = self.client.get('/sitemap-pages.xml', secure=True).content.decode()
-
-        for path in PRIVATE_PATHS:
-            for lang in SUPPORTED_LANGS:
-                self.assertNotIn(
                     f'<loc>https://testserver{locale_path(lang, path)}</loc>', xml
                 )
 

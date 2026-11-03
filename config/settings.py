@@ -119,9 +119,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    # Nothing authenticates: the site has had no customer accounts since
+    # 2026-11-03, and every remaining endpoint (products, leads) is public.
+    # Staff use the Django admin, which has its own session login.
+    'DEFAULT_AUTHENTICATION_CLASSES': (),
     # Deny by default; public endpoints opt in with AllowAny explicitly.
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -146,19 +147,19 @@ REST_FRAMEWORK = {
     # Exactly one trusted proxy (nginx) sits in front of Gunicorn, so DRF must
     # derive the throttle key from the last X-Forwarded-For entry nginx appends,
     # not the raw header. Without this, a client can spoof X-Forwarded-For to get
-    # a fresh throttle bucket per request and bypass the login/leads rate limits.
+    # a fresh throttle bucket per request and bypass the leads rate limit.
     'NUM_PROXIES': 1,
     'DEFAULT_THROTTLE_RATES': {
         # Generous global cap for anonymous browsing (per IP).
         'anon': '300/hour',
-        # Tight caps for abuse-prone endpoints (per IP).
-        'login': '5/min',
-        'register': '10/hour',
+        # Tight cap for the lead forms (per IP).
         'leads': '10/hour',
     },
 }
 
-# JWT Settings
+# JWT Settings. No endpoint issues tokens any more; simplejwt stays installed
+# only because token_blacklist's tables hold foreign keys to accounts.User.
+# Drop both together, after `migrate token_blacklist zero`.
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
@@ -168,10 +169,6 @@ SIMPLE_JWT = {
 
 # CORS
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173', cast=Csv())
-# Allow the browser to send/receive the httpOnly refresh-token cookie on the
-# cross-origin dev setup (localhost:5173 -> localhost:8000). Production is
-# same-origin so this has no effect there.
-CORS_ALLOW_CREDENTIALS = True
 
 # CSRF: trusted origins for the Django admin login over HTTPS (the React app and
 # API are same-origin, so this only matters for the admin form).

@@ -5,6 +5,19 @@ reasoning and changes are easy to recall later. Newest pass first.
 
 ---
 
+## Note — customer accounts removed (2026-11-03)
+
+The customer login, registration, profile, cart and ordering features were
+removed, with their API (`/api/accounts/`, `/api/orders/`). Findings below
+about JWTs, the refresh cookie, login and registration throttling, email
+enumeration on register, and order pricing describe code that no longer
+exists. DRF now authenticates nothing (every remaining endpoint is public);
+the Django admin keeps its own session login. simplejwt stays installed only
+because token_blacklist's tables hold foreign keys to `accounts.User`; drop
+both together after `migrate token_blacklist zero`.
+
+---
+
 ## Pass 2 — Re-audit after the Astro migration (2026-10-13)
 
 A second full read-through, four months on, focused on what had changed since

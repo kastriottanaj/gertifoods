@@ -1,12 +1,12 @@
 # GertiFoods
 
-B2B web application for **GertiFoods** — a half-baked products factory based in Kosovo. The platform lets approved business customers browse the product catalog, place orders, and track their order history.
+B2B web application for **GertiFoods** — a half-baked products factory based in Kosovo. It is a marketing and lead-generation site: business buyers browse the products and the company, then request samples or the catalog, call, or message on WhatsApp. There are no customer accounts (removed 2026-11-03); orders are arranged with sales directly.
 
 ## Tech Stack
 
 **Backend**
 - Python / Django 4.2
-- Django REST Framework + SimpleJWT (JWT auth)
+- Django REST Framework (public catalog API and lead endpoints, no authentication)
 - PostgreSQL
 - django-cors-headers
 - Pillow (image uploads)
@@ -22,9 +22,9 @@ B2B web application for **GertiFoods** — a half-baked products factory based i
 ```
 gertifoods/
 ├── config/          # Django project settings, URLs, WSGI/ASGI
-├── accounts/        # Custom User model, auth, registration, profile
+├── accounts/        # Custom User model (staff admin logins, legacy customer accounts)
 ├── products/        # Category & Product models, catalog API
-├── orders/          # Order & OrderItem models, checkout API
+├── orders/          # Order & OrderItem models (legacy online orders, admin only)
 ├── frontend/        # React + Vite SPA
 ├── manage.py
 ├── requirements.txt
@@ -42,9 +42,8 @@ gertifoods/
 | Prefix | App |
 |---|---|
 | `/admin/` | Django admin |
-| `/api/accounts/` | accounts |
-| `/api/` | products |
-| `/api/` | orders |
+| `/api/` | products (read-only) |
+| `/api/leads/` | leads (lead and sample/catalog request forms) |
 
 ## Getting Started
 
@@ -107,13 +106,9 @@ the public v3 site key and set `RECAPTCHA_ENABLED=True` on the backend to protec
 the public lead, sample, and catalog forms. Local development leaves the check
 disabled by default.
 
-## Authentication
+## Accounts
 
-JWT-based via `djangorestframework-simplejwt`:
-- Access token lifetime: **1 hour**
-- Refresh token lifetime: **7 days**
-
-Business accounts must be approved (`is_approved=True`) by an admin before placing orders.
+The public site has no logins: customer accounts, the cart and online ordering were removed on 2026-11-03, together with the `/api/accounts/` and `/api/orders/` endpoints. The only login is staff access to the Django admin. Existing customer users and orders were kept in the database and remain visible there.
 
 ## Localization
 
