@@ -1,12 +1,12 @@
 ---
-import ModalHost from '../islands/ModalHost.jsx';
-import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
 import '../styles/cheese-pie-detail.css';
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
+// Same booking page as the navbar's "Rezervo takim falas".
+const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 ---
 
 <div class="cp-page">
@@ -59,9 +59,8 @@ const p = (path) => localePath(lang, path);
   <section class="cp-cta">
     <span>◇</span><div><h2>{t('cp_cta_title')}</h2><p>{t('cp_cta_body')}</p></div>
     <a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a>
-    <button type="button" data-open-modal="sample">{t('footer_book_meeting')} <b>↗</b></button>
+    <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" class="cp-cta-meeting">{t('footer_book_meeting')} <b>↗</b></a>
   </section>
 
   <div class="cp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
-  <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="cheese_pie_detail" closeOnSampleSuccess={true} />
 </div>

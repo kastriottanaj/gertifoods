@@ -883,8 +883,10 @@ class FormSourceDriftTests(APITestCase):
             r"SampleRequestForm\(\{ source = '([a-z_]+)'",  # the form's default
         )
         # Guards against the patterns silently matching nothing after a
-        # rename, which would make this test pass vacuously.
-        self.assertTrue({'cheese_pie_detail', 'supply_byrektore', 'exit_popup'} <= values, values)
+        # rename, which would make this test pass vacuously. Not tied to any
+        # one page: pages drop their form (the cheese page did, 2026-11-03).
+        self.assertIn('exit_popup', values)
+        self.assertGreaterEqual(len(values), 5, values)
         self._assert_accepted(SampleRequest, values)
 
     def test_every_hero_lead_form_source_is_accepted(self):
