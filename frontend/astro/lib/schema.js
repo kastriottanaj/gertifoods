@@ -95,7 +95,9 @@ export const organizationSchema = {
  * for. Since 2026-11-03 no public page shows a price, so nothing calls this:
  * every product page emits only its BreadcrumbList. Put a price back on a
  * page and call this from ProductDetail.astro for that page, and the Product
- * node — Offer included — comes back with it.
+ * node — Offer included — comes back with it. The public API stopped serving
+ * `price` the same day, so that also means adding it back to
+ * products/serializers.py (or reading it at build time some other way).
  *
  * @param {object}  args
  * @param {object}  args.product     Raw product from the Django catalogue.

@@ -20,4 +20,6 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'description', 'category__name']
-    ordering_fields = ['name', 'price', 'created_at']
+    # Not 'price': sorting by it would leak the price order even though the
+    # field itself is no longer served. DRF ignores unlisted orderings.
+    ordering_fields = ['name', 'created_at']

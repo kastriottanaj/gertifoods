@@ -3,6 +3,7 @@ from io import StringIO
 
 from django.core.management import call_command
 from django.test import TestCase
+from django.urls import reverse
 
 from products.models import Category, Product
 
@@ -105,3 +106,44 @@ class SetProductImagesTests(TestCase):
         changed = {k for k in before if before[k] != after[k]}
         # updated_at is auto_now, so saving necessarily bumps it.
         self.assertEqual(changed, {'image', 'updated_at'})
+
+
+class PublicCatalogueHidesPricesTests(TestCase):
+    """
+    /api/products/ is public, and prices are quoted on request only. The
+    endpoint used to return every wholesale price to anyone who asked, and
+    allowed ?ordering=price, which leaks the price order even without the
+    field. Pinned so neither comes back by accident.
+    """
+
+    def setUp(self):
+        category = Category.objects.create(name='Pite', slug='pite')
+        # Name order Alpha, Beta, Gamma; price order Beta, Alpha, Gamma — so
+        # an honoured price sort, in either direction, changes the result.
+        for name, price in (('Alpha', '5.00'), ('Beta', '1.00'), ('Gamma', '9.00')):
+            Product.objects.create(
+                category=category, name=name, slug=name.lower(),
+                price=Decimal(price), unit='piece', min_order_quantity=50,
+            )
+
+    def _names(self, query=''):
+        response = self.client.get(reverse('product-list') + query)
+        self.assertEqual(response.status_code, 200)
+        return [product['name'] for product in response.json()['results']]
+
+    def test_the_list_carries_no_price(self):
+        results = self.client.get(reverse('product-list')).json()['results']
+        self.assertEqual(len(results), 3)
+        for product in results:
+            self.assertNotIn('price', product)
+
+    def test_a_product_carries_no_price(self):
+        response = self.client.get(reverse('product-detail', args=['alpha']))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn('price', response.json())
+
+    def test_the_catalogue_cannot_be_sorted_by_price(self):
+        by_name = self._names()
+        self.assertEqual(by_name, ['Alpha', 'Beta', 'Gamma'])
+        self.assertEqual(self._names('?ordering=price'), by_name)
+        self.assertEqual(self._names('?ordering=-price'), by_name)

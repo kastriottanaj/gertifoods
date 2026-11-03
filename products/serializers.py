@@ -15,8 +15,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
+        # No 'price': prices are quoted on request only (2026-11-03), and this
+        # endpoint is public — anyone could read the wholesale price list off
+        # it. The field stays on the model for the admin.
         fields = [
-            'id', 'name', 'slug', 'description', 'price', 'unit',
+            'id', 'name', 'slug', 'description', 'unit',
             'min_order_quantity', 'image', 'image_width', 'image_height',
             'is_available', 'category', 'category_name',
         ]
