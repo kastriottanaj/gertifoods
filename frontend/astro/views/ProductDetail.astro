@@ -105,3 +105,19 @@ const schema = {
     </div>
   </div>}
 </BaseLayout>
+
+<script>
+  // Opens the sample-request modal from the buttons on every product page.
+  // The cheese, meat, spinach, tuna and Family Pack views render
+  // data-open-modal buttons and a ModalHost island, but shipped without this
+  // bridge, so until 2026-11-03 their main call to action did nothing. Same
+  // bridge as Home.astro and Products.astro: park the request for an island
+  // that has not hydrated yet, then announce it.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+    });
+  });
+</script>

@@ -70,6 +70,52 @@ for await (const file of glob('**/*.{html,js,mjs,css}', { cwd: DIST })) {
   if (text.includes(REQUIRED_MARKER.needle)) markerFound = true;
 }
 
+// A page with data-open-modal buttons needs the script that turns a click into
+// the 'gf:open-modal' event ModalHost listens for. Five product pages shipped
+// the buttons and the island without it, so their main call to action did
+// nothing for weeks and no build noticed. The bridge is usually inlined; when
+// it is not, it sits in one of the page's module scripts or a chunk they import.
+const BRIDGE = 'gf:open-modal';
+const deadButtons = [];
+
+async function distText(src) {
+  try {
+    return await readFile(join(DIST, src.replace(/^\//, '')), 'utf8');
+  } catch {
+    return '';
+  }
+}
+
+for await (const file of glob('**/*.html', { cwd: DIST })) {
+  const html = await readFile(join(DIST, file), 'utf8');
+  if (!html.includes('data-open-modal=') || html.includes(BRIDGE)) continue;
+
+  let bridged = false;
+  for (const [, src] of html.matchAll(/<script[^>]*\ssrc="(\/_astro\/[^"]+\.js)"/g)) {
+    const code = await distText(src);
+    const imports = [...code.matchAll(/["'](\.\/[^"']+\.js)["']/g)].map(([, rel]) =>
+      join(dirname(src), rel)
+    );
+    const chunks = await Promise.all(imports.map(distText));
+    if ([code, ...chunks].some((text) => text.includes(BRIDGE))) {
+      bridged = true;
+      break;
+    }
+  }
+  if (!bridged) deadButtons.push(file);
+}
+
+if (deadButtons.length) {
+  console.error(
+    `\nBuild stopped: ${deadButtons.length} page(s) have data-open-modal buttons that open nothing\n\n` +
+      deadButtons.map((file) => `  ${file}`).join('\n') +
+      `\n\n  No script on these pages dispatches '${BRIDGE}', so ModalHost never\n` +
+      '  hears the click. Add the bridge script the other pages use (see\n' +
+      '  views/ProductDetail.astro) to the view that renders the buttons.\n'
+  );
+  process.exit(1);
+}
+
 // Skipped under the same escape hatch check-build-env.js honours, so a
 // deliberately reCAPTCHA-free build is not blocked by its own absence.
 if (!markerFound && process.env.ALLOW_NO_RECAPTCHA !== '1') {
@@ -109,4 +155,4 @@ if (hits.length) {
   process.exit(1);
 }
 
-console.log('build output: no development values inlined');
+console.log('build output: no development values inlined, every modal button is wired');
