@@ -282,7 +282,7 @@
 /* ── Trust bar ─────────────────────────────────────────────────────────── */
 .tt-trust {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border: 1px solid var(--tt-line);
   border-radius: 14px;
   background: #fff;
@@ -545,15 +545,6 @@
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
-  .tt-trust {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .tt-trust div:nth-child(3) {
-    border-left: 0;
-  }
-  .tt-trust div:nth-child(n + 3) {
-    border-top: 1px solid var(--tt-line);
-  }
   .tt-variant-grid,
   .tt-solution-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

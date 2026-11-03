@@ -112,7 +112,7 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   line('- Founded: January 2024');
   line('- Location: Str. Kalaja e Shkupit, 20000 Prizren, Kosovo');
   line('- Founders: three partners from the Hasi region, a bread-baking tradition of more than 600 years');
-  line('- Certifications: HACCP, ISO 22000, IFS, BRC, Halal');
+  line('- Certification: ISO 22000');
   line('- Production capacity: byrek up to 800 pieces per hour; tortillas up to 3,000 pieces per hour');
   line('- Bake time on site: 15–20 minutes from frozen');
   line('- Sales model: B2B only, no consumer retail');
@@ -209,7 +209,6 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   para(text('tt_intro'));
   bullets([
     ['tt_trust_cert_label', 'tt_trust_cert'],
-    ['tt_trust_standards_label', 'tt_trust_standards'],
     ['tt_trust_capacity_label', 'tt_trust_capacity'],
     ['tt_trust_b2b_label', 'tt_trust_b2b'],
   ]);

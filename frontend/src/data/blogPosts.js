@@ -61,7 +61,7 @@ export const blogPosts = [
             'Siguri ushqimore që mund ta dokumentosh',
             [
               'Klientët e biznesit — zinxhirët hotelierë, supermarketet, kompanitë e kateringut — kërkojnë gjithnjë e më shumë dëshmi për mënyrën si prodhohet ushqimi. Me një prodhim të certifikuar pas teje, përgjigjen e ke gati.',
-              'Gerti Foods prodhon sipas ISO 22000, HACCP, IFS, BRC dhe Halal. Çdo lot gjurmohet nga lënda e parë deri te paketimi. Kur zgjedh një furnizues, kërkoji certifikatat, jo vetëm premtimet.',
+              'Gerti Foods prodhon sipas ISO 22000. Çdo lot gjurmohet nga lënda e parë deri te paketimi. Kur zgjedh një furnizues, kërkoji certifikatat, jo vetëm premtimet.',
             ],
           ],
           [
@@ -128,7 +128,7 @@ export const blogPosts = [
             'Food safety you can document',
             [
               'Business customers — hotel groups, supermarkets, catering companies — increasingly ask for evidence of how food is produced. With certified production behind you, the answer is ready.',
-              'Gerti Foods produces under ISO 22000, HACCP, IFS, BRC and Halal. Every batch is traceable from raw material to packaging. When you choose a supplier, ask for the certificates, not just the promises.',
+              'Gerti Foods produces under ISO 22000. Every batch is traceable from raw material to packaging. When you choose a supplier, ask for the certificates, not just the promises.',
             ],
           ],
           [
@@ -195,7 +195,7 @@ export const blogPosts = [
             'Lebensmittelsicherheit, die Sie belegen können',
             [
               'Geschäftskunden — Hotelgruppen, Supermärkte, Cateringunternehmen — fragen immer öfter nach Nachweisen darüber, wie Lebensmittel hergestellt werden. Mit einer zertifizierten Produktion im Rücken haben Sie die Antwort parat.',
-              'Gerti Foods produziert nach ISO 22000, HACCP, IFS, BRC und Halal. Jede Charge ist vom Rohstoff bis zur Verpackung rückverfolgbar. Wenn Sie einen Lieferanten auswählen, verlangen Sie die Zertifikate, nicht nur die Versprechen.',
+              'Gerti Foods produziert nach ISO 22000. Jede Charge ist vom Rohstoff bis zur Verpackung rückverfolgbar. Wenn Sie einen Lieferanten auswählen, verlangen Sie die Zertifikate, nicht nur die Versprechen.',
             ],
           ],
           [
@@ -235,7 +235,7 @@ export const blogPosts = [
             '1. Standarde të sigurisë ushqimore që mund t\'i shohësh',
             [
               'Kërko dëshmi, jo përshkrime. Një prodhues serioz ka një sistem të dokumentuar të sigurisë ushqimore, gjurmueshmëri të çdo loti nga lënda e parë deri te paketimi dhe kontrolle të rregullta gjatë prodhimit.',
-              'Certifikimet e bëjnë këtë të verifikueshme nga një palë e tretë. ISO 22000 dhe HACCP mbulojnë menaxhimin e rrezikut, IFS dhe BRC janë standardet që kërkojnë zinxhirët e mëdhenj të shitjes me pakicë, ndërsa Halal ka rëndësi për një pjesë të madhe të tregut tonë. Gerti Foods i mban të pestë. Kërkoji certifikatat dhe kontrollo datën e vlefshmërisë.',
+              'Certifikimet e bëjnë këtë të verifikueshme nga një palë e tretë. ISO 22000 është standardi ndërkombëtar për menaxhimin e sigurisë ushqimore, nga lënda e parë deri te dërgesa, dhe Gerti Foods është e certifikuar sipas tij. Kërkoje certifikatën dhe kontrollo datën e vlefshmërisë.',
             ],
           ],
           [
@@ -301,7 +301,7 @@ export const blogPosts = [
             '1. Food-safety standards you can see',
             [
               'Ask for evidence, not descriptions. A serious producer has a documented food-safety system, traceability of every batch from raw material to packaging, and regular controls during production.',
-              'Certifications make that verifiable by a third party. ISO 22000 and HACCP cover hazard management, IFS and BRC are the standards large retail chains demand, and Halal matters for a large part of our market. Gerti Foods holds all five. Ask for the certificates and check the expiry dates.',
+              'Certifications make that verifiable by a third party. ISO 22000 is the international standard for food-safety management, from raw material to dispatch, and Gerti Foods is certified to it. Ask for the certificate and check the expiry date.',
             ],
           ],
           [
@@ -367,7 +367,7 @@ export const blogPosts = [
             '1. Lebensmittelsicherheit, die Sie sehen können',
             [
               'Verlangen Sie Nachweise, keine Beschreibungen. Ein seriöser Hersteller hat ein dokumentiertes System für Lebensmittelsicherheit, Rückverfolgbarkeit jeder Charge vom Rohstoff bis zur Verpackung und regelmäßige Kontrollen während der Produktion.',
-              'Zertifizierungen machen das durch Dritte überprüfbar. ISO 22000 und HACCP decken das Gefahrenmanagement ab, IFS und BRC sind die Standards, die große Handelsketten verlangen, und Halal ist für einen großen Teil unseres Marktes wichtig. Gerti Foods hält alle fünf. Fragen Sie nach den Zertifikaten und prüfen Sie die Gültigkeitsdaten.',
+              'Zertifizierungen machen das durch Dritte überprüfbar. ISO 22000 ist der internationale Standard für das Lebensmittelsicherheits-Management, vom Rohstoff bis zum Versand, und Gerti Foods ist danach zertifiziert. Fragen Sie nach dem Zertifikat und prüfen Sie das Gültigkeitsdatum.',
             ],
           ],
           [
