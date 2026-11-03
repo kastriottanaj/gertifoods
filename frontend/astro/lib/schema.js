@@ -90,11 +90,11 @@ export const organizationSchema = {
  * Only call this for a page that shows the price. Google's Product rich
  * result needs `offers`, `review` or `aggregateRating`, and a Product node
  * carrying none of them is not "eligible later" — it is a permanent error in
- * Search Console and every audit tool, for zero benefit. The request-an-offer
- * pages (Family Pack, the byrek landing pages, tortilla) show no price, and
- * an Offer with a price the visitor cannot see is the mismatch Google issues
- * manual actions for, so those pages emit no Product node at all and keep
- * only their BreadcrumbList. Put the price back on the page and the Product
+ * Search Console and every audit tool, for zero benefit. And an Offer with a
+ * price the visitor cannot see is the mismatch Google issues manual actions
+ * for. Since 2026-11-03 no public page shows a price, so nothing calls this:
+ * every product page emits only its BreadcrumbList. Put a price back on a
+ * page and call this from ProductDetail.astro for that page, and the Product
  * node — Offer included — comes back with it.
  *
  * @param {object}  args

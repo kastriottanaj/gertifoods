@@ -2,18 +2,19 @@
 // Astro port of src/pages/ProductDetail.jsx.
 //
 // These are the URLs config/sitemaps.py has been submitting to Google while the
-// SPA served them as an empty shell. The product's name, category, price,
-// description and minimum order are now in the HTML.
+// SPA served them as an empty shell. The product's name, category,
+// description and minimum order are now in the HTML. The price is not: every
+// public page says "price on request" (decided 2026-11-03).
 //
 // The signed-out state — everything a crawler and an anonymous visitor sees —
 // is static HTML. The add-to-cart control is an island that appears only once a
 // session is confirmed, and hides the login prompt when it does.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
+import { useTranslations, localePath } from '../lib/i18n.js';
 import { getProduct } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
-import { productSchema, breadcrumbSchema, jsonLd } from '../lib/schema.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import ProductActions from '../islands/ProductActions.jsx';
 import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
@@ -32,7 +33,6 @@ const copy = productCopy(t);
 const name = copy.name(product);
 const description = copy.description(product);
 const unit = copy.unit(product);
-const category = copy.category(product);
 // Head copy only — the visible name and description above are untouched.
 // An authored title is already a full SERP line and suppresses the brand
 // suffix; a product with no keys yet falls back to the old behaviour.
@@ -45,25 +45,13 @@ const isCheesePie = slug === 'pite-me-djathe';
 const isMeatPie = slug === 'pite-me-mish';
 const isSpinachPie = slug === 'pite-me-spinaq';
 const isTunaPie = slug === 'pite-me-tuna';
-const isLandingDetail = isFamilyPack || isCheesePie || isMeatPie || isSpinachPie;
 
-// Same normalisation BaseLayout applies before emitting the canonical, so the
-// schema and the <link rel="canonical"> name the identical URL. Deriving it
-// here rather than hard-coding the origin keeps each language edition pointing
-// at itself instead of all three claiming the Albanian one.
-const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
-
-// The landing-style layouts (Family Pack and the three byrek pages) are
-// request-an-offer pages and print no price; the generic layout and the tuna
-// page render "€X / unit" below the heading. Only the latter get a Product
-// node — see productSchema() for why a price-less Product is worse than none.
-const showsPrice = !isLandingDetail;
+// No product page prints a price, so none gets a Product node, only
+// breadcrumbs. See productSchema() in lib/schema.js for why a price-less
+// Product is worse than none, and how to bring it back with a price.
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
-    ...(showsPrice
-      ? [productSchema({ product, name, description, category, unit, canonical })]
-      : []),
     breadcrumbSchema([
       { name: t('footer_home'), url: new URL(localePath(lang, '/'), Astro.site).href },
       {
@@ -107,7 +95,7 @@ const schema = {
       <div class="product-detail-info">
         <span class="product-category-badge">{copy.category(product)}</span>
         <h1>{name}</h1>
-        <p class="product-detail-price">&euro;{product.price} / {unit}</p>
+        <p class="product-detail-price">{t('products_price_on_request')}</p>
         <p class="product-detail-description">{description}</p>
         <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 

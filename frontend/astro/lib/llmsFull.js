@@ -180,25 +180,14 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   para(text('products_about_intro'));
   bullets(numbered('products_about', 4, 'title', 'body'));
 
-  // The landing-style product pages are request-an-offer pages and print no
-  // price (ProductDetail.astro, isLandingDetail); say the same here rather than
-  // quoting a number the page itself withholds.
-  const PRICE_ON_REQUEST = new Set([
-    'family-pack-pite-4',
-    'pite-me-djathe',
-    'pite-me-mish',
-    'pite-me-spinaq',
-  ]);
+  // No product page prints a price (ProductDetail.astro); say the same here
+  // rather than quoting a number the pages themselves withhold.
   for (const product of products) {
     const unit = copy.unit(product);
     heading(3, `${copy.name(product)} (${url(lang, `/products/${product.slug}`)})`);
     para(copy.description(product));
     line(`- Category: ${copy.category(product)}`);
-    line(
-      PRICE_ON_REQUEST.has(product.slug)
-        ? `- ${text('products_price_on_request') ?? 'Price on request'}`
-        : `- Price: €${product.price} per ${unit}`
-    );
+    line(`- ${text('products_price_on_request') ?? 'Price on request'}`);
     line(`- Minimum order: ${product.min_order_quantity} × ${unit}`);
     line();
   }
@@ -363,7 +352,7 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   line(`- Short index of this site: ${ORIGIN}/llms.txt`);
   line(
     '- WebMCP tools registered in the browser (https://developer.chrome.com/docs/ai/webmcp): ' +
-      'search_products (keyword search over the catalogue, returns name, page URL, price and description), ' +
+      'search_products (keyword search over the catalogue, returns name, page URL and description), ' +
       'get_contact_info (phone, WhatsApp, email and address), ' +
       'search_products_form (declarative search form that opens the product results page).'
   );

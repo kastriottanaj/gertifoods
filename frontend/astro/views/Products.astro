@@ -87,7 +87,7 @@ const messages = islandMessages(lang);
             <div class="product-card-body">
               <h3>{copy.name(product)}</h3>
               <p class="product-category">{copy.category(product)}</p>
-              <p class="product-price">&euro;{product.price} / {copy.unit(product)}</p>
+              <p class="product-price">{t('products_price_on_request')}</p>
               <p class="product-min-order">{t('products_min_order')}: {product.min_order_quantity} {copy.unit(product)}</p>
               <a href={p(`/products/${product.slug}`)} class="btn btn-primary">{t('products_view')}</a>
             </div>

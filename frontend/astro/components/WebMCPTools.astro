@@ -52,7 +52,7 @@
     modelContext.registerTool({
       name: 'search_products',
       description:
-        'Search the Gerti Foods product catalog by keyword and return up to ten matching half-baked products with name, page URL, price and a short description.',
+        'Search the Gerti Foods product catalog by keyword and return up to ten matching half-baked products with name, page URL and a short description. Prices are on request.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -83,10 +83,8 @@
             .slice(0, limit)
             .map(function (p: any) {
               const url = 'https://gertifoods.com/products/' + p.slug;
-              const price =
-                p.price != null ? ' (' + p.price + ' EUR/' + (p.unit || 'unit') + ')' : '';
               const excerpt = p.description ? ' - ' + p.description : '';
-              return '- ' + p.name + price + ': ' + url + excerpt;
+              return '- ' + p.name + ': ' + url + excerpt;
             })
             .join('\n');
         } catch (e: any) {

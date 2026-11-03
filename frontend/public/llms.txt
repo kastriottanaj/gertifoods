@@ -8,7 +8,7 @@ Production capacity: tortillas up to 3,000 pcs/hour, byrek up to 800 pcs/hour.
 
 ## Products
 
-- [Products catalog](https://gertifoods.com/products): full searchable product list with prices and minimum order quantities. All byrek are half-baked and delivered frozen, finish in 15–20 minutes, and have a minimum order of 50 pieces; up to 800 pcs/hour.
+- [Products catalog](https://gertifoods.com/products): full searchable product list with minimum order quantities (prices on request). All byrek are half-baked and delivered frozen, finish in 15–20 minutes, and have a minimum order of 50 pieces; up to 800 pcs/hour.
 - [Cheese byrek](https://gertifoods.com/products/pite-me-djathe): traditional flaky pastry filled with white cheese.
 - [Spinach byrek with cheese](https://gertifoods.com/products/pite-me-spinaq): traditional flaky pastry filled with spinach and cheese.
 - [Meat byrek](https://gertifoods.com/products/pite-me-mish): traditional flaky pastry filled with seasoned minced meat.
@@ -63,7 +63,7 @@ One landing page per buyer type and city for the Albanian-speaking markets (Koso
 
 This site registers WebMCP tools (see [WebMCP documentation](https://developer.chrome.com/docs/ai/webmcp)):
 
-- search_products: search the product catalog by keyword and return up to ten matching products with name, page URL, price and description.
+- search_products: search the product catalog by keyword and return up to ten matching products with name, page URL and description.
 - get_contact_info: return the company's phone, WhatsApp, email and address so a buyer can reach the sales team.
 - search_products_form: declarative search form that loads the product results page for a keyword.
 
