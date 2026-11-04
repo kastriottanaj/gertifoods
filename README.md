@@ -5,17 +5,16 @@ B2B web application for **GertiFoods** — a half-baked products factory based i
 ## Tech Stack
 
 **Backend**
-- Python / Django 4.2
+- Python 3.14 / Django 5.2 LTS
 - Django REST Framework (public catalog API and lead endpoints, no authentication)
 - PostgreSQL
 - django-cors-headers
 - Pillow (image uploads)
 
 **Frontend**
-- React 19 + Vite
-- React Router 7
+- Astro 7: every page is static HTML
+- React 19 islands for the lead forms
 - Axios
-- react-helmet-async (SEO)
 
 ## Project Structure
 
@@ -25,7 +24,7 @@ gertifoods/
 ├── accounts/        # Custom User model (staff admin logins, legacy customer accounts)
 ├── products/        # Category & Product models, catalog API
 ├── orders/          # Order & OrderItem models (legacy online orders, admin only)
-├── frontend/        # React + Vite SPA
+├── frontend/        # Astro site with React islands
 ├── manage.py
 ├── requirements.txt
 └── .env.example
@@ -50,8 +49,9 @@ gertifoods/
 ### 1. Backend
 
 ```bash
-# Create & activate virtualenv
-python3 -m venv venv
+# Create & activate virtualenv. Name the version: production runs 3.14, and a
+# bare python3 can be an older system Python that Django 5.2 does not support.
+python3.14 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
@@ -77,11 +77,24 @@ Backend runs at `http://localhost:8000`.
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`.
+Frontend runs at `http://localhost:4321`. It needs Node 22.23.4 or newer.
+
+### 3. Checking the lead forms
+
+```bash
+cd frontend
+npm run build            # needs the backend running, or BUILD_API_URL=https://gertifoods.com/api
+npm run test:forms       # the build you just made
+npm run test:forms -- --live   # the live site
+```
+
+This submits every lead form in all three languages in headless Chrome, then
+opens every page and clicks every form button. It creates no leads and records
+no conversions. See the top of `frontend/scripts/check-lead-forms.js`.
 
 ## Environment Variables
 
