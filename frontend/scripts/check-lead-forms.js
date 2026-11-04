@@ -279,8 +279,13 @@ class Tab {
       const { exception, text } = params.exceptionDetails;
       this.problems.push(`JavaScript error: ${(exception?.description ?? text).split('\n')[0]}`);
     } else if (method === 'Log.entryAdded') {
-      if (/Content Security Policy/i.test(params.entry.text)) {
-        this.problems.push(`blocked by the CSP: ${params.entry.text.slice(0, 160)}`);
+      // A report-only policy logs the violation and blocks nothing, so it says
+      // nothing about whether a form works. The site sends none, but framing
+      // www.google.com for reCAPTCHA can log one, which failed a different form
+      // each run. Matched on the wording because Chrome logs some at error level.
+      const { text } = params.entry;
+      if (/Content Security Policy/i.test(text) && !/report-only/i.test(text)) {
+        this.problems.push(`blocked by the CSP: ${text.slice(0, 160)}`);
       }
     } else if (method === 'Network.responseReceived') {
       const { type, response } = params;
