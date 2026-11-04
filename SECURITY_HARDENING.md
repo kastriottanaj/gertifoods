@@ -5,6 +5,26 @@ reasoning and changes are easy to recall later. Newest pass first.
 
 ---
 
+## Lead input limits (2026-11-04)
+
+- Treat `_fbc` and `_fbp` cookies as untrusted input. Discard malformed or
+  overlong identifiers, including a reconstructed `_fbc` longer than its
+  255-character database column. Keep the enquiry even when attribution is
+  unusable; do not truncate identifiers into a different identity.
+- Limit messages to 5,000 characters and product interests to 2,000 characters.
+  Reject lead request bodies above 64 KiB before parsing and reCAPTCHA, with a
+  matching nginx limit on the two lead endpoints. Admin image uploads retain
+  their existing allowance.
+- Regression coverage exercises both endpoints, oversized cookies and click
+  IDs, field boundaries, and rejection without saving or sending email.
+
+Deployment: insert the new lead-specific location from `deploy/nginx.conf`
+before the existing generic `/api/` regex in the live site configuration.
+Preserve Certbot's TLS blocks; validate with `nginx -t`, reload nginx, and
+restart Gunicorn. No database migration or frontend rebuild is needed.
+
+---
+
 ## Note — customer accounts removed (2026-11-03)
 
 The customer login, registration, profile, cart and ordering features were

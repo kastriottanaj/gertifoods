@@ -7,7 +7,7 @@ from the server deduplicate against each other. It identifies an event, not a
 person, and a forged one can only collide with another event of the same name.
 
 fbc/fbp are deliberately NOT accepted from the client — leads/views.py reads
-them from the request cookies, where they cannot be supplied by hand.
+and validates them from the request cookies (which are also untrusted input).
 
 is_spam is deliberately left out of both field lists: the client must not be able
 to set it, and a bot must not see it in the reply and learn it was caught.
@@ -54,6 +54,7 @@ class TruncatesAttributionMixin:
 
 
 class LeadSerializer(TruncatesAttributionMixin, serializers.ModelSerializer):
+    message = serializers.CharField(max_length=5000, required=False, allow_blank=True)
     recaptcha_token = serializers.CharField(write_only=True, required=False)
 
     class Meta:
@@ -87,6 +88,8 @@ class LeadSerializer(TruncatesAttributionMixin, serializers.ModelSerializer):
 
 
 class SampleRequestSerializer(TruncatesAttributionMixin, serializers.ModelSerializer):
+    message = serializers.CharField(max_length=5000, required=False, allow_blank=True)
+    products_interested = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     recaptcha_token = serializers.CharField(write_only=True, required=False)
 
     class Meta:

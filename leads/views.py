@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 
 from rest_framework import generics, permissions, status
@@ -23,6 +24,15 @@ logger = logging.getLogger(__name__)
 # strong bot signal, but not a certain one: a browser or password manager can
 # fill it for a real visitor.
 HONEYPOT_FIELD = 'website'
+MAX_LEAD_BODY_BYTES = 64 * 1024
+
+
+def _meta_cookie(value, *, browser_id=False):
+    """Discard malformed identifiers, rather than truncate their identity."""
+    suffix = r'[0-9]+' if browser_id else r'[A-Za-z0-9_-]+'
+    if len(value) <= 255 and re.fullmatch(r'fb\.[0-9]+\.[0-9]+\.' + suffix, value):
+        return value
+    return ''
 
 
 def _save_if_trapped(request, serializer):
@@ -50,6 +60,11 @@ class RecaptchaCreateMixin:
     recaptcha_action = None
 
     def create(self, request, *args, **kwargs):
+        # Bound the whole payload before parsing or making outbound calls.
+        if len(request.body) > MAX_LEAD_BODY_BYTES:
+            error = APIException('Submission is too large. Please shorten your message.')
+            error.status_code = status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+            raise error
         try:
             valid = verify_recaptcha(
                 request.data.get('recaptcha_token'),
@@ -81,13 +96,11 @@ def _report_conversion(request, record, *, form_name, source, email, phone, **na
     conversion must describe themselves identically, or Events Manager shows
     the same form under two names depending on which copy arrived first.
 
-    fbc/fbp come from the request cookies rather than the posted payload. The
-    pixel sets them as first-party cookies on this domain, so they arrive with
-    the form POST for free — and reading them here means they cannot be forged
-    by whatever posted the form.
+    fbc/fbp arrive as first-party cookies, but are still untrusted client input.
+    Validate their format and storage length before forwarding or saving them.
     """
-    fbc = request.COOKIES.get('_fbc', '')
-    fbp = request.COOKIES.get('_fbp', '')
+    fbc = _meta_cookie(request.COOKIES.get('_fbc', ''))
+    fbp = _meta_cookie(request.COOKIES.get('_fbp', ''), browser_id=True)
 
     # Rebuild Meta's click parameter from the ad URL when the cookie is absent.
     #
@@ -98,7 +111,7 @@ def _report_conversion(request, record, *, form_name, source, email, phone, **na
     # either way, and `fb.1.<ms>.<fbclid>` is the format Meta documents for
     # constructing it.
     if not fbc and record.fbclid:
-        fbc = 'fb.1.%d.%s' % (int(time.time() * 1000), record.fbclid)
+        fbc = _meta_cookie('fb.1.%d.%s' % (int(time.time() * 1000), record.fbclid))
 
     # Recorded whatever happens to the send. fbc in particular is the only
     # durable record that this lead came from a Meta ad, and it is needed long

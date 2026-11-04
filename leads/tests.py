@@ -1103,3 +1103,73 @@ class SpamTrapTests(APITestCase):
         self.assertEqual(page.status_code, 200)
         self.assertContains(page, 'Flagged as spam')
         self.assertNotContains(page, 'name="is_spam"')
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    META_CAPI_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+)
+class LeadInputLimitsTests(APITestCase):
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+
+    def endpoints(self):
+        return (
+            (reverse('lead-create'), SpamTrapTests.lead, Lead),
+            (reverse('sample-request'), SpamTrapTests.sample, SampleRequest),
+        )
+
+    def test_invalid_tracking_cookies_do_not_break_capture(self):
+        for url, payload, model in self.endpoints():
+            for value in ('x' * 256, 'fb.1.1700000000.' + '1' * 250, 'not-a-meta-cookie'):
+                with self.subTest(url=url, value_length=len(value)):
+                    self.client.cookies['_fbc'] = value
+                    self.client.cookies['_fbp'] = value
+                    response = self.client.post(url, payload, format='json')
+                    self.assertEqual(response.status_code, 201)
+                    record = model.objects.latest('pk')
+                    self.assertEqual((record.fbc, record.fbp), ('', ''))
+                    self.assertTrue(record.sales_notified)
+
+    def test_long_reconstructed_cookie_is_discarded(self):
+        for url, payload, model in self.endpoints():
+            with self.subTest(url=url):
+                response = self.client.post(url, {**payload, 'fbclid': 'x' * 255}, format='json')
+                self.assertEqual(response.status_code, 201)
+                record = model.objects.latest('pk')
+                self.assertEqual(record.fbclid, 'x' * 255)
+                self.assertEqual(record.fbc, '')
+
+    def test_text_limits_reject_before_save_or_email(self):
+        for url, payload, model in self.endpoints():
+            fields = [('message', 5000)]
+            if model is SampleRequest:
+                fields.append(('products_interested', 2000))
+            for field, limit in fields:
+                with self.subTest(url=url, field=field):
+                    response = self.client.post(url, {**payload, field: 'x' * (limit + 1)}, format='json')
+                    self.assertEqual(response.status_code, 400)
+                    self.assertIn(field, response.data)
+                    self.assertFalse(model.objects.exists())
+                    self.assertEqual(len(mail.outbox), 0)
+
+    def test_text_at_limits_is_accepted(self):
+        for url, payload, model in self.endpoints():
+            with self.subTest(url=url):
+                fields = {'message': 'ë' * 5000}
+                if model is SampleRequest:
+                    fields['products_interested'] = 'ë' * 2000
+                response = self.client.post(url, {**payload, **fields}, format='json')
+                self.assertEqual(response.status_code, 201)
+                self.assertEqual(model.objects.latest('pk').message, fields['message'])
+
+    def test_large_body_rejected_before_recaptcha_or_side_effects(self):
+        for url, payload, model in self.endpoints():
+            with self.subTest(url=url), patch('leads.views.verify_recaptcha') as verify:
+                response = self.client.post(url, {**payload, 'unused': 'x' * 65536}, format='json')
+                self.assertEqual(response.status_code, 413)
+                verify.assert_not_called()
+                self.assertFalse(model.objects.exists())
+                self.assertEqual(len(mail.outbox), 0)
