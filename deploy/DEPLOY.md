@@ -376,6 +376,20 @@ leaves nothing to serve. Take a copy first if you want an instant rollback:
 cp -a /var/www/gertifoods/frontend/dist /root/dist-backup-$(date +%F-%H%M%S)
 ```
 
+**Then check the lead forms on the live site, from your own machine** (the server
+has no Chrome):
+
+```bash
+cd frontend && npm run test:forms -- --live
+```
+
+It submits every lead form in all three languages, then opens every page in the
+sitemap and clicks every form button, in about a minute. It creates no leads and
+records no conversions: the browser answers the form POSTs itself and refuses
+every other host except reCAPTCHA. Each submission is checked against the
+server's own field rules, read with OPTIONS, so a form the backend would refuse
+still fails. See the top of `frontend/scripts/check-lead-forms.js`.
+
 ### Upgrading Django, Python, or anything else in the virtualenv
 
 **Create the new virtualenv at `venv`, its final path. Do not build it
