@@ -3,7 +3,7 @@
 #
 # Re-check with:
 #   python3 -c "import json,urllib.request as u; [print(n, [v['id'] for v in json.load(u.urlopen(u.Request('https://api.osv.dev/v1/query', json.dumps({'package':{'name':n,'ecosystem':'PyPI'},'version':x}).encode(), {'Content-Type':'application/json'}))).get('vulns',[])]) for n,x in (l.strip().split('==') for l in open('requirements.txt') if '==' in l)]"
-asgiref==3.12.1
+asgiref==3.13.0
 # Django 5.2 LTS, security-supported until April 2028. 4.2 LTS reached end of
 # extended support in April 2026 and carried six unpatched advisories; it also
 # never supported the Python 3.14 the server runs (4.2 covers 3.8-3.12), so
@@ -31,7 +31,7 @@ gunicorn==26.2.0
 # Image.paste()/crop(), a decompression-bomb check bypass, and OS command
 # injection in WindowsViewer. Pillow parses uploaded product images and is
 # called on every catalogue response (ProductSerializer reads width/height).
-pillow==12.3.0
+pillow==13.0.0
 psycopg2-binary==2.9.13
 # 2.13.0 carried 14 advisories published 2026-09-30, among them a
 # claim-verification bypass in jwt.decode() and a RecursionError on crafted
