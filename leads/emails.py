@@ -206,11 +206,13 @@ def _hold_back_reason(record):
       many addresses still cannot turn the sales mailbox into a bulk sender.
 
     Both count saved requests rather than sent mail, so a request that was held
-    back still counts — repeating it keeps it held back.
+    back still counts — repeating it keeps it held back. Rows flagged as spam do
+    not count: nothing is sent for them, and counting them would let a bot use up
+    the daily limit, or block a real visitor's email by posting their address.
     """
     since = timezone.now() - timedelta(hours=24)
-    samples = SampleRequest.objects.filter(created_at__gte=since)
-    leads = Lead.objects.filter(created_at__gte=since)
+    samples = SampleRequest.objects.filter(created_at__gte=since, is_spam=False)
+    leads = Lead.objects.filter(created_at__gte=since, is_spam=False)
     if isinstance(record, Lead):
         leads = leads.exclude(pk=record.pk)
     else:

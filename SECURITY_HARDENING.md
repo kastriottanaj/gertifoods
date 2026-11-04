@@ -254,6 +254,17 @@ wired into `HeroLeadForm.jsx`, `CatalogRequestForm.jsx`, `SampleRequestForm.jsx`
 sales inbox, or the mail server. Verified live: a honeypot-filled POST returns
 `201` with no lead saved.
 
+**Changed 2026-11-04:** caught submissions are now saved with `is_spam=True`
+instead of discarded, still with no email and nothing sent to Meta, and they find
+out nothing: the check moved from `HoneypotCreateMixin` to `_save_if_trapped`,
+after reCAPTCHA and validation, and the reply is the same as for any other
+submission. Discarding could lose a real enquiry unnoticed. Chrome's autofill
+filled a test field hidden the same way, off-screen with `autocomplete="off"`,
+and only leaves this one alone because it has no "website" data to offer, while
+password managers are reported to fill such fields. A false positive is now
+recoverable through the "flagged as spam" filter in the admin. Nobody is notified
+about these rows, so that filter has to be checked now and then.
+
 ---
 
 ### #3 — JWT refresh token in `localStorage`

@@ -41,6 +41,22 @@ class Lead(models.Model):
         choices=STATUS_CHOICES,
         default='new',
     )
+    # Set when the hidden spam-trap field came back filled in (leads/views.py).
+    #
+    # Kept rather than discarded because a browser or password manager can fill
+    # that field for a real visitor, who sees the thank-you page either way: a
+    # discarded enquiry would be gone with nobody aware of it. Nothing is sent
+    # for these rows, so someone has to look at this filter in the admin.
+    #
+    # db_default as well as default, so the database itself holds the default:
+    # for a moment during a deploy, the outgoing workers are still inserting
+    # rows without this column after the migration has added it.
+    is_spam = models.BooleanField(
+        'flagged as spam',
+        default=False,
+        db_default=False,
+        help_text='The hidden spam-trap field was filled in, so no emails were sent. Check whether this is a real enquiry.',
+    )
     # Whether the sales notification for this row actually left the server.
     #
     # Sending is best-effort by design: leads/emails.py swallows any failure so
@@ -215,6 +231,13 @@ class SampleRequest(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default='new',
+    )
+    # See Lead.is_spam for why these rows are kept and why db_default is set.
+    is_spam = models.BooleanField(
+        'flagged as spam',
+        default=False,
+        db_default=False,
+        help_text='The hidden spam-trap field was filled in, so no emails were sent. Check whether this is a real enquiry.',
     )
     # Whether the sales notification for this row actually left the server.
     #

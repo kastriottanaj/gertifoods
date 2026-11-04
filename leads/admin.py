@@ -14,15 +14,19 @@ class LeadAdmin(admin.ModelAdmin):
         'status',
         'utm_campaign',
         'sales_notified',
+        'is_spam',
         'created_at',
     )
     # Filtering on sales_notified is the point: it answers "which leads did we
-    # never actually hear about?" in one click.
-    list_filter = ('utm_campaign', 'utm_source', 'status', 'capi_sent', 'sales_notified', 'source', 'created_at')
+    # never actually hear about?" in one click. is_spam is the same question for
+    # the spam trap: nobody is emailed about those rows, so this filter is the
+    # only place a real enquiry that was caught by mistake will ever show up.
+    list_filter = ('is_spam', 'utm_campaign', 'utm_source', 'status', 'capi_sent', 'sales_notified', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('first_name', 'last_name', 'email', 'phone')
     # Everything here is recorded by the server or the browser, never typed.
     readonly_fields = (
+        'is_spam',
         'sales_notified',
         'capi_sent',
         'event_id',
@@ -52,7 +56,7 @@ class LeadAdmin(admin.ModelAdmin):
             'fields': ('message',),
         }),
         ('Tracking', {
-            'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
+            'fields': ('source', 'status', 'is_spam', 'sales_notified', 'created_at', 'updated_at'),
         }),
         # Ad attribution. Read-only: every value here is recorded by the
         # server or minted by the browser, never typed. fbc being populated is
@@ -91,13 +95,15 @@ class SampleRequestAdmin(admin.ModelAdmin):
         'status',
         'utm_campaign',
         'sales_notified',
+        'is_spam',
         'created_at',
     )
-    list_filter = ('utm_campaign', 'utm_source', 'status', 'business_type', 'capi_sent', 'sales_notified', 'source', 'created_at')
+    list_filter = ('is_spam', 'utm_campaign', 'utm_source', 'status', 'business_type', 'capi_sent', 'sales_notified', 'source', 'created_at')
     list_editable = ('status',)
     search_fields = ('company_name', 'contact_name', 'email', 'phone', 'city')
     # Everything here is recorded by the server or the browser, never typed.
     readonly_fields = (
+        'is_spam',
         'sales_notified',
         'capi_sent',
         'event_id',
@@ -134,7 +140,7 @@ class SampleRequestAdmin(admin.ModelAdmin):
             'fields': ('products_interested', 'message'),
         }),
         ('Tracking', {
-            'fields': ('source', 'status', 'sales_notified', 'created_at', 'updated_at'),
+            'fields': ('source', 'status', 'is_spam', 'sales_notified', 'created_at', 'updated_at'),
         }),
         # Ad attribution. Read-only: every value here is recorded by the
         # server or minted by the browser, never typed. fbc being populated is

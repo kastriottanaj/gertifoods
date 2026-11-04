@@ -440,7 +440,7 @@ async function checkForm(browser, lang, scenario, serverRules) {
     if (!/application\/json/.test(post.contentType ?? '')) problems.push(`sent ${post.contentType} instead of JSON`);
     if (post.body.source !== scenario.source) problems.push(`sent source "${post.body.source}", expected "${scenario.source}"`);
     if (!post.body.recaptcha_token) problems.push('no reCAPTCHA token: Django refuses an empty one, so a real visitor would get an error');
-    if (post.body.website) problems.push('the honeypot was filled in: Django would pretend to save this lead and discard it');
+    if (post.body.website) problems.push('the honeypot was filled in: Django would save this lead flagged as spam and notify nobody');
     const fields = serverRules[post.path];
     if (fields) {
       for (const reason of refusedByServer(post.body, fields)) problems.push(`the server would refuse this: ${reason}`);

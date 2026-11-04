@@ -8,6 +8,9 @@ person, and a forged one can only collide with another event of the same name.
 
 fbc/fbp are deliberately NOT accepted from the client — leads/views.py reads
 them from the request cookies, where they cannot be supplied by hand.
+
+is_spam is deliberately left out of both field lists: the client must not be able
+to set it, and a bot must not see it in the reply and learn it was caught.
 """
 
 from rest_framework import serializers

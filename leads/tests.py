@@ -7,6 +7,7 @@ from smtplib import SMTPRecipientsRefused
 from unittest.mock import patch
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.core.cache import cache
 from django.test import RequestFactory, SimpleTestCase, override_settings
@@ -913,3 +914,192 @@ class FormSourceDriftTests(APITestCase):
             SampleRequest.objects.get(email='kuzhina@restorant.example').source,
             'supply_lokale_restorante',
         )
+
+
+@override_settings(
+    RECAPTCHA_ENABLED=False,
+    META_CAPI_ENABLED=False,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+)
+class SpamTrapTests(APITestCase):
+    """A filled honeypot keeps the submission, flagged, and sends nothing.
+
+    A browser or password manager can fill that hidden field for a real visitor,
+    who sees the thank-you page either way. These submissions used to be
+    discarded, which would lose a real enquiry with nobody aware of it.
+    """
+
+    lead_url = reverse('lead-create')
+    sample_url = reverse('sample-request')
+    lead = {
+        'first_name': 'Arben',
+        'last_name': 'Krasniqi',
+        'email': 'buyer@bakery.example',
+        'phone': '049111150',
+        'source': 'home_hero',
+    }
+    sample = {
+        'company_name': 'Byrektore ABC',
+        'email': 'buyer@bakery.example',
+        'source': 'home_hero',
+    }
+    catalog = {
+        'company_name': 'Byrektore ABC',
+        'email': 'buyer@bakery.example',
+        'source': 'catalog_request',
+    }
+    trap = {'website': 'https://spam.example'}
+
+    def setUp(self):
+        cache.clear()
+        mail.outbox = []
+
+    def post_lead(self, **fields):
+        return self.client.post(self.lead_url, {**self.lead, **fields}, format='json')
+
+    def post_sample(self, **fields):
+        return self.client.post(self.sample_url, {**self.sample, **fields}, format='json')
+
+    def test_a_filled_trap_saves_the_lead_flagged(self):
+        response = self.post_lead(**self.trap)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Lead.objects.get().is_spam)
+
+    def test_a_filled_trap_saves_the_sample_request_flagged(self):
+        response = self.post_sample(**self.trap)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(SampleRequest.objects.get().is_spam)
+
+    def test_a_flagged_row_keeps_what_the_visitor_entered(self):
+        """The point of keeping it: sales can still get back to a real visitor."""
+        self.post_lead(**self.trap, message='Na duhen 200 copë në javë')
+
+        lead = Lead.objects.get()
+        self.assertEqual(lead.email, 'buyer@bakery.example')
+        self.assertEqual(lead.phone, '049111150')
+        self.assertEqual(lead.message, 'Na duhen 200 copë në javë')
+
+    def test_a_filled_trap_sends_no_email_from_any_form(self):
+        self.post_lead(**self.trap)
+        self.post_sample(**self.trap)
+        self.client.post(self.sample_url, {**self.catalog, **self.trap}, format='json')
+
+        self.assertEqual(mail.outbox, [])
+        self.assertFalse(Lead.objects.get().sales_notified)
+        self.assertEqual(SampleRequest.objects.filter(is_spam=True, sales_notified=False).count(), 2)
+
+    @override_settings(
+        META_CAPI_ENABLED=True,
+        META_CAPI_ACCESS_TOKEN='test-token',
+        META_PIXEL_ID='1396559496012591',
+    )
+    def test_a_filled_trap_sends_nothing_to_meta(self):
+        with patch('leads.capi.urlopen') as urlopen:
+            self.post_lead(**self.trap, event_id='evt-1', marketing_consent=True)
+            self.post_sample(**self.trap, event_id='evt-2', marketing_consent=True)
+
+        urlopen.assert_not_called()
+        self.assertFalse(Lead.objects.get().capi_sent)
+        self.assertFalse(SampleRequest.objects.get().capi_sent)
+
+    def test_an_empty_or_blank_trap_is_an_ordinary_submission(self):
+        for value in ('', '   '):
+            with self.subTest(value=value):
+                Lead.objects.all().delete()
+                mail.outbox = []
+
+                self.post_lead(website=value)
+
+                self.assertFalse(Lead.objects.get().is_spam)
+                self.assertTrue(Lead.objects.get().sales_notified)
+                self.assertTrue(mail.outbox)
+
+    def test_the_reply_does_not_reveal_the_trap(self):
+        """It used to be an empty 201, which a bot could tell from a real save."""
+        for post in (self.post_lead, self.post_sample):
+            with self.subTest(form=post.__name__):
+                ordinary = post()
+                trapped = post(**self.trap)
+
+                self.assertEqual(trapped.status_code, ordinary.status_code)
+                self.assertEqual(set(trapped.data), set(ordinary.data))
+                self.assertNotIn('is_spam', trapped.data)
+                self.assertNotIn('website', trapped.data)
+
+    def test_the_client_cannot_set_the_flag(self):
+        self.post_lead(is_spam=True)
+        self.assertFalse(Lead.objects.get().is_spam)
+
+        Lead.objects.all().delete()
+
+        self.post_lead(is_spam=False, **self.trap)
+        self.assertTrue(Lead.objects.get().is_spam)
+
+    def test_an_invalid_submission_gets_the_ordinary_error(self):
+        """A real visitor can correct it; silently accepting it would lose them."""
+        response = self.post_lead(email='not-an-email', **self.trap)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('email', response.data)
+        self.assertFalse(Lead.objects.exists())
+
+    @override_settings(RECAPTCHA_ENABLED=True)
+    def test_a_filled_trap_still_has_to_pass_recaptcha(self):
+        """A bot posting directly has no token, so it leaves no junk row behind."""
+        response = self.post_lead(**self.trap)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('recaptcha_token', response.data)
+        self.assertFalse(Lead.objects.exists())
+
+    def test_a_flagged_row_does_not_hold_back_a_real_visitors_email(self):
+        """Nothing was sent for it, so it must not count as the day's email."""
+        self.post_lead(**self.trap)
+        self.assertEqual(mail.outbox, [])
+
+        self.post_lead()
+
+        self.assertIn(['buyer@bakery.example'], [message.to for message in mail.outbox])
+
+    @override_settings(CUSTOMER_EMAIL_DAILY_LIMIT=1)
+    def test_flagged_rows_do_not_use_up_the_daily_email_limit(self):
+        self.post_lead(email='bot1@spam.example', **self.trap)
+        self.post_lead(email='bot2@spam.example', **self.trap)
+
+        self.post_lead()
+
+        self.assertIn(['buyer@bakery.example'], [message.to for message in mail.outbox])
+
+    def test_the_admin_filter_finds_flagged_rows(self):
+        self.post_lead(email='flagged@bakery.example', **self.trap)
+        self.post_lead(email='ordinary@bakery.example')
+        self.post_sample(email='flagged@bakery.example', **self.trap)
+        self.post_sample(email='ordinary@bakery.example', company_name='Ordinary Co')
+        self.client.force_login(
+            get_user_model().objects.create_superuser('staff', 'staff@example.invalid', 'pw')
+        )
+
+        for model, shows, hides in (
+            ('lead', 'flagged@bakery.example', 'ordinary@bakery.example'),
+            ('samplerequest', 'Byrektore ABC', 'Ordinary Co'),
+        ):
+            with self.subTest(model=model):
+                page = self.client.get(reverse(f'admin:leads_{model}_changelist'), {'is_spam__exact': '1'})
+
+                self.assertEqual(page.status_code, 200)
+                self.assertContains(page, shows)
+                self.assertNotContains(page, hides)
+
+    def test_the_admin_form_opens_with_the_flag_read_only(self):
+        self.post_lead(**self.trap)
+        self.client.force_login(
+            get_user_model().objects.create_superuser('staff', 'staff@example.invalid', 'pw')
+        )
+
+        page = self.client.get(reverse('admin:leads_lead_change', args=[Lead.objects.get().pk]))
+
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, 'Flagged as spam')
+        self.assertNotContains(page, 'name="is_spam"')

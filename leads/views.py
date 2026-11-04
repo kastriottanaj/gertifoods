@@ -1,7 +1,7 @@
+import logging
 import time
 
 from rest_framework import generics, permissions, status
-from rest_framework.response import Response
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.throttling import ScopedRateThrottle
 
@@ -16,23 +16,32 @@ from .models import Lead, SampleRequest
 from .serializers import LeadSerializer, SampleRequestSerializer
 from .recaptcha import RecaptchaUnavailable, verify_recaptcha
 
+logger = logging.getLogger(__name__)
+
 # Name of the hidden honeypot field the public forms render. Real visitors
-# never see it; spam bots autofill every field, so a non-empty value is a
-# reliable bot signal.
+# never see it and spam bots autofill every field, so a non-empty value is a
+# strong bot signal, but not a certain one: a browser or password manager can
+# fill it for a real visitor.
 HONEYPOT_FIELD = 'website'
 
 
-class HoneypotCreateMixin:
-    """Silently drop submissions whose honeypot field is filled.
+def _save_if_trapped(request, serializer):
+    """Save a submission whose honeypot is filled, flagged, and send nothing for it.
 
-    Returns a normal-looking 201 without saving anything or sending email, so a
-    bot can't distinguish a dropped submission from a real one and won't adapt.
+    Returns whether it did. Saved rather than discarded because the visitor sees
+    the thank-you page either way, so discarding a real enquiry would lose it with
+    nobody aware of it. No emails, because the address may not be the sender's,
+    and nothing to Meta, because this may not be a lead at all.
+
+    This runs after reCAPTCHA and validation, and the reply is the same as for any
+    other submission. A bot posting directly has no token and is turned away before
+    anything is saved, and whatever gets this far cannot tell it was caught.
     """
-
-    def create(self, request, *args, **kwargs):
-        if str(request.data.get(HONEYPOT_FIELD, '')).strip():
-            return Response(status=status.HTTP_201_CREATED)
-        return super().create(request, *args, **kwargs)
+    if not str(request.data.get(HONEYPOT_FIELD, '')).strip():
+        return False
+    record = serializer.save(is_spam=True)
+    logger.warning('Spam trap filled: %s #%s saved as spam, nothing sent', type(record).__name__, record.pk)
+    return True
 
 
 class RecaptchaCreateMixin:
@@ -135,7 +144,7 @@ def _report_conversion(request, record, *, form_name, source, email, phone, **na
     record.save(update_fields=['fbc', 'fbp', 'capi_sent'])
 
 
-class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
+class LeadCreateView(RecaptchaCreateMixin, generics.CreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
     permission_classes = [permissions.AllowAny]
@@ -144,6 +153,8 @@ class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateA
     recaptcha_action = 'lead_submit'
 
     def perform_create(self, serializer):
+        if _save_if_trapped(self.request, serializer):
+            return
         lead = serializer.save()
         # Confirm to the visitor — in their language by IP, like the sample
         # form, and subject to the same limits (leads/emails.py) — then notify
@@ -168,7 +179,7 @@ class LeadCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateA
         )
 
 
-class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generics.CreateAPIView):
+class SampleRequestCreateView(RecaptchaCreateMixin, generics.CreateAPIView):
     queryset = SampleRequest.objects.all()
     serializer_class = SampleRequestSerializer
     permission_classes = [permissions.AllowAny]
@@ -177,6 +188,8 @@ class SampleRequestCreateView(HoneypotCreateMixin, RecaptchaCreateMixin, generic
     recaptcha_action = 'sample_request_submit'
 
     def perform_create(self, serializer):
+        if _save_if_trapped(self.request, serializer):
+            return
         sample_request = serializer.save()
         # Localize the customer email by visitor IP: Kosovo/Albania -> Albanian,
         # Germany -> German, everyone else -> English.
