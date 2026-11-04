@@ -58,7 +58,7 @@ apt install -y python3 python3-venv python3-dev \
     nginx git curl ufw
 
 # Node.js 22 (to build the frontend on the server).
-# Astro requires Node >= 22.12 — Node 20 will not build the site.
+# Astro 7.4 requires Node >= 22.23.4, and its CLI refuses to run on anything older.
 curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 apt install -y nodejs
 ```
