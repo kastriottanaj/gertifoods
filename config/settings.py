@@ -292,6 +292,12 @@ SITE_DOMAIN = config('SITE_DOMAIN', default='gertifoods.com')
 # the filename and this value must always agree or submissions 403.
 INDEXNOW_KEY = config('INDEXNOW_KEY', default='8a47c68d27864a4a8fef802d0453e575')
 
+# Whether `npm run build` reports the pages it changed. On only in the production
+# .env. It is its own switch rather than `not DEBUG` because DEBUG defaults to
+# False, so a local shell without a .env would look like production and submit
+# pages that were never deployed.
+INDEXNOW_AUTO_SUBMIT = config('INDEXNOW_AUTO_SUBMIT', default=False, cast=bool)
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Production security hardening (skipped in local development)

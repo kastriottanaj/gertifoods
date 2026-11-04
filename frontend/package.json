@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/check-build-env.js && astro build && node scripts/inline-critical-css.js && node scripts/check-build-output.js",
+    "build": "node scripts/check-build-env.js && astro build && node scripts/inline-critical-css.js && node scripts/check-build-output.js && node scripts/submit-indexnow.js",
     "preview": "astro preview",
     "lint": "eslint .",
     "test:forms": "node scripts/check-lead-forms.js"

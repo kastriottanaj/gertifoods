@@ -37,6 +37,9 @@ npm-debug.log*
 frontend/dist/
 frontend/build/
 frontend/.astro/
+# What the last IndexNow submission covered. Belongs to each server's own build.
+.indexnow-fingerprints.json
+.indexnow-fingerprints.tmp
 
 # IDE
 .vscode/

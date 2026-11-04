@@ -1,10 +1,16 @@
+import json
+import shutil
+import tempfile
 from decimal import Decimal
 from io import StringIO
+from pathlib import Path
+from unittest import mock
 
-from django.core.management import call_command
-from django.test import TestCase
+from django.core.management import CommandError, call_command
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from products.management.commands import ping_indexnow
 from products.models import Category, Product
 
 PIE = 'products/pie.webp'
@@ -147,3 +153,211 @@ class PublicCatalogueHidesPricesTests(TestCase):
         self.assertEqual(by_name, ['Alpha', 'Beta', 'Gamma'])
         self.assertEqual(self._names('?ordering=price'), by_name)
         self.assertEqual(self._names('?ordering=-price'), by_name)
+
+
+def built_page(main='Original text', title='Title', head='', after_main=''):
+    """A page shaped like Astro's output, with every kind of build noise it carries."""
+    return (
+        f'<!DOCTYPE html><html lang="sq"><head><meta charset="UTF-8">'
+        f'<title>{title}</title><meta name="description" content="Description">'
+        f'<link rel="canonical" href="https://gertifoods.com/about">'
+        f'<link rel="alternate" hreflang="en" href="https://gertifoods.com/en/about">'
+        f'<link rel="stylesheet" href="/_astro/main.abc123.css">'
+        f'<style>.a[data-astro-cid-abc]{{color:red}}</style>'
+        f'<script>gtag("js", new Date());</script>{head}</head><body>'
+        f'<nav class="navbar"><a href="/about">About</a></nav>'
+        f'<main class="main-content" data-astro-cid-abc>'
+        f'<img src="/_astro/hero.abc123.webp" alt="Alt text">'
+        f'<astro-island uid="abc" props="{{}}" component-url="/_astro/Form.abc123.js">'
+        f'<p>{main}</p></astro-island>'
+        f'<template data-astro-template>hidden</template>'
+        f'<script>window.x = "abc";</script><a href="/products">Products</a>'
+        f'</main><footer>2026</footer>{after_main}</body></html>'
+    )
+
+
+@override_settings(INDEXNOW_AUTO_SUBMIT=True)
+class PingIndexNowChangedTests(TestCase):
+    """
+    `--changed` is what runs unattended on every production build, and getting it
+    wrong either submits the whole site each time or quietly submits nothing.
+    """
+
+    PAGES = ['index', 'about', 'en/about']
+
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.root)
+        self.dist = self.root / 'dist'
+        self.state = self.root / 'state.json'
+        for name in self.PAGES:
+            self.write(name, built_page())
+
+        for target, attribute, value in (
+            (ping_indexnow, 'DIST_DIR', self.dist),
+            (ping_indexnow, 'STATE_FILE', self.state),
+            (ping_indexnow.Command, '_verify_key_file', mock.DEFAULT),
+        ):
+            patcher = mock.patch.object(target, attribute, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+        patcher = mock.patch.object(ping_indexnow.Command, '_post', return_value=200)
+        self.post = patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def write(self, name, html):
+        page = self.dist / f'{name}.html'
+        page.parent.mkdir(parents=True, exist_ok=True)
+        page.write_text(html, encoding='utf-8')
+
+    def run_command(self, *args):
+        out = StringIO()
+        call_command('ping_indexnow', '--changed', *args, stdout=out)
+        return out.getvalue()
+
+    def submitted(self):
+        """The URLs in the one POST made since the last call, or [] if none was."""
+        urls = [call.args[0]['urlList'] for call in self.post.call_args_list]
+        self.post.reset_mock()
+        self.assertLessEqual(len(urls), 1)
+        return urls[0] if urls else []
+
+    def baseline(self):
+        self.run_command()
+        self.post.reset_mock()
+
+    def test_switched_off_contacts_nobody_and_records_nothing(self):
+        with override_settings(INDEXNOW_AUTO_SUBMIT=False):
+            output = self.run_command()
+        self.assertIn('off', output)
+        self.post.assert_not_called()
+        self.assertFalse(self.state.exists())
+
+    def test_first_run_records_a_baseline_without_submitting(self):
+        output = self.run_command()
+        self.post.assert_not_called()
+        self.assertIn('baseline', output)
+        self.assertEqual(
+            sorted(json.loads(self.state.read_text())['pages']),
+            ['/', '/about', '/en/about'],
+        )
+
+    def test_rebuilding_unchanged_content_submits_nothing(self):
+        self.baseline()
+        self.run_command()
+        self.post.assert_not_called()
+
+    def test_changed_text_submits_only_that_page(self):
+        self.baseline()
+        self.write('about', built_page(main='New text'))
+        self.run_command()
+        self.assertEqual(self.submitted(), ['https://gertifoods.com/about'])
+
+    def test_a_submitted_change_is_not_reported_twice(self):
+        self.baseline()
+        self.write('about', built_page(main='New text'))
+        self.run_command()
+        self.post.reset_mock()
+        self.run_command()
+        self.post.assert_not_called()
+
+    def test_build_noise_is_not_a_change(self):
+        self.baseline()
+        noisy = (
+            built_page()
+            .replace('abc123', 'xyz789')
+            .replace('data-astro-cid-abc', 'data-astro-cid-xyz')
+            .replace('color:red', 'color:blue')
+            .replace('props="{}"', 'props="{&quot;a&quot;:1}"')
+            .replace('window.x = "abc"', 'window.x = "xyz"')
+            .replace('<footer>2026</footer>', '<footer>2027</footer>')
+            .replace('>About</a></nav>', '>Rreth nesh</a></nav>')
+        )
+        self.write('about', noisy)
+        self.run_command()
+        self.post.assert_not_called()
+
+    def test_everything_a_search_engine_reads_is_a_change(self):
+        changes = {
+            'title': built_page(title='New title'),
+            'description': built_page().replace('"Description"', '"New"'),
+            'canonical': built_page().replace('gertifoods.com/about"', 'gertifoods.com/x"'),
+            'hreflang': built_page().replace('/en/about"', '/en/x"'),
+            'json-ld': built_page(
+                head='<script type="application/ld+json">{"name":"x"}</script>'
+            ),
+            'image alt': built_page().replace('Alt text', 'New alt'),
+            'link': built_page().replace('href="/products"', 'href="/blog"'),
+            'noindex': built_page(head='<meta name="robots" content="noindex">'),
+        }
+        for name, html in changes.items():
+            with self.subTest(name):
+                self.write('about', built_page())
+                self.state.unlink(missing_ok=True)
+                self.baseline()
+                self.write('about', html)
+                self.run_command()
+                self.assertEqual(self.submitted(), ['https://gertifoods.com/about'])
+
+    def test_removed_page_is_submitted_so_engines_learn_it_is_gone(self):
+        self.baseline()
+        (self.dist / 'about.html').unlink()
+        self.run_command()
+        self.assertEqual(self.submitted(), ['https://gertifoods.com/about'])
+        self.assertNotIn('/about', json.loads(self.state.read_text())['pages'])
+
+    def test_new_page_is_submitted(self):
+        self.baseline()
+        self.write('blog', built_page())
+        self.run_command()
+        self.assertEqual(self.submitted(), ['https://gertifoods.com/blog'])
+
+    def test_pages_outside_the_sitemap_are_never_submitted(self):
+        self.baseline()
+        self.write('404', built_page(main='Not found'))
+        self.write('faleminderit', built_page(main='Thanks'))
+        self.run_command()
+        self.post.assert_not_called()
+
+    def test_refused_submission_is_retried_by_the_next_build(self):
+        self.baseline()
+        self.write('about', built_page(main='New text'))
+        self.post.return_value = 429
+        with self.assertRaises(CommandError):
+            self.run_command()
+        self.post.reset_mock()
+
+        self.post.return_value = 200
+        self.run_command()
+        self.assertEqual(self.submitted(), ['https://gertifoods.com/about'])
+
+    def test_dry_run_contacts_nobody_and_records_nothing(self):
+        self.baseline()
+        before = self.state.read_text()
+        self.write('about', built_page(main='New text'))
+        with override_settings(INDEXNOW_AUTO_SUBMIT=False):
+            output = self.run_command('--dry-run')
+        self.post.assert_not_called()
+        self.assertIn('https://gertifoods.com/about', output)
+        self.assertEqual(self.state.read_text(), before)
+
+    def test_a_missing_build_is_an_error_not_a_mass_removal(self):
+        self.baseline()
+        shutil.rmtree(self.dist)
+        with self.assertRaises(CommandError):
+            self.run_command()
+        self.post.assert_not_called()
+
+    def test_a_new_fingerprint_version_records_a_baseline_instead_of_submitting(self):
+        self.baseline()
+        self.write('about', built_page(main='New text'))
+        with mock.patch.object(ping_indexnow, 'FINGERPRINT_VERSION', 2):
+            output = self.run_command()
+        self.post.assert_not_called()
+        self.assertIn('baseline', output)
+
+    def test_changed_cannot_be_combined_with_other_selections(self):
+        for args in (['/about'], ['--all']):
+            with self.subTest(args), self.assertRaises(CommandError):
+                self.run_command(*args)

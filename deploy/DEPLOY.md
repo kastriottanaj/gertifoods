@@ -154,6 +154,9 @@ RECAPTCHA_ENABLED=True
 RECAPTCHA_SECRET_KEY=<recaptcha-v3-secret-key>
 RECAPTCHA_MIN_SCORE=0.5
 RECAPTCHA_ALLOWED_HOSTNAMES=gertifoods.com,www.gertifoods.com
+
+# Have each frontend build report the pages it changed to IndexNow.
+INDEXNOW_AUTO_SUBMIT=True
 ```
 
 Generate a secret key:
@@ -451,26 +454,45 @@ written. The same applies to blog posts and area pages, whose content lives in
 
 ### Telling search engines what changed (IndexNow)
 
-After the rebuild, submit the URLs you actually changed so participating
-engines recrawl them without waiting for their own schedule:
+**This happens by itself.** The last step of `npm run build` runs
+`manage.py ping_indexnow --changed`, which submits the sitemap pages whose
+indexable content differs from the last accepted submission, plus any that have
+disappeared. Check the end of the build output to see what was sent. It only
+runs where `.env` has `INDEXNOW_AUTO_SUBMIT=True`, which is the production server
+and nowhere else.
+
+"Indexable content" means the title, description, robots, canonical, hreflang,
+JSON-LD, and the text, image alts and links inside `<main>`. Everything else is
+ignored on purpose, so editing the navbar, footer or CSS submits nothing.
+
+What it does in the less obvious cases:
+
+- **First run:** records a baseline in `/var/www/gertifoods/.indexnow-fingerprints.json`
+  and submits nothing.
+- **IndexNow is down or refuses:** the build still succeeds and prints a warning.
+  The baseline stays as it was, so the next build reports those pages again. To
+  retry straight away, run the command below.
+- **After restoring a `dist` backup:** no build ran, so nothing was reported. Run
+  the command below if the restored pages differ from what was last submitted.
 
 ```bash
 cd /var/www/gertifoods
-./venv/bin/python manage.py ping_indexnow /products/pite-me-tuna /en/products/pite-me-tuna /de/products/pite-me-tuna
+./venv/bin/python manage.py ping_indexnow --changed            # submit now
+./venv/bin/python manage.py ping_indexnow --changed --dry-run  # only show what would go
 ```
 
 Two things worth knowing before relying on this:
 
 - **Google does not participate in IndexNow.** This reaches Bing, Yandex,
   Seznam and Naver. Google still finds changes by crawling `/sitemap.xml`.
-- **Submit only what changed.** `--all` exists for the first-ever submission
-  and for changes that genuinely touch every page; using it on every deploy
-  earns a 429 "potential spam" response and devalues the signal.
+- **Submit only what changed.** `--all` exists for changes that genuinely need
+  every page recrawled; using it on every deploy earns a 429 "potential spam"
+  response and devalues the signal. Naming pages by hand also still works:
+  `ping_indexnow /products/pite-me-tuna`.
 
-Add `--dry-run` to see the payload without sending it. The command verifies
-that `https://gertifoods.com/<key>.txt` is reachable before submitting, so a
-frontend that has not been rebuilt since the key file was added fails with a
-clear message rather than a bare 403.
+The command verifies that `https://gertifoods.com/<key>.txt` is reachable before
+submitting, so a frontend that has not been rebuilt since the key file was added
+fails with a clear message rather than a bare 403.
 
 Receipts appear in [Bing Webmaster Tools](https://www.bing.com/webmasters)
 under IndexNow.
