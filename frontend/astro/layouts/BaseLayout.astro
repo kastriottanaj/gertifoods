@@ -334,16 +334,6 @@ const exitMessages = islandMessages(lang, 'exit');
       if (gfUserData) fbq('init', META_PIXEL_ID, gfUserData);
       else fbq('init', META_PIXEL_ID);
 
-      // Lets the one form that does not redirect — the catalog request — attach
-      // its own advanced matching before it fires Lead. Re-initialising the
-      // same pixel is Meta's documented way to supply user data that was not
-      // known at page load; their own Tag Manager template does it, and the
-      // duplicate-id warning only appears when two init calls land back to
-      // back. Defined here so the pixel ID stays in one file.
-      window.gfPixelUserData = function (userData) {
-        fbq('init', META_PIXEL_ID, userData);
-      };
-
       fbq('track', 'PageView');
 
       // ViewContent for product and /furnizim pages, classified at build time

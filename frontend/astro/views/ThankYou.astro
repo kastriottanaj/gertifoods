@@ -1,10 +1,10 @@
 ---
 // The thank-you page body, shared by all three locales.
 //
-// Reached only by redirect: HeroLeadForm and SampleRequestForm send the
-// visitor here once their POST succeeds (see src/lib/conversion.js). Nothing
-// on the site links to it, which is why it carries no sitemap entry and needs
-// none.
+// Reached only by redirect: all three lead forms (HeroLeadForm,
+// SampleRequestForm, CatalogRequestForm) send the visitor here once their POST
+// succeeds (see src/lib/conversion.js). Nothing on the site links to it, which
+// is why it carries no sitemap entry and needs none.
 //
 // Unlike every other route, the three editions do not share a slug — they are
 // /faleminderit, /en/thank-you and /de/danke. The routes that render this view
@@ -14,6 +14,7 @@
 import './ThankYou.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
+import { PENDING_LEAD_KEY } from '../../src/lib/conversion.js';
 
 const WHATSAPP_PHONE = '38349111150';
 
@@ -62,7 +63,8 @@ const STEPS = [1, 2, 3];
 
         <h1 class="ty-heading">{t('thankyou_heading')}</h1>
         <hr class="ty-rule" />
-        <p class="ty-body">{t('thankyou_body')}</p>
+        <p class="ty-body" data-ty-general>{t('thankyou_body')}</p>
+        <p class="ty-body" data-ty-catalog hidden>{t('catalog_form_success_body')}</p>
 
         <div class="ty-actions">
           <a href={p('/products')} class="ty-btn ty-btn-primary">
@@ -82,7 +84,7 @@ const STEPS = [1, 2, 3];
       </div>
     </section>
 
-    <section class="ty-steps">
+    <section class="ty-steps" data-ty-general>
       <div class="ty-steps-inner">
         <h2 class="ty-steps-title">{t('thankyou_next_title')}</h2>
 
@@ -99,6 +101,29 @@ const STEPS = [1, 2, 3];
         </ol>
       </div>
     </section>
+
+    {/* A catalog requester asked for a PDF and gave only a company name and an
+        email, so the offer, phone call and samples promised above are not what
+        they are expecting. Same URL and same conversion, different wording.
+
+        Inline, and placed after the elements it changes, so it runs during
+        parsing: the swap is done before first paint. It cannot be a CSS rule
+        keyed on an attribute, because Beasties only inlines rules that match
+        the static HTML, so that rule would arrive late with the full stylesheet
+        and the wrong text would flash first. It reads the record before the
+        module script below removes it. A reload finds no record and shows the
+        general wording, which is an acceptable fallback. */}
+    <script is:inline define:vars={{ PENDING_LEAD_KEY }}>
+      try {
+        var lead = JSON.parse(sessionStorage.getItem(PENDING_LEAD_KEY));
+        if (lead && lead.formName === 'catalog_request') {
+          document.querySelectorAll('[data-ty-general]').forEach(function (el) {
+            el.hidden = true;
+          });
+          document.querySelector('[data-ty-catalog]').hidden = false;
+        }
+      } catch (e) {}
+    </script>
 
     <section class="ty-urgent">
       <div class="ty-urgent-inner">

@@ -12,7 +12,7 @@
 // translation table back into every bundle that islandMessages.js was written
 // to keep it out of. The Astro side re-exports THANK_YOU_PATHS from here
 // instead, so the URLs still have exactly one definition.
-import { track, advancedMatching, applyPixelUserData, newEventId } from './events.js';
+import { track, advancedMatching, newEventId } from './events.js';
 
 /**
  * Where each language's thank-you page lives.
@@ -160,25 +160,6 @@ export async function completeLead(details) {
   }
 
   window.location.assign(thankYouPath(details.lang));
-}
-
-/**
- * Records a lead without navigating away.
- *
- * For the catalog form, whose payoff is the email Django sends on submit — the
- * success message tells the visitor to go and check their inbox, so pulling the
- * tab to the thank-you page would take them away from the one instruction that
- * matters. Nothing is about to unload, so there is no batching race to defer
- * around and the events go out immediately.
- *
- * The advanced matching has to be attached by re-initialising the pixel here,
- * because this page's init call ran long before the visitor typed an email
- * address. See applyPixelUserData.
- */
-export async function trackLeadInPlace({ formName, source, lang, pii, eventID }) {
-  const am = await advancedMatching(pii);
-  if (am) applyPixelUserData(am);
-  return trackLead({ formName, source, lang, eventID: eventID || newEventId() });
 }
 
 /**

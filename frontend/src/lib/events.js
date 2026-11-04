@@ -268,25 +268,3 @@ export function hasMarketingConsent() {
     return false;
   }
 }
-
-/**
- * Attaches advanced-matching data to the pixel for events fired from here on.
- *
- * Meta only treats user data as manual advanced matching when it arrives in
- * the `fbq('init', …)` call itself — `fbq('set', …)` is ignored for this — so
- * the only way to add it after the page has loaded is to re-initialise the
- * pixel. That is Meta's own documented approach for apps that learn who the
- * visitor is mid-session, and the helper doing it lives in BaseLayout so the
- * pixel ID stays defined in exactly one place.
- *
- * Used only by the form that stays on the page. The two that redirect have
- * their digests read by BaseLayout before its single init call instead, which
- * needs no re-initialisation at all.
- */
-export function applyPixelUserData(userData) {
-  if (!userData || typeof window === 'undefined') return false;
-  const apply = window.gfPixelUserData;
-  if (typeof apply !== 'function') return false;
-  apply(userData);
-  return true;
-}
