@@ -1500,6 +1500,8 @@
     align-items: stretch;
     gap: 12px;
   }
+  /* In a column, the 320px flex-basis above would set a height, not a width. */
+  .cookie-consent-text { flex-basis: auto; }
   .cookie-consent-actions { width: 100%; }
   .cookie-btn { flex: 1; }
 }
