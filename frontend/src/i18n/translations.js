@@ -251,7 +251,7 @@ const translations = {
     img_alt_bakery_interior: 'Brendia e një furre artizanale me rafte të mbushura me bukë të freskët.',
     img_alt_production_line: 'Byrekë të pjekur në një shportë me kallinj gruri dhe miell, para linjës së prodhimit të Gerti Foods.',
     img_alt_pie_pack: 'Paketimi i byrekut me djathë Gerti Foods, 800 g, gati për furrë.',
-    img_alt_retail_pack: 'Paketim Gerti Foods gati për raftet e marketeve.',
+    img_alt_mixed_byrek: 'Byrek të përzier Gerti Foods me spinaq, mish dhe djathë.',
 
     // Product Detail
     product_min_order: 'Porosi minimale',
@@ -1294,7 +1294,7 @@ const translations = {
     img_alt_bakery_interior: 'Interior of an artisan bakery with shelves of freshly baked bread.',
     img_alt_production_line: 'Baked flatbreads in a basket with wheat ears and flour, in front of the Gerti Foods production line.',
     img_alt_pie_pack: 'Gerti Foods cheese byrek packaging, 800 g, ready to bake.',
-    img_alt_retail_pack: 'Gerti Foods retail-ready packaging for supermarket shelves.',
+    img_alt_mixed_byrek: 'Mixed Gerti Foods byrek with spinach, meat and cheese.',
 
     // Product Detail
     product_min_order: 'Minimum order',
@@ -2321,7 +2321,7 @@ const translations = {
     img_alt_bakery_interior: 'Innenraum einer handwerklichen Bäckerei mit Regalen voller frisch gebackenem Brot.',
     img_alt_production_line: 'Gebackene Fladenbrote in einem Korb mit Weizenähren und Mehl vor der Produktionslinie von Gerti Foods.',
     img_alt_pie_pack: 'Verpackung des Käse-Böreks von Gerti Foods, 800 g, backfertig.',
-    img_alt_retail_pack: 'Verkaufsfertige Verpackung von Gerti Foods für Supermarktregale.',
+    img_alt_mixed_byrek: 'Gemischte Börek von Gerti Foods mit Spinat, Fleisch und Käse.',
 
     // Product Detail
     product_min_order: 'Mindestbestellung',

@@ -23,7 +23,7 @@ const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 
 // Hero photo per segment. The two bakery-type buyers share the bakery
 // interior; venues get the photo AreaDetail already uses for its hotel card;
-// markets get the retail pack; the city and regional pages reuse their
+// markets get the Family Pack photo; the city and regional pages reuse their
 // country's area-page photo.
 const HEROES = {
   byrektore: bakeryImage,
@@ -126,7 +126,7 @@ const schema = {
       <div class="kosovo-segment-grid">
         {products.map((productPath) => {
           const [nameKey, image] = CATALOGUE[productPath];
-          const altKey = image === familyPackImage ? 'img_alt_retail_pack' : 'img_alt_pie_pack';
+          const altKey = image === familyPackImage ? 'img_alt_mixed_byrek' : 'img_alt_pie_pack';
           return (
             <article>
               <img src={image.src} width={image.width} height={image.height} alt={t(altKey)} loading="lazy" decoding="async" />

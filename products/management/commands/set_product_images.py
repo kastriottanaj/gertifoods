@@ -6,8 +6,13 @@ from products.models import Product
 # contains both 'family pack' and 'pite'; with 'pite' first it silently took the
 # generic pie photo and the family-pack image was unreachable for the only
 # family pack actually on sale.
+#
+# The family-pack photo is family-pack-pite.webp, not family-pack.webp: the old
+# file showed a "Family Pizza" box (pizza is not sold). /media/ is served with a
+# 30-day max-age, so a replacement photo needs a new filename. Overwriting the
+# old file would leave returning visitors on their cached copy for a month.
 IMAGE_MAP = {
-    'family pack': 'products/family-pack.webp',
+    'family pack': 'products/family-pack-pite.webp',
     'pite': 'products/pie.webp',
     'byrek': 'products/pie.webp',
 }

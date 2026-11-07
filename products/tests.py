@@ -14,7 +14,7 @@ from products.management.commands import ping_indexnow
 from products.models import Category, Product
 
 PIE = 'products/pie.webp'
-FAMILY_PACK = 'products/family-pack.webp'
+FAMILY_PACK = 'products/family-pack-pite.webp'
 
 
 class SetProductImagesTests(TestCase):
@@ -53,7 +53,7 @@ class SetProductImagesTests(TestCase):
         'Family Pack Pite të Përziera (4 copë)' — the real production name —
         contains both 'family pack' and 'pite'. When 'pite' was checked first
         the only family pack on sale was assigned the generic pie photo, and
-        products/family-pack.webp was unreachable for every live product.
+        the family-pack photo was unreachable for every live product.
         """
         product = self._product('Family Pack Pite të Përziera (4 copë)', 'family-pack-pite-4')
 
