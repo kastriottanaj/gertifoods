@@ -7,6 +7,7 @@
 // Products.jsx rendered <p class="loading"> until the request resolved, whereas
 // here the grid is already there. The settled DOM is identical.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { getProducts } from '../lib/products.js';
 import { productCopy } from '../lib/productCopy.js';
@@ -40,6 +41,8 @@ const messages = islandMessages(lang);
     <section class="products-hero">
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('products_hero_alt')} class="products-hero-image" fetchpriority="high" />
       <div class="products-hero-shade"></div>
+      {/* Fill matches .products-showcase, the grey the hero sits on. */}
+      <BannerSwoosh fill="#f8f8f8" />
       <div class="products-hero-content">
         <h1>{t('products_hero_line_1')}<br />{t('products_hero_line_2')}<br /><strong>{t('products_hero_business')}</strong></h1>
         <p>{t('products_hero_subtitle')}</p>

@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Page banners, classic style (2026-11-08)
+
+   The white curved sweep across the bottom-right of each page banner, from
+   the old Karrota-built site the founder wants back. The markup is
+   BannerSwoosh.astro, which imports this file, so only pages that use it
+   load these rules.
+
+   The SVG is stretched over the right-hand part of the banner
+   (--swoosh-w of its width, all of its height). Its path runs from the
+   box's bottom-left corner to just under its top-right corner.
+   ========================================================================== */
+
+.banner-swoosh {
+  position: absolute;
+  right: 0;
+  /* -1px hides the hairline that subpixel rounding can leave at the seam. */
+  bottom: -1px;
+  display: block;
+  width: var(--swoosh-w, 36%);
+  height: calc(100% + 1px);
+  fill: var(--swoosh-fill, #fff);
+  pointer-events: none;
+}
+
+/* Phones: several banners keep text close to their bottom edge (About's
+   contact line, Products' benefits row), and a full-height sweep would put
+   white under white text. So the sweep shrinks into the empty strip below
+   the text: wider and much lower. The height comes from measuring the free
+   space in headless Chrome. */
+@media (max-width: 768px) {
+  .banner-swoosh {
+    --swoosh-w: 62%;
+    height: calc(var(--swoosh-band, 48px) + 1px);
+  }
+}

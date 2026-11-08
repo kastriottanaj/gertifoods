@@ -1,0 +1,28 @@
+---
+// The white curved sweep across the bottom-right corner of a page banner,
+// taken from the inner pages of the old Karrota-built site ("Historia jonë",
+// "Recetat"; Karrota portfolio screenshots, Sep 2024). On those, a white
+// shape rose from about two-thirds of the way along the banner's bottom edge
+// to its top-right corner: shallow at first, then steep.
+//
+// Place it inside the banner (which must be position: relative and
+// overflow: hidden), after the photo and its shade and before the text. It
+// then paints over the photo and under the text, with no z-index involved.
+//
+// `fill` must match whatever sits directly below the banner, so the sweep
+// reads as the page rising into the photo.
+import '../styles/classic-banners.css';
+
+const { fill = '#fff' } = Astro.props;
+---
+
+<svg
+  class="banner-swoosh"
+  viewBox="0 0 100 100"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+  style={`--swoosh-fill: ${fill}`}
+>
+  <path d="M0 100C45 100 88 74 100 2V100Z" />
+</svg>

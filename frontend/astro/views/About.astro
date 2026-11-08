@@ -2,6 +2,7 @@
 // Astro port of src/pages/About.jsx — same markup, classes and copy, with
 // <a href> in place of react-router's <Link to>.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import heroImage from '../../src/assets/gerti-foods-about-us.webp';
 import storyImage from '../../src/assets/bakery-interior.webp';
@@ -27,6 +28,7 @@ const p = (path) => localePath(lang, path);
     <section class="about-hero">
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('about_hero_alt')} class="about-hero-image" fetchpriority="high" />
       <div class="about-hero-shade"></div>
+      <BannerSwoosh />
       <div class="about-hero-content">
         <h1>{t('about_hero_line_1')}<br />{t('about_hero_line_2')} <strong>{t('about_hero_audience')}</strong></h1>
         <p>{t('about_hero_body')}</p>
