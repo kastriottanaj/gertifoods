@@ -1,4 +1,9 @@
 ---
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Classic photo banner (2026-11-08): see the note at the top of the file.
+import '../styles/products-classic.css';
+// The banner's photo; the page's own cut-out pie sits on a plate over it.
+import bannerImage from '../../src/assets/bakery-interior.webp';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
@@ -8,7 +13,7 @@ const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
 ---
 <div class="tp-page">
-  <section class="tp-hero"><div class="tp-copy">
+  <section class="tp-hero" style={`--tp-banner: url(${bannerImage.src})`}><BannerSwoosh /><div class="tp-copy">
     <span class="tp-badge">{t('tp_badge')}</span><h1>{t('tp_title_1')}<br />{t('tp_title_2')}</h1><p>{t('tp_intro')}</p>
     <strong class="tp-price">{t('products_price_on_request')}</strong><small>{t('tp_min_order')}: 50 {t('products_unit_piece')}</small>
     <div class="tp-actions"><button type="button" data-open-modal="sample">{t('tp_quote')} <b>↗</b></button><a href={p('/areas')}>{t('tp_areas')} <b>⌖</b></a></div>

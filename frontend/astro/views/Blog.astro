@@ -1,6 +1,7 @@
 ---
 // Astro port of src/pages/Blog.jsx.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
 import { useTranslations, localePath, DEFAULT_LANG } from '../lib/i18n.js';
 import { blogPosts } from '../../src/data/blogPosts.js';
 import bakeryImage from '../../src/assets/bakery-interior.webp';
@@ -26,11 +27,13 @@ const p = (path) => localePath(lang, path);
   brandSuffix={false}
 >
   <div class="blog-page">
-    <header class="blog-hero">
-      <span>{t('blog_eyebrow')}</span>
-      <h1>{t('blog_title')}</h1>
-      <p>{t('blog_intro')}</p>
-    </header>
+    <PageBanner image={bakeryImage}>
+      <header class="blog-hero">
+        <span>{t('blog_eyebrow')}</span>
+        <h1>{t('blog_title')}</h1>
+        <p>{t('blog_intro')}</p>
+      </header>
+    </PageBanner>
     <section class="blog-grid" aria-label={t('blog_latest')}>
       {
         blogPosts.map((post, index) => {

@@ -1,6 +1,7 @@
 ---
 // Astro port of src/pages/BlogPost.jsx.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
 import { useTranslations, localePath, normalizePath, DEFAULT_LANG } from '../lib/i18n.js';
 import { getBlogPost } from '../../src/data/blogPosts.js';
 import { jsonLd } from '../lib/schema.js';
@@ -77,13 +78,16 @@ const schema = {
   />
 
   <article class="blog-article">
-    <nav class="blog-breadcrumb"><a href={p('/blog')}>{t('blog_title')}</a> / <span>{content.category}</span></nav>
-    <header class="blog-article-header">
-      <div class="blog-meta"><span>{content.category}</span><time datetime={post.published}>{post.published}</time><span>{content.readingTime}</span></div>
-      <h1>{content.title}</h1>
-      <p>{content.description}</p>
-    </header>
-    <img class="blog-article-hero" src={images[post.image].src} width={images[post.image].width} height={images[post.image].height} alt={t(imageAlt[post.image])} fetchpriority="high" />
+    {/* The post's photo, which used to sit under the title, is now the banner
+        behind it (same image, same alt, still the LCP). */}
+    <PageBanner image={images[post.image]} alt={t(imageAlt[post.image])}>
+      <nav class="blog-breadcrumb"><a href={p('/blog')}>{t('blog_title')}</a> / <span>{content.category}</span></nav>
+      <header class="blog-article-header">
+        <div class="blog-meta"><span>{content.category}</span><time datetime={post.published}>{post.published}</time><span>{content.readingTime}</span></div>
+        <h1>{content.title}</h1>
+        <p>{content.description}</p>
+      </header>
+    </PageBanner>
     <div class="blog-article-body">
       {content.sections.map(([heading, body]) => (
         <section>

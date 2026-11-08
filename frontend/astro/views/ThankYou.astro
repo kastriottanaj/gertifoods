@@ -13,6 +13,9 @@
 // the language switcher pointing at the right one.
 import './ThankYou.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Decorative banner photo behind the confirmation, as on the old site's pages.
+import bannerImage from '../../src/assets/bakery-interior.webp';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { PENDING_LEAD_KEY } from '../../src/lib/conversion.js';
 
@@ -54,6 +57,12 @@ const STEPS = [1, 2, 3];
 >
   <div class="ty-page">
     <section class="ty-hero">
+      <img class="ty-hero-img" src={bannerImage.src} width={bannerImage.width} height={bannerImage.height} alt="" fetchpriority="high" />
+      <div class="ty-hero-shade"></div>
+      {/* White, matching .ty-steps below. For catalogue requests that section
+          is hidden and the beige .ty-urgent follows, so ThankYou.css recolours
+          the curve. */}
+      <BannerSwoosh />
       <div class="ty-hero-inner">
         <span class="ty-check" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">

@@ -20,6 +20,13 @@ import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import '../styles/tortilla-detail.css';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Classic photo banner (2026-11-08): see the note at the top of the file.
+import '../styles/products-classic.css';
+// The banner's photo: "Traditional Tortillas Cooking on Open Flame" by
+// Alejandro JV, https://www.pexels.com/photo/36971424/ (Pexels licence: free
+// for commercial use). It was the homepage hero until the video replaced it.
+import bannerImage from '../../src/assets/home-hero-tortillas.webp';
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
@@ -97,7 +104,8 @@ const schema = {
 
   <div class="tt-page">
     <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-    <section class="tt-hero">
+    <section class="tt-hero" style={`--tt-banner: url(${bannerImage.src})`}>
+      <BannerSwoosh />
       <div class="tt-hero-copy">
         <nav class="tt-breadcrumb">
           <a href={p('/products')}>{t('nav_products')}</a> / <span>{t('category_tortilla_title')}</span>

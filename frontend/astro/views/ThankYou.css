@@ -14,12 +14,39 @@
 /* ========================================
    Hero
    ======================================== */
+/* Since 2026-11-08 a dark photo banner with the white curve, like the old
+   Karrota site's pages; it was a plain beige band before. The top padding
+   clears the header's logo badge, the bottom padding the curve. */
 .ty-hero {
-  background: #f5f1eb;
-  padding: 72px 0 64px;
+  position: relative;
+  overflow: hidden;
+  background: #1d1713;
+  padding: 84px 0 96px;
+}
+
+.ty-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Even all over: the text is centred, so there is no clear side. */
+.ty-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 8, 8, 0.74);
+}
+
+/* Catalogue requests hide the white steps section, so the beige urgent
+   section follows the banner and the curve takes its colour. */
+.ty-hero:has(+ .ty-steps[hidden]) .banner-swoosh {
+  fill: #f5f1eb;
 }
 
 .ty-hero-inner {
+  position: relative;
   width: min(760px, calc(100% - 40px));
   margin: 0 auto;
   text-align: center;
@@ -47,7 +74,7 @@
 
 .ty-heading {
   margin: 0;
-  color: var(--text);
+  color: #fff;
   font-size: clamp(1.6rem, 4vw, 2.5rem);
   font-weight: 800;
   line-height: 1.15;
@@ -65,7 +92,7 @@
 .ty-body {
   max-width: 520px;
   margin: 0 auto;
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1.05rem;
   line-height: 1.6;
 }

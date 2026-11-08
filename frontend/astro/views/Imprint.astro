@@ -12,6 +12,9 @@
 // /de/imprint). Keeping the markup here means one copy of the page regardless of
 // how many locales it is built into.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+// Decorative banner photo (the About banner's bakery shot).
+import bannerImage from '../../src/assets/gerti-foods-about-us.webp';
 import { useTranslations } from '../lib/i18n.js';
 
 const { lang } = Astro.props;
@@ -25,8 +28,10 @@ const t = useTranslations(lang);
   brandSuffix={false}
 >
   <div class="imprint-page">
-    <h1>{t('imprint_title')}</h1>
-    <p class="imprint-intro">{t('imprint_intro')}</p>
+    <PageBanner image={bannerImage}>
+      <h1>{t('imprint_title')}</h1>
+      <p class="imprint-intro">{t('imprint_intro')}</p>
+    </PageBanner>
 
     <section class="imprint-section">
       <h2>{t('imprint_company_heading')}</h2>

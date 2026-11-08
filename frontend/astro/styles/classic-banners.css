@@ -33,6 +33,13 @@
     --swoosh-w: 62%;
     height: calc(var(--swoosh-band, 48px) + 1px);
   }
+
+  /* /products: on desktop the trust card sits 22px below the banner, so the
+     curve takes the page's grey (#f8f8f8). On phones the card starts flush
+     with the banner's bottom edge, so the curve has to match the card. */
+  .products-hero .banner-swoosh {
+    fill: #fff;
+  }
 }
 
 /* The landing pages' info line under the hero buttons can run long: the

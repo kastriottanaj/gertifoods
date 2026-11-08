@@ -1,0 +1,258 @@
+/* ==========================================================================
+   Meat, tuna, family-pack and tortilla pages: classic banner (2026-11-08)
+
+   These four product pages opened with a split layout: copy on a light
+   background on the left, photo on the right. They become the old Karrota
+   site's photo banner, like the other pages: a full-width photo, a dark
+   shade on the left, white text and the white curve (BannerSwoosh). Copy,
+   headings, buttons and links are unchanged.
+
+   The photos:
+   - meat, family pack: the page's own scene photo, now full width.
+   - tuna: its photo is a cut-out pie on white, which can't fill a dark
+     banner. The banner uses the bakery-interior photo, and the pie sits on
+     a white round plate on the right.
+   - tortilla: its own photo is only 356×302px, too small to fill a banner.
+     The banner uses the licensed tortillas-on-flame photo (Pexels, the
+     homepage hero until the video), and the page's photo stays as a card.
+
+   Loaded by the four views. Their base rules (meat-pie-detail.css etc.) are
+   single-class selectors, so every rule here starts with `.app`: one class
+   more specific, so it wins whatever the load order.
+   ========================================================================== */
+
+/* Shared: the shade and the layering (photo 0, curve 1, content 2). */
+.app .mp-image::after,
+.app .fp-hero-image::after,
+.app .tp-hero::before,
+.app .tt-page .tt-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(7, 8, 8, .92), rgba(7, 8, 8, .72) 38%, rgba(7, 8, 8, .12) 74%);
+}
+
+.app .mp-hero .banner-swoosh,
+.app .fp-hero .banner-swoosh,
+.app .tp-hero .banner-swoosh,
+.app .tt-hero .banner-swoosh {
+  z-index: 1;
+}
+
+/* ----------------------------------------
+   Meat pie
+   ---------------------------------------- */
+.app .mp-hero {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #1d1713;
+  color: #fff;
+}
+
+.app .mp-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.app .mp-copy {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 64px;
+}
+
+.app .mp-copy h1 { color: #fff; }
+.app .mp-copy > p { color: rgba(255, 255, 255, .9); }
+.app .mp-qualities b { color: #fff; }
+.app .mp-qualities small { color: rgba(255, 255, 255, .78); }
+.app .mp-actions a { background: transparent; border-color: #fff; color: #fff; }
+.app .mp-contact { color: rgba(255, 255, 255, .85); }
+.app .mp-contact a { color: #fff; }
+.app .mp-contact i { background: rgba(255, 255, 255, .4); }
+
+/* ----------------------------------------
+   Family pack
+   ---------------------------------------- */
+.app .fp-hero {
+  background: #1d1713;
+  color: #fff;
+}
+
+.app .fp-hero-image {
+  inset: 0;
+  z-index: 0;
+}
+
+.app .fp-hero-copy { padding-bottom: 64px; }
+.app .fp-hero h1 { color: #fff; }
+.app .fp-hero-copy > p { color: rgba(255, 255, 255, .9); }
+.app .fp-meta { color: #fff; }
+.app .fp-btn-outline { background: transparent; border-color: #fff; color: #fff; }
+.app .fp-contact { color: rgba(255, 255, 255, .85); }
+.app .fp-contact a { color: #fff; }
+.app .fp-contact i { background: rgba(255, 255, 255, .4); }
+
+/* ----------------------------------------
+   Tuna pie
+   ---------------------------------------- */
+/* The page is a 1280px column on a beige app background. The banner breaks
+   out to the full width, and the background turns white so the curve meets
+   white everywhere (the beige only showed beside the column above 1280px). */
+.app.tuna-pie-app { background: #fff; overflow-x: clip; }
+
+.app .tp-hero {
+  position: relative;
+  display: block;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  color: #fff;
+  background: #1d1713 var(--tp-banner) center / cover no-repeat;
+}
+
+.app .tp-copy {
+  position: relative;
+  z-index: 2;
+  width: min(1280px, 100%);
+  margin: 0 auto;
+  padding: 40px 32px 72px;
+}
+
+.app .tp-copy > * { max-width: 560px; }
+.app .tp-copy h1 { color: #fff; }
+.app .tp-copy > p { color: rgba(255, 255, 255, .9); }
+.app .tp-copy > small { color: rgba(255, 255, 255, .8); }
+.app .tp-actions a { border-color: #fff; color: #fff; }
+.app .tp-phone a { color: #fff; }
+.app .tp-phone small { color: rgba(255, 255, 255, .8); }
+.app .tp-audiences span { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .28); box-shadow: none; color: #fff; }
+
+/* The cut-out pie on a white plate, right of the copy. multiply drops the
+   photo's own white into the plate. */
+.app .tp-image {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: max(8vw, calc((100vw - 1280px) / 2 + 40px));
+  width: clamp(240px, 26vw, 340px);
+  aspect-ratio: 1;
+  height: auto;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+}
+
+.app .tp-image img {
+  width: 122%;
+  max-width: none;
+  transform: none;
+  mix-blend-mode: multiply;
+}
+
+/* Below 1024px there is no room beside the copy: the plate drops under it. */
+@media (max-width: 1023px) {
+  .app .tp-image {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 240px;
+    margin: -40px auto 0;
+    transform: none;
+  }
+
+  .app .tp-hero { padding-bottom: 72px; }
+}
+
+/* ----------------------------------------
+   Tortilla
+   ---------------------------------------- */
+.app .tt-page .tt-hero {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  color: #fff;
+  padding: 52px max(24px, calc((100vw - 1280px) / 2)) 84px;
+  background: #1d1713 var(--tt-banner) center / cover no-repeat;
+}
+
+.app .tt-hero-copy,
+.app .tt-hero-media {
+  position: relative;
+  z-index: 2;
+}
+
+.app .tt-breadcrumb,
+.app .tt-breadcrumb a { color: rgba(255, 255, 255, .8); }
+.app .tt-breadcrumb a:hover { color: #fff; }
+.app .tt-hero h1 { color: #fff; }
+.app .tt-lead { color: rgba(255, 255, 255, .9); }
+.app .tt-actions a { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .85); }
+.app .tt-actions a:hover { background: rgba(255, 255, 255, .1); border-color: #fff; }
+.app .tt-phone a { color: #fff; }
+.app .tt-phone small { color: rgba(255, 255, 255, .8); }
+
+/* The page's own photo becomes a framed card on the banner instead of
+   bleeding off the right edge. */
+.app .tt-hero-media { max-width: 520px; justify-self: start; }
+.app .tt-hero-image { border-radius: 16px; border: 6px solid #fff; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+
+@media (min-width: 861px) {
+  .app .tt-hero-media { margin-right: 0; }
+  .app .tt-hero-image { border-radius: 16px; }
+}
+
+/* ----------------------------------------
+   Phones: the photo moves behind the copy (it was a strip above or below
+   it), so each page is one dark banner. Bottom padding leaves room for the
+   curve's 48px strip.
+   ---------------------------------------- */
+@media (max-width: 767px) {
+  .app .mp-hero,
+  .app .fp-hero { display: block; }
+
+  .app .mp-image,
+  .app .fp-hero-image {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+  }
+
+  .app .mp-image::after,
+  .app .fp-hero-image::after,
+  .app .tp-hero::before,
+  .app .tt-page .tt-hero::before {
+    display: block;
+    background: linear-gradient(90deg, rgba(7, 8, 8, .9), rgba(7, 8, 8, .68));
+  }
+
+  .app .mp-copy { padding: 34px 14px 72px; }
+  .app .fp-hero-copy { padding: 34px 14px 72px; }
+
+  /* The family pack lifted its buttons and contact line out of the hero
+     (absolute, below the photo strip), and pushed the trust bar down 111px
+     to make room. Both come back into the banner's flow. */
+  .app .fp-actions,
+  .app .fp-contact {
+    position: static;
+    width: auto;
+    margin: 16px 0 0;
+    padding: 0;
+    background: none;
+  }
+
+  .app .fp-trust { margin-top: 0; }
+
+  .app .tp-copy { padding: 34px 14px 24px; }
+  .app .tp-image { width: 200px; margin-top: 0; }
+
+  .app .tt-page .tt-hero { padding: 34px 16px 72px; }
+}

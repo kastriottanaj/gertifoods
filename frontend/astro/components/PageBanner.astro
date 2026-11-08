@@ -1,0 +1,34 @@
+---
+// A full-width photo banner in the old Karrota site's style, for pages that
+// had no banner of their own: Blog, blog posts and Imprint (2026-11-08). It
+// has a dark shade on the left, white text, and the white curve
+// (BannerSwoosh) in the bottom-right corner.
+//
+// The page's own heading markup goes in the slot unchanged (same elements,
+// same H1), so only its colours change, in page-banner.css. The banner
+// breaks out of the page column to the full window width.
+//
+//   image:  an imported image (src/width/height); usually the page's LCP.
+//   alt:    '' when the photo is only decoration (the default).
+//   fill:   the colour directly below the banner, for the curve.
+import BannerSwoosh from './BannerSwoosh.astro';
+import '../styles/page-banner.css';
+
+const { image, alt = '', fill = 'var(--bg)' } = Astro.props;
+---
+
+<section class="page-banner">
+  <img
+    class="page-banner-img"
+    src={image.src}
+    width={image.width}
+    height={image.height}
+    alt={alt}
+    fetchpriority="high"
+  />
+  <div class="page-banner-shade"></div>
+  <BannerSwoosh fill={fill} />
+  <div class="page-banner-inner">
+    <slot />
+  </div>
+</section>

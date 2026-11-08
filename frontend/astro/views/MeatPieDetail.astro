@@ -1,4 +1,7 @@
 ---
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Classic photo banner (2026-11-08): see the note at the top of the file.
+import '../styles/products-classic.css';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
@@ -24,6 +27,7 @@ const p = (path) => localePath(lang, path);
       <div class="mp-contact"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><i></i><span>⌖ &nbsp; Prizren, Kosovo</span></div>
     </div>
     <div class="mp-image" role="img" aria-label={t('mp_hero_alt')}></div>
+    <BannerSwoosh />
   </section>
 
   <section class="mp-trust">
