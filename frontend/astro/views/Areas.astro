@@ -1,6 +1,9 @@
 ---
 // Astro port of src/pages/Areas.jsx.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Dark photo banner, as on the old site; this sheet only recolours it.
+import '../styles/areas-classic.css';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { areas } from '../../src/data/areas.js';
 import heroImage from '../../src/assets/areas-we-serve.webp';
@@ -24,6 +27,7 @@ const p = (path) => localePath(lang, path);
     <section class="areas-hero">
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={t('areas_hero_alt')} class="areas-hero-image" fetchpriority="high" />
       <div class="areas-hero-shade"></div>
+      <BannerSwoosh />
       <div class="areas-hero-content">
         <h1>{t('areas_hero_line_1')}<br />{t('areas_hero_line_2')} <strong>{t('areas_hero_region')}</strong></h1>
         <p>{t('areas_intro')}</p>

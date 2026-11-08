@@ -11,6 +11,9 @@
 //   hasTime      — Kosovo shows three hero benefits, every other country four.
 //   hasLearnMore — Kosovo's segment cards have no "learn more" link.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
+// Dark photo banner, as on the old site; this sheet only recolours it.
+import '../styles/areas-classic.css';
 import SupplyLinks from '../components/SupplyLinks.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { areas } from '../../src/data/areas.js';
@@ -124,6 +127,7 @@ const supplyPages = area?.supplyPages ?? [];
     <section class="kosovo-hero">
       <img src={country.hero.src} width={country.hero.width} height={country.hero.height} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
       <div class="kosovo-hero-shade"></div>
+      <BannerSwoosh />
       <div class="kosovo-hero-content">
         <nav class="kosovo-breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
         <h1>{k('hero_line_1')}<br />{k('hero_line_2')} <strong>{k('hero_region')}</strong></h1>

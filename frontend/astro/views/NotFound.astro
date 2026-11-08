@@ -4,6 +4,7 @@
 // between the built files from the URL prefix. See deploy/nginx.conf.
 import './NotFound.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import heroImage from '../../src/assets/areas-we-serve.webp';
 
@@ -39,6 +40,8 @@ const p = (path) => localePath(lang, path);
         fetchpriority="high"
       />
       <div class="nf-hero-shade"></div>
+      {/* Fill matches .nf-cards, the beige section below. */}
+      <BannerSwoosh fill="#f5f1eb" />
 
       <div class="nf-hero-content">
         {/* Not an <h1>: the heading below is the page's actual subject, and a

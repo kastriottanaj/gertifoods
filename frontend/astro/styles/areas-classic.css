@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Areas and country pages: classic banner (2026-11-08)
+
+   The founder wants the old Karrota-site look everywhere. Its inner pages
+   opened with a dark photo banner, white text and the white curve
+   (BannerSwoosh). These two banners were light: a white fade over the photo
+   with dark text. This file turns them dark, on desktop and on phones, and
+   changes only colours. Layout, copy and links are untouched.
+
+   Loaded by Areas.astro and AreaDetail.astro only. The banners' base rules
+   live in App.css, so every selector here starts with `.app` to be one
+   class more specific and win wherever the file is linked.
+   ========================================================================== */
+
+/* The shade: dark on the left where the text sits, clear on the right where
+   the photo shows (same as the About banner). */
+.app .areas-hero-shade,
+.app .kosovo-hero-shade {
+  background: linear-gradient(90deg, rgba(7, 8, 8, .93), rgba(7, 8, 8, .74) 37%, rgba(7, 8, 8, .06) 73%);
+}
+
+.app .areas-hero,
+.app .kosovo-hero {
+  color: #fff;
+}
+
+.app .areas-hero h1,
+.app .kosovo-hero h1 {
+  color: #fff;
+}
+
+.app .areas-hero-content > p,
+.app .kosovo-hero-content > p {
+  color: rgba(255, 255, 255, .92);
+}
+
+.app .areas-benefits b,
+.app .kosovo-benefits b {
+  color: #fff;
+}
+
+.app .areas-benefits span,
+.app .kosovo-benefits span {
+  color: rgba(255, 255, 255, .8);
+}
+
+/* Breadcrumb: small text, so the red link (4.2:1 on the dark shade) becomes
+   white and underlined, and the current page a softer white. */
+.app .kosovo-breadcrumb {
+  color: rgba(255, 255, 255, .78);
+}
+
+.app .kosovo-breadcrumb a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* The secondary button was red-outlined for a white background; on the dark
+   banner it becomes white-outlined, like About's. The primary stays red. */
+.app .kosovo-hero-actions a:not(:first-child) {
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Both banners had fixed heights sized for the Albanian copy, so longer text
+   ran past the bottom and was cut off. Measured cuts: 14px on /areas, 54px on
+   /de/areas/slovakia, and on phones up to 51px on /de/areas. They now grow
+   with their content, with the old heights as a minimum, so the Albanian
+   pages look exactly as before. The bottom padding keeps the last line clear
+   of the curve. */
+.app .areas-showcase .areas-hero {
+  height: auto;
+  min-height: 308px;
+  padding-bottom: 40px;
+}
+
+.app .kosovo-page .kosovo-hero {
+  height: auto;
+  min-height: 405px;
+  padding-bottom: 40px;
+}
+
+/* Phones: these banners were pale (a 10% photo under a white veil). They
+   become the same dark photo banner. */
+@media (max-width: 768px) {
+  /* Same growth on phones, starting from their phone heights (App.css plus
+     the 22px for the header badge, in classic-header.css). The bottom
+     padding leaves room for the curve's 48px strip. */
+  .app .areas-showcase .areas-hero {
+    min-height: 302px;
+    padding-bottom: 56px;
+  }
+
+  .app .kosovo-page .kosovo-hero {
+    min-height: 480px;
+    padding-bottom: 56px;
+  }
+
+  .app .areas-hero,
+  .app .kosovo-hero {
+    background: #1d1713;
+  }
+
+  .app .areas-hero-image,
+  .app .kosovo-hero-image {
+    opacity: 1;
+  }
+
+  .app .areas-hero-shade,
+  .app .kosovo-hero-shade {
+    background: linear-gradient(90deg, rgba(7, 8, 8, .9), rgba(7, 8, 8, .66));
+  }
+}
