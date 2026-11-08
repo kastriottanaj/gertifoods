@@ -35,6 +35,7 @@ import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
 import heroPoster from '../../src/assets/home-hero-poster.webp';
 import heroVideoDesktop from '../../src/assets/home-hero-video-desktop.mp4';
 import heroVideoMobile from '../../src/assets/home-hero-video-mobile.mp4';
+import tortillaCardImg from '../../src/assets/home-hero-tortillas.webp';
 
 const CERTS = ['ISO 22000'];
 
@@ -346,11 +347,19 @@ const messages = islandMessages(lang);
           </a>
 
           <a href={p('/products/tortilla')} class="home-category">
-            {/* TODO: swap for a real tortilla photo once the shoot lands */}
-            <div class="home-category-image home-category-image-placeholder" role="img" aria-label={t('category_tortilla_alt')}>
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15zM9 8a1.2 1.2 0 100 2.4A1.2 1.2 0 009 8zm6 1.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm-4.5 4a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/>
-              </svg>
+            {/* The licensed Pexels tortilla photo (the homepage hero until the
+                video; also the tortilla page's banner). It replaces the icon
+                placeholder for the old-style card, which needs a photo on top.
+                TODO: swap for Gerti's own photo once the tortilla shoot lands. */}
+            <div class="home-category-image">
+              <img
+                src={tortillaCardImg.src}
+                alt={t('category_tortilla_alt')}
+                width={tortillaCardImg.width}
+                height={tortillaCardImg.height}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div class="home-category-body">
               <h3>{t('category_tortilla_title')}</h3>

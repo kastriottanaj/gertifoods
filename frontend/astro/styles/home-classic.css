@@ -129,3 +129,183 @@
     padding: 64px 16px 8px;
   }
 }
+
+/* ==========================================================================
+   Sections, classic style (2026-11-08)
+
+   The old Karrota site's sections had red headings over grey body text,
+   rounded pill buttons, and white product cards: photo on top, red title,
+   grey text and a red outlined "read more" pill. These rules bring that
+   look to the homepage sections below the hero. Copy, order and links are
+   unchanged. The green capacity band and the red final band stay as they
+   are: both are brand colours and already read as the old site's.
+
+   As above, every selector is one class more specific than its Home.css
+   rule (.home-classic-app + the section class).
+   ========================================================================== */
+
+/* Section headings red, body text grey. Red #da2030 is 4.96:1 on white and
+   about 4.6:1 on the beige panels: fine for headings this size. #666 body
+   text is 5.7:1. */
+.home-classic-app .home-segments-title,
+.home-classic-app .home-pain-title,
+.home-classic-app .home-pillars-title,
+.home-classic-app .home-categories-title,
+.home-classic-app .home-process-title,
+.home-classic-app .home-heritage-title {
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.home-classic-app .home-segments-subtitle,
+.home-classic-app .home-pain-subtitle,
+.home-classic-app .home-pillars-subtitle,
+.home-classic-app .home-categories-subtitle,
+.home-classic-app .home-process-subtitle,
+.home-classic-app .home-heritage-body {
+  color: #666;
+}
+
+/* Accents that were green or black move to the old red: the step numbers
+   and the heritage figures. */
+.home-classic-app .home-process-step-num {
+  background: var(--primary);
+}
+
+.home-classic-app .home-heritage-fact-value,
+.home-classic-app .home-heritage-fact:nth-child(2) .home-heritage-fact-value,
+.home-classic-app .home-heritage-fact:nth-child(3) .home-heritage-fact-value {
+  color: var(--primary);
+}
+
+/* ---- Buttons: rounded pills everywhere. The lead-form buttons stay solid
+   red (the green "start with free samples" one turns red too); the link
+   to all products becomes the old red outlined pill. ---- */
+.home-classic-app .home-hero-btn-primary,
+.home-classic-app .home-hero-btn-secondary,
+.home-classic-app .home-pain-cta,
+.home-classic-app .home-process-cta,
+.home-classic-app .home-final-cta-primary,
+.home-classic-app .home-final-cta-catalog,
+.home-classic-app .home-sticky-cta button {
+  border-radius: 999px;
+}
+
+.home-classic-app .home-process-cta {
+  background: var(--primary);
+}
+
+.home-classic-app .home-process-cta:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 10px 26px rgba(218, 32, 48, 0.35);
+}
+
+.home-classic-app .home-categories-cta {
+  border-radius: 999px;
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  box-shadow: none;
+}
+
+.home-classic-app .home-categories-cta:hover {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ---- Products: the old site's card row. The heading block sits centred
+   above three cards (it was a column to their left), and each card is
+   white with a thin border: photo on top, red title, grey text, red
+   outlined pill. ---- */
+.home-classic-app .home-categories-inner {
+  display: block;
+  max-width: 1100px;
+}
+
+.home-classic-app .home-categories-intro {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.home-classic-app .home-categories-subtitle {
+  margin: 0 auto 24px;
+}
+
+.home-classic-app .home-categories-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.home-classic-app .home-category {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e3e1dd;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.home-classic-app .home-category:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+.home-classic-app .home-category-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  background: #fff;
+}
+
+.home-classic-app .home-category-image img {
+  object-fit: cover;
+  padding: 0;
+}
+
+.home-classic-app .home-category-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 20px 24px;
+}
+
+.home-classic-app .home-category-body h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.home-classic-app .home-category-body p {
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.home-classic-app .home-category-cta {
+  padding: 7px 20px;
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  color: var(--primary);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.home-classic-app .home-category:hover .home-category-cta {
+  gap: 5px;
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Narrow screens: one card per row (three in a row get too small). */
+@media (max-width: 700px) {
+  .home-classic-app .home-categories-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
