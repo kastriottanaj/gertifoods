@@ -427,13 +427,22 @@
 .products-hero h1 strong { color: #dc1828; }
 .products-hero-content > p { margin: 14px 0 22px; font-size: 1rem; line-height: 1.5; }
 .products-hero-actions { display: flex; gap: 12px; }
+/* The font is written out in longhands: the shorthand that stood here,
+   `font: 700 .86rem inherit`, is invalid (the family can't be `inherit`), so
+   browsers dropped it and showed Chrome's default button font. In the real
+   bold font the German "Unsere Produkte Ansehen" is wider than the old fixed
+   178px, so 178px is now the minimum and the label never wraps. */
 .products-primary-cta,
 .products-outline-cta {
-  width: 178px;
+  min-width: 178px;
   min-height: 40px;
+  padding: 0 15px;
   border-radius: 6px;
   border: 1px solid #fff;
-  font: 700 .86rem inherit;
+  font-weight: 700;
+  font-size: .86rem;
+  font-family: inherit;
+  white-space: nowrap;
   cursor: pointer;
 }
 .products-primary-cta { background: #df1828; color: #fff; border-color: #df1828; }
