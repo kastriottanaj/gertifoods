@@ -150,14 +150,16 @@
 }
 
 /* ========================================
-   Hero trust bar — full-width band under the grid
-   4 credibility signals: certs · heritage · capacity · bake time
+   Hero trust badge under the grid: ISO 22000 only.
+   It was a 4-tile band (certs · heritage · capacity · bake time) until
+   2026-11-08, when the other three were taken out on request. The band
+   now shrinks to fit its one tile instead of leaving three empty columns.
    ======================================== */
 .home-hero-bar {
   position: relative;
   margin: 0 48px 48px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  width: fit-content;
   background: rgba(12, 12, 14, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
@@ -200,12 +202,6 @@
   line-height: 1.05;
   letter-spacing: -0.5px;
 }
-.home-hero-barunit {
-  font-size: 0.9rem;
-  font-weight: 700;
-  opacity: 0.85;
-}
-
 .home-hero-barlabel {
   color: rgba(255, 255, 255, 0.66);
   font-size: 0.76rem;
@@ -1420,16 +1416,11 @@
   }
   .home-hero-bar {
     margin: 0 24px 32px;
-    grid-template-columns: repeat(2, 1fr);
+    /* Full width in the stacked layout, like the form card above it. */
+    width: auto;
   }
   .home-hero-baritem {
     padding: 16px 18px;
-  }
-  .home-hero-baritem:nth-child(odd) {
-    border-left: none;
-  }
-  .home-hero-baritem:nth-child(n + 3) {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
   .home-hero-baricon svg {
     width: 26px;

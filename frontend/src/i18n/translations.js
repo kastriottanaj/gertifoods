@@ -30,7 +30,6 @@ const translations = {
     home_hero_trust: 'ISO 22000 · 600 vjet traditë nga Hasi',
     home_hero_cta_samples: 'Kërko mostra falas',
     home_hero_cta_products: 'Shiko produktet',
-    hero_bar_per_hour: 'orë',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'A po kërkoni produkte të gatshme për biznesin tend?',
@@ -56,9 +55,6 @@ const translations = {
     hero_phone_inline: 'Telefono 049 111 150',
     hero_calendly_inline: 'Kliko këtu për të rezervuar takim me ekipin e shitjeve',
     hero_stat_certs_label: 'Çertifikatë ndërkombëtare',
-    hero_stat_years_label: 'Vjet traditë buke nga Hasi',
-    hero_stat_capacity_label: 'Tortilla në orë',
-    hero_stat_baketime_label: 'Minuta në furrë',
     hero_badge_alt: 'Çertifikata e çertifikimit të Gerti Foods',
     hero_bg_alt: 'Tortilla të freskëta që piqen në pllakë të nxehtë',
 
@@ -1079,7 +1075,6 @@ const translations = {
     home_hero_trust: 'ISO 22000 · 600 years of Hasi tradition',
     home_hero_cta_samples: 'Request free samples',
     home_hero_cta_products: 'See products',
-    hero_bar_per_hour: 'hr',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Looking for ready-made products for your business?',
@@ -1105,9 +1100,6 @@ const translations = {
     hero_phone_inline: 'Call 049 111 150',
     hero_calendly_inline: 'Click here to book a meeting with our sales team',
     hero_stat_certs_label: 'International certification',
-    hero_stat_years_label: 'Years of Hasi baking heritage',
-    hero_stat_capacity_label: 'Tortillas per hour',
-    hero_stat_baketime_label: 'Minutes in the oven',
     hero_badge_alt: 'Gerti Foods certification badge',
     hero_bg_alt: 'Fresh tortillas cooking on a hot griddle',
 
@@ -2106,7 +2098,6 @@ const translations = {
     home_hero_trust: 'ISO 22000 · 600 Jahre Hasi-Tradition',
     home_hero_cta_samples: 'Kostenlose Muster anfordern',
     home_hero_cta_products: 'Produkte ansehen',
-    hero_bar_per_hour: 'Std.',
 
     // Hero lead form + inline CTAs
     hero_form_headline: 'Suchen Sie fertige Produkte für Ihr Unternehmen?',
@@ -2132,9 +2123,6 @@ const translations = {
     hero_phone_inline: '049 111 150 anrufen',
     hero_calendly_inline: 'Klicken Sie hier, um ein Meeting mit unserem Vertriebsteam zu buchen',
     hero_stat_certs_label: 'Internationale Zertifizierung',
-    hero_stat_years_label: 'Jahre Hasi-Backtradition',
-    hero_stat_capacity_label: 'Tortillas pro Stunde',
-    hero_stat_baketime_label: 'Minuten im Ofen',
     hero_badge_alt: 'Zertifizierungsabzeichen von Gerti Foods',
     hero_bg_alt: 'Frische Tortillas auf einer heißen Backplatte',
 
