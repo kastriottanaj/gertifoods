@@ -42,6 +42,36 @@
   }
 }
 
+/* /products from 769 to 1199px. Its banner was built for desktop: a fixed
+   408px height, text 38px under the header, and no width limit on the lead
+   or the benefits row. At tablet widths those two ran the banner's full
+   width into the curve (from 769px up to 1024px in German), and the logo
+   badge, which hangs 40px below the header, touched the German H1 at
+   769-900px. Here the lead and the benefits stop at two-thirds of the
+   width, on the dark side of the shade; the text starts 52px down; and the
+   banner grows with its content, 408px staying the minimum. Desktop (1200px
+   up) and phones keep their own rules. */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .app .products-hero {
+    height: auto;
+    min-height: 408px;
+    padding-bottom: 48px;
+  }
+
+  .app .products-hero-content {
+    padding-top: 52px;
+  }
+
+  .app .products-hero-content > p,
+  .app .products-benefits {
+    max-width: calc(66vw - 20px);
+  }
+
+  .app .products-benefits {
+    gap: 28px;
+  }
+}
+
 /* The landing pages' info line under the hero buttons can run long: the
    /furnizim hub lists six countries, a phone number and a note. On desktop,
    at the line's height (about 8% above the banner's bottom), the curve's

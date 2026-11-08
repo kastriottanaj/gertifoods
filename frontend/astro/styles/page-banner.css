@@ -104,6 +104,22 @@
   text-align: left;
 }
 
+/* 820px keeps a post's header clear of the curve on desktop, but below about
+   1000px it is most of the banner, and the H1 or the summary ran into the
+   curve (at 769-860px in every language). The blog index's 720px came
+   within 18px of it at 769px. The second limit stops the text at 80% of the
+   width less 24px, which binds only below about 1080px (index: 955px).
+   Phones are left out: their curve is a strip under the text. */
+@media (min-width: 769px) {
+  .page-banner .blog-hero {
+    max-width: min(720px, calc(80vw - 44px));
+  }
+
+  .page-banner .blog-article-header {
+    max-width: min(820px, calc(80vw - 44px));
+  }
+}
+
 .page-banner .blog-article-header .blog-meta {
   justify-content: flex-start;
   color: rgba(255, 255, 255, .8);
