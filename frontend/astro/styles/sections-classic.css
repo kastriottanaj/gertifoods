@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Page sections, classic style (2026-11-08)
+
+   The old Karrota site's sections, rolled out page by page after the
+   homepage (whose own rules are in home-classic.css):
+   - section headings red, body text grey
+   - rounded pill buttons
+   - white product cards: photo on top, red title, grey text, red outlined
+     pill
+
+   Copy, order and links are unchanged; only the look changes. Each page
+   that adopts the style imports this file. The base rules are in App.css, so
+   every selector here starts with `.app`, one class more specific, so it
+   wins whatever the load order.
+   ========================================================================== */
+
+/* ----------------------------------------
+   /products
+   ---------------------------------------- */
+.app .products-listing-heading h2,
+.app .products-about-heading h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .products-about-heading p,
+.app .products-about-grid p {
+  color: #666;
+}
+
+/* Product cards: thin border, photo edge to edge on top, everything
+   centred, red title, and an outlined pill instead of the solid button. */
+.app .products-showcase .product-card {
+  border: 1px solid #e3e1dd;
+  border-radius: 6px;
+  box-shadow: none;
+  text-align: center;
+}
+
+.app .products-showcase .product-card:hover {
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+}
+
+.app .products-showcase .product-card-image {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+.app .products-showcase .product-card-body h3 {
+  color: var(--primary);
+}
+
+.app .products-showcase .product-card .btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--primary);
+}
+
+.app .products-showcase .product-card .btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Pills: the banner buttons and the red band's buttons. */
+.app .products-primary-cta,
+.app .products-outline-cta,
+.app .products-bottom-actions a {
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  /* The phone cards keep their full-width button, now a pill. */
+  .app .products-showcase .product-card .btn {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+  }
+}
+
+/* ----------------------------------------
+   /about (these sections show from tablet up; the page hides them on
+   phones)
+   ---------------------------------------- */
+.app .about-story-grid h2,
+.app .about-lower-grid h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .about-story-copy p,
+.app .about-choose p {
+  color: #666;
+}
+
+.app .about-solution-cards article {
+  border-color: #e3e1dd;
+  text-align: center;
+}
+
+.app .about-solution-cards b {
+  color: var(--primary);
+}
+
+.app .about-hero-actions a,
+.app .about-bottom-cta a {
+  border-radius: 999px;
+}

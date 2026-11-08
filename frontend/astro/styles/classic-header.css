@@ -212,8 +212,15 @@
      Every other page either starts with a photo, which the badge may overlap
      as on the old site, or keeps its first text clear of it. Checked glyph by
      glyph in headless Chrome on all 31 pages, 2026-11-08. */
+  /* Since the banner curve arrived, these two heroes also grow with their
+     content instead of a fixed phone height (the German About text came
+     within 38px of the bottom, inside the curve's 48px strip). The old
+     heights stay as the minimum, so the Albanian pages look the same, and
+     the bottom padding keeps every language clear of the curve. */
   .app .about-hero {
-    height: 400px; /* App.css 378 + 22 */
+    height: auto;
+    min-height: 400px; /* App.css 378 + 22 */
+    padding-bottom: 56px;
   }
 
   .app .about-hero-content {
@@ -221,7 +228,9 @@
   }
 
   .app .products-hero {
-    height: 374px; /* App.css 352 + 22 */
+    height: auto;
+    min-height: 374px; /* App.css 352 + 22 */
+    padding-bottom: 56px;
   }
 
   .app .products-hero-content {
