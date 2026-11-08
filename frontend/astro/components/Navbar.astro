@@ -14,58 +14,54 @@
 //    the migration exists to remove — for a menu toggle and a dropdown.
 import { useTranslations, localePath } from '../lib/i18n.js';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import NavItems from './NavItems.astro';
 import { areas } from '../../src/data/areas.js';
 import brandLogo from '../../src/assets/gerti-foods-logo.webp';
 
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 
-const { lang } = Astro.props;
+// 'default' is the white bar every page has used so far. 'classic' is the
+// old Karrota/WordPress look the founder asked to bring back: a red bar with
+// a scalloped edge and the logo in a white badge between the two link groups.
+// Only the homepage asks for it for now (2026-11-08). Its styles live in
+// astro/styles/home-classic.css, which only the homepage loads.
+const { lang, variant = 'default' } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
+const classic = variant === 'classic';
 ---
 
-<nav class="navbar">
+<nav class:list={['navbar', classic && 'navbar--classic']}>
   <div class="navbar-container">
-    <a href={p('/')} class="navbar-brand" aria-label="Gerti Foods">
-      {/* Above the fold on every route: stays eager. width/height give the
-          browser the intrinsic ratio so the auto-width logo box doesn't
-          shift the navbar once the file lands. */}
-      <img src={brandLogo.src} alt="Gerti Foods" width="164" height="89" decoding="async" />
-    </a>
-
-    {/* Desktop links */}
-    <div class="navbar-links">
-      <a href={p('/products')}>{t('nav_products')}</a>
-      <a href={p('/about')}>{t('nav_about')}</a>
-      <a href={p('/blog')}>{t('nav_blog')}</a>
-      <div class="nav-dropdown" data-areas-dropdown>
-        <div class="nav-dropdown-trigger">
-          <a href={p('/areas')}>{t('nav_areas')}</a>
-          <button
-            type="button"
-            class="nav-dropdown-caret"
-            aria-label={t('nav_areas')}
-            aria-expanded="false"
-            data-areas-caret
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </button>
+    {classic ? (
+      <>
+        {/* Desktop links, split around the logo badge */}
+        <div class="navbar-links navbar-links--start">
+          <NavItems lang={lang} part="start" calendlyUrl={CALENDLY_URL} />
         </div>
-        <div class="nav-dropdown-menu" role="menu" data-areas-menu style="display:none">
-          {areas.map((area) => (
-            <a href={p(`/areas/${area.slug}`)} role="menuitem">{t(area.nameKey)}</a>
-          ))}
+        <a href={p('/')} class="navbar-brand navbar-brand--badge" aria-label="Gerti Foods">
+          <img src={brandLogo.src} alt="Gerti Foods" width="164" height="89" decoding="async" />
+        </a>
+        <div class="navbar-links navbar-links--end">
+          <NavItems lang={lang} part="end" calendlyUrl={CALENDLY_URL} />
         </div>
-      </div>
-      <a href={p('/imprint')}>{t('nav_imprint')}</a>
+      </>
+    ) : (
+      <>
+        <a href={p('/')} class="navbar-brand" aria-label="Gerti Foods">
+          {/* Above the fold on every route: stays eager. width/height give the
+              browser the intrinsic ratio so the auto-width logo box doesn't
+              shift the navbar once the file lands. */}
+          <img src={brandLogo.src} alt="Gerti Foods" width="164" height="89" decoding="async" />
+        </a>
 
-      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" class="navbar-book-btn">
-        {t('footer_book_meeting')}
-      </a>
-      <LanguageSwitcher lang={lang} />
-    </div>
+        {/* Desktop links */}
+        <div class="navbar-links">
+          <NavItems lang={lang} part="start" calendlyUrl={CALENDLY_URL} />
+          <NavItems lang={lang} part="end" calendlyUrl={CALENDLY_URL} />
+        </div>
+      </>
+    )}
 
     {/* Hamburger button */}
     <button

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Homepage, classic style (2026-11-08)
+
+   The founder prefers the look of the old Karrota-built WordPress site
+   (reference: Karrota's portfolio screenshots of gertifoods.com, Sep 2024), so
+   the homepage is being restyled to match it one section at a time.
+
+   Step 1 is the header and the hero:
+   - red header bar with a scalloped bottom edge
+   - logo in a white badge, centred between the two link groups
+   - full-width video hero with a curved white bottom edge
+
+   What does not change: the copy, the H1, the CTAs, the lead form, the ISO
+   badge and every link. Only the look changes.
+
+   Only Home.astro imports this file. Every rule is also scoped to
+   .home-classic-app or .navbar--classic, so no other page can pick it up.
+
+   Specificity, not order: Astro links this (inside the Home stylesheet)
+   BEFORE App.css and index.css. Every selector here is therefore at least one
+   class more specific than the App.css / Home.css rule it overrides, e.g.
+   `.navbar.navbar--classic` over `.navbar`. Keep it that way when editing, or
+   the global rule will silently win.
+   ========================================================================== */
+
+/* The hero is full-bleed (100vw). On a desktop browser with a classic
+   scrollbar, 100vw is wider than the page by the scrollbar's width. Clip that
+   sliver rather than letting it add a horizontal scrollbar. `clip`, not
+   `hidden`: hidden would turn .app into a scroll container and break the
+   sticky header. */
+.home-classic-app {
+  overflow-x: clip;
+}
+
+/* The hero starts directly under the header; the logo badge overlaps it. */
+.home-classic-app .main-content {
+  padding-top: 0;
+}
+
+/* ----------------------------------------
+   Header
+   ---------------------------------------- */
+.navbar.navbar--classic {
+  --classic-bar-h: 64px;
+  --classic-scallop: 10px; /* radius of one scallop */
+  --classic-badge-w: 144px;
+  --classic-badge-h: 104px;
+  background: var(--primary);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* A row of red semicircles hanging off the bar's bottom edge: one circle per
+   tile, centred on the tile's top edge, so only its lower half shows. */
+.navbar.navbar--classic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: var(--classic-scallop);
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      var(--primary) calc(var(--classic-scallop) - 0.5px),
+      transparent var(--classic-scallop)
+    )
+    0 0 / calc(var(--classic-scallop) * 2) var(--classic-scallop) repeat-x;
+  pointer-events: none;
+}
+
+/* Three columns: links | badge | links. The equal 1fr side columns keep the
+   badge centred on the page. */
+.navbar--classic .navbar-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: var(--classic-bar-h);
+  align-items: center;
+  column-gap: 20px;
+  height: var(--classic-bar-h);
+}
+
+/* Each side column is (1200 - 144 badge - 2 × 20 gap) / 2 = 508px. Measured
+   widths at 18px, start | end (headless Chrome, 2026-11-08): Albanian
+   489 | 422, German 433 | 490, English 423 | 426. If a side outgrows 508px, its 1fr track grows and the
+   badge slides off centre, so re-measure after changing any nav label. */
+.navbar--classic .navbar-links--start {
+  grid-column: 1;
+  justify-self: start;
+  gap: 18px;
+}
+
+.navbar--classic .navbar-links--end {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* The badge: flat top flush with the bar, rounded bottom hanging below the
+   scallops. It is taller than the bar's row and simply overflows it. */
+.navbar--classic .navbar-brand--badge {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--classic-badge-w);
+  height: var(--classic-badge-h);
+  padding-top: 6px;
+  background: #fff;
+  border-radius: 0 0 calc(var(--classic-badge-w) / 2) calc(var(--classic-badge-w) / 2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.navbar--classic .navbar-brand--badge img {
+  height: 54px;
+  width: auto;
+}
+
+/* Links: white on red (4.96:1), white underline on hover. */
+.navbar--classic .navbar-links > a,
+.navbar--classic .nav-dropdown-trigger > a {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar--classic .navbar-links > a:hover,
+.navbar--classic .nav-dropdown-trigger > a:hover {
+  color: #fff;
+}
+
+.navbar--classic .navbar-links a::after {
+  background: #fff;
+}
+
+.navbar--classic .nav-dropdown-caret,
+.navbar--classic .nav-dropdown-caret:hover,
+.navbar--classic .nav-dropdown-caret[aria-expanded="true"] {
+  color: #fff;
+}
+
+/* The dropdown panel stays white with dark links, as on every other page. */
+.navbar--classic .nav-dropdown-menu a {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.navbar--classic .nav-dropdown-menu a:hover {
+  color: var(--primary);
+}
+
+/* Booking button inverted: white with red text, since a red button on a red
+   bar would disappear. Scoped to the desktop row, so the mobile menu keeps
+   its red button on the white panel. */
+.navbar--classic .navbar-links .navbar-book-btn {
+  background: #fff;
+  color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+.navbar--classic .navbar-links .navbar-book-btn:hover {
+  background: #fff4f4 !important;
+  color: var(--primary-dark) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Language switcher: a dark tint, not a light one, behind the white labels.
+   White on red with 16% white over it is only 3.9:1; with 16% black it is
+   6.3:1. */
+.navbar--classic .navbar-links .lang-switcher {
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.navbar--classic .navbar-links .lang-btn {
+  color: #fff;
+}
+
+.navbar--classic .navbar-links .lang-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar--classic .navbar-links .lang-btn-active,
+.navbar--classic .navbar-links .lang-btn-active:hover {
+  background: #fff;
+  color: var(--primary);
+}
+
+.navbar--classic .navbar-toggle {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  color: #fff;
+}
+
+/* Below 1260px App.css swaps the link row for the hamburger, as it does on
+   every page. The badge stays centred with the hamburger on the right. */
+@media (max-width: 768px) {
+  .navbar.navbar--classic {
+    --classic-bar-h: 56px;
+    --classic-scallop: 8px;
+    --classic-badge-w: 112px;
+    --classic-badge-h: 82px;
+  }
+
+  .navbar--classic .navbar-brand--badge {
+    padding-top: 4px;
+  }
+
+  .navbar--classic .navbar-brand--badge img {
+    height: 42px;
+  }
+}
+
+/* ----------------------------------------
+   Hero
+   ---------------------------------------- */
+.home-classic-app .home-hero.home-hero--classic {
+  /* Height of the curved bottom edge. It scales with the width, like the
+     original's. */
+  --hero-curve-h: clamp(40px, 7vw, 110px);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  border-radius: 0;
+  /* Dark under the poster, so the first paint isn't a white flash. */
+  background: #1c1714;
+  min-height: min(88vh, 860px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-hero--classic .home-hero-bg {
+  object-position: center;
+}
+
+.home-hero--classic .home-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.home-hero--classic .home-hero-video.is-playing {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero--classic .home-hero-video {
+    display: none;
+  }
+}
+
+/* Content stays on the site's 1200px column while the media goes edge to edge. */
+.home-hero--classic .home-hero-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Extra top padding clears the logo badge, which hangs into the hero. */
+.home-hero--classic .home-hero-grid {
+  padding: 104px 48px 32px;
+}
+
+/* The bottom margin keeps the ISO badge, and the form card above it, clear of
+   the curve. */
+.home-hero--classic .home-hero-bar {
+  margin: 0 48px calc(var(--hero-curve-h) * 0.55 + 24px);
+}
+
+.home-hero--classic .home-hero-curve {
+  position: absolute;
+  left: 0;
+  /* -1px hides the hairline that subpixel rounding can leave under the curve. */
+  bottom: -1px;
+  display: block;
+  width: 100%;
+  height: var(--hero-curve-h);
+  fill: var(--bg);
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .home-classic-app .home-hero.home-hero--classic {
+    min-height: 0;
+  }
+
+  .home-hero--classic .home-hero-grid {
+    padding: 72px 24px 8px;
+  }
+
+  .home-hero--classic .home-hero-bar {
+    margin: 0 24px calc(var(--hero-curve-h) * 0.55 + 20px);
+  }
+}
+
+@media (max-width: 440px) {
+  .home-hero--classic .home-hero-grid {
+    padding: 64px 16px 8px;
+  }
+}

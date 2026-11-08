@@ -7,6 +7,12 @@
 // BaseLayout is what pulls in App.css and index.css.
 import '../../src/pages/Home.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+// The classic (old Karrota/WordPress) style for the header and hero. Astro
+// bundles this into the Home stylesheet, which is linked *before*
+// BaseLayout's (App.css and index.css). So these rules win on specificity,
+// not order: each selector is at least one class more specific than the rule
+// it overrides. Keep it that way when editing.
+import '../styles/home-classic.css';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
@@ -14,13 +20,20 @@ import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
 import familyPackImg from '../../src/assets/products/Family-pack.webp';
 import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
-// Hero photo: "Traditional Tortillas Cooking on Open Flame" by Alejandro JV,
-// https://www.pexels.com/photo/36971424/ (Pexels licence: free for commercial
-// use, no attribution required). Replaced the croissant photo on 2026-11-08,
-// since croissants left the catalogue in July 2026. Imported rather than
-// served from public/ so its URL is content-hashed: /hero.webp was cached
-// for 30 days, so a photo swapped in place stayed stale for returning visitors.
-import heroImg from '../../src/assets/home-hero-tortillas.webp';
+// Hero video (2026-11-08): Gerti's own footage. These are phone clips from the
+// 6–7 Nov 2026 transfer: hands pressing and dimpling dough in flour, then a
+// filled tortilla rolled and sliced. They were cut into a 13 s silent loop, so
+// pizza clips were left out (pizza is off the site). The old site's hero was a
+// third party's restaurant promo and must not be reused.
+//   desktop: 1080×720 crop of the vertical footage, H.264, ~2.3 MB
+//   mobile:  540×960 full frame, H.264, ~1.75 MB
+//   poster:  the loop's first frame, so nothing jumps when playback starts.
+//            It is the LCP image.
+// All three are imported rather than served from public/, so their URLs are
+// content-hashed and cached immutably.
+import heroPoster from '../../src/assets/home-hero-poster.webp';
+import heroVideoDesktop from '../../src/assets/home-hero-video-desktop.mp4';
+import heroVideoMobile from '../../src/assets/home-hero-video-mobile.mp4';
 
 const CERTS = ['ISO 22000'];
 
@@ -37,62 +50,95 @@ const messages = islandMessages(lang);
   description={t('home_meta')}
   brandSuffix={false}
   lang={lang}
-  preloadImage={heroImg.src}
+  preloadImage={heroPoster.src}
+  navVariant="classic"
+  appClass=" home-classic-app"
 >
   <div class="home">
-    <section class="home-hero">
-      {/* The LCP image — the one place on this page that gets
-          fetchpriority="high" (it is also preloaded in the head). Stays
-          eager and keeps the default synchronous decode. */}
+    <section class="home-hero home-hero--classic">
+      {/* The poster is the LCP image: the one place on this page that gets
+          fetchpriority="high" (it is also preloaded in the head). It stays
+          visible for anyone who doesn't get the video: reduced motion, data
+          saver, or no JS. Both the poster and the video are decorative (the
+          H1 carries the message), so the poster has an empty alt and the
+          video is hidden from assistive tech. */}
       <img
         class="home-hero-bg"
-        src={heroImg.src}
-        alt={t('hero_bg_alt')}
-        width={heroImg.width}
-        height={heroImg.height}
+        src={heroPoster.src}
+        alt=""
+        width={heroPoster.width}
+        height={heroPoster.height}
         fetchpriority="high"
       />
+      {/* preload="none": nothing downloads until the script below calls
+          play(), after it has checked reduced motion and data saver. The
+          desktop source comes first and carries the media query. A browser
+          that ignores `media` on <source> therefore always takes the
+          desktop file, which is merely more cropped on a phone. The reverse
+          order would serve phone video to desktops. */}
+      <video
+        class="home-hero-video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        disableremoteplayback
+        aria-hidden="true"
+        data-hero-video
+      >
+        <source src={heroVideoDesktop} type="video/mp4" media="(min-width: 761px)" />
+        <source src={heroVideoMobile} type="video/mp4" />
+      </video>
       <div class="home-hero-overlay"></div>
 
-      <div class="home-hero-grid">
-        <div class="home-hero-copy">
-          <span class="home-hero-eyebrow">{t('home_hero_eyebrow')}</span>
-          <h1 class="home-hero-title">{t('home_hero_title')}</h1>
-          <p class="home-hero-subtitle">{t('home_hero_subtitle')}</p>
+      <div class="home-hero-inner">
+        <div class="home-hero-grid">
+          <div class="home-hero-copy">
+            <span class="home-hero-eyebrow">{t('home_hero_eyebrow')}</span>
+            <h1 class="home-hero-title">{t('home_hero_title')}</h1>
+            <p class="home-hero-subtitle">{t('home_hero_subtitle')}</p>
 
-          <div class="home-hero-actions">
-            <button type="button" class="home-hero-btn-primary" data-open-modal="sample">
-              {t('home_hero_cta_samples')}
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            <div class="home-hero-actions">
+              <button type="button" class="home-hero-btn-primary" data-open-modal="sample">
+                {t('home_hero_cta_samples')}
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+              </button>
+              <a href={p('/products')} class="home-hero-btn-secondary">
+                {t('home_hero_cta_products')}
+              </a>
+            </div>
+          </div>
+
+          <div class="home-hero-cta">
+            <div class="home-hero-card">
+              <HeroLeadFormIsland client:load lang={lang} messages={messages} source="home_hero" />
+            </div>
+          </div>
+        </div>
+
+        <div class="home-hero-bar">
+          <div class="home-hero-baritem">
+            <span class="home-hero-baricon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
               </svg>
-            </button>
-            <a href={p('/products')} class="home-hero-btn-secondary">
-              {t('home_hero_cta_products')}
-            </a>
-          </div>
-        </div>
-
-        <div class="home-hero-cta">
-          <div class="home-hero-card">
-            <HeroLeadFormIsland client:load lang={lang} messages={messages} source="home_hero" />
+            </span>
+            <span class="home-hero-bartext">
+              <span class="home-hero-barvalue">ISO 22000</span>
+              <span class="home-hero-barlabel">{t('hero_stat_certs_label')}</span>
+            </span>
           </div>
         </div>
       </div>
 
-      <div class="home-hero-bar">
-        <div class="home-hero-baritem">
-          <span class="home-hero-baricon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-            </svg>
-          </span>
-          <span class="home-hero-bartext">
-            <span class="home-hero-barvalue">ISO 22000</span>
-            <span class="home-hero-barlabel">{t('hero_stat_certs_label')}</span>
-          </span>
-        </div>
-      </div>
+      {/* The old site's curved white bottom edge. It is filled with the page
+          background, so the hero appears to sit on a rising hill. */}
+      <svg class="home-hero-curve" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 140V104C360 36 1080 36 1440 104V140Z" />
+      </svg>
     </section>
 
     <section class="home-segments">
@@ -496,4 +542,35 @@ const messages = islandMessages(lang);
       window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
     });
   });
+
+  // Hero video. It starts here rather than through the autoplay attribute,
+  // so these visitors keep the still poster and never download the video:
+  //  - those who asked for reduced motion
+  //  - those with data saver on
+  // It also pauses while the hero is off screen, so the decoder isn't
+  // running under the rest of the page. The poster stays underneath and the
+  // video fades in on its first frame. If play() is refused (iOS Low Power
+  // Mode, say), the visitor just keeps the poster.
+  const heroVideo = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  if (heroVideo) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = (navigator as any).connection?.saveData === true;
+    if (!reduceMotion && !saveData) {
+      heroVideo.muted = true;
+      heroVideo.addEventListener('playing', () => heroVideo.classList.add('is-playing'), { once: true });
+      const play = () => {
+        heroVideo.play().catch(() => {});
+      };
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) play();
+            else heroVideo.pause();
+          }
+        }).observe(heroVideo);
+      } else {
+        play();
+      }
+    }
+  }
 </script>

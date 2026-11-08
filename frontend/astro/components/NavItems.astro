@@ -1,0 +1,64 @@
+---
+// The desktop navbar's links, split into two halves so the homepage's classic
+// header can put the logo badge between them.
+//
+//   part="start": Products, About, Blog, Areas dropdown, Imprint
+//   part="end":   booking button, language switcher
+//
+// Imprint sits in the first half so that both halves fit their 508px side
+// of the classic header in every language. German's long "Kostenloses Meeting
+// buchen" button made the right half 77px too wide when Imprint was there,
+// which pushed the logo badge off centre.
+//
+// The default header renders both halves back to back inside one
+// .navbar-links, which produces exactly the DOM it had before the split.
+// Astro components add no wrapper element, so the links stay direct children
+// of .navbar-links and the 14px flex gap and the German width maths in App.css
+// still apply.
+import { useTranslations, localePath } from '../lib/i18n.js';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { areas } from '../../src/data/areas.js';
+
+const { lang, part, calendlyUrl } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+---
+
+{part === 'start' && (
+  <>
+    <a href={p('/products')}>{t('nav_products')}</a>
+    <a href={p('/about')}>{t('nav_about')}</a>
+    <a href={p('/blog')}>{t('nav_blog')}</a>
+    <div class="nav-dropdown" data-areas-dropdown>
+      <div class="nav-dropdown-trigger">
+        <a href={p('/areas')}>{t('nav_areas')}</a>
+        <button
+          type="button"
+          class="nav-dropdown-caret"
+          aria-label={t('nav_areas')}
+          aria-expanded="false"
+          data-areas-caret
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="nav-dropdown-menu" role="menu" data-areas-menu style="display:none">
+        {areas.map((area) => (
+          <a href={p(`/areas/${area.slug}`)} role="menuitem">{t(area.nameKey)}</a>
+        ))}
+      </div>
+    </div>
+    <a href={p('/imprint')}>{t('nav_imprint')}</a>
+  </>
+)}
+
+{part === 'end' && (
+  <>
+    <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" class="navbar-book-btn">
+      {t('footer_book_meeting')}
+    </a>
+    <LanguageSwitcher lang={lang} />
+  </>
+)}

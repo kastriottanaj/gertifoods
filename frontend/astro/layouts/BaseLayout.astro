@@ -50,6 +50,9 @@ const {
   // Landing pages built to their own mockup (the /furnizim/byrektore page)
   // bring their own header and footer, so both site bars can be switched off.
   showNavbar = true,
+  // Which header to draw: 'default' (white bar) or 'classic' (the red,
+  // scalloped header from the old Karrota site). See Navbar.astro.
+  navVariant = 'default',
   // App.jsx appends per-route modifiers to the .app element (e.g.
   // ' products-landing-app', ' kosovo-landing-app') that page-specific CSS
   // hangs off. Pages that need one pass it here.
@@ -425,7 +428,7 @@ const exitMessages = islandMessages(lang, 'exit');
     {/* Element order mirrors App.jsx exactly: everything, footer and floating
         widgets included, lives inside .app. */}
     <div class={`app${appClass}`}>
-      {showNavbar && <Navbar lang={lang} />}
+      {showNavbar && <Navbar lang={lang} variant={navVariant} />}
       <main class="main-content">
         <slot />
       </main>
