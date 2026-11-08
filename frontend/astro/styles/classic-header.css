@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Classic site header (Navbar.astro, variant="classic")
+
+   The red header of the old Karrota-built WordPress site, which the founder
+   asked to bring back:
+   - a red bar with a scalloped bottom edge
+   - the logo in a white badge centred between two link groups
+   - white links, an inverted (white) booking button
+   It went live on the homepage on 2026-11-08 and site-wide the same day.
+   The /furnizim landing pages have their own header (LandingHeader.astro),
+   styled to match in landing.css.
+
+   Specificity, not order: this stylesheet's position relative to App.css is
+   not guaranteed, and App.css restyles the navbar per page on phones (e.g.
+   `.products-landing-app .navbar-container`, 0,2,0). Every rule here that
+   competes with one of those starts with `.navbar.navbar--classic` (0,2,0
+   before anything else), so it wins wherever it is loaded. Keep it that way.
+   ========================================================================== */
+
+.navbar.navbar--classic {
+  --classic-bar-h: 64px;
+  --classic-scallop: 10px; /* radius of one scallop */
+  --classic-badge-w: 144px;
+  --classic-badge-h: 104px;
+  background: var(--primary);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* A row of red semicircles hanging off the bar's bottom edge: one circle per
+   tile, centred on the tile's top edge, so only its lower half shows. */
+.navbar.navbar--classic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: var(--classic-scallop);
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      var(--primary) calc(var(--classic-scallop) - 0.5px),
+      transparent var(--classic-scallop)
+    )
+    0 0 / calc(var(--classic-scallop) * 2) var(--classic-scallop) repeat-x;
+  pointer-events: none;
+}
+
+/* Three columns: links | badge | links. The equal 1fr side columns keep the
+   badge centred on the page. */
+.navbar.navbar--classic .navbar-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: var(--classic-bar-h);
+  align-items: center;
+  column-gap: 20px;
+  height: var(--classic-bar-h);
+}
+
+/* Each side column is (1200 - 144 badge - 2 × 20 gap) / 2 = 508px. Measured
+   widths at 18px, start | end (headless Chrome, 2026-11-08): Albanian
+   489 | 422, German 433 | 490, English 423 | 426. If a side outgrows 508px,
+   its 1fr track grows and the badge slides off centre, so re-measure after
+   changing any nav label. */
+.navbar.navbar--classic .navbar-links--start {
+  grid-column: 1;
+  justify-self: start;
+  gap: 18px;
+}
+
+.navbar.navbar--classic .navbar-links--end {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* The badge: flat top flush with the bar, rounded bottom hanging below the
+   scallops. It is taller than the bar's row and simply overflows it. */
+.navbar.navbar--classic .navbar-brand--badge {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--classic-badge-w);
+  height: var(--classic-badge-h);
+  padding-top: 6px;
+  background: #fff;
+  border-radius: 0 0 calc(var(--classic-badge-w) / 2) calc(var(--classic-badge-w) / 2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.navbar.navbar--classic .navbar-brand--badge img {
+  height: 54px;
+  width: auto;
+}
+
+/* Links: white on red (4.96:1), white underline on hover. */
+.navbar.navbar--classic .navbar-links > a,
+.navbar.navbar--classic .nav-dropdown-trigger > a {
+  color: #fff;
+  font-weight: 600;
+}
+
+.navbar.navbar--classic .navbar-links > a:hover,
+.navbar.navbar--classic .nav-dropdown-trigger > a:hover {
+  color: #fff;
+}
+
+.navbar.navbar--classic .navbar-links a::after {
+  background: #fff;
+}
+
+.navbar.navbar--classic .nav-dropdown-caret,
+.navbar.navbar--classic .nav-dropdown-caret:hover,
+.navbar.navbar--classic .nav-dropdown-caret[aria-expanded="true"] {
+  color: #fff;
+}
+
+/* The dropdown panel stays white with dark links. */
+.navbar.navbar--classic .nav-dropdown-menu a {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.navbar.navbar--classic .nav-dropdown-menu a:hover {
+  color: var(--primary);
+}
+
+/* Booking button inverted: white with red text, since a red button on a red
+   bar would disappear. Scoped to the desktop row, so the mobile menu keeps
+   its red button on the white panel. */
+.navbar.navbar--classic .navbar-links .navbar-book-btn {
+  background: #fff;
+  color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+.navbar.navbar--classic .navbar-links .navbar-book-btn:hover {
+  background: #fff4f4 !important;
+  color: var(--primary-dark) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Language switcher: a dark tint, not a light one, behind the white labels.
+   White on red with 16% white over it is only 3.9:1; with 16% black it is
+   6.3:1. */
+.navbar.navbar--classic .navbar-links .lang-switcher {
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.navbar.navbar--classic .navbar-links .lang-btn {
+  color: #fff;
+}
+
+.navbar.navbar--classic .navbar-links .lang-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar.navbar--classic .navbar-links .lang-btn-active,
+.navbar.navbar--classic .navbar-links .lang-btn-active:hover {
+  background: #fff;
+  color: var(--primary);
+}
+
+.navbar.navbar--classic .navbar-toggle {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  color: #fff;
+}
+
+/* Below 1260px App.css swaps the link row for the hamburger. The badge stays
+   centred with the hamburger on the right.
+
+   Some pages (products, about, areas, the country pages) squeeze the booking
+   button into the phone bar with their own App.css rules. With the badge in
+   the middle there is no room for it beside the hamburger, so the classic
+   bar keeps its links hidden on every page; the button is in the menu. */
+@media (max-width: 1259px) {
+  .navbar.navbar--classic .navbar-links {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar.navbar--classic {
+    --classic-bar-h: 56px;
+    --classic-scallop: 8px;
+    --classic-badge-w: 112px;
+    --classic-badge-h: 82px;
+  }
+
+  .navbar.navbar--classic .navbar-brand--badge {
+    padding-top: 4px;
+  }
+
+  .navbar.navbar--classic .navbar-brand--badge img {
+    height: 42px;
+  }
+
+  /* The badge hangs 26px below the phone bar. Four heroes start their text
+     18–24px under the bar, so the badge covered the start of the H1 (or the
+     breadcrumb): /about, /products, /areas and the country pages. Push their
+     text down by 22px, and grow these fixed-height heroes by the same 22px so
+     nothing at their bottom is clipped.
+
+     Every other page either starts with a photo, which the badge may overlap
+     as on the old site, or keeps its first text clear of it. Checked glyph by
+     glyph in headless Chrome on all 31 pages, 2026-11-08. */
+  .app .about-hero {
+    height: 400px; /* App.css 378 + 22 */
+  }
+
+  .app .about-hero-content {
+    padding-top: 46px; /* App.css 24 + 22 */
+  }
+
+  .app .products-hero {
+    height: 374px; /* App.css 352 + 22 */
+  }
+
+  .app .products-hero-content {
+    padding-top: 46px; /* App.css 24 + 22 */
+  }
+
+  .app .areas-hero {
+    height: 302px; /* App.css 280 + 22 */
+  }
+
+  .app .areas-hero-content {
+    padding-top: 40px; /* App.css 18 + 22 */
+  }
+
+  .app .kosovo-hero {
+    height: 480px; /* App.css 458 + 22 */
+  }
+
+  .app .kosovo-hero-content {
+    padding-top: 41px; /* App.css 19 + 22 */
+  }
+}

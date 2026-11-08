@@ -20,35 +20,43 @@
 .lp-btn-white { background: #fff; border-color: #fff; color: var(--red); }
 .lp-btn-white:hover { background: #f7f7f7; }
 
-/* Header */
-.lp-header { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--line); }
-.lp-header-inner { display: flex; align-items: center; gap: 26px; min-height: 64px; }
-.lp-logo img { display: block; width: auto; height: 34px; }
-.lp-nav { display: flex; align-items: center; gap: 26px; margin-left: 48px; font-size: 14px; font-weight: 600; }
-.lp-nav a:hover { color: var(--red); }
+/* Header: the site's classic look (see classic-header.css), since 2026-11-08.
+   A red bar with a scalloped bottom edge. Links sit on the left, the logo in a
+   white badge in the middle, and language plus the call to action on the
+   right. The CTA is inverted to white, since red on red would disappear.
+   Dropdown panels and the phone menu stay white with dark text. */
+.lp-header { --lp-bar-h: 64px; --lp-scallop: 10px; --lp-badge-w: 144px; --lp-badge-h: 104px; position: sticky; top: 0; z-index: 40; background: var(--red); color: #fff; }
+.lp-header::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: var(--lp-scallop); background: radial-gradient(circle at 50% 0, var(--red) calc(var(--lp-scallop) - .5px), transparent var(--lp-scallop)) 0 0 / calc(var(--lp-scallop) * 2) var(--lp-scallop) repeat-x; pointer-events: none; }
+.lp-header-inner { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-rows: var(--lp-bar-h); align-items: center; column-gap: 20px; min-height: var(--lp-bar-h); }
+.lp-logo { grid-column: 2; grid-row: 1; align-self: start; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: var(--lp-badge-w); height: var(--lp-badge-h); padding-top: 6px; background: #fff; border-radius: 0 0 calc(var(--lp-badge-w) / 2) calc(var(--lp-badge-w) / 2); box-shadow: 0 8px 18px rgba(0,0,0,.14); }
+.lp-logo img { display: block; width: auto; height: 54px; }
+.lp-nav { grid-column: 1; grid-row: 1; justify-self: start; display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 600; }
+.lp-nav > a:hover, .lp-nav-drop summary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .lp-nav-drop { position: relative; }
 .lp-nav-drop summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 3px; }
 .lp-nav-drop summary::-webkit-details-marker { display: none; }
-.lp-nav-drop summary:hover { color: var(--red); }
 .lp-nav-drop summary svg { width: 13px; height: 13px; }
-.lp-nav-drop > div { position: absolute; left: -10px; top: calc(100% + 12px); min-width: 230px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
+.lp-nav-drop > div { position: absolute; left: -10px; top: calc(100% + 12px); min-width: 230px; padding: 6px; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
 .lp-nav-drop > div a { padding: 9px 10px; border-radius: 6px; font-weight: 500; }
-.lp-nav-drop > div a:hover { background: var(--soft); color: inherit; }
+.lp-nav-drop > div a:hover { background: var(--soft); }
 .lp-nav-drop > div a:first-child { font-weight: 700; }
-.lp-lang { position: relative; margin-left: auto; font-size: 14px; font-weight: 600; }
+.lp-header-end { grid-column: 3; grid-row: 1; justify-self: end; display: flex; align-items: center; gap: 16px; }
+.lp-lang { position: relative; font-size: 14px; font-weight: 600; }
 .lp-lang summary { list-style: none; cursor: pointer; padding: 8px 6px; display: flex; align-items: center; gap: 4px; }
 .lp-lang summary::-webkit-details-marker { display: none; }
 .lp-lang summary svg { width: 14px; height: 14px; }
-.lp-lang-boxed summary { padding: 8px 12px; border: 1px solid #d9d6cf; border-radius: 7px; font-weight: 500; }
-.lp-lang div { position: absolute; right: 0; top: calc(100% + 4px); min-width: 130px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
+.lp-lang-boxed summary { padding: 8px 12px; border: 1px solid rgba(255,255,255,.6); border-radius: 7px; font-weight: 500; }
+.lp-lang div { position: absolute; right: 0; top: calc(100% + 4px); min-width: 130px; padding: 6px; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08); display: flex; flex-direction: column; }
 .lp-lang div a { padding: 8px 10px; border-radius: 6px; font-weight: 500; }
 .lp-lang div a:hover, .lp-lang div a[aria-current] { background: var(--soft); }
 .lp-header-cta { min-height: 40px; padding: 0 18px; font-size: 13px; }
-.lp-menu { display: none; position: relative; }
+.lp-header .lp-header-cta { background: #fff; border-color: #fff; color: var(--red); box-shadow: 0 4px 12px rgba(0,0,0,.14); }
+.lp-header .lp-header-cta:hover { background: #fff4f4; border-color: #fff4f4; color: var(--red-dark); }
+.lp-menu { display: none; position: relative; grid-column: 3; grid-row: 1; justify-self: end; }
 .lp-menu summary { list-style: none; cursor: pointer; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 0 8px; }
 .lp-menu summary::-webkit-details-marker { display: none; }
-.lp-menu summary span { display: block; height: 2.5px; border-radius: 2px; background: var(--ink); }
-.lp-menu nav { position: absolute; right: 0; top: calc(100% + 8px); width: min(300px, calc(100vw - 32px)); padding: 10px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+.lp-menu summary span { display: block; height: 2.5px; border-radius: 2px; background: #fff; }
+.lp-menu nav { position: absolute; right: 0; top: calc(100% + 8px); width: min(300px, calc(100vw - 32px)); padding: 10px; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.12); display: flex; flex-direction: column; }
 .lp-menu nav a { padding: 12px; border-radius: 6px; font-weight: 600; }
 .lp-menu nav a:hover { background: var(--soft); }
 .lp-menu nav .lp-btn { margin: 8px 4px 2px; }
@@ -174,9 +182,20 @@
 /* Phone call bar — phones only */
 .lp-callbar { display: none; }
 
-@media (max-width: 900px) {
+/* The header folds its links into the menu below 960px, not 900px: in the
+   classic layout each side of the logo badge gets only half the bar, and at
+   901–959px the German links pushed the badge 24px off centre. Language moves
+   to the left of the badge, the menu to the right. */
+@media (max-width: 959px) {
   .lp-nav, .lp-header-cta { display: none; }
   .lp-menu { display: block; }
+  .lp-header-end { grid-column: 1; justify-self: start; }
+  /* The picker now sits at the left edge, so its panel opens rightwards;
+     anchored right, as on desktop, it opened 28px off screen. */
+  .lp-lang div { right: auto; left: 0; }
+}
+
+@media (max-width: 900px) {
   .lp-benefit-grid { grid-template-columns: 1fr; }
   .lp-benefit-grid article + article { padding: 18px 0 0; margin-top: 18px; border-left: 0; border-top: 1px solid var(--line); }
   .lp-cards, .lp-cards-3 { grid-template-columns: 1fr; }
@@ -188,6 +207,9 @@
 
 @media (max-width: 640px) {
   .lp-wrap { width: calc(100% - 40px); }
+  .lp-header { --lp-bar-h: 56px; --lp-scallop: 8px; --lp-badge-w: 112px; --lp-badge-h: 82px; }
+  .lp-logo { padding-top: 4px; }
+  .lp-logo img { height: 42px; }
   .lp-hero h1 { font-size: 36px; }
   .lp-hero-body { font-size: 16px; }
   .lp-hero-actions { flex-direction: column; }

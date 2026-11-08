@@ -10,6 +10,11 @@
 // furra-buke one.
 //
 // Styles live in ../styles/landing.css, imported by the page's own stylesheet.
+//
+// Since 2026-11-08 it wears the site's classic look (see classic-header.css):
+// red scalloped bar, logo in a white badge in the middle, links on the left,
+// language and the call to action on the right. The links, the CTA and what
+// they do are unchanged.
 import {
   useTranslations,
   localePath,
@@ -52,15 +57,17 @@ const SEGMENTS = supplySegments.map((s) => [
       <a href={p('/areas')}>{t('lp_nav_areas')}</a>
       <a href={p('/about')}>{t('nav_about')}</a>
     </nav>
-    <details class={`lp-lang${langStyle === 'name' ? ' lp-lang-boxed' : ''}`}>
-      <summary>{langLabel} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
-      <div>
-        {SUPPORTED_LANGS.map((code) => (
-          <a href={alternatePath(code, currentPath)} hreflang={code} data-lang-choice={code} aria-current={code === lang ? 'true' : undefined}>{LANG_LABELS[code]}</a>
-        ))}
-      </div>
-    </details>
-    <button type="button" class="lp-btn lp-btn-red lp-header-cta" data-open-modal="sample">{ctaLabel}</button>
+    <div class="lp-header-end">
+      <details class={`lp-lang${langStyle === 'name' ? ' lp-lang-boxed' : ''}`}>
+        <summary>{langLabel} <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></summary>
+        <div>
+          {SUPPORTED_LANGS.map((code) => (
+            <a href={alternatePath(code, currentPath)} hreflang={code} data-lang-choice={code} aria-current={code === lang ? 'true' : undefined}>{LANG_LABELS[code]}</a>
+          ))}
+        </div>
+      </details>
+      <button type="button" class="lp-btn lp-btn-red lp-header-cta" data-open-modal="sample">{ctaLabel}</button>
+    </div>
     <details class="lp-menu">
       <summary aria-label={t('lp_menu')}><span></span><span></span><span></span></summary>
       <nav>

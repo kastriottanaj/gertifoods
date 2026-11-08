@@ -7,8 +7,9 @@
 // BaseLayout is what pulls in App.css and index.css.
 import '../../src/pages/Home.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-// The classic (old Karrota/WordPress) style for the header and hero. Astro
-// bundles this into the Home stylesheet, which is linked *before*
+// The classic (old Karrota/WordPress) style for the hero; the matching red
+// header is site-wide (classic-header.css). Astro bundles this into the Home
+// stylesheet, which is linked *before*
 // BaseLayout's (App.css and index.css). So these rules win on specificity,
 // not order: each selector is at least one class more specific than the rule
 // it overrides. Keep it that way when editing.
@@ -51,7 +52,6 @@ const messages = islandMessages(lang);
   brandSuffix={false}
   lang={lang}
   preloadImage={heroPoster.src}
-  navVariant="classic"
   appClass=" home-classic-app"
 >
   <div class="home">

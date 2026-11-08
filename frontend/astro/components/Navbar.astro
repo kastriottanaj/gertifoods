@@ -17,15 +17,18 @@ import LanguageSwitcher from './LanguageSwitcher.astro';
 import NavItems from './NavItems.astro';
 import { areas } from '../../src/data/areas.js';
 import brandLogo from '../../src/assets/gerti-foods-logo.webp';
+import '../styles/classic-header.css';
 
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 
-// 'default' is the white bar every page has used so far. 'classic' is the
-// old Karrota/WordPress look the founder asked to bring back: a red bar with
-// a scalloped edge and the logo in a white badge between the two link groups.
-// Only the homepage asks for it for now (2026-11-08). Its styles live in
-// astro/styles/home-classic.css, which only the homepage loads.
-const { lang, variant = 'default' } = Astro.props;
+// 'classic' is the old Karrota/WordPress look the founder asked to bring back:
+// a red bar with a scalloped edge and the logo in a white badge between the
+// two link groups. It is the site-wide header since 2026-11-08, styled in
+// astro/styles/classic-header.css.
+//
+// 'default' is the white bar the site used before that. Nothing passes it any
+// more; it is kept so the old header can come back with a one-word change.
+const { lang, variant = 'classic' } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
 const classic = variant === 'classic';
