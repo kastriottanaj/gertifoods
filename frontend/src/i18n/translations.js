@@ -60,7 +60,7 @@ const translations = {
     hero_stat_capacity_label: 'Tortilla në orë',
     hero_stat_baketime_label: 'Minuta në furrë',
     hero_badge_alt: 'Çertifikata e çertifikimit të Gerti Foods',
-    hero_bg_alt: 'Byrek i freskët e i artë i pjekur nga Gerti Foods',
+    hero_bg_alt: 'Tortilla të freskëta që piqen në pllakë të nxehtë',
 
     // Segment qualifier row
     segments_eyebrow: 'PËR CILIN BIZNES',
@@ -1109,7 +1109,7 @@ const translations = {
     hero_stat_capacity_label: 'Tortillas per hour',
     hero_stat_baketime_label: 'Minutes in the oven',
     hero_badge_alt: 'Gerti Foods certification badge',
-    hero_bg_alt: 'Fresh golden byrek baked by Gerti Foods',
+    hero_bg_alt: 'Fresh tortillas cooking on a hot griddle',
 
     // Segment qualifier row
     segments_eyebrow: 'WHO WE SUPPLY',
@@ -2136,7 +2136,7 @@ const translations = {
     hero_stat_capacity_label: 'Tortillas pro Stunde',
     hero_stat_baketime_label: 'Minuten im Ofen',
     hero_badge_alt: 'Zertifizierungsabzeichen von Gerti Foods',
-    hero_bg_alt: 'Frischer goldener Börek von Gerti Foods',
+    hero_bg_alt: 'Frische Tortillas auf einer heißen Backplatte',
 
     // Segment qualifier row
     segments_eyebrow: 'WEN WIR BELIEFERN',

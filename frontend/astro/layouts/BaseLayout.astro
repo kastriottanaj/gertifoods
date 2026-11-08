@@ -39,10 +39,12 @@ const {
   title,
   description,
   lang = DEFAULT_LANG,
-  // Only the home page needs the hero preloaded. index.html preloads it for
-  // every route because the SPA has one shared HTML shell, which costs every
-  // other page a wasted 59 KB download. Per-page HTML lets us scope it.
-  preloadHero = false,
+  // URL of an image to preload with high priority: the home page passes its
+  // hero (the LCP image). The old SPA preloaded the hero on every route because
+  // it had one shared HTML shell, which cost every other page a wasted
+  // download. Per-page HTML lets us scope it. The URL comes from an import, so
+  // it is content-hashed and a new photo can never be served stale from cache.
+  preloadImage,
   // App.jsx hides the footer on the /products landing page.
   showFooter = true,
   // Landing pages built to their own mockup (the /furnizim/byrektore page)
@@ -217,8 +219,8 @@ const exitMessages = islandMessages(lang, 'exit');
     }
 
     {
-      preloadHero && (
-        <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
+      preloadImage && (
+        <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
       )
     }
 

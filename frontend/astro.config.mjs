@@ -17,7 +17,7 @@ export default defineConfig({
   // The directory deploy/nginx.conf serves.
   outDir: './dist',
 
-  // Shared with the Vite build — favicons, robots.txt, llms.txt, hero.webp.
+  // Shared with the Vite build — favicons, robots.txt, llms.txt.
   publicDir: './public',
 
   build: {

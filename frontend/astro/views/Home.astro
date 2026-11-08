@@ -14,6 +14,13 @@ import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
 import familyPackImg from '../../src/assets/products/Family-pack.webp';
 import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
+// Hero photo: "Traditional Tortillas Cooking on Open Flame" by Alejandro JV,
+// https://www.pexels.com/photo/36971424/ (Pexels licence: free for commercial
+// use, no attribution required). Replaced the croissant photo on 2026-11-08,
+// since croissants left the catalogue in July 2026. Imported rather than
+// served from public/ so its URL is content-hashed: /hero.webp was cached
+// for 30 days, so a photo swapped in place stayed stale for returning visitors.
+import heroImg from '../../src/assets/home-hero-tortillas.webp';
 
 const CERTS = ['ISO 22000'];
 
@@ -30,7 +37,7 @@ const messages = islandMessages(lang);
   description={t('home_meta')}
   brandSuffix={false}
   lang={lang}
-  preloadHero={true}
+  preloadImage={heroImg.src}
 >
   <div class="home">
     <section class="home-hero">
@@ -39,10 +46,10 @@ const messages = islandMessages(lang);
           eager and keeps the default synchronous decode. */}
       <img
         class="home-hero-bg"
-        src="/hero.webp"
+        src={heroImg.src}
         alt={t('hero_bg_alt')}
-        width="1920"
-        height="1280"
+        width={heroImg.width}
+        height={heroImg.height}
         fetchpriority="high"
       />
       <div class="home-hero-overlay"></div>
