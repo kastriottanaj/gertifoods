@@ -81,6 +81,30 @@
   padding-bottom: 40px;
 }
 
+/* The header's logo badge hangs 40px below the desktop bar, and the /areas
+   text started 39px under it. Wherever the H1 runs under the badge (at
+   1024px, for one), its first line touched the badge. 52px clears it. The
+   phones get their own value in classic-header.css, hence the media query. */
+@media (min-width: 769px) {
+  .app .areas-hero-content {
+    padding-top: 52px;
+  }
+}
+
+/* Tablets: every country page but Kosovo (three items) has four benefits in
+   one row, up to 718px wide, and below about 880px the row reached the
+   curve. At 800px "Gati për 15–20 minuta" ran under it. Sideways gap
+   measured before this rule: none at 769 and 800px (overlap), 14px at
+   834px in German, 54px at 880px. Below 900px the four items go in two rows
+   of two instead; the banner is content-sized, so it grows to fit. */
+@media (min-width: 769px) and (max-width: 899px) {
+  .app .albania-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 14px 38px;
+  }
+}
+
 /* Phones: these banners were pale (a 10% photo under a white veil). They
    become the same dark photo banner. */
 @media (max-width: 768px) {

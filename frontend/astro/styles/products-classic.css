@@ -209,6 +209,14 @@
   .app .tt-hero-image { border-radius: 16px; }
 }
 
+/* 769–860px: below 861px the page stacks the photo above the copy, so the
+   H1 had the banner's whole width and ran on one line (about 740px) into the
+   curve; at 780px "tregti" went under it. No wider than the photo card above
+   it, it wraps onto two lines clear of the curve. Phones wrap it anyway. */
+@media (min-width: 769px) and (max-width: 860px) {
+  .app .tt-hero h1 { max-width: 520px; }
+}
+
 /* ----------------------------------------
    Phones: the photo moves behind the copy (it was a strip above or below
    it), so each page is one dark banner. Bottom padding leaves room for the
