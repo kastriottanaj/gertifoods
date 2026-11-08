@@ -109,3 +109,118 @@
 .app .about-bottom-cta a {
   border-radius: 999px;
 }
+
+/* ----------------------------------------
+   Pie pages: cheese (cp), spinach (sp), meat (mp), tuna (tp),
+   family pack (fp). They share one layout: benefits row, testimonials,
+   solution cards, a red band. Benefit item titles stay dark, as on the
+   homepage, and the red band's heading stays white.
+   ---------------------------------------- */
+.app .cp-testimonials > h2, .app .cp-solutions > h2,
+.app .sp-testimonials > h2, .app .sp-solutions > h2,
+.app .mp-testimonials > h2, .app .mp-solutions > h2,
+.app .tp-testimonials h2, .app .tp-solutions h2,
+.app .fp-testimonials > h2, .app .fp-solutions > h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Solution cards read like the old product cards: red title, grey text. */
+.app .cp-solution-grid h3, .app .sp-solution-grid h3, .app .mp-solution-grid h3,
+.app .tp-solutions h3, .app .fp-solution-grid h3 {
+  color: var(--primary);
+}
+
+.app .cp-solution-grid p, .app .sp-solution-grid p, .app .mp-solution-grid p,
+.app .tp-solutions p, .app .fp-solution-grid p,
+.app .cp-benefits p, .app .sp-benefits p, .app .mp-benefits p,
+.app .tp-benefits p, .app .fp-benefits p {
+  color: #666;
+}
+
+/* Pills: the banner buttons and the red band's buttons. */
+.app .sp-actions button, .app .sp-actions a,
+.app .mp-actions button, .app .mp-actions a,
+.app .tp-actions button, .app .tp-actions a,
+.app .fp-btn,
+.app .cp-cta a, .app .sp-cta a, .app .sp-cta button,
+.app .mp-cta a, .app .mp-cta button,
+.app .tp-cta a, .app .tp-cta button,
+.app .fp-cta button, .app .fp-cta > a {
+  border-radius: 999px;
+}
+
+/* ----------------------------------------
+   Tortilla. The banner and band buttons are already pills; the green band
+   stays green, with a white heading.
+   ---------------------------------------- */
+.app .tt-page h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .tt-page .tt-cta h2 {
+  color: #fff;
+}
+
+.app .tt-variant-body h3,
+.app .tt-solution-grid h3 {
+  color: var(--primary);
+}
+
+.app .tt-variant-grid article,
+.app .tt-solution-grid article {
+  border-color: #e3e1dd;
+  border-radius: 6px;
+}
+
+/* The variant cards' button becomes the red outlined pill of the /products
+   cards. It was a pale pink block, and its red text on the pink was 4.35:1,
+   under the 4.5:1 that text this size needs; on the white card it is
+   4.96:1. The padding loses the border's 3px, so the height stays the same. */
+.app .tt-variant-cta {
+  padding: 8.5px 14px;
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--primary);
+}
+
+.app .tt-variant-cta:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ----------------------------------------
+   /areas and the country pages (they already use red left borders and red
+   pill tags, so mostly the headings change).
+   ---------------------------------------- */
+.app .areas-heading h2,
+.app .areas-growth h2,
+.app .kosovo-segments > h2,
+.app .area-supply-heading h2,
+.app .area-faq h2,
+.app .kosovo-growth h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .kosovo-segment-grid h3 {
+  color: var(--primary);
+}
+
+.app .areas-heading p,
+.app .area-card-body p,
+.app .areas-how-grid p,
+.app .kosovo-segment-grid p,
+.app .area-supply-heading p,
+.app .area-supply-grid p,
+.app .area-faq details p {
+  color: #666;
+}
+
+.app .areas-growth a,
+.app .kosovo-hero-actions a,
+.app .kosovo-growth a {
+  border-radius: 999px;
+}
