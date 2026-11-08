@@ -1,4 +1,5 @@
 ---
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import { localePath, useTranslations } from '../lib/i18n.js';
 import '../styles/cheese-pie-detail.css';
 
@@ -12,6 +13,7 @@ const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 <div class="cp-page">
   <section class="cp-hero">
     <div class="cp-hero-shade"></div>
+    <BannerSwoosh />
     <div class="cp-hero-copy">
       <span class="cp-badge">{t('cp_badge')}</span>
       <h1>{t('cp_title')}</h1>

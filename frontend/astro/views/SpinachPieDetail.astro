@@ -1,4 +1,5 @@
 ---
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { localePath, useTranslations } from '../lib/i18n.js';
@@ -12,6 +13,7 @@ const p = (path) => localePath(lang, path);
 <div class="sp-page">
   <section class="sp-hero">
     <div class="sp-shade"></div>
+    <BannerSwoosh />
     <div class="sp-copy">
       <span class="sp-badge">{t('sp_badge')}</span><h1>{t('sp_title')}</h1><p>{t('sp_intro')}</p>
       <div class="sp-qualities">

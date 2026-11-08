@@ -34,3 +34,14 @@
     height: calc(var(--swoosh-band, 48px) + 1px);
   }
 }
+
+/* The landing pages' info line under the hero buttons can run long: the
+   /furnizim hub lists six countries, a phone number and a note. On desktop,
+   at the line's height (about 8% above the banner's bottom), the curve's
+   white starts about 78% across, so the line wraps before 76vw. Its left edge
+   is the .lp-wrap margin, max(24px, (100vw - 1180px) / 2). */
+@media (min-width: 769px) {
+  .banner-swoosh ~ .lp-hero-inner .lp-hero-meta {
+    max-width: calc(76vw - max(24px, (100vw - 1180px) / 2));
+  }
+}

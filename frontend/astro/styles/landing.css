@@ -31,6 +31,7 @@
 .lp-logo { grid-column: 2; grid-row: 1; align-self: start; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: var(--lp-badge-w); height: var(--lp-badge-h); padding-top: 6px; background: #fff; border-radius: 0 0 calc(var(--lp-badge-w) / 2) calc(var(--lp-badge-w) / 2); box-shadow: 0 8px 18px rgba(0,0,0,.14); }
 .lp-logo img { display: block; width: auto; height: 54px; }
 .lp-nav { grid-column: 1; grid-row: 1; justify-self: start; display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 600; }
+.lp-nav > a, .lp-nav-drop summary { white-space: nowrap; }
 .lp-nav > a:hover, .lp-nav-drop summary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .lp-nav-drop { position: relative; }
 .lp-nav-drop summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 3px; }
@@ -182,11 +183,15 @@
 /* Phone call bar — phones only */
 .lp-callbar { display: none; }
 
-/* The header folds its links into the menu below 960px, not 900px: in the
-   classic layout each side of the logo badge gets only half the bar, and at
-   901–959px the German links pushed the badge 24px off centre. Language moves
-   to the left of the badge, the menu to the right. */
-@media (max-width: 959px) {
+/* The header folds its links into the menu below 1100px. In the classic
+   layout each side of the logo badge gets only half the bar, and the links
+   must stay on one line. Measured single-line widths (headless Chrome,
+   2026-11-08), links | language + CTA: Albanian 426 | 238, German 413 | 335,
+   English 403 | 268. With the 144px badge, two 20px gaps and the 48px page
+   margin, Albanian needs 1084px. Below that the links wrapped onto two lines
+   (≈960–1099px) or pushed the badge off centre. Language moves to the left
+   of the badge, the menu to the right. */
+@media (max-width: 1099px) {
   .lp-nav, .lp-header-cta { display: none; }
   .lp-menu { display: block; }
   .lp-header-end { grid-column: 1; justify-self: start; }

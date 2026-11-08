@@ -12,6 +12,7 @@
 // Copy stays under supply_index_* in translations.js; the "request a quote"
 // buttons open the site's sample/offer modal.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BannerSwoosh from '../components/BannerSwoosh.astro';
 import LandingHeader from '../components/LandingHeader.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
@@ -48,6 +49,7 @@ const countries = areas.map((a) => t(a.nameKey)).join(' · ');
     <section class="lp-hero sx-hero" style={`--sx-hero: url(${heroImage.src})`}>
       <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="lp-hero-img" fetchpriority="high" />
       <div class="lp-hero-shade"></div>
+      <BannerSwoosh fill="#faf6f1" />
       <div class="lp-wrap lp-hero-inner">
         <p class="lp-eyebrow">{k('eyebrow')}</p>
         <h1>{k('hero_line_1')}<br />{k('hero_line_2')}</h1>

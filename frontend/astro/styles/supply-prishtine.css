@@ -11,6 +11,11 @@
 .pr-hero .lp-hero-shade { background: linear-gradient(90deg, rgba(18,14,10,.9) 0%, rgba(18,14,10,.78) 34%, rgba(18,14,10,.3) 60%, rgba(18,14,10,.08) 100%); }
 .pr-hero .lp-hero-inner { padding: 50px 0 46px; }
 .pr-hero-meta .lp-hero-meta-item:first-child { margin-left: 0; }
+/* The banner curve (BannerSwoosh, fill #faf6f1) covers the hero's
+   bottom-right corner, where the photo credit sits. On the curve's
+   off-white, the credit's light text vanished, so it turns the landing
+   pages' muted grey. */
+.pr-hero .lp-hero-credit { color: #6b6b6b; text-shadow: none; }
 
 /* The byrek card shows the plain pack shot, cropped to the pie */
 .pr-card-pie { object-position: 50% 64%; }
@@ -21,6 +26,10 @@
   .pr-hero { min-height: 0; flex-direction: column; align-items: stretch; }
   .pr-hero .lp-hero-img { position: static; width: 100%; height: 230px; object-position: 62% 50%; order: 2; }
   .pr-hero .lp-hero-shade { display: none; }
+  /* On phones the credit drops under the photo as a full-width strip,
+     dark by default. It takes the curve's colour instead, so the curve
+     runs into it and on into the trust strip below (same #faf6f1). */
+  .pr-hero .lp-hero-credit { background: #faf6f1; }
   .pr-hero .lp-hero-inner { order: 1; margin: 0; width: 100%; padding: 32px 20px 28px; background: linear-gradient(rgba(18,14,10,.86), rgba(18,14,10,.92)), var(--pr-hero) 30% 50% / cover no-repeat; }
   .pr-hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
 }

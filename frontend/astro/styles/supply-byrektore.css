@@ -7,7 +7,9 @@
 .bk-hero { min-height: 410px; }
 .bk-hero .lp-hero-img { inset: 0 0 0 30%; width: 70%; object-position: 50% 42%; }
 .bk-hero .lp-hero-shade { background: linear-gradient(90deg, #1d1713 0%, #1d1713 27%, rgba(29,23,19,.88) 42%, rgba(29,23,19,.38) 64%, rgba(29,23,19,.12) 100%); }
-.bk-note { position: absolute; z-index: 2; right: 6%; top: 56%; width: 210px; color: #fff; font: 400 21px/1.15 'Bradley Hand', 'Segoe Script', 'Snell Roundhand', 'Comic Sans MS', cursive; transform: rotate(-7deg); text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+/* right/top moved from 6%/56% on 2026-11-08: there the note ran into the
+   banner curve's white (BannerSwoosh) and its last words vanished. */
+.bk-note { position: absolute; z-index: 2; right: 12%; top: 30%; width: 210px; color: #fff; font: 400 21px/1.15 'Bradley Hand', 'Segoe Script', 'Snell Roundhand', 'Comic Sans MS', cursive; transform: rotate(-7deg); text-shadow: 0 1px 6px rgba(0,0,0,.5); }
 .bk-note-arrow { width: 46px; height: 46px; margin: 4px 0 0 118px; transform: rotate(10deg); }
 
 /* Varieties */
