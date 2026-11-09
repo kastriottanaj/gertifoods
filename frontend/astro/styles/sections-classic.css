@@ -355,3 +355,21 @@
 .app .blog-article-body aside .btn {
   border-radius: 999px;
 }
+
+/* ----------------------------------------
+   Imprint: the seven info cards. Headings red, text grey, and the classic
+   thin border and 6px corners without the shadow. Links stay red.
+   ---------------------------------------- */
+.app .imprint-section {
+  border-color: #e3e1dd;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.app .imprint-section h2 {
+  color: var(--primary);
+}
+
+.app .imprint-section p {
+  color: #666;
+}
