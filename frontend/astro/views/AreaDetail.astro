@@ -10,6 +10,8 @@
 // The two structural differences the table encodes:
 //   hasTime      — Kosovo shows three hero benefits, every other country four.
 //   hasLearnMore — Kosovo's segment cards have no "learn more" link.
+// It also lists the FAQ questions each country leaves out of its FAQPage
+// markup (faqRepeats), because another page already marks them up.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
@@ -19,7 +21,7 @@ import '../styles/sections-classic.css';
 import '../styles/areas-classic.css';
 import SupplyLinks from '../components/SupplyLinks.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
-import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
+import { breadcrumbSchema, faqSchema, jsonLd } from '../lib/schema.js';
 import { areas } from '../../src/data/areas.js';
 import kosovoHero from '../../src/assets/gerti-foods-kosovo.webp';
 import albaniaHero from '../../src/assets/gerti-foods-albania.webp';
@@ -48,6 +50,10 @@ const COUNTRIES = {
     benefitsClass: 'kosovo-benefits albania-benefits',
     hasTime: true,
     hasLearnMore: true,
+    // Questions 3 (minimum order) and 4 (samples) repeat Kosovo's word for
+    // word. Google wants a repeated question and answer marked up on one page
+    // only, so both stay visible here but only Kosovo's copies are marked up.
+    faqRepeats: [3, 4],
   },
   hungary: {
     hero: hungaryHero,
@@ -114,9 +120,13 @@ const area = areas.find((a) => a.slug === slug);
 const customers = area?.customers ?? [];
 const supplyPages = area?.supplyPages ?? [];
 
-// Marks up the trail the hero prints ("Zonat që Mbulojmë / Hungaria"), with
-// Home in front as on the product and supply pages, so Google can show that
-// trail in place of the URL. The last step is this page and gets no URL.
+// Structured data for what the page shows:
+// - the trail the hero prints ("Zonat që Mbulojmë / Hungaria"), with Home in
+//   front as on the product and supply pages, so Google can show that trail
+//   in place of the URL. The last step is this page and gets no URL.
+// - the FAQ (Kosovo and Albania only), word for word, minus the questions
+//   this country repeats from another page (faqRepeats in COUNTRIES).
+const faqMarkup = faqItems.filter((n) => !(country.faqRepeats ?? []).includes(n));
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -125,6 +135,9 @@ const schema = {
       { name: t('areas_title'), url: new URL(p('/areas'), Astro.site).href },
       { name },
     ]),
+    ...(faqMarkup.length > 0
+      ? [faqSchema(faqMarkup.map((n) => ({ question: k(`faq_${n}_q`), answer: k(`faq_${n}_a`) })))]
+      : []),
   ],
 };
 ---

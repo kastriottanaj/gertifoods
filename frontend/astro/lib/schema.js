@@ -182,7 +182,7 @@ export function productSchema({
 }
 
 /**
- * BreadcrumbList for a product page: Home > Products > <product>.
+ * BreadcrumbList: Home > section > page.
  *
  * `items` is an array of { name, url }, deepest last. The final entry drops
  * `item` per Google's guidance — it is the page being viewed, so pointing it
@@ -196,6 +196,24 @@ export function breadcrumbSchema(items) {
       position: index + 1,
       name,
       ...(index === items.length - 1 ? {} : { item: url }),
+    })),
+  };
+}
+
+/**
+ * FAQPage for a page that shows questions with one answer each.
+ *
+ * `items` is an array of { question, answer } in exactly the words the page
+ * shows. Google wants the full visible text of both, and marking up questions
+ * a visitor cannot see breaks its structured-data rules.
+ */
+export function faqSchema(items) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
     })),
   };
 }
