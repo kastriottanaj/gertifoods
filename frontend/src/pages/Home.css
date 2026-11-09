@@ -549,7 +549,9 @@
 }
 
 .home-pain-col-without .home-pain-col-label {
-  color: var(--primary);
+  /* The darker brand red: --primary on this 8% red tint was 4.37:1, under
+     the 4.5:1 that text this small needs. This is 5.75:1. */
+  color: var(--primary-dark);
   background: rgba(218, 32, 48, 0.08);
   border: 1px solid rgba(218, 32, 48, 0.18);
 }
