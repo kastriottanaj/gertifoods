@@ -1132,7 +1132,7 @@
   .kosovo-growth > i, .kosovo-growth p { display: none; }
   .kosovo-growth h2 { font-size: .9rem; }
   .kosovo-growth a { width: 100%; padding: 9px; }
-  .kosovo-mobile-contact { position: fixed; z-index: 120; left: 0; right: 0; bottom: 0; height: 58px; padding: 9px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #07842e; }
+  .kosovo-mobile-contact { position: fixed; z-index: 120; left: 0; right: 0; bottom: 0; height: 58px; padding: 9px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #00723b; } /* brand green, as on /areas */
   .kosovo-mobile-contact a { display: flex; align-items: center; justify-content: center; color: #fff; border-right: 1px solid rgba(255,255,255,.5); font-size: .7rem; font-weight: 700; }
   .hungary-page .kosovo-segment-grid article { grid-template-columns: 62px 1fr; }
   .hungary-page .kosovo-segment-grid img { width: 62px; }
@@ -1182,7 +1182,7 @@
   .areas-growth h2 { font-size: .9rem; }
   .areas-growth p { max-width: 230px; font-size: .6rem; }
   .areas-growth a { width: 100%; padding: 8px; }
-  .areas-mobile-contact { position: fixed; z-index: 120; left: 0; right: 0; bottom: 0; height: 58px; padding: 9px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #08a933; }
+  .areas-mobile-contact { position: fixed; z-index: 120; left: 0; right: 0; bottom: 0; height: 58px; padding: 9px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #00723b; } /* brand green: white on the old #08a933 was 3.12:1 */
   .areas-mobile-contact a { display: flex; align-items: center; justify-content: center; color: #fff; border-right: 1px solid rgba(255,255,255,.4); font-size: .7rem; font-weight: 700; }
   .areas-landing-app .wa-btn { display: none; }
 }

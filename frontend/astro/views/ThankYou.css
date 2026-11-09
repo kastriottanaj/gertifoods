@@ -261,7 +261,8 @@
   flex-shrink: 0;
   padding: 14px 26px;
   border-radius: var(--radius);
-  background: #25d366;
+  /* brand green: white on #25d366 was 1.98:1 */
+  background: #00723b;
   color: #fff;
   font-size: 0.95rem;
   font-weight: 700;
@@ -275,10 +276,10 @@
 }
 
 .ty-urgent-cta:hover {
-  background: #1da851;
+  background: #005c30;
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 114, 59, 0.3);
 }
 
 /* ========================================
