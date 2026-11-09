@@ -34,7 +34,9 @@
   .bk-hero { min-height: 0; align-items: flex-end; }
   .bk-hero .lp-hero-img { inset: 0; width: 100%; object-position: 50% 30%; }
   .bk-hero .lp-hero-shade { background: linear-gradient(180deg, rgba(22,17,12,.2) 0%, rgba(22,17,12,.55) 32%, rgba(22,17,12,.9) 62%, rgba(22,17,12,.95) 100%); }
-  .bk-hero .lp-hero-inner { padding: 200px 0 32px; }
+  /* 56px at the bottom (was 32px): the text runs to the banner's foot here,
+     and the curve's 48px band came within 11px of the last line. */
+  .bk-hero .lp-hero-inner { padding: 200px 0 56px; }
   .bk-note { right: 5%; top: 44px; width: 175px; font-size: 18px; }
   .bk-note-arrow { margin-left: 104px; }
   .bk-variety-grid { grid-template-columns: 1fr; }

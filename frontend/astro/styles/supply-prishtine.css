@@ -16,6 +16,14 @@
    off-white, the credit's light text vanished, so it turns the landing
    pages' muted grey. */
 .pr-hero .lp-hero-credit { color: #6b6b6b; text-shadow: none; }
+/* Below about 1300px the credit is wider than the curve's off-white at the
+   banner's foot, so its start (the photographer's name) ran over the photo,
+   grey on grey. A chip in the curve's colour keeps it legible; where the
+   credit sits on the curve, the chip doesn't show. Phones have their own
+   full-width strip (below). */
+@media (min-width: 641px) {
+  .pr-hero .lp-hero-credit { padding: 2px 6px; border-radius: 4px; background: #faf6f1; }
+}
 
 /* The byrek card shows the plain pack shot, cropped to the pie */
 .pr-card-pie { object-position: 50% 64%; }
