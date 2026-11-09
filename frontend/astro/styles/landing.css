@@ -8,10 +8,17 @@
 .lp { --red: #da2030; --red-dark: #b8162a; --green: #00723b; --ink: #171717; --muted: #6b6b6b; --line: #e6e4df; --soft: #f5f4f0; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.45; }
 .lp-wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
 .lp h1, .lp h2, .lp h3 { margin: 0; letter-spacing: -0.02em; }
-.lp a { text-decoration: none; color: inherit; }
+/* :where() keeps this reset at one class's weight, so the button and call
+   bar colours further down win. As `.lp a` it outweighed them on every link:
+   outlined buttons showed black text instead of red, and the solid red card
+   buttons and the phone call bar showed black on red (3.6:1). */
+.lp :where(a) { text-decoration: none; color: inherit; }
 
-/* Buttons */
-.lp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 7px; border: 1.5px solid transparent; font: 700 15px/1 inherit; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s, border-color .15s; }
+/* Buttons. The font is in longhands: the shorthand that stood here,
+   `font: 700 15px/1 inherit`, is invalid (the family can't be `inherit`), so
+   browsers dropped it, and the buttons showed at regular weight, the
+   <button> ones in Chrome's default Arial. */
+.lp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 7px; border: 1.5px solid transparent; font-weight: 700; font-size: 15px; line-height: 1; font-family: inherit; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s, border-color .15s; }
 .lp-btn svg { width: 18px; height: 18px; flex: none; }
 .lp-btn-red { background: var(--red); border-color: var(--red); color: #fff; }
 .lp-btn-red:hover { background: var(--red-dark); border-color: var(--red-dark); }
@@ -176,7 +183,9 @@
 .lp-band { background: var(--red); color: #fff; }
 .lp-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 30px 0; }
 .lp-band h2 { font-size: 27px; font-weight: 800; margin-bottom: 6px; }
-.lp-band p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,.92); }
+/* Plain white: at 92% it was 4.38:1 on the red, under the 4.5:1 that text
+   this size needs. */
+.lp-band p { margin: 0; font-size: 13.5px; color: #fff; }
 .lp-band-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: flex-end; }
 .lp-band .lp-btn { font-size: 13.5px; }
 
@@ -242,4 +251,14 @@
      button clear of it. */
   .landing-app .footer-bottom { padding-bottom: 96px; }
   .landing-app .wa-btn { bottom: 88px; }
+}
+
+/* Narrow phones: each side of the logo badge gets (width - 40 - 112 - 2 ×
+   gap) / 2, which is 84px at 360px. The boxed language picker measured 82px
+   in Albanian, 92px in English and 99px in German, so in English and German
+   it widened its side and pushed the badge 8-15px off centre (2026-11-09).
+   Smaller gaps and side padding give it 92px, and it needs 91px. */
+@media (max-width: 400px) {
+  .lp-header-inner { column-gap: 12px; }
+  .lp-lang-boxed summary { padding: 8px 8px; }
 }
