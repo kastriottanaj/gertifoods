@@ -72,6 +72,25 @@
   }
 }
 
+/* /about from 769 to 1199px, the same fix as /products above. Its banner is
+   a fixed 340px, sized for Albanian on desktop: in German at 769-900px the
+   text reached the bottom and the contact line was cut off entirely, and in
+   English at 769-834px the logo badge touched the H1. The banner now grows
+   with its content (340px staying the minimum), the text starts 52px down,
+   and the bottom padding keeps the contact line 17px above the facts card,
+   which overlaps the banner's last 25px, as on desktop. */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .app .about-hero {
+    height: auto;
+    min-height: 340px;
+    padding-bottom: 42px;
+  }
+
+  .app .about-hero-content {
+    padding-top: 52px;
+  }
+}
+
 /* The landing pages' info line under the hero buttons can run long: the
    /furnizim hub lists six countries, a phone number and a note. On desktop,
    at the line's height (about 8% above the banner's bottom), the curve's

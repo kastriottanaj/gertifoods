@@ -110,6 +110,19 @@
   border-radius: 999px;
 }
 
+/* The banner buttons were a fixed 162px, so the German labels ("Kostenloses
+   Meeting buchen", "Unsere Produkte Ansehen") wrapped onto two lines inside
+   the pills. They now fit their label, 162px staying the minimum. Phones
+   keep their own 166px column. */
+@media (min-width: 769px) {
+  .app .about-hero-actions a {
+    width: auto;
+    min-width: 162px;
+    padding: 10px 18px;
+    white-space: nowrap;
+  }
+}
+
 /* ----------------------------------------
    Pie pages: cheese (cp), spinach (sp), meat (mp), tuna (tp),
    family pack (fp). They share one layout: benefits row, testimonials,
