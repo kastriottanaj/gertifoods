@@ -2,6 +2,8 @@
 // Astro port of src/pages/BlogPost.jsx.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageBanner from '../components/PageBanner.astro';
+// Classic section style (red headings, pill buttons, old cards).
+import '../styles/sections-classic.css';
 import { useTranslations, localePath, normalizePath, DEFAULT_LANG } from '../lib/i18n.js';
 import { getBlogPost } from '../../src/data/blogPosts.js';
 import { jsonLd } from '../lib/schema.js';

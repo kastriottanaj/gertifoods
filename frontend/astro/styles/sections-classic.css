@@ -280,3 +280,78 @@
   background: var(--primary);
   color: #fff;
 }
+
+/* ----------------------------------------
+   Blog: the index's post cards and a post's body. The article paragraphs
+   keep their #555, which suits long reading; the green category label
+   stays.
+   ---------------------------------------- */
+.app .blog-card {
+  border-color: #e3e1dd;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.app .blog-card:hover {
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+}
+
+.app .blog-card h2 a {
+  color: var(--primary);
+}
+
+.app .blog-card p {
+  color: #666;
+}
+
+/* Photos crop to one shape, as on the old cards, instead of setting the
+   card's height. The featured post's portrait photo (900x1350) made its card
+   about 870px tall at 1440px around a short text, and the near-square pack
+   shot made its card taller than the one beside it. */
+.app .blog-card-image {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+}
+
+.app .blog-card-image img {
+  position: absolute;
+  inset: 0;
+}
+
+/* The featured card sits beside its text above 760px (App.css stacks it
+   below), so there the photo fills the card's height instead. */
+@media (min-width: 761px) {
+  .app .blog-card-featured .blog-card-image {
+    aspect-ratio: auto;
+    min-height: 360px;
+  }
+}
+
+/* The date and reading time were #888, 3.5:1 on the white card. */
+.app .blog-card .blog-meta {
+  color: #666;
+}
+
+/* "Read more" becomes the red outlined pill of the /products cards. */
+.app .blog-read-more {
+  padding: 6px 16px;
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  color: var(--primary);
+}
+
+.app .blog-read-more:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* A post's section headings, "related" heading and CTA box heading. */
+.app .blog-article-body h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .blog-article-body aside .btn {
+  border-radius: 999px;
+}
