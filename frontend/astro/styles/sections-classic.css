@@ -224,3 +224,59 @@
 .app .kosovo-growth a {
   border-radius: 999px;
 }
+
+/* ----------------------------------------
+   /furnizim landing pages (landing.css's lp-* system): the hub and the
+   seven buyer and city pages. Benefit titles stay dark, as on the
+   homepage, and the red band's heading stays white.
+   ---------------------------------------- */
+.app .lp-section-title,
+.app .lp-benefits h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.app .lp-section-sub,
+.app .bk-products-intro {
+  color: #666;
+}
+
+/* Card titles red, including Byrektore's product names. */
+.app .lp-card h3,
+.app .lp-card-v h3,
+.app .sx-card h3,
+.app .bk-featured b,
+.app .bk-variety b {
+  color: var(--primary);
+}
+
+/* The classic cards' 6px corners (they were 10px). */
+.app .lp-card,
+.app .lp-card-v,
+.app .sx-card,
+.app .bk-variety,
+.app .bk-featured img {
+  border-radius: 6px;
+}
+
+/* Pills for every button in the sections and the red band. The header is
+   not a <section>, so its CTA keeps the shape of the site header's
+   booking button. */
+.app .lp section .lp-btn {
+  border-radius: 999px;
+}
+
+/* Card buttons: the red outlined pill of the /products cards, also where
+   the mockup had a solid red one (furra-buke, lokale-restorante,
+   markete). */
+.app .lp .lp-card-btn {
+  border-color: var(--primary);
+  background: transparent;
+  color: var(--primary);
+}
+
+.app .lp .lp-card-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
