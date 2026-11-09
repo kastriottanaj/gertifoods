@@ -6,7 +6,7 @@ import PageBanner from '../components/PageBanner.astro';
 import '../styles/sections-classic.css';
 import { useTranslations, localePath, normalizePath, DEFAULT_LANG } from '../lib/i18n.js';
 import { getBlogPost } from '../../src/data/blogPosts.js';
-import { jsonLd } from '../lib/schema.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import bakeryImage from '../../src/assets/bakery-interior.webp';
 import aboutImage from '../../src/assets/gerti-foods-about-us.webp';
 import pieImage from '../../src/assets/products/Pie.webp';
@@ -45,17 +45,30 @@ const canonical = new URL(normalizePath(Astro.url.pathname), Astro.site).href;
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: content.title,
-  description: content.description,
-  datePublished: post.published,
-  // A rewrite is a modification, not a new publication: the URL and the
-  // subject are the same. `updated` is set when a post's body is reworked.
-  dateModified: post.updated ?? post.published,
-  mainEntityOfPage: canonical,
-  inLanguage: lang,
-  author: { '@type': 'Organization', name: 'Gerti Foods' },
-  publisher: { '@type': 'Organization', name: 'Gerti Foods', url: 'https://gertifoods.com/' },
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: content.title,
+      description: content.description,
+      datePublished: post.published,
+      // A rewrite is a modification, not a new publication: the URL and the
+      // subject are the same. `updated` is set when a post's body is reworked.
+      dateModified: post.updated ?? post.published,
+      mainEntityOfPage: canonical,
+      inLanguage: lang,
+      author: { '@type': 'Organization', name: 'Gerti Foods' },
+      publisher: { '@type': 'Organization', name: 'Gerti Foods', url: 'https://gertifoods.com/' },
+    },
+    // Marks up the trail printed over the banner: the blog, then the post's
+    // category. It ends on the category, as the visible trail does, rather
+    // than on the post title, which the search result already shows as its
+    // headline. There is no category page, and the last step gets no URL.
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name: t('blog_title'), url: new URL(p('/blog'), Astro.site).href },
+      { name: content.category },
+    ]),
+  ],
 };
 ---
 

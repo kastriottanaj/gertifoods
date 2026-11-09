@@ -19,6 +19,7 @@ import '../styles/sections-classic.css';
 import '../styles/areas-classic.css';
 import SupplyLinks from '../components/SupplyLinks.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import { areas } from '../../src/data/areas.js';
 import kosovoHero from '../../src/assets/gerti-foods-kosovo.webp';
 import albaniaHero from '../../src/assets/gerti-foods-albania.webp';
@@ -112,6 +113,20 @@ const faqItems = [1, 2, 3, 4].filter((n) => has(`faq_${n}_q`));
 const area = areas.find((a) => a.slug === slug);
 const customers = area?.customers ?? [];
 const supplyPages = area?.supplyPages ?? [];
+
+// Marks up the trail the hero prints ("Zonat që Mbulojmë / Hungaria"), with
+// Home in front as on the product and supply pages, so Google can show that
+// trail in place of the URL. The last step is this page and gets no URL.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name: t('areas_title'), url: new URL(p('/areas'), Astro.site).href },
+      { name },
+    ]),
+  ],
+};
 ---
 
 {/* SERP copy comes from the per-country *_seo_title / *_meta keys rather than
@@ -126,6 +141,13 @@ const supplyPages = area?.supplyPages ?? [];
   appClass={` ${slug}-landing-app`}
   brandSuffix={false}
 >
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={jsonLd(schema)}
+  />
+
   <div class={country.pageClass}>
     <section class="kosovo-hero">
       <img src={country.hero.src} width={country.hero.width} height={country.hero.height} alt={k('hero_alt')} class="kosovo-hero-image" fetchpriority="high" />
