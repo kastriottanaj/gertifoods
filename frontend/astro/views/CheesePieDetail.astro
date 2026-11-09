@@ -1,5 +1,6 @@
 ---
 import BannerSwoosh from '../components/BannerSwoosh.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
 import { localePath, useTranslations } from '../lib/i18n.js';
@@ -66,5 +67,5 @@ const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
     <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" class="cp-cta-meeting">{t('footer_book_meeting')} <b>↗</b></a>
   </section>
 
-  <div class="cp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
+  <div class="cp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp"><WhatsAppIcon size={26} /></a></div>
 </div>

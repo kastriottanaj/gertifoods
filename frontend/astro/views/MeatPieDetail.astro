@@ -1,5 +1,6 @@
 ---
 import BannerSwoosh from '../components/BannerSwoosh.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
 // Classic photo banner (2026-11-08): see the note at the top of the file.
@@ -64,6 +65,6 @@ const p = (path) => localePath(lang, path);
   </section>
 
   <section class="mp-cta"><span>◇</span><div><h2>{t('mp_cta_title')}</h2><p>{t('mp_cta_body')}</p></div><button type="button" data-open-modal="sample">{t('mp_quote')} <b>↗</b></button><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a></section>
-  <div class="mp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp">◉</a></div>
+  <div class="mp-mobile-bar"><a href="tel:+38349111150">⌕ &nbsp; +383 49 111 150</a><a href="https://wa.me/38349111150" aria-label="WhatsApp"><WhatsAppIcon size={26} /></a></div>
   <ModalHost client:load lang={lang} messages={islandMessages(lang)} sampleSource="meat_pie_detail" closeOnSampleSuccess={true} />
 </div>

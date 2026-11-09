@@ -7,6 +7,7 @@
 // Products.jsx rendered <p class="loading"> until the request resolved, whereas
 // here the grid is already there. The settled DOM is identical.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
 // Classic section style (red headings, pill buttons, old product cards).
 import '../styles/sections-classic.css';
@@ -141,7 +142,7 @@ const messages = islandMessages(lang);
 
     <div class="products-mobile-contact">
       <a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a>
-      <a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; {t('products_whatsapp')}</a>
+      <a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> &nbsp; {t('products_whatsapp')}</a>
     </div>
 
     <ModalHost client:load lang={lang} messages={messages} sampleSource="products_hero" closeOnSampleSuccess={true} />

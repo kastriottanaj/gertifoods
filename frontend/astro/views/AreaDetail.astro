@@ -11,6 +11,7 @@
 //   hasTime      — Kosovo shows three hero benefits, every other country four.
 //   hasLearnMore — Kosovo's segment cards have no "learn more" link.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
@@ -205,6 +206,6 @@ const supplyPages = area?.supplyPages ?? [];
     <SupplyLinks lang={lang} slugs={supplyPages} />
 
     <section class="kosovo-growth"><i>⌕</i><div><h2>{k('growth_title')}</h2><p>{k('growth_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
-    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> &nbsp; WhatsApp</a></div>
   </div>
 </BaseLayout>

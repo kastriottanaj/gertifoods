@@ -2,6 +2,7 @@
 // Astro port of src/pages/About.jsx — same markup, classes and copy, with
 // <a href> in place of react-router's <Link to>.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
 // Classic section style (red headings, pill buttons, old product cards).
 import '../styles/sections-classic.css';
@@ -99,6 +100,6 @@ const p = (path) => localePath(lang, path);
       <div><a href="tel:+38349111150" class="about-phone">☎ &nbsp; {t('about_call')} +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></div>
     </section>
 
-    <div class="about-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+    <div class="about-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> &nbsp; WhatsApp</a></div>
   </div>
 </BaseLayout>

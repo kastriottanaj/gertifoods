@@ -8,6 +8,7 @@
 // no CSS of its own; a segment that later needs a distinct layout gets its own
 // view rather than flags in this one.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import SupplyLinks from '../components/SupplyLinks.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
@@ -104,7 +105,7 @@ const schema = {
           <article><i>◎</i><div><b>{k('quality')}</b><span>{k('quality_body')}</span></div></article>
           <article><i>◷</i><div><b>{k('time')}</b><span>{k('time_body')}</span></div></article>
         </div>
-        <div class="kosovo-hero-actions"><a href={p('/products')}>{t('areas_cta_products')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+        <div class="kosovo-hero-actions"><a href={p('/products')}>{t('areas_cta_products')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> &nbsp; WhatsApp</a></div>
       </div>
     </section>
 
@@ -155,6 +156,6 @@ const schema = {
     <SupplyLinks lang={lang} slugs={siblings} />
 
     <section class="kosovo-growth"><i>⌕</i><div><h2>{k('cta_title')}</h2><p>{k('cta_body')}</p></div><a href="tel:+38349111150">☎ &nbsp; +383 49 111 150</a><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a></section>
-    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer">◉ &nbsp; WhatsApp</a></div>
+    <div class="kosovo-mobile-contact"><a href="tel:+38349111150">☎ &nbsp; {t('products_call_now')}</a><a href="https://wa.me/38349111150" target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={15} /> &nbsp; WhatsApp</a></div>
   </div>
 </BaseLayout>
