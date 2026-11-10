@@ -74,7 +74,7 @@ const translations = {
 
     // Pain / contrast section
     pain_eyebrow: 'PËRLLOGARIT KOSTON',
-    pain_title: 'Çfarë të kushton buka e pjekur në kuzhinën tënde',
+    pain_title: 'Çfarë përfitoni duke punuar me ne',
     pain_subtitle: 'Tri kosto të fshehta që të hanë marzhin çdo muaj — dhe si i heq Gerti Foods nga ekuacioni.',
     pain_without_label: 'PA GERTI FOODS',
     pain_without_1_title: 'Bukëpjekës i përhershëm në pagë',
@@ -1119,7 +1119,7 @@ const translations = {
 
     // Pain / contrast section
     pain_eyebrow: 'COUNT THE COST',
-    pain_title: 'What in-house baking actually costs you',
+    pain_title: 'What you gain by working with us',
     pain_subtitle: 'Three hidden costs eating your margin every month — and how Gerti Foods takes them off the table.',
     pain_without_label: 'WITHOUT GERTI FOODS',
     pain_without_1_title: 'A baker on permanent payroll',
@@ -2142,7 +2142,7 @@ const translations = {
 
     // Pain / contrast section
     pain_eyebrow: 'RECHNEN SIE NACH',
-    pain_title: 'Was Sie das Backen im eigenen Haus wirklich kostet',
+    pain_title: 'Was Ihnen die Zusammenarbeit mit uns bringt',
     pain_subtitle: 'Drei versteckte Kosten, die jeden Monat Ihre Marge auffressen — und wie Gerti Foods sie aus der Gleichung nimmt.',
     pain_without_label: 'OHNE GERTI FOODS',
     pain_without_1_title: 'Ein fest angestellter Bäcker',
