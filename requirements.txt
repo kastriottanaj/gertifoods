@@ -1,5 +1,7 @@
 # Pinned exactly so a deploy installs what was tested. Audited against OSV
-# (https://osv.dev) on 2026-10-07; every pin below was clean at that date.
+# (https://osv.dev) on 2026-11-13; every pin below was clean at that date.
+# OSV can lag a release by days: Django 5.2.19's and sqlparse 0.6.1's CVEs
+# were not listed yet, so read the release notes too.
 #
 # Re-check with:
 #   python3 -c "import json,urllib.request as u; [print(n, [v['id'] for v in json.load(u.urlopen(u.Request('https://api.osv.dev/v1/query', json.dumps({'package':{'name':n,'ecosystem':'PyPI'},'version':x}).encode(), {'Content-Type':'application/json'}))).get('vulns',[])]) for n,x in (l.strip().split('==') for l in open('requirements.txt') if '==' in l)]"
@@ -10,7 +12,11 @@ asgiref==3.13.0
 # production was on an untested pairing. 5.2 supports 3.10-3.14.
 # Stay on 5.2.x until 6.2 LTS (April 2027): 6.0 and 6.1 are short-lived
 # feature releases, so .github/dependabot.yml holds Django to 5.2 patches.
-Django==5.2.18
+# 5.2.19 fixes five CVEs. The one that reaches this site is unbounded memory
+# use by base64 file uploads in MultiPartParser: DRF's default parsers include
+# it, so any public POST endpoint runs it on a multipart body. The others are
+# in the response cache and GDAL, which the site does not use.
+Django==5.2.19
 django-cors-headers==4.9.0
 # 3.18 for security fixes 3.16.1 lacked: request.data parsing could bypass
 # DATA_UPLOAD_MAX_MEMORY_SIZE and AdminRenderer could disclose data (3.17.2),
@@ -42,6 +48,11 @@ PyJWT==2.15.1
 python-decouple==3.8
 # 0.5.5 carried three HIGH denial-of-service advisories (quadratic
 # group_comments, ReDoS on dollar-quoted literals, O(subtree) TokenList init).
-# Django imports sqlparse for SQL formatting.
-sqlparse==0.6.0
+# 0.6.1 fixes a quadratic-CPU denial of service in format() and PHP
+# injection in its php output format.
+# It is also the last release: the maintainer ended the project, so no more
+# security fixes will come. Django calls it only from the test runner, SQLite
+# and MySQL introspection and SQL-script splitting (base/operations.py), never
+# on request data, so it can stay until Django drops it.
+sqlparse==0.6.1
 typing_extensions==4.16.0
