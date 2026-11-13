@@ -952,13 +952,10 @@ const translations = {
     imprint_represented_heading: 'Përfaqësuar nga',
     imprint_represented_label: 'Drejtorët',
     imprint_register_heading: 'Regjistrimi i biznesit',
-    imprint_register_label: 'Numri i regjistrimit',
-    imprint_vat_heading: 'Numri i TVSH-së',
-    imprint_vat_label: 'Numri i TVSH-së',
+    imprint_register_label: 'Numri Unik Identifikues (ARBK / NUI)',
     imprint_content_heading: 'Përgjegjës për përmbajtjen',
     imprint_disclaimer_heading: 'Përjashtimi i përgjegjësisë',
     imprint_disclaimer_body: 'Përmbajtja e kësaj faqeje është përgatitur me kujdesin më të madh. Megjithatë, nuk garantojmë saktësinë, plotësinë ose aktualitetin e saj. Për përmbajtjen e faqeve të jashtme të lidhura përgjigjen vetëm operatorët e tyre.',
-    imprint_tbd: 'Plotësohet',
 
     // Footer
     footer_description: 'Produkte premium gjysmë të pjekura për biznesin tuaj.',
@@ -1975,13 +1972,10 @@ const translations = {
     imprint_represented_heading: 'Represented by',
     imprint_represented_label: 'Managing directors',
     imprint_register_heading: 'Business registration',
-    imprint_register_label: 'Registration number',
-    imprint_vat_heading: 'VAT number',
-    imprint_vat_label: 'VAT number',
+    imprint_register_label: 'Business Registration Number (ARBK / NUI)',
     imprint_content_heading: 'Responsible for content',
     imprint_disclaimer_heading: 'Disclaimer',
     imprint_disclaimer_body: 'The content of this site has been prepared with the utmost care. However, we do not guarantee its accuracy, completeness or timeliness. The operators of linked external sites are solely responsible for their content.',
-    imprint_tbd: 'To be completed',
 
     // Footer
     footer_description: 'Premium half-baked products for your business.',
@@ -2999,13 +2993,10 @@ const translations = {
     imprint_represented_heading: 'Vertreten durch',
     imprint_represented_label: 'Geschäftsführer',
     imprint_register_heading: 'Handelsregister',
-    imprint_register_label: 'Registernummer',
-    imprint_vat_heading: 'Umsatzsteuer-ID',
-    imprint_vat_label: 'Umsatzsteuer-ID',
+    imprint_register_label: 'Handelsregisternummer (ARBK / NUI)',
     imprint_content_heading: 'Verantwortlich für den Inhalt',
     imprint_disclaimer_heading: 'Haftungsausschluss',
     imprint_disclaimer_body: 'Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen wir jedoch keine Gewähr. Für die Inhalte verlinkter externer Seiten sind ausschließlich deren Betreiber verantwortlich.',
-    imprint_tbd: 'Wird ergänzt',
 
     // Footer
     footer_description: 'Premium halbgebackene Produkte für Ihr Unternehmen.',
