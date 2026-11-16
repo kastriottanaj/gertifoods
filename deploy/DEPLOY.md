@@ -488,7 +488,7 @@ Two things worth knowing before relying on this:
 - **Submit only what changed.** `--all` exists for changes that genuinely need
   every page recrawled; using it on every deploy earns a 429 "potential spam"
   response and devalues the signal. Naming pages by hand also still works:
-  `ping_indexnow /products/pite-me-tuna`.
+  `ping_indexnow /products/pite-me-djathe`.
 
 The command verifies that `https://gertifoods.com/<key>.txt` is reachable before
 submitting, so a frontend that has not been rebuilt since the key file was added

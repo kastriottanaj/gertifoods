@@ -15,7 +15,7 @@ Usage:
     manage.py ping_indexnow --changed
 
     # One specific page or product, by hand
-    manage.py ping_indexnow /products/pite-me-tuna /en/products/pite-me-tuna
+    manage.py ping_indexnow /products/pite-me-djathe /en/products/pite-me-djathe
 
     # Everything the sitemap advertises — for the first submission, or after a
     # change that touched the whole site
@@ -155,7 +155,7 @@ class Command(BaseCommand):
         parser.add_argument(
             'urls',
             nargs='*',
-            help='URLs or site-relative paths to submit, e.g. /products/pite-me-tuna',
+            help='URLs or site-relative paths to submit, e.g. /products/pite-me-djathe',
         )
         parser.add_argument(
             '--all',

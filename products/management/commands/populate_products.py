@@ -4,12 +4,11 @@ from products.models import Category, Product
 
 PRODUCTS = [
     {
-        'category': {'name': 'Byrek', 'slug': 'pite', 'description': 'Traditional Balkan byrek — cheese, spinach, meat and tuna'},
+        'category': {'name': 'Byrek', 'slug': 'pite', 'description': 'Traditional Balkan byrek — cheese, spinach and meat'},
         'items': [
             {'name': 'Byrek me Djathë', 'slug': 'pite-me-djathe', 'description': 'Traditional flaky pastry filled with white cheese. Half-baked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
             {'name': 'Byrek me Spinaq', 'slug': 'pite-me-spinaq', 'description': 'Traditional flaky pastry filled with spinach and cheese. Half-baked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
             {'name': 'Byrek me Mish', 'slug': 'pite-me-mish', 'description': 'Traditional flaky pastry filled with seasoned minced meat. Half-baked.', 'price': '1.60', 'unit': 'piece', 'min_order_quantity': 50},
-            {'name': 'Byrek me Tuna', 'slug': 'pite-me-tuna', 'description': 'Traditional flaky pastry filled with tuna. Half-baked.', 'price': '1.60', 'unit': 'piece', 'min_order_quantity': 50},
         ]
     },
     # TODO: Tortilla line — waiting on the variant list (plain / vegetable /
@@ -18,7 +17,7 @@ PRODUCTS = [
     {
         'category': {'name': 'Family Pack', 'slug': 'family-pack', 'description': 'Retail-ready family pack formats with shelf-appeal packaging'},
         'items': [
-            {'name': 'Family Pack Byrek të Përzier (4 copë)', 'slug': 'family-pack-pite-4', 'description': '4 mixed byrek (cheese, spinach, meat, tuna) in retail-ready packaging.', 'price': '5.20', 'unit': 'pack', 'min_order_quantity': 12},
+            {'name': 'Family Pack Byrek të Përzier (4 copë)', 'slug': 'family-pack-pite-4', 'description': '4 mixed byrek (cheese, spinach, meat, potato) in retail-ready packaging.', 'price': '5.20', 'unit': 'pack', 'min_order_quantity': 12},
         ]
     },
 ]
