@@ -45,7 +45,7 @@ export const blogPosts = [
           [
             'Menu më e gjerë pa kuzhinë më të madhe',
             [
-              'Një kafene ose hotel mund të shtojë byrek me djathë, spinaq, mish ose tuna dhe tortilla pa punësuar askënd dhe pa blerë pajisje të reja. E njëjta furrë, i njëjti staf, katër-pesë produkte më shumë.',
+              'Një kafene ose hotel mund të shtojë byrek me djathë, spinaq ose mish dhe tortilla pa punësuar askënd dhe pa blerë pajisje të reja. E njëjta furrë, i njëjti staf, katër-pesë produkte më shumë.',
               'Kjo e bën testimin të lirë. Provo një produkt për dy javë, shiko si shitet, mbaje ose hiqe. Asortimenti yt ndjek kërkesën, jo kufizimet e kuzhinës.',
             ],
           ],
@@ -112,7 +112,7 @@ export const blogPosts = [
           [
             'A wider menu without a bigger kitchen',
             [
-              'A café or hotel can add cheese, spinach, meat or tuna byrek and tortillas without hiring anyone or buying new equipment. Same oven, same staff, four or five more products.',
+              'A café or hotel can add cheese, spinach or meat byrek and tortillas without hiring anyone or buying new equipment. Same oven, same staff, four or five more products.',
               'That makes testing cheap. Try a product for two weeks, see how it sells, keep it or drop it. Your range follows demand rather than the limits of your kitchen.',
             ],
           ],
@@ -179,7 +179,7 @@ export const blogPosts = [
           [
             'Ein breiteres Angebot ohne größere Küche',
             [
-              'Ein Café oder Hotel kann Börek mit Käse, Spinat, Fleisch oder Thunfisch sowie Tortillas ins Sortiment nehmen, ohne jemanden einzustellen oder neue Geräte zu kaufen. Gleicher Ofen, gleiches Personal, vier bis fünf Produkte mehr.',
+              'Ein Café oder Hotel kann Börek mit Käse, Spinat oder Fleisch sowie Tortillas ins Sortiment nehmen, ohne jemanden einzustellen oder neue Geräte zu kaufen. Gleicher Ofen, gleiches Personal, vier bis fünf Produkte mehr.',
               'Das macht Tests günstig. Probieren Sie ein Produkt zwei Wochen lang, sehen Sie, wie es sich verkauft, behalten Sie es oder nehmen Sie es wieder heraus. Ihr Sortiment folgt der Nachfrage, nicht den Grenzen Ihrer Küche.',
             ],
           ],

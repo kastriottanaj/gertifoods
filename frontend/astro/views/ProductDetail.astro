@@ -20,7 +20,6 @@ import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
 import MeatPieDetail from './MeatPieDetail.astro';
 import SpinachPieDetail from './SpinachPieDetail.astro';
-import TunaPieDetail from './TunaPieDetail.astro';
 
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
@@ -44,7 +43,6 @@ const isFamilyPack = slug === 'family-pack-pite-4';
 const isCheesePie = slug === 'pite-me-djathe';
 const isMeatPie = slug === 'pite-me-mish';
 const isSpinachPie = slug === 'pite-me-spinaq';
-const isTunaPie = slug === 'pite-me-tuna';
 
 // No product page prints a price, so none gets a Product node, only
 // breadcrumbs. See productSchema() in lib/schema.js for why a price-less
@@ -68,7 +66,7 @@ const schema = {
   title={seoTitle ?? name}
   description={seoDescription}
   lang={lang}
-  appClass={isFamilyPack ? ' family-pack-app' : isCheesePie ? ' cheese-pie-app' : isMeatPie ? ' meat-pie-app' : isSpinachPie ? ' spinach-pie-app' : isTunaPie ? ' tuna-pie-app' : ''}
+  appClass={isFamilyPack ? ' family-pack-app' : isCheesePie ? ' cheese-pie-app' : isMeatPie ? ' meat-pie-app' : isSpinachPie ? ' spinach-pie-app' : ''}
   brandSuffix={!seoTitle}
 >
   <script
@@ -78,7 +76,7 @@ const schema = {
     set:html={jsonLd(schema)}
   />
 
-  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : isSpinachPie ? <SpinachPieDetail lang={lang} /> : isTunaPie ? <TunaPieDetail lang={lang} /> : <div class="product-detail">
+  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : isSpinachPie ? <SpinachPieDetail lang={lang} /> : <div class="product-detail">
     <div class="product-detail-grid">
       {/* The product shot is the LCP element on this page, so it stays eager
           and is the one image here that gets fetchpriority="high". */}
@@ -99,7 +97,7 @@ const schema = {
         <p class="product-detail-description">{description}</p>
         <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 
-        <button type="button" class="btn btn-primary" data-open-modal="sample">{t('tp_quote')}</button>
+        <button type="button" class="btn btn-primary" data-open-modal="sample">{t('products_request_prices')}</button>
       </div>
     </div>
     {/* 'products_page' rather than a per-product value: SampleRequest.source
@@ -110,7 +108,7 @@ const schema = {
 
 <script>
   // Opens the sample-request modal from the buttons on every product page.
-  // The cheese, meat, spinach, tuna and Family Pack views render
+  // The cheese, meat, spinach and Family Pack views render
   // data-open-modal buttons and a ModalHost island, but shipped without this
   // bridge, so until 2026-11-03 their main call to action did nothing. Same
   // bridge as Home.astro and Products.astro: park the request for an island

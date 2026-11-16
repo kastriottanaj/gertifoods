@@ -19,8 +19,11 @@
 .bk-featured { display: block; }
 .bk-featured img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 62%; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
 .bk-featured b { display: block; margin-top: 10px; text-align: center; font-size: 14px; }
-.bk-variety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.bk-variety { display: flex; align-items: center; gap: 18px; padding: 30px 22px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: box-shadow .15s, border-color .15s; }
+/* Three varieties since the tuna byrek came off (2026-11-16): one column
+   beside the featured photo instead of a 2x2 grid with an empty cell,
+   padded so the column is about as tall as the photo. */
+.bk-variety-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.bk-variety { display: flex; align-items: center; gap: 18px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: box-shadow .15s, border-color .15s; }
 .bk-variety:hover { border-color: #d5d2cb; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
 .bk-thumb { flex: none; width: 72px; height: 72px; border-radius: 50%; background-color: #f0ebe3; background-size: 158%; background-position: 50% 45%; border: 1px solid var(--line); }
 .bk-variety b { display: block; font-size: 15px; margin-bottom: 4px; }

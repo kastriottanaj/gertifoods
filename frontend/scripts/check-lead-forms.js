@@ -76,7 +76,7 @@ const SAMPLE_BUTTON = '[data-open-modal="sample"]';
 // One row per way a lead can arrive. `event` and `eventSource` are what the
 // thank-you page must report to GA4.
 const FORMS = [
-  { name: 'sample form, product page', page: '/products/pite-me-tuna', open: SAMPLE_BUTTON, form: MODAL_FORM, api: SAMPLE_API, source: 'tuna_pie_detail', event: 'sample_request' },
+  { name: 'sample form, product page', page: '/products/pite-me-mish', open: SAMPLE_BUTTON, form: MODAL_FORM, api: SAMPLE_API, source: 'meat_pie_detail', event: 'sample_request' },
   // The longest source on the site: it is what outgrew the old 20-character column.
   { name: 'sample form, /furnizim page', page: '/furnizim/lokale-restorante', open: SAMPLE_BUTTON, form: MODAL_FORM, api: SAMPLE_API, source: 'supply_lokale_restorante', event: 'sample_request' },
   { name: 'hero form, home page', page: '/', form: 'form:has(input[name="first_name"])', api: LEAD_API, source: 'home_hero', event: 'hero_lead' },

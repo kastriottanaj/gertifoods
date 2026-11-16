@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Meat, tuna, family-pack and tortilla pages: classic banner (2026-11-08)
+   Meat, family-pack and tortilla pages: classic banner (2026-11-08)
 
-   These four product pages opened with a split layout: copy on a light
+   These three product pages opened with a split layout: copy on a light
    background on the left, photo on the right. They become the old Karrota
    site's photo banner, like the other pages: a full-width photo, a dark
    shade on the left, white text and the white curve (BannerSwoosh). Copy,
@@ -9,14 +9,11 @@
 
    The photos:
    - meat, family pack: the page's own scene photo, now full width.
-   - tuna: its photo is a cut-out pie on white, which can't fill a dark
-     banner. The banner uses the bakery-interior photo, and the pie sits on
-     a white round plate on the right.
    - tortilla: its own photo is only 356×302px, too small to fill a banner.
      The banner uses the licensed tortillas-on-flame photo (Pexels, the
      homepage hero until the video), and the page's photo stays as a card.
 
-   Loaded by the four views. Their base rules (meat-pie-detail.css etc.) are
+   Loaded by the three views. Their base rules (meat-pie-detail.css etc.) are
    single-class selectors, so every rule here starts with `.app`: one class
    more specific, so it wins whatever the load order.
    ========================================================================== */
@@ -24,7 +21,6 @@
 /* Shared: the shade and the layering (photo 0, curve 1, content 2). */
 .app .mp-image::after,
 .app .fp-hero-image::after,
-.app .tp-hero::before,
 .app .tt-page .tt-hero::before {
   content: '';
   position: absolute;
@@ -35,7 +31,6 @@
 
 .app .mp-hero .banner-swoosh,
 .app .fp-hero .banner-swoosh,
-.app .tp-hero .banner-swoosh,
 .app .tt-hero .banner-swoosh {
   z-index: 1;
 }
@@ -93,81 +88,6 @@
 .app .fp-contact { color: rgba(255, 255, 255, .85); }
 .app .fp-contact a { color: #fff; }
 .app .fp-contact i { background: rgba(255, 255, 255, .4); }
-
-/* ----------------------------------------
-   Tuna pie
-   ---------------------------------------- */
-/* The page is a 1280px column on a beige app background. The banner breaks
-   out to the full width, and the background turns white so the curve meets
-   white everywhere (the beige only showed beside the column above 1280px). */
-.app.tuna-pie-app { background: #fff; overflow-x: clip; }
-
-.app .tp-hero {
-  position: relative;
-  display: block;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  overflow: hidden;
-  color: #fff;
-  background: #1d1713 var(--tp-banner) center / cover no-repeat;
-}
-
-.app .tp-copy {
-  position: relative;
-  z-index: 2;
-  width: min(1280px, 100%);
-  margin: 0 auto;
-  padding: 40px 32px 72px;
-}
-
-.app .tp-copy > * { max-width: 560px; }
-.app .tp-copy h1 { color: #fff; }
-.app .tp-copy > p { color: rgba(255, 255, 255, .9); }
-.app .tp-copy > small { color: rgba(255, 255, 255, .8); }
-.app .tp-actions a { border-color: #fff; color: #fff; }
-.app .tp-phone a { color: #fff; }
-.app .tp-phone small { color: rgba(255, 255, 255, .8); }
-.app .tp-audiences span { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .28); box-shadow: none; color: #fff; }
-
-/* The cut-out pie on a white plate, right of the copy. multiply drops the
-   photo's own white into the plate. */
-.app .tp-image {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  right: max(8vw, calc((100vw - 1280px) / 2 + 40px));
-  width: clamp(240px, 26vw, 340px);
-  aspect-ratio: 1;
-  height: auto;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
-}
-
-.app .tp-image img {
-  width: 122%;
-  max-width: none;
-  transform: none;
-  mix-blend-mode: multiply;
-}
-
-/* Below 1024px there is no room beside the copy: the plate drops under it. */
-@media (max-width: 1023px) {
-  .app .tp-image {
-    position: relative;
-    top: auto;
-    right: auto;
-    width: 240px;
-    margin: -40px auto 0;
-    transform: none;
-  }
-
-  .app .tp-hero { padding-bottom: 72px; }
-}
 
 /* ----------------------------------------
    Tortilla
@@ -236,7 +156,6 @@
 
   .app .mp-image::after,
   .app .fp-hero-image::after,
-  .app .tp-hero::before,
   .app .tt-page .tt-hero::before {
     display: block;
     background: linear-gradient(90deg, rgba(7, 8, 8, .9), rgba(7, 8, 8, .68));
@@ -258,9 +177,6 @@
   }
 
   .app .fp-trust { margin-top: 0; }
-
-  .app .tp-copy { padding: 34px 14px 24px; }
-  .app .tp-image { width: 200px; margin-top: 0; }
 
   .app .tt-page .tt-hero { padding: 34px 16px 72px; }
 }

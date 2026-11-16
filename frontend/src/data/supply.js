@@ -15,14 +15,13 @@
 // `products` overrides the product strip for segments whose buyer orders a
 // different mix — markets lead with the retail-ready Family Pack, the city and
 // regional pages show the whole range. Segments without it get the default
-// list in SupplyLanding.astro (the four byrek and the tortilla line).
+// list in SupplyLanding.astro (the three byrek and the tortilla line).
 //
 // Keep SUPPLY_SLUGS in config/sitemaps.py in sync with this list.
 const FULL_RANGE = [
   '/products/pite-me-djathe',
   '/products/pite-me-spinaq',
   '/products/pite-me-mish',
-  '/products/pite-me-tuna',
   '/products/family-pack-pite-4',
   '/products/tortilla',
 ];
@@ -38,8 +37,7 @@ export const supplySegments = [
       '/products/pite-me-djathe',
       '/products/pite-me-spinaq',
       '/products/pite-me-mish',
-      '/products/pite-me-tuna',
-      '/products/tortilla',
+          '/products/tortilla',
     ],
   },
   // City pages: one per capital, carrying that market's confirmed logistics
