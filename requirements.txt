@@ -32,6 +32,12 @@ geoip2fast==1.2.2
 # at ~/.gunicorn/gunicorn.ctl (/home/gertifoods/.gunicorn/ here, mode 0600).
 # Left on: only the service user can reach it, and that user can already
 # signal the master. 26.0 dropped the eventlet worker; the service runs sync.
+# 27.0 parses requests more strictly (400 for a Transfer-Encoding not ending
+# in chunked, raw non-ASCII or control bytes in the path); nginx proxies with
+# HTTP/1.0 and buffered Content-Length bodies, so none of it reaches us.
+# Upgrading gunicorn itself needs `systemctl restart gunicorn`, not HUP: a
+# HUP forks new workers from the old master, which keeps the old code.
+# 27.0.1 was OSV-clean on 2026-11-18.
 gunicorn==27.0.1
 # 12.2.0 carried 26 advisories, several HIGH — heap out-of-bounds writes in
 # Image.paste()/crop(), a decompression-bomb check bypass, and OS command
