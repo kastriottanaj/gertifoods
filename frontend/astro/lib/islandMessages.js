@@ -21,15 +21,16 @@ import { DEFAULT_LANG } from './i18n.js';
 // chrome.
 const PUBLIC_PREFIXES = ['hero_form_', 'sample_form_', 'catalog_form_', 'modal_'];
 
-// The exit-intent popup renders only the sample form inside a modal. This
-// subset is ~1.2 KB and ships in every page's HTML, because the popup can fire
-// on any page — cheap enough that it is worth it to keep the 107 KB translation
-// table out of the client build entirely.
-const EXIT_PREFIXES = ['sample_form_', 'modal_'];
+// The timed lead popup renders the sample form, its own heading and the photo
+// caption inside a modal. This subset is ~1.6 KB and ships in every page's
+// HTML, because the popup can fire on any page — cheap enough that it is worth
+// it to keep the 107 KB translation table out of the client build entirely.
+// lead_popup_ is deliberately not in PUBLIC_PREFIXES: no other island shows it.
+const POPUP_PREFIXES = ['sample_form_', 'modal_', 'lead_popup_'];
 
 const SCOPES = {
   public: PUBLIC_PREFIXES,
-  exit: EXIT_PREFIXES,
+  popup: POPUP_PREFIXES,
 };
 
 export function islandMessages(lang, scope = 'public') {

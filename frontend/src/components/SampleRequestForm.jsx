@@ -33,7 +33,18 @@ const INITIAL_FORM = {
 // page opens this modal from a specific variant card, so the lead arrives
 // saying which variant it came from instead of leaving sales to guess. Empty
 // by default, which is the behaviour every other caller already had.
-export default function SampleRequestForm({ source = 'other', initialProducts = '', onSuccess }) {
+//
+// `compact` is for the timed lead popup, which draws its own heading beside the
+// factory photo. It leaves out the form's own heading and the two optional text
+// areas, so the card fits a laptop screen without scrolling. Every required
+// field stays, and the two left out are optional on the server too, so the
+// lead arrives in the same shape, only without those notes.
+export default function SampleRequestForm({
+  source = 'other',
+  initialProducts = '',
+  onSuccess,
+  compact = false,
+}) {
   const { t, lang } = useLanguage();
   const [form, setForm] = useState(() => ({
     ...INITIAL_FORM,
@@ -65,7 +76,7 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
       });
       setSuccess(true);
       // Before completeLead, deliberately: onSuccess is what writes the
-      // sample_request_submitted flag that suppresses the exit-intent popup,
+      // sample_request_submitted flag that suppresses the lead popup,
       // and it must be on disk before the visitor navigates away — otherwise
       // the popup would be armed again the moment they came back.
       if (onSuccess) onSuccess();
@@ -106,8 +117,12 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
 
   return (
     <form onSubmit={handleSubmit} className="sample-form">
-      <h2>{t('sample_form_title')}</h2>
-      <p className="sample-form-subtitle">{t('sample_form_subtitle')}</p>
+      {!compact && (
+        <>
+          <h2>{t('sample_form_title')}</h2>
+          <p className="sample-form-subtitle">{t('sample_form_subtitle')}</p>
+        </>
+      )}
 
       <Honeypot value={form.website} onChange={handleChange} />
 
@@ -180,25 +195,29 @@ export default function SampleRequestForm({ source = 'other', initialProducts = 
         </div>
       </div>
 
-      <div className="form-group">
-        <label>{t('sample_form_products')}</label>
-        <textarea
-          name="products_interested"
-          value={form.products_interested}
-          onChange={handleChange}
-          rows={2}
-        />
-      </div>
+      {!compact && (
+        <>
+          <div className="form-group">
+            <label>{t('sample_form_products')}</label>
+            <textarea
+              name="products_interested"
+              value={form.products_interested}
+              onChange={handleChange}
+              rows={2}
+            />
+          </div>
 
-      <div className="form-group">
-        <label>{t('sample_form_message')}</label>
-        <textarea
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          rows={3}
-        />
-      </div>
+          <div className="form-group">
+            <label>{t('sample_form_message')}</label>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              rows={3}
+            />
+          </div>
+        </>
+      )}
 
       {error && <p className="error-message">{error}</p>}
 

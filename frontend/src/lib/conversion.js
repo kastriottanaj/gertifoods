@@ -71,10 +71,16 @@ export function trackLead({ formName, source, lang, eventID }) {
   });
 }
 
-// The key the exit-intent watcher in BaseLayout.astro checks before arming.
-// Named for the sample request because that is the only form that used to set
-// it; it now means "this visitor has already converted this session".
+// The keys the lead-popup timer in BaseLayout.astro checks before showing. The
+// timer spells them out itself (importing this module would cost every page a
+// request), so a rename here must be made there too.
+//
+// SUBMITTED_KEY (sessionStorage) is named for the sample request because that
+// is the only form that used to set it; it now means "this visitor has already
+// converted this session". CONVERTED_KEY (localStorage) outlives the session,
+// so someone who has already sent a request is never asked for one again.
 const SUBMITTED_KEY = 'sample_request_submitted';
+const CONVERTED_KEY = 'gf_lead_submitted';
 
 /**
  * Where completeLead() parks the conversion for flushPendingLead() to pick up
@@ -132,12 +138,20 @@ export async function completeLead(details) {
   // set of SHA-256 digests. Never throws — see advancedMatching.
   const am = await advancedMatching(details.pii);
 
-  // Set for every form rather than only the sample request. The exit-intent
-  // popup re-arms on each page load, so without this someone who submitted the
-  // hero form would land on the thank-you page and be asked to request samples
-  // five seconds later — directly under a heading thanking them for the
-  // request they just made. SampleRequestForm already wrote this key via its
-  // onSuccess callback; HeroLeadForm never did.
+  // Set for every form rather than only the sample request. The lead popup
+  // re-arms on each page load, so without this someone who submitted the hero
+  // form would land on the thank-you page and be asked to request samples ten
+  // seconds later — directly under a heading thanking them for the request
+  // they just made. SampleRequestForm already wrote this key via its onSuccess
+  // callback; HeroLeadForm never did.
+  //
+  // Its own try, ahead of the one below: localStorage can be blocked while
+  // sessionStorage works, and a failure here must not cost the pending lead.
+  try {
+    localStorage.setItem(CONVERTED_KEY, String(Date.now()));
+  } catch {
+    /* ignore */
+  }
   try {
     sessionStorage.setItem(SUBMITTED_KEY, '1');
     sessionStorage.setItem(

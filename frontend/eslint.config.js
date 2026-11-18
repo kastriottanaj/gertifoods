@@ -42,7 +42,7 @@ export default defineConfig([
     // library's mixed component/hook API.
     files: [
       'astro/islands/ProductActions.jsx',
-      'astro/islands/exitIntentModal.jsx',
+      'astro/islands/leadPopup.jsx',
       'astro/islands/withProviders.jsx',
       'astro/lib/shims/**/*.jsx',
       'src/context/**/*.jsx',

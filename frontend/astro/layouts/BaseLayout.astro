@@ -180,10 +180,10 @@ if (productSlug) {
   };
 }
 
-// Strings for the exit-intent popup (~1.2 KB). Inlined rather than imported by
+// Strings for the timed lead popup (~1.6 KB). Inlined rather than imported by
 // the popup module: keeping LanguageProvider out of the client build is what
 // lets Rollup drop the 107 KB translation table entirely.
-const exitMessages = islandMessages(lang, 'exit');
+const popupMessages = islandMessages(lang, 'popup');
 ---
 
 <!doctype html>
@@ -444,9 +444,9 @@ const exitMessages = islandMessages(lang, 'exit');
         so inlining it shipped a syntax error to the browser. */}
     <script
       type="application/json"
-      id="gf-exit-messages"
+      id="gf-popup-messages"
       is:inline
-      set:html={JSON.stringify(exitMessages).replace(/</g, '\\u003c')}
+      set:html={JSON.stringify(popupMessages).replace(/</g, '\\u003c')}
     />
 
     <script>
@@ -503,65 +503,119 @@ const exitMessages = islandMessages(lang, 'exit');
     </script>
 
     <script>
-      // Exit-intent watcher — the detection half of the old ExitIntentPopup.jsx,
-      // which App.jsx mounted on every route.
+      // Lead-popup timer. Replaced the exit-intent watcher on 2026-11-18: the
+      // popup now opens ten seconds after the visitor accepts the cookie
+      // banner — or ten seconds into the page, for someone who accepted on an
+      // earlier visit — on phones as well as desktops. A visitor who declines,
+      // or never answers, never sees it.
       //
-      // Only the gates and the listener live here. The modal and the sample
-      // form are import()ed the moment exit intent is actually detected, so a
-      // visitor who never triggers the popup downloads no React at all and the
-      // content pages stay at zero JavaScript. Hydrating it up front instead
-      // would have cost every desktop visitor the full framework for a popup
-      // that fires rarely and never before five seconds have passed.
+      // Only the gates and the timer live here. The modal, the form and the
+      // factory photo are import()ed when the popup actually opens, so a
+      // visitor who never sees it downloads no React at all and the content
+      // pages stay at zero JavaScript.
       //
-      // Thresholds and storage keys are copied verbatim from the original.
-
-      // Set by ANY successful sample-request submission (hero modal or this
-      // popup): if present, the popup never shows again this session.
+      // Being gated on consent also keeps it away from crawlers: they never
+      // click Accept, so Google never renders a page with the popup over it.
+      // Written by completeLead() in src/lib/conversion.js for every lead form;
+      // keep the spellings in step with SUBMITTED_KEY and CONVERTED_KEY there.
+      // Spelled out rather than imported: importing them made every page fetch
+      // the conversion module (and keep it) just to read two strings.
+      //   sessionStorage: a form was submitted this session.
       const SUBMITTED_KEY = 'sample_request_submitted';
-      // Set when the visitor closes the popup without submitting.
-      const DISMISSED_KEY = 'exit_popup_dismissed';
+      //   localStorage: a form was submitted on this browser, ever.
+      const CONVERTED_KEY = 'gf_lead_submitted';
 
-      // Don't arm until the visitor has been on the page this long — avoids
-      // catching immediate bouncers who were never going to convert.
-      const ARM_DELAY_MS = 5000;
-      // Desktop only: mobile has no cursor, and aggressive mobile substitutes
-      // (back-button traps etc.) feel manipulative.
-      const MIN_VIEWPORT_WIDTH = 768;
-      // Cursor velocity can carry it past clientY=0 before the event fires, so
-      // a small threshold catches more real exit attempts.
-      const TOP_EDGE_THRESHOLD_PX = 50;
+      // The same key CookieConsent.astro writes, and its 'gf:consent' event.
+      const CONSENT_KEY = 'gf_cookie_consent';
+      // When the popup last opened (ms since the epoch). Written as it opens,
+      // not when it is closed: someone who leaves the page with it still open
+      // has seen it just the same.
+      const SEEN_KEY = 'gf_lead_popup_seen';
 
-      function alreadyHandled() {
+      const DELAY_MS = 10_000;
+      // After it has opened once, it stays away this long whether or not the
+      // visitor closed it. A buyer comparing suppliers comes back several times
+      // in a week; asking on every visit would be nagging.
+      const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
+      // How often to look again while the visitor is busy (see busy()).
+      const RETRY_MS = 3000;
+
+      function suppressed(): boolean {
         try {
-          return !!(
-            sessionStorage.getItem(SUBMITTED_KEY) || sessionStorage.getItem(DISMISSED_KEY)
-          );
+          // Any lead form submitted: this session, or ever on this browser.
+          if (sessionStorage.getItem(SUBMITTED_KEY)) return true;
+          if (localStorage.getItem(CONVERTED_KEY)) return true;
+          const seen = Number(localStorage.getItem(SEEN_KEY));
+          return seen > 0 && Date.now() - seen < SNOOZE_MS;
         } catch {
-          return false;
+          // Storage blocked: the snooze could not be remembered, so stay quiet
+          // rather than risk asking on every page.
+          return true;
         }
       }
 
-      if (window.innerWidth >= MIN_VIEWPORT_WIDTH && !alreadyHandled()) {
-        setTimeout(() => {
-          const onMouseOut = (e: MouseEvent) => {
-            // relatedTarget is null when the cursor leaves the document
-            // entirely, rather than moving between child elements. The clientY
-            // check restricts this to top-edge exits — leaving via the sides is
-            // not exit intent.
-            if (e.relatedTarget || e.clientY > TOP_EDGE_THRESHOLD_PX) return;
-            // Disarm before loading so a second exit can't mount it twice.
-            document.removeEventListener('mouseout', onMouseOut);
-            if (alreadyHandled()) return;
+      // Not while the visitor is in the middle of something. The home page
+      // hero form is in the first screen and the product pages open the
+      // sample modal from their buttons: covering either one with this popup
+      // would cost the very lead it is asking for. A tab in the background
+      // waits until it is looked at again.
+      function busy(): boolean {
+        if (document.hidden) return true;
+        if (document.querySelector('.modal-backdrop')) return true;
+        const el = document.activeElement;
+        return !!el && el.matches('input, textarea, select, [contenteditable="true"]');
+      }
 
-            import('../islands/exitIntentModal.jsx').then(({ default: mount }) => {
-              const node = document.getElementById('gf-exit-messages');
-              const messages = node ? JSON.parse(node.textContent || '{}') : {};
-              mount(document.documentElement.lang || 'sq', messages);
-            });
-          };
+      function show() {
+        if (suppressed()) return;
+        if (busy()) {
+          setTimeout(show, RETRY_MS);
+          return;
+        }
+        try {
+          localStorage.setItem(SEEN_KEY, String(Date.now()));
+        } catch {
+          /* suppressed() already returned early if storage is blocked */
+        }
+        import('../islands/leadPopup.jsx')
+          .then(({ default: mount }) => {
+            const node = document.getElementById('gf-popup-messages');
+            const messages = node ? JSON.parse(node.textContent || '{}') : {};
+            return mount(document.documentElement.lang || 'sq', messages);
+          })
+          .catch(() => {
+            // It never opened — offline, or a deploy replaced the chunk under a
+            // page that was already open. Do not let that count as seen.
+            try {
+              localStorage.removeItem(SEEN_KEY);
+            } catch {
+              /* ignore */
+            }
+          });
+      }
 
-          document.addEventListener('mouseout', onMouseOut);
-        }, ARM_DELAY_MS);
+      function arm() {
+        if (!suppressed()) setTimeout(show, DELAY_MS);
+      }
+
+      let consent: string | null = null;
+      try {
+        consent = localStorage.getItem(CONSENT_KEY);
+      } catch {
+        consent = null;
+      }
+
+      if (consent === 'granted') {
+        arm();
+      } else if (!consent) {
+        // Not answered yet: start counting from the moment they accept.
+        window.addEventListener(
+          'gf:consent',
+          (e) => {
+            if ((e as CustomEvent).detail === 'granted') arm();
+          },
+          { once: true }
+        );
       }
     </script>
   </body>

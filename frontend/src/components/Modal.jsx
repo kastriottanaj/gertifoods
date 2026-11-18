@@ -10,7 +10,10 @@ import { useLanguage } from '../i18n/LanguageContext';
 // Add that if/when this becomes a critical accessibility issue —
 // it's ~30 lines of keyboard handling that's easier to test against
 // a real screen reader. Comment marks the spot below.
-export default function Modal({ isOpen, onClose, title, children }) {
+//
+// `className` is added to the dialog box alongside .modal-dialog, so a caller
+// can restyle one modal (the timed lead popup) without touching the others.
+export default function Modal({ isOpen, onClose, title, className = '', children }) {
   const { t } = useLanguage();
   const dialogRef = useRef(null);
   const previouslyFocusedRef = useRef(null);
@@ -55,7 +58,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
     >
       <div
         ref={dialogRef}
-        className="modal-dialog"
+        className={className ? `modal-dialog ${className}` : 'modal-dialog'}
         role="dialog"
         aria-modal="true"
         aria-label={title || ''}

@@ -111,6 +111,11 @@ const c = COPY[lang] || COPY.en;
       }
       updateConsent(granted);
       banner.style.display = 'none';
+      // The lead-popup timer in BaseLayout waits for this: the popup is only
+      // ever shown to a visitor who accepted, starting from the moment they did.
+      window.dispatchEvent(
+        new CustomEvent('gf:consent', { detail: granted ? 'granted' : 'denied' })
+      );
     });
   });
 </script>

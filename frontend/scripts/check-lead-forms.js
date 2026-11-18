@@ -81,7 +81,9 @@ const FORMS = [
   { name: 'sample form, /furnizim page', page: '/furnizim/lokale-restorante', open: SAMPLE_BUTTON, form: MODAL_FORM, api: SAMPLE_API, source: 'supply_lokale_restorante', event: 'sample_request' },
   { name: 'hero form, home page', page: '/', form: 'form:has(input[name="first_name"])', api: LEAD_API, source: 'home_hero', event: 'hero_lead' },
   { name: 'catalog form, home page', page: '/', open: '[data-open-modal="catalog"]', form: MODAL_FORM, api: SAMPLE_API, source: 'catalog_request', event: 'catalog_request', eventSource: 'catalog_modal', catalogWording: true },
-  { name: 'exit-intent popup', page: '/about', exitIntent: true, form: MODAL_FORM, api: SAMPLE_API, source: 'exit_popup', event: 'sample_request' },
+  // Opens ten seconds after the cookie banner is accepted. Still 'exit_popup' to
+  // Django and GA4: the source name predates the switch from exit intent.
+  { name: 'lead popup', page: '/about', acceptCookies: true, form: '.lead-popup form', api: SAMPLE_API, source: 'exit_popup', event: 'sample_request' },
 ];
 
 const CONTENT_TYPES = {
@@ -237,7 +239,7 @@ class Browser {
 }
 
 // One browser tab. A fresh tab per form gives each one a fresh sessionStorage,
-// which matters: submitting a form sets the flag that suppresses the exit popup.
+// which matters: submitting a form sets the flag that suppresses the lead popup.
 class Tab {
   static async open(browser) {
     const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
@@ -249,7 +251,7 @@ class Tab {
     await tab.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
     for (const domain of ['Page', 'Runtime', 'Network', 'Log']) await tab.send(`${domain}.enable`);
     await tab.send('Network.setCacheDisabled', { cacheDisabled: true });
-    // Desktop width: the exit-intent watcher only arms from 768px up.
+    // Desktop width: the layout the forms were written against.
     await tab.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
     return tab;
   }
@@ -403,11 +405,23 @@ function refusedByServer(body, fields) {
   return reasons;
 }
 
+// A fresh tab has fresh sessionStorage but shares localStorage with every other
+// tab in the browser, and the lead popup reads three things from it: the cookie
+// answer, when it last opened, and whether a form was ever submitted. Each
+// scenario starts from a first visit, so one cannot silence the next.
+//
+// Sent on a tab's session: Chrome 157 answers the same command sent to the
+// browser target with "Internal error".
+function forgetVisitor(tab) {
+  return tab.send('Storage.clearDataForOrigin', { origin: ORIGIN, storageTypes: 'local_storage' });
+}
+
 async function checkForm(browser, lang, scenario, serverRules) {
   const { prefix, thanks } = LANGS[lang];
   const problems = [];
   const tab = await Tab.open(browser);
   try {
+    await forgetVisitor(tab);
     await tab.goto((prefix + scenario.page).replace(/(.)\/$/, '$1'));
     if (tab.documentStatus !== 200) {
       problems.push(`the page answered ${tab.documentStatus}`);
@@ -420,13 +434,22 @@ async function checkForm(browser, lang, scenario, serverRules) {
     if (scenario.open) {
       await tab.evaluate(`document.querySelector(${JSON.stringify(scenario.open)}).click(), true`);
     }
-    if (scenario.exitIntent) {
-      // The watcher arms a few seconds after load, so keep leaving the window
-      // until it does. It stops listening after the first exit it reacts to.
-      await tab.waitFor(
-        `document.dispatchEvent(new MouseEvent('mouseout', { clientY: 0, relatedTarget: null, bubbles: true })),
-         !!document.querySelector(${JSON.stringify(scenario.form)})`
+    if (scenario.acceptCookies) {
+      // The popup times ten seconds from this click, which is also the only
+      // thing that starts it: a visitor who never accepts never sees it.
+      const clicked = await tab.evaluate(
+        `(() => { const b = document.querySelector('[data-consent="granted"]'); if (!b || !b.offsetParent) return false; b.click(); return true; })()`
       );
+      if (!clicked) {
+        problems.push('the cookie banner was not showing, so the popup could not be started');
+        return problems;
+      }
+      // Not a moment before ten seconds: opening early would mean the timer is
+      // not the thing deciding.
+      await sleep(8000);
+      if (await tab.evaluate(`!!document.querySelector(${JSON.stringify(scenario.form)})`)) {
+        problems.push('the popup opened before its ten seconds were up');
+      }
     }
     if (!(await tab.waitFor(`!!document.querySelector(${JSON.stringify(scenario.form)})`, 10000))) {
       problems.push('the form did not open');
@@ -522,6 +545,9 @@ async function runLanguage(lang, { chrome, serverRules, pages, formsOnly, pagesO
     }
     if (!formsOnly) {
       let tab = await Tab.open(browser);
+      // Leaves no accepted cookie banner behind from the forms above: that
+      // would start the popup timer on every page swept below.
+      await forgetVisitor(tab);
       let checked = 0;
       for (const path of pages) {
         let problems;

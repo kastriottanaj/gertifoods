@@ -1,0 +1,360 @@
+/* Timed lead popup (leadPopup.jsx). Loaded only with the popup's own chunk.
+ *
+ * Built around the factory photo: the anthracite of the facade trim for the
+ * dark tones, the red of the "Gerti" sign for the heading and the button, and
+ * the green of "foods" for the small accents, all from the brandbook.
+ *
+ * Every rule starts with .lead-popup (or the backdrop holding it), so the
+ * sample and catalog modals elsewhere on the site are untouched. The dialog
+ * rules carry two classes because App.css styles .modal-dialog on its own and
+ * loads first.
+ */
+
+.lead-popup {
+  --lp-anthracite: #2f3237;
+  --lp-grey-text: #5b5f66;
+  --lp-field-bg: #f5f6f7;
+  --lp-field-border: #d6d9dd;
+}
+
+.modal-backdrop:has(> .lead-popup) {
+  background: rgba(24, 26, 30, 0.62);
+}
+
+.modal-dialog.lead-popup {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  max-width: 880px;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Photo ---- */
+.lead-popup-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--lp-anthracite);
+}
+
+.lead-popup-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keeps both "Gerti foods" signs and the building's corner in a tall crop. */
+  object-position: 72% 50%;
+  animation: lead-popup-photo-in 0.4s ease-out;
+}
+
+/* The asphalt at the foot of the photo is already dark; the gradient only
+   deepens it enough for white text, and stops below the signs. */
+.lead-popup-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(28, 30, 34, 0.9) 0%,
+    rgba(28, 30, 34, 0.55) 24%,
+    rgba(28, 30, 34, 0) 46%
+  );
+}
+
+.lead-popup-caption {
+  position: absolute;
+  z-index: 1;
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  color: #fff;
+}
+
+.lead-popup-badge {
+  margin-bottom: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--brand-green);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.lead-popup-caption strong {
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.lead-popup-note {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* ---- Text column ---- */
+.lead-popup-body {
+  padding: 36px 36px 26px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.lead-popup-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--brand-green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lead-popup-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 2px;
+  background: var(--brand-red);
+}
+
+.lead-popup-title {
+  margin-bottom: 10px;
+  /* Clears the close button in the corner. */
+  padding-right: 32px;
+  color: var(--brand-red);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.lead-popup-subtitle {
+  margin-bottom: 20px;
+  color: var(--lp-grey-text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ---- Form ---- */
+.lead-popup .sample-form .form-row {
+  gap: 12px;
+}
+
+.lead-popup .sample-form .form-group {
+  margin-bottom: 12px;
+}
+
+.lead-popup .sample-form label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--lp-anthracite);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lead-popup .sample-form input,
+.lead-popup .sample-form select {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--lp-field-border);
+  border-radius: 10px;
+  background: var(--lp-field-bg);
+  color: var(--text);
+  font-family: inherit;
+  /* 16px: anything smaller makes iOS zoom the page when a field is focused. */
+  font-size: 1rem;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+
+.lead-popup .sample-form select {
+  padding-right: 36px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%232f3237' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  text-overflow: ellipsis;
+}
+
+.lead-popup .sample-form input:focus,
+.lead-popup .sample-form select:focus {
+  outline: none;
+  border-color: var(--brand-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(218, 32, 48, 0.14);
+}
+
+.lead-popup .sample-form .btn {
+  height: 50px;
+  margin-top: 6px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.lead-popup .sample-form .btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+}
+
+.lead-popup-privacy {
+  margin-top: 12px;
+  color: #6b6f76;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ---- Close button: a round chip, legible over white or over the photo ---- */
+.lead-popup .modal-close {
+  z-index: 2;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  color: var(--lp-anthracite);
+  font-size: 1.6rem;
+}
+
+.lead-popup .modal-close:hover {
+  background: #fff;
+  color: var(--brand-red);
+}
+
+/* The popup opens with focus on this button, so keyboard users see the ring
+   at once. Brand red instead of the browser's blue. */
+.lead-popup .modal-close:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 2px;
+}
+
+/* ---- Up to portrait tablets: one column, the photo as a banner on top ---- */
+@media (max-width: 768px) {
+  .modal-dialog.lead-popup {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    /* A portrait tablet gets a centred card; phones get the sheet below. */
+    max-width: 560px;
+    padding: 0;
+  }
+
+  .lead-popup-photo {
+    /* A ratio rather than a fixed height, so the banner shows the same band of
+       the photo at every width: both signs, a strip of sky and of asphalt. A
+       fixed 136px zoomed into the signs and cut their tops off at 768px. */
+    aspect-ratio: 20 / 7;
+  }
+
+  .lead-popup-photo img {
+    object-position: 50% 68%;
+  }
+
+  .lead-popup-photo::after {
+    background: linear-gradient(
+      to top,
+      rgba(28, 30, 34, 0.85) 0%,
+      rgba(28, 30, 34, 0) 50%
+    );
+  }
+
+  .lead-popup-caption {
+    left: 18px;
+    right: 18px;
+    bottom: 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lead-popup-badge {
+    margin-bottom: 0;
+  }
+
+  .lead-popup-caption strong {
+    font-size: 0.95rem;
+  }
+
+  /* One line in the banner; the subtitle carries the offer. */
+  .lead-popup-note {
+    display: none;
+  }
+
+  .lead-popup-body {
+    padding: 20px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .lead-popup-title {
+    font-size: 1.4rem;
+    padding-right: 0;
+  }
+
+  .lead-popup-subtitle {
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+  }
+
+  /* Keep the fields in pairs: six stacked fields would push the button off
+     most phone screens. App.css stacks .form-row at this width. */
+  .lead-popup .sample-form .form-row {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .lead-popup .sample-form .form-group {
+    min-width: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/* ---- Phones: a bottom sheet, within reach of the thumb ---- */
+@media (max-width: 560px) {
+  .modal-backdrop:has(> .lead-popup) {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-dialog.lead-popup {
+    max-width: none;
+    max-height: 94dvh;
+    border-radius: 20px 20px 0 0;
+    animation: lead-popup-sheet 0.28s ease-out;
+  }
+}
+
+/* Too narrow for pairs: two 150px fields would cut every label. */
+@media (max-width: 359px) {
+  .lead-popup .sample-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-dialog.lead-popup,
+  .lead-popup-photo img {
+    animation: none;
+  }
+}
+
+@keyframes lead-popup-sheet {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes lead-popup-photo-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

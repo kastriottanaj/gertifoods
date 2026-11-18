@@ -981,6 +981,15 @@ const translations = {
     // Modal
     modal_close: 'Mbyll',
 
+    // Timed lead popup (BaseLayout.astro, astro/islands/leadPopup.jsx). The
+    // facts on the photo are the approved ones: Prizren, 800/hour, ISO 22000.
+    lead_popup_eyebrow: 'Direkt nga fabrika',
+    lead_popup_title: 'Provo produktet tona falas',
+    lead_popup_subtitle: 'Lër të dhënat e tua. Të kontaktojmë brenda një dite pune me ofertë dhe mostra falas.',
+    lead_popup_photo_title: 'Fabrika jonë në Prizren',
+    lead_popup_photo_note: '800 byrekë në orë',
+    lead_popup_privacy: 'Të dhënat e tua janë të sigurta. Pa spam.',
+
     // WhatsApp
     whatsapp_label: 'Bisedo në WhatsApp',
     whatsapp_greeting: 'Përshëndetje, jam i interesuar për produktet Gerti Foods.',
@@ -1982,6 +1991,13 @@ const translations = {
 
     // Modal
     modal_close: 'Close',
+
+    lead_popup_eyebrow: 'Straight from the factory',
+    lead_popup_title: 'Try our products for free',
+    lead_popup_subtitle: 'Leave your details. We\'ll reach out within one business day with a quote and free samples.',
+    lead_popup_photo_title: 'Our factory in Prizren',
+    lead_popup_photo_note: '800 byrek an hour',
+    lead_popup_privacy: 'We respect your privacy. No spam.',
 
     // WhatsApp
     whatsapp_label: 'Chat on WhatsApp',
@@ -2985,6 +3001,13 @@ const translations = {
 
     // Modal
     modal_close: 'Schließen',
+
+    lead_popup_eyebrow: 'Direkt ab Werk',
+    lead_popup_title: 'Testen Sie unsere Produkte kostenlos',
+    lead_popup_subtitle: 'Hinterlassen Sie Ihre Daten. Wir melden uns innerhalb eines Werktages mit Angebot und kostenlosen Mustern.',
+    lead_popup_photo_title: 'Unsere Fabrik in Prizren',
+    lead_popup_photo_note: '800 Börek pro Stunde',
+    lead_popup_privacy: 'Ihre Daten sind sicher. Kein Spam.',
 
     // WhatsApp
     whatsapp_label: 'Per WhatsApp chatten',
