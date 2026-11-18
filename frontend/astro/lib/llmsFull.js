@@ -109,11 +109,10 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   heading(3, 'Key facts');
   // The About page's stat strip is labels beside numbers that live in the
   // template, so the numbers are stated here in words instead of read from it.
-  line('- Founded: January 2024');
   line('- Location: Str. Kalaja e Shkupit, 20000 Prizren, Kosovo');
-  line('- Founders: three partners from the Hasi region, a bread-baking tradition of more than 600 years');
+  line('- Founders: three partners from the Hasi region');
   line('- Certification: ISO 22000');
-  line('- Production capacity: byrek up to 800 pieces per hour; tortillas up to 3,000 pieces per hour');
+  line('- Production capacity: byrek up to 800 pieces per hour');
   line('- Bake time on site: 15–20 minutes from frozen');
   line('- Sales model: B2B only, no consumer retail');
   line('- Markets: Kosovo, Albania, Hungary, Croatia, Slovakia, Germany');
@@ -180,15 +179,12 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   para(text('products_about_intro'));
   bullets(numbered('products_about', 4, 'title', 'body'));
 
-  // No product page prints a price (ProductDetail.astro); say the same here
-  // rather than quoting a number the pages themselves withhold.
+  // Like the product cards and pages (since 2026-11-18), no price line and no
+  // minimum order: name, description and category only.
   for (const product of products) {
-    const unit = copy.unit(product);
     heading(3, `${copy.name(product)} (${url(lang, `/products/${product.slug}`)})`);
     para(copy.description(product));
     line(`- Category: ${copy.category(product)}`);
-    line(`- ${text('products_price_on_request') ?? 'Price on request'}`);
-    line(`- Minimum order: ${product.min_order_quantity} × ${unit}`);
     line();
   }
 

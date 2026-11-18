@@ -1111,11 +1111,13 @@
   margin: 0 auto 56px;
 }
 
+/* One stat since 2026-11-18 (the CMO had the 3,000 tortillas an hour
+   removed): a single centred tile, as wide as one of the former two. */
 .home-capacity-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
-  max-width: 720px;
+  max-width: 350px;
   margin: 0 auto;
 }
 
@@ -1551,7 +1553,6 @@
     margin-bottom: 36px;
   }
   .home-capacity-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
   .home-capacity-value {

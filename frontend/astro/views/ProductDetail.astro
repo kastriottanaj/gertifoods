@@ -93,9 +93,7 @@ const schema = {
       <div class="product-detail-info">
         <span class="product-category-badge">{copy.category(product)}</span>
         <h1>{name}</h1>
-        <p class="product-detail-price">{t('products_price_on_request')}</p>
         <p class="product-detail-description">{description}</p>
-        <p class="product-detail-min">{t('product_min_order')}: {product.min_order_quantity} {unit}</p>
 
         <button type="button" class="btn btn-primary" data-open-modal="sample">{t('products_request_prices')}</button>
       </div>
