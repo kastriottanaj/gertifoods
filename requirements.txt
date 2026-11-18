@@ -32,7 +32,7 @@ geoip2fast==1.2.2
 # at ~/.gunicorn/gunicorn.ctl (/home/gertifoods/.gunicorn/ here, mode 0600).
 # Left on: only the service user can reach it, and that user can already
 # signal the master. 26.0 dropped the eventlet worker; the service runs sync.
-gunicorn==26.2.0
+gunicorn==27.0.1
 # 12.2.0 carried 26 advisories, several HIGH — heap out-of-bounds writes in
 # Image.paste()/crop(), a decompression-bomb check bypass, and OS command
 # injection in WindowsViewer. Pillow parses uploaded product images and is
