@@ -406,7 +406,11 @@
 .products-hero-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(7, 9, 9, .97) 0%, rgba(7, 9, 9, .82) 37%, rgba(7, 9, 9, .15) 70%, rgba(7, 9, 9, 0) 100%);
+  /* Since 2026-11-22 the photo is light cream tortillas, not dark bread, so
+     the shade stays at least ~.55 as far as the text reaches (the lead line
+     ends near 70% of the width at 1280px): white on the brightest cream
+     needs about .5 to reach 4.5:1. The right third still shows the photo. */
+  background: linear-gradient(90deg, rgba(7, 9, 9, .95) 0%, rgba(7, 9, 9, .85) 40%, rgba(7, 9, 9, .6) 68%, rgba(7, 9, 9, .1) 100%);
 }
 
 .products-hero-content {
