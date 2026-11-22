@@ -54,9 +54,13 @@ const messages = islandMessages(lang);
           <button type="button" class="products-outline-cta" data-open-modal="sample">{t('products_hero_sample')}</button>
         </div>
         <div class="products-benefits">
-          <div><span class="benefit-icon">♧</span><p><b>{t('products_benefit_quality')}</b><small>{t('products_benefit_quality_body')}</small></p></div>
-          <div><span class="benefit-icon">◷</span><p><b>{t('products_benefit_supply')}</b><small>{t('products_benefit_supply_body')}</small></p></div>
-          <div><span class="benefit-icon">❄</span><p><b>{t('products_benefit_frozen')}</b><small>{t('products_benefit_frozen_body')}</small></p></div>
+          {/* Tortilla first, then byrek, then delivery (2026-11-22, company
+              change list). Replaced "Premium quality / Reliable supply /
+              Frozen for freshness": generic, and "frozen" was wrong for the
+              tortillas, which are sold fresh. */}
+          <div><span class="benefit-icon">◎</span><p><b>{t('products_benefit_tortilla')}</b><small>{t('products_benefit_tortilla_body')}</small></p></div>
+          <div><span class="benefit-icon">◷</span><p><b>{t('products_benefit_byrek')}</b><small>{t('products_benefit_byrek_body')}</small></p></div>
+          <div><span class="benefit-icon">▱</span><p><b>{t('products_benefit_delivery')}</b><small>{t('products_benefit_delivery_body')}</small></p></div>
         </div>
       </div>
     </section>
