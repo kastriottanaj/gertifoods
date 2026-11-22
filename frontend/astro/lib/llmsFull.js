@@ -112,7 +112,6 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   line('- Location: Str. Kalaja e Shkupit, 20000 Prizren, Kosovo');
   line('- Founders: three partners from the Hasi region');
   line('- Certification: ISO 22000');
-  line('- Production capacity: byrek up to 800 pieces per hour');
   line('- Bake time on site: 15–20 minutes from frozen');
   line('- Sales model: B2B only, no consumer retail');
   line('- Markets: Kosovo, Albania, Hungary, Croatia, Slovakia, Germany');

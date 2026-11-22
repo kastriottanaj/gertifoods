@@ -93,10 +93,6 @@
   line-height: 1.25;
 }
 
-.lead-popup-note {
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
 
 /* ---- Text column ---- */
 .lead-popup-body {
@@ -287,10 +283,6 @@
     font-size: 0.95rem;
   }
 
-  /* One line in the banner; the subtitle carries the offer. */
-  .lead-popup-note {
-    display: none;
-  }
 
   .lead-popup-body {
     padding: 20px 18px calc(18px + env(safe-area-inset-bottom));

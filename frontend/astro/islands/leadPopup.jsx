@@ -52,7 +52,6 @@ function LeadPopup() {
         <div className="lead-popup-caption">
           <span className="lead-popup-badge">ISO 22000</span>
           <strong>{t('lead_popup_photo_title')}</strong>
-          <span className="lead-popup-note">{t('lead_popup_photo_note')}</span>
         </div>
       </div>
 

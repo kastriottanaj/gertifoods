@@ -4,11 +4,9 @@
 
 Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 15 to 20 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia and Germany.
 
-Production capacity: byrek up to 800 pcs/hour.
-
 ## Products
 
-- [Products catalog](https://gertifoods.com/products): full product list. All byrek are half-baked and delivered frozen, and finish in 15–20 minutes; up to 800 pcs/hour.
+- [Products catalog](https://gertifoods.com/products): full product list. All byrek are half-baked and delivered frozen, and finish in 15–20 minutes.
 - [Cheese byrek](https://gertifoods.com/products/pite-me-djathe): traditional flaky pastry filled with white cheese.
 - [Spinach byrek with cheese](https://gertifoods.com/products/pite-me-spinaq): traditional flaky pastry filled with spinach and cheese.
 - [Meat byrek](https://gertifoods.com/products/pite-me-mish): traditional flaky pastry filled with seasoned minced meat.
@@ -38,7 +36,7 @@ One landing page per buyer type and city for the Albanian-speaking markets (Koso
 ## Key Pages
 
 - [Home](https://gertifoods.com/): company overview and lead capture.
-- [About](https://gertifoods.com/about): company story, Hasi heritage, ISO 22000 certification and capacity.
+- [About](https://gertifoods.com/about): company story, Hasi heritage and ISO 22000 certification.
 - [Areas served](https://gertifoods.com/areas): overview of the six markets and how cross-border supply works.
 - [Imprint](https://gertifoods.com/imprint): legal and company details.
 

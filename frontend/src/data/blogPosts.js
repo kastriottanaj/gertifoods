@@ -2,7 +2,7 @@ export const blogPosts = [
   {
     slug: 'how-half-baked-products-help-businesses',
     published: '2026-08-04',
-    updated: '2026-09-13',
+    updated: '2026-11-22',
     image: 'bakery',
     related: ['reduce-food-waste-with-bake-on-demand', 'choosing-reliable-food-supplier'],
     translations: {
@@ -68,7 +68,7 @@ export const blogPosts = [
             'Si të fillosh',
             [
               'Mënyra më e mirë për ta vlerësuar një produkt gjysmë të pjekur është në furrën tënde, jo në letër. Kërko mostra, piqi sipas udhëzimeve, shëno kohën dhe temperaturën që të jep rezultatin më të mirë dhe provoje për një javë në kushte reale.',
-              'Pastaj krahaso: orë pune, produkt i mbetur, reagimi i klientëve. Ne jemi në Prizren, prodhojmë deri në 800 byrekë në orë dhe furnizojmë biznese në Kosovë, Shqipëri dhe Evropën Qendrore. Fillo me një mostër.',
+              'Pastaj krahaso: orë pune, produkt i mbetur, reagimi i klientëve. Ne jemi në Prizren dhe furnizojmë biznese në Kosovë, Shqipëri dhe Evropën Qendrore. Fillo me një mostër.',
             ],
           ],
         ],
@@ -135,7 +135,7 @@ export const blogPosts = [
             'How to start',
             [
               'The best place to evaluate a half-baked product is your own oven, not a spec sheet. Request samples, bake them as instructed, note the time and temperature that give you the best result, and run them for a week under real conditions.',
-              'Then compare: hours of labour, product left over, what customers say. We are in Prizren, produce up to 800 byrek an hour, and supply businesses in Kosovo, Albania and Central Europe. Start with a sample.',
+              'Then compare: hours of labour, product left over, what customers say. We are in Prizren and supply businesses in Kosovo, Albania and Central Europe. Start with a sample.',
             ],
           ],
         ],
@@ -202,7 +202,7 @@ export const blogPosts = [
             'So fangen Sie an',
             [
               'Der beste Ort, ein halbgebackenes Produkt zu beurteilen, ist Ihr eigener Ofen, nicht ein Datenblatt. Fordern Sie Muster an, backen Sie sie nach Anleitung, notieren Sie Zeit und Temperatur mit dem besten Ergebnis und setzen Sie sie eine Woche lang unter realen Bedingungen ein.',
-              'Dann vergleichen Sie: Arbeitsstunden, übrig gebliebene Ware, Rückmeldungen der Kunden. Wir sitzen in Prizren, produzieren bis zu 800 Börek pro Stunde und beliefern Unternehmen im Kosovo, in Albanien und in Mitteleuropa. Fangen Sie mit einem Muster an.',
+              'Dann vergleichen Sie: Arbeitsstunden, übrig gebliebene Ware, Rückmeldungen der Kunden. Wir sitzen in Prizren und beliefern Unternehmen im Kosovo, in Albanien und in Mitteleuropa. Fangen Sie mit einem Muster an.',
             ],
           ],
         ],
@@ -212,7 +212,7 @@ export const blogPosts = [
   {
     slug: 'choosing-reliable-food-supplier',
     published: '2026-07-22',
-    updated: '2026-09-13',
+    updated: '2026-11-22',
     image: 'about',
     related: ['how-half-baked-products-help-businesses', 'reduce-food-waste-with-bake-on-demand'],
     translations: {
@@ -242,7 +242,7 @@ export const blogPosts = [
             '2. Furnizim të parashikueshëm',
             [
               'Produkti më i mirë nuk vlen asgjë nëse mungon në ditën që ke rezervuar një dasmë. Para se të porosisësh, pyet për kapacitetin real të prodhimit, kohën nga porosia deri te dërgesa, ditët e dërgesës në zonën tënde dhe çfarë ndodh kur duhet ta ndryshosh një porosi me pak ditë para.',
-              'Numrat konkretë ndihmojnë. Linja jonë e byrekut prodhon deri në 800 copë në orë, dhe dërgojmë në Kosovë, Shqipëri dhe në disa tregje të Evropës Qendrore. Një furnizues që i thotë numrat e vet hapur zakonisht i mban edhe afatet.',
+              'Përgjigjet e qarta ndihmojnë. Ne dërgojmë në Kosovë, Shqipëri dhe në disa tregje të Evropës Qendrore. Një furnizues që u përgjigjet hapur këtyre pyetjeve zakonisht i mban edhe afatet.',
             ],
           ],
           [
@@ -308,7 +308,7 @@ export const blogPosts = [
             '2. Predictable supply',
             [
               'The best product is worth nothing if it is missing on the day you have a wedding booked. Before you order, ask about real production capacity, the time from order to delivery, delivery days in your area, and what happens when you need to change an order a few days out.',
-              'Concrete numbers help. Our byrek line produces up to 800 pieces an hour, and we deliver in Kosovo, Albania and several Central European markets. A supplier who states its numbers openly usually keeps its deadlines too.',
+              'Clear answers help. We deliver in Kosovo, Albania and several Central European markets. A supplier who answers these questions openly usually keeps its deadlines too.',
             ],
           ],
           [
@@ -374,7 +374,7 @@ export const blogPosts = [
             '2. Planbare Versorgung',
             [
               'Das beste Produkt nützt nichts, wenn es an dem Tag fehlt, an dem Sie eine Hochzeit gebucht haben. Fragen Sie vor der Bestellung nach der tatsächlichen Produktionskapazität, der Zeit von Bestellung bis Lieferung, den Liefertagen in Ihrer Region und danach, was passiert, wenn Sie eine Bestellung wenige Tage vorher ändern müssen.',
-              'Konkrete Zahlen helfen. Unsere Börek-Linie produziert bis zu 800 Stück pro Stunde, und wir liefern im Kosovo, in Albanien und in mehrere mitteleuropäische Märkte. Ein Lieferant, der seine Zahlen offen nennt, hält in der Regel auch seine Termine.',
+              'Klare Antworten helfen. Wir liefern im Kosovo, in Albanien und in mehrere mitteleuropäische Märkte. Ein Lieferant, der diese Fragen offen beantwortet, hält in der Regel auch seine Termine.',
             ],
           ],
           [
