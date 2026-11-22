@@ -19,7 +19,6 @@ import { islandMessages } from '../lib/islandMessages.js';
 import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
 import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
-import familyPackImg from '../../src/assets/products/Family-pack.webp';
 import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
 // Hero video (2026-11-08): Gerti's own footage. These are phone clips from the
 // 6–7 Nov 2026 transfer: hands pressing and dimpling dough in flour, then a
@@ -373,28 +372,6 @@ const messages = islandMessages(lang);
             </div>
           </a>
 
-          <a href={p('/products')} class="home-category">
-            <div class="home-category-image">
-              <img
-                src={familyPackImg.src}
-                alt={t('category_family_alt')}
-                width="1500"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div class="home-category-body">
-              <h3>{t('category_family_title')}</h3>
-              <p>{t('category_family_desc')}</p>
-              <span class="home-category-cta">
-                {t('categories_view_range')}
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-              </span>
-            </div>
-          </a>
         </div>
       </div>
     </section>

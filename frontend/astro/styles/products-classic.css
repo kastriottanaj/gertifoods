@@ -1,26 +1,26 @@
 /* ==========================================================================
-   Meat, family-pack and tortilla pages: classic banner (2026-11-08)
+   Meat and tortilla pages: classic banner (2026-11-08)
 
-   These three product pages opened with a split layout: copy on a light
+   These product pages opened with a split layout: copy on a light
    background on the left, photo on the right. They become the old Karrota
    site's photo banner, like the other pages: a full-width photo, a dark
    shade on the left, white text and the white curve (BannerSwoosh). Copy,
-   headings, buttons and links are unchanged.
+   headings, buttons and links are unchanged. (The Family Pack page had the
+   same banner until it was removed on 2026-11-22.)
 
    The photos:
-   - meat, family pack: the page's own scene photo, now full width.
+   - meat: the page's own scene photo, now full width.
    - tortilla: its own photo is only 356×302px, too small to fill a banner.
      The banner uses the licensed tortillas-on-flame photo (Pexels, the
      homepage hero until the video), and the page's photo stays as a card.
 
-   Loaded by the three views. Their base rules (meat-pie-detail.css etc.) are
+   Loaded by both views. Their base rules (meat-pie-detail.css etc.) are
    single-class selectors, so every rule here starts with `.app`: one class
    more specific, so it wins whatever the load order.
    ========================================================================== */
 
 /* Shared: the shade and the layering (photo 0, curve 1, content 2). */
 .app .mp-image::after,
-.app .fp-hero-image::after,
 .app .tt-page .tt-hero::before {
   content: '';
   position: absolute;
@@ -30,7 +30,6 @@
 }
 
 .app .mp-hero .banner-swoosh,
-.app .fp-hero .banner-swoosh,
 .app .tt-hero .banner-swoosh {
   z-index: 1;
 }
@@ -66,28 +65,6 @@
 .app .mp-contact { color: rgba(255, 255, 255, .85); }
 .app .mp-contact a { color: #fff; }
 .app .mp-contact i { background: rgba(255, 255, 255, .4); }
-
-/* ----------------------------------------
-   Family pack
-   ---------------------------------------- */
-.app .fp-hero {
-  background: #1d1713;
-  color: #fff;
-}
-
-.app .fp-hero-image {
-  inset: 0;
-  z-index: 0;
-}
-
-.app .fp-hero-copy { padding-bottom: 64px; }
-.app .fp-hero h1 { color: #fff; }
-.app .fp-hero-copy > p { color: rgba(255, 255, 255, .9); }
-.app .fp-meta { color: #fff; }
-.app .fp-btn-outline { background: transparent; border-color: #fff; color: #fff; }
-.app .fp-contact { color: rgba(255, 255, 255, .85); }
-.app .fp-contact a { color: #fff; }
-.app .fp-contact i { background: rgba(255, 255, 255, .4); }
 
 /* ----------------------------------------
    Tortilla
@@ -143,11 +120,9 @@
    curve's 48px strip.
    ---------------------------------------- */
 @media (max-width: 767px) {
-  .app .mp-hero,
-  .app .fp-hero { display: block; }
+  .app .mp-hero { display: block; }
 
-  .app .mp-image,
-  .app .fp-hero-image {
+  .app .mp-image {
     position: absolute;
     inset: 0;
     width: auto;
@@ -155,28 +130,12 @@
   }
 
   .app .mp-image::after,
-  .app .fp-hero-image::after,
   .app .tt-page .tt-hero::before {
     display: block;
     background: linear-gradient(90deg, rgba(7, 8, 8, .9), rgba(7, 8, 8, .68));
   }
 
   .app .mp-copy { padding: 34px 14px 72px; }
-  .app .fp-hero-copy { padding: 34px 14px 72px; }
-
-  /* The family pack lifted its buttons and contact line out of the hero
-     (absolute, below the photo strip), and pushed the trust bar down 111px
-     to make room. Both come back into the banner's flow. */
-  .app .fp-actions,
-  .app .fp-contact {
-    position: static;
-    width: auto;
-    margin: 16px 0 0;
-    padding: 0;
-    background: none;
-  }
-
-  .app .fp-trust { margin-top: 0; }
 
   .app .tt-page .tt-hero { padding: 34px 16px 72px; }
 }

@@ -124,39 +124,41 @@
 }
 
 /* ----------------------------------------
-   Pie pages: cheese (cp), spinach (sp), meat (mp), family pack (fp).
+   Pie pages: cheese (cp), spinach (sp), meat (mp).
    They share one layout: benefits row, testimonials, solution cards, a
    red band. Benefit item titles stay dark, as on the homepage, and the red
    band's heading stays white.
    ---------------------------------------- */
 .app .cp-testimonials > h2, .app .cp-solutions > h2,
 .app .sp-testimonials > h2, .app .sp-solutions > h2,
-.app .mp-testimonials > h2, .app .mp-solutions > h2,
-.app .fp-testimonials > h2, .app .fp-solutions > h2 {
+.app .mp-testimonials > h2, .app .mp-solutions > h2 {
   color: var(--primary);
   font-weight: 700;
 }
 
+/* The cheese page keeps one testimonial since 2026-11-22 (the second praised
+   the Family Pack). Centre it at the width it had as one of two, instead of
+   leaving the right half of the box empty. Phones already showed only one. */
+.app .cp-testimonial-grid {
+  grid-template-columns: minmax(0, 463px);
+  justify-content: center;
+}
+
 /* Solution cards read like the old product cards: red title, grey text. */
-.app .cp-solution-grid h3, .app .sp-solution-grid h3, .app .mp-solution-grid h3,
-.app .fp-solution-grid h3 {
+.app .cp-solution-grid h3, .app .sp-solution-grid h3, .app .mp-solution-grid h3 {
   color: var(--primary);
 }
 
 .app .cp-solution-grid p, .app .sp-solution-grid p, .app .mp-solution-grid p,
-.app .fp-solution-grid p,
-.app .cp-benefits p, .app .sp-benefits p, .app .mp-benefits p,
-.app .fp-benefits p {
+.app .cp-benefits p, .app .sp-benefits p, .app .mp-benefits p {
   color: #666;
 }
 
 /* Pills: the banner buttons and the red band's buttons. */
 .app .sp-actions button, .app .sp-actions a,
 .app .mp-actions button, .app .mp-actions a,
-.app .fp-btn,
 .app .cp-cta a, .app .sp-cta a, .app .sp-cta button,
-.app .mp-cta a, .app .mp-cta button,
-.app .fp-cta button, .app .fp-cta > a {
+.app .mp-cta a, .app .mp-cta button {
   border-radius: 999px;
 }
 

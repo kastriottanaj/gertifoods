@@ -216,7 +216,7 @@
 }
 
 /* ---- Products: the old site's card row. The heading block sits centred
-   above three cards (it was a column to their left), and each card is
+   above the cards (it was a column to their left), and each card is
    white with a thin border: photo on top, red title, grey text, red
    outlined pill. ---- */
 .home-classic-app .home-categories-inner {
@@ -235,7 +235,11 @@
 }
 
 .home-classic-app .home-categories-grid {
-  grid-template-columns: repeat(3, 1fr);
+  /* Two categories (byrek, tortillas) since the Family Pack card went on
+     2026-11-22; they keep the ~350px a third of the 1100px row gave them,
+     centred, rather than stretching to half of it. */
+  grid-template-columns: repeat(2, minmax(0, 350px));
+  justify-content: center;
   gap: 24px;
 }
 
@@ -301,7 +305,7 @@
   color: #fff;
 }
 
-/* Narrow screens: one card per row (three in a row get too small). */
+/* Narrow screens: one card per row (side by side they get too small). */
 @media (max-width: 700px) {
   .home-classic-app .home-categories-grid {
     grid-template-columns: 1fr;

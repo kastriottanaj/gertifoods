@@ -13,16 +13,16 @@
 // convention the product pages follow with /de/products/pite-me-djathe.
 //
 // `products` overrides the product strip for segments whose buyer orders a
-// different mix — markets lead with the retail-ready Family Pack, the city and
-// regional pages show the whole range. Segments without it get the default
-// list in SupplyLanding.astro (the three byrek and the tortilla line).
+// different mix — the city and regional pages show the whole range. Segments
+// without it get the default list in SupplyLanding.astro (the three byrek and
+// the tortilla line). Markets led with the Family Pack until it was dropped
+// on 2026-11-22 and now use the default.
 //
 // Keep SUPPLY_SLUGS in config/sitemaps.py in sync with this list.
 const FULL_RANGE = [
   '/products/pite-me-djathe',
   '/products/pite-me-spinaq',
   '/products/pite-me-mish',
-  '/products/family-pack-pite-4',
   '/products/tortilla',
 ];
 
@@ -30,16 +30,7 @@ export const supplySegments = [
   { slug: 'byrektore' },
   { slug: 'furra-buke' },
   { slug: 'lokale-restorante' },
-  {
-    slug: 'markete',
-    products: [
-      '/products/family-pack-pite-4',
-      '/products/pite-me-djathe',
-      '/products/pite-me-spinaq',
-      '/products/pite-me-mish',
-          '/products/tortilla',
-    ],
-  },
+  { slug: 'markete' },
   // City pages: one per capital, carrying that market's confirmed logistics
   // (see <country>_supply_* in translations.js).
   { slug: 'tirane', products: FULL_RANGE },

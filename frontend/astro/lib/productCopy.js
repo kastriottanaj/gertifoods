@@ -41,13 +41,9 @@ export function productCopy(t) {
 
     seoDescription: (product) => resolve(`products_meta_${keyFor(product.slug)}`, null),
 
-    // Only two categories exist; mirror the mapping ProductCard.jsx used.
-    category: (product) =>
-      t(
-        product.category_name === 'Family Pack'
-          ? 'products_category_family_pack'
-          : 'products_category_pite'
-      ),
+    // Byrek is the only category in the catalogue since the Family Pack was
+    // dropped (2026-11-22); the tortilla line has no catalogue row yet.
+    category: () => t('products_category_pite'),
 
     unit: (product) =>
       t(product.unit === 'pack' ? 'products_unit_pack' : 'products_unit_piece'),

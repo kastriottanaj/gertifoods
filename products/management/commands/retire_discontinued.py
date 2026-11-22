@@ -2,15 +2,16 @@ from django.core.management.base import BaseCommand
 from products.models import Product
 
 
-# Lines dropped from the catalogue (July 2026): pizza, croissants and Danish
-# pastry. Products are marked unavailable rather than deleted so existing
-# orders keep pointing at a real row.
+# Lines dropped from the catalogue: pizza, croissants and Danish pastry (July
+# 2026), and the mixed-byrek Family Pack (company change list, 2026-11-22).
+# Products are marked unavailable rather than deleted so existing orders keep
+# pointing at a real row.
 DISCONTINUED_CATEGORY_SLUGS = ['pizza', 'kroasane', 'danish']
-DISCONTINUED_PRODUCT_SLUGS = ['family-pack-pizza-4', 'family-pack-kroasane-6']
+DISCONTINUED_PRODUCT_SLUGS = ['family-pack-pizza-4', 'family-pack-kroasane-6', 'family-pack-pite-4']
 
 
 class Command(BaseCommand):
-    help = 'Mark discontinued product lines (pizza, croissants, Danish) as unavailable'
+    help = 'Mark discontinued product lines (pizza, croissants, Danish, Family Pack) as unavailable'
 
     def add_arguments(self, parser):
         parser.add_argument(

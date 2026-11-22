@@ -18,19 +18,19 @@ import venueImage from '../../src/assets/gerti-foods-about-us.webp';
 import albaniaImage from '../../src/assets/gerti-foods-albania.webp';
 import kosovoImage from '../../src/assets/gerti-foods-kosovo.webp';
 import pieImage from '../../src/assets/products/Pie.webp';
-import familyPackImage from '../../src/assets/products/Family-pack.webp';
+import byrekPiecesImage from '../../src/assets/products/byrek-pieces.webp';
 
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
 
 // Hero photo per segment. The two bakery-type buyers share the bakery
 // interior; venues get the photo AreaDetail already uses for its hotel card;
-// markets get the Family Pack photo; the city and regional pages reuse their
+// markets get the byrek-pieces photo; the city and regional pages reuse their
 // country's area-page photo.
 const HEROES = {
   byrektore: bakeryImage,
   'furra-buke': bakeryImage,
   'lokale-restorante': venueImage,
-  markete: familyPackImage,
+  markete: byrekPiecesImage,
   tirane: albaniaImage,
   prishtine: kosovoImage,
   lakror: albaniaImage,
@@ -43,7 +43,6 @@ const CATALOGUE = {
   '/products/pite-me-djathe': ['products_name_pite_me_djathe', pieImage],
   '/products/pite-me-spinaq': ['products_name_pite_me_spinaq', pieImage],
   '/products/pite-me-mish': ['products_name_pite_me_mish', pieImage],
-  '/products/family-pack-pite-4': ['products_name_family_pack_pite_4', familyPackImage],
   '/products/tortilla': ['supply_product_tortilla', pieImage],
 };
 
@@ -125,7 +124,7 @@ const schema = {
       <div class="kosovo-segment-grid">
         {products.map((productPath) => {
           const [nameKey, image] = CATALOGUE[productPath];
-          const altKey = image === familyPackImage ? 'img_alt_mixed_byrek' : 'img_alt_pie_pack';
+          const altKey = image === byrekPiecesImage ? 'img_alt_mixed_byrek' : 'img_alt_pie_pack';
           return (
             <article>
               <img src={image.src} width={image.width} height={image.height} alt={t(altKey)} loading="lazy" decoding="async" />

@@ -16,7 +16,6 @@ import { productCopy } from '../lib/productCopy.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import ModalHost from '../islands/ModalHost.jsx';
-import FamilyPackDetail from './FamilyPackDetail.astro';
 import CheesePieDetail from './CheesePieDetail.astro';
 import MeatPieDetail from './MeatPieDetail.astro';
 import SpinachPieDetail from './SpinachPieDetail.astro';
@@ -39,7 +38,6 @@ const seoTitle = copy.seoTitle(product);
 const seoDescription = copy.seoDescription(product) ?? description?.slice(0, 160);
 const messages = islandMessages(lang);
 
-const isFamilyPack = slug === 'family-pack-pite-4';
 const isCheesePie = slug === 'pite-me-djathe';
 const isMeatPie = slug === 'pite-me-mish';
 const isSpinachPie = slug === 'pite-me-spinaq';
@@ -66,7 +64,7 @@ const schema = {
   title={seoTitle ?? name}
   description={seoDescription}
   lang={lang}
-  appClass={isFamilyPack ? ' family-pack-app' : isCheesePie ? ' cheese-pie-app' : isMeatPie ? ' meat-pie-app' : isSpinachPie ? ' spinach-pie-app' : ''}
+  appClass={isCheesePie ? ' cheese-pie-app' : isMeatPie ? ' meat-pie-app' : isSpinachPie ? ' spinach-pie-app' : ''}
   brandSuffix={!seoTitle}
 >
   <script
@@ -76,7 +74,7 @@ const schema = {
     set:html={jsonLd(schema)}
   />
 
-  {isFamilyPack ? <FamilyPackDetail lang={lang} /> : isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : isSpinachPie ? <SpinachPieDetail lang={lang} /> : <div class="product-detail">
+  {isCheesePie ? <CheesePieDetail lang={lang} /> : isMeatPie ? <MeatPieDetail lang={lang} /> : isSpinachPie ? <SpinachPieDetail lang={lang} /> : <div class="product-detail">
     <div class="product-detail-grid">
       {/* The product shot is the LCP element on this page, so it stays eager
           and is the one image here that gets fetchpriority="high". */}
@@ -106,7 +104,7 @@ const schema = {
 
 <script>
   // Opens the sample-request modal from the buttons on every product page.
-  // The cheese, meat, spinach and Family Pack views render
+  // The cheese, meat and spinach views render
   // data-open-modal buttons and a ModalHost island, but shipped without this
   // bridge, so until 2026-11-03 their main call to action did nothing. Same
   // bridge as Home.astro and Products.astro: park the request for an island

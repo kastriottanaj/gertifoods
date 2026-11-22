@@ -14,12 +14,8 @@ PRODUCTS = [
     # TODO: Tortilla line — waiting on the variant list (plain / vegetable /
     # fruit / cinnamon?), wholesale prices and MOQs from sales before seeding.
     # The homepage already shows a Tortilla category card.
-    {
-        'category': {'name': 'Family Pack', 'slug': 'family-pack', 'description': 'Retail-ready family pack formats with shelf-appeal packaging'},
-        'items': [
-            {'name': 'Family Pack Byrek të Përzier (4 copë)', 'slug': 'family-pack-pite-4', 'description': '4 mixed byrek (cheese, spinach, meat, potato) in retail-ready packaging.', 'price': '5.20', 'unit': 'pack', 'min_order_quantity': 12},
-        ]
-    },
+    # The mixed-byrek Family Pack was dropped on 2026-11-22; retire_discontinued
+    # hides existing rows.
 ]
 
 
