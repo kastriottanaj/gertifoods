@@ -28,7 +28,7 @@ const translations = {
     home_hero_title: 'Byrek e tortilla gati për furrën tënde. Pa bukëpjekës.',
     home_hero_subtitle: 'Furnizojmë furra, hotele, restorante dhe supermarkete me produkte gjysmë të pjekura që piqen për 15–20 minuta — cilësi e njëjtë në çdo turn.',
     home_hero_trust: 'ISO 22000 · Fabrikë në Prizren',
-    home_hero_cta_samples: 'Kërko mostra falas',
+    home_hero_cta_samples: 'Kërko mostra',
     home_hero_cta_products: 'Shiko produktet',
 
     // Hero lead form + inline CTAs
@@ -145,7 +145,7 @@ const translations = {
     // Final CTA band
     final_cta_title: 'Provo mostrat falas. Shiko pse furrat më të mira në Kosovë po kalojnë tek ne.',
     final_cta_body: 'Mostra falas, pa detyrime, pa kartë krediti. Dërgesë brenda 48 orëve në adresën e biznesit tënd.',
-    final_cta_primary: 'Kërko mostra falas',
+    final_cta_primary: 'Kërko mostra',
     final_cta_whatsapp: 'Fol me shitjet në WhatsApp',
     final_cta_catalog: 'Kërko katalogun e produkteve',
     final_cta_calendly: 'Kliko këtu për të rezervuar takim me ekipin e shitjeve',
@@ -1000,7 +1000,7 @@ const translations = {
     home_hero_title: 'Byrek and tortillas ready for your oven. No baker needed.',
     home_hero_subtitle: 'We supply bakeries, hotels, restaurants and supermarkets with half-baked products that bake in 15–20 minutes — same quality every shift.',
     home_hero_trust: 'ISO 22000 · Factory in Prizren',
-    home_hero_cta_samples: 'Request free samples',
+    home_hero_cta_samples: 'Request samples',
     home_hero_cta_products: 'See products',
 
     // Hero lead form + inline CTAs
@@ -1117,7 +1117,7 @@ const translations = {
     // Final CTA band
     final_cta_title: 'Try free samples. See why the best bakeries in Kosovo are switching to us.',
     final_cta_body: 'Free samples, no commitment, no credit card. Delivered to your business address within 48 hours.',
-    final_cta_primary: 'Request free samples',
+    final_cta_primary: 'Request samples',
     final_cta_whatsapp: 'Talk to sales on WhatsApp',
     final_cta_catalog: 'Request the product catalog',
     final_cta_calendly: 'Click here to book a meeting with our sales team',
@@ -1947,7 +1947,7 @@ const translations = {
     home_hero_title: 'Börek und Tortillas, fertig für Ihren Ofen. Ganz ohne Bäcker.',
     home_hero_subtitle: 'Wir beliefern Bäckereien, Hotels, Restaurants und Supermärkte mit halbgebackenen Produkten, die in 15–20 Minuten backen — gleiche Qualität in jeder Schicht.',
     home_hero_trust: 'ISO 22000 · Fabrik in Prizren',
-    home_hero_cta_samples: 'Kostenlose Muster anfordern',
+    home_hero_cta_samples: 'Muster anfordern',
     home_hero_cta_products: 'Produkte ansehen',
 
     // Hero lead form + inline CTAs
@@ -2064,7 +2064,7 @@ const translations = {
     // Final CTA band
     final_cta_title: 'Kostenlose Muster ausprobieren. Sehen Sie, warum die besten Bäckereien im Kosovo zu uns wechseln.',
     final_cta_body: 'Kostenlose Muster, keine Verpflichtung, keine Kreditkarte. Lieferung innerhalb von 48 Stunden an Ihre Geschäftsadresse.',
-    final_cta_primary: 'Kostenlose Muster anfordern',
+    final_cta_primary: 'Muster anfordern',
     final_cta_whatsapp: 'Mit dem Vertrieb per WhatsApp sprechen',
     final_cta_catalog: 'Produktkatalog anfordern',
     final_cta_calendly: 'Klicken Sie hier, um ein Meeting mit unserem Vertriebsteam zu buchen',
