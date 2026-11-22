@@ -60,7 +60,9 @@
      Ten pixels off each of the eight gaps brings German to 1170px, leaving
      30px between the logo and the first link. Albanian drops to 1108px; it
      cleared the old limit by under 30px, so it was one copy edit from the same
-     bug. English (1039px) was never close. */
+     bug. English (1039px) was never close. These widths predate 2026-11-22,
+     when the booking button dropped "free"/"falas"/"Kostenloses" in every
+     language, so every row is now narrower than stated. */
   gap: 14px;
 }
 
