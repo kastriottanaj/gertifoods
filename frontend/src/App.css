@@ -704,29 +704,6 @@
   margin-bottom: 32px;
 }
 
-.imprint-section {
-  background: var(--bg-white);
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-
-.imprint-section h2 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.imprint-section p {
-  margin-bottom: 6px;
-  line-height: 1.6;
-}
-
-.imprint-section a {
-  color: var(--primary);
-}
 
 /* ========================================
    About

@@ -152,6 +152,22 @@
   color: rgba(255, 255, 255, .88);
 }
 
+/* The imprint's tortilla button: the site's red pill. */
+.page-banner .imprint-tortilla-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  margin-top: 16px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+}
+
+.page-banner .imprint-tortilla-cta:hover { filter: brightness(.94); }
+
 /* Phones: the badge hangs 26px into the banner, and the curve shrinks to a
    48px strip at the bottom. */
 @media (max-width: 768px) {

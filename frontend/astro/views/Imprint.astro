@@ -15,12 +15,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageBanner from '../components/PageBanner.astro';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
-// Decorative banner photo (the About banner's bakery shot).
-import bannerImage from '../../src/assets/gerti-foods-about-us.webp';
-import { useTranslations } from '../lib/i18n.js';
+// Decorative banner photo: tortillas (the /products hero), not the bakery shot.
+import bannerImage from '../../src/assets/products-hero-tortillas.webp';
+import { useTranslations, localePath } from '../lib/i18n.js';
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
 ---
 
 <BaseLayout
@@ -30,41 +31,30 @@ const t = useTranslations(lang);
   brandSuffix={false}
 >
   <div class="imprint-page">
+    {/* Tortillas first, then the legal details in one compact card
+        (2026-11-22 change list: "Ne fokus TORTILLA, pastaj të dhënat më të
+        vogla"). Every legal line is the same text as before. */}
     <PageBanner image={bannerImage}>
       <h1>{t('imprint_title')}</h1>
-      <p class="imprint-intro">{t('imprint_intro')}</p>
+      <p class="imprint-intro">{t('imprint_tortilla_line')}</p>
+      <a href={p('/products/tortilla')} class="imprint-tortilla-cta">{t('imprint_tortilla_cta')} →</a>
     </PageBanner>
 
-    <section class="imprint-section">
-      <h2>{t('imprint_company_heading')}</h2>
-      <p><strong>GERTI FOODS SH.P.K</strong></p>
-      <p>{t('footer_address')}</p>
-    </section>
-
-    <section class="imprint-section">
-      <h2>{t('imprint_contact_heading')}</h2>
-      <p>{t('imprint_phone_label')}: <a href="tel:+38349111150">+383 49 111 150</a></p>
-      <p>{t('imprint_email_label')}: <a href="mailto:info@gertifoods.com">info@gertifoods.com</a></p>
-    </section>
-
-    <section class="imprint-section">
-      <h2>{t('imprint_represented_heading')}</h2>
-      <p>{t('imprint_represented_label')}: Shpejtim Agushaj</p>
-    </section>
-
-    <section class="imprint-section">
-      <h2>{t('imprint_register_heading')}</h2>
-      <p>{t('imprint_register_label')}: 811929126</p>
-    </section>
-
-    <section class="imprint-section">
-      <h2>{t('imprint_content_heading')}</h2>
-      <p>GERTI FOODS SH.P.K — {t('footer_address')}</p>
-    </section>
-
-    <section class="imprint-section">
-      <h2>{t('imprint_disclaimer_heading')}</h2>
-      <p>{t('imprint_disclaimer_body')}</p>
+    <section class="imprint-legal">
+      <p class="imprint-legal-intro">{t('imprint_intro')}</p>
+      <dl>
+        <dt>{t('imprint_company_heading')}</dt>
+        <dd><strong>GERTI FOODS SH.P.K</strong><br />{t('footer_address')}</dd>
+        <dt>{t('imprint_contact_heading')}</dt>
+        <dd>{t('imprint_phone_label')}: <a href="tel:+38349111150">+383 49 111 150</a><br />{t('imprint_email_label')}: <a href="mailto:info@gertifoods.com">info@gertifoods.com</a></dd>
+        <dt>{t('imprint_represented_heading')}</dt>
+        <dd>{t('imprint_represented_label')}: Shpejtim Agushaj</dd>
+        <dt>{t('imprint_register_heading')}</dt>
+        <dd>{t('imprint_register_label')}: 811929126</dd>
+        <dt>{t('imprint_content_heading')}</dt>
+        <dd>GERTI FOODS SH.P.K — {t('footer_address')}</dd>
+      </dl>
+      <p class="imprint-disclaimer"><strong>{t('imprint_disclaimer_heading')}.</strong> {t('imprint_disclaimer_body')}</p>
     </section>
   </div>
 </BaseLayout>

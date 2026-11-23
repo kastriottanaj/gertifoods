@@ -369,19 +369,29 @@
 }
 
 /* ----------------------------------------
-   Imprint: the seven info cards. Headings red, text grey, and the classic
-   thin border and 6px corners without the shadow. Links stay red.
+   Imprint: tortillas lead in the banner; below it every legal detail sits
+   in one compact card (label column, small grey text, red links, the
+   disclaimer smallest), replacing six full-size cards (2026-11-22).
    ---------------------------------------- */
-.app .imprint-section {
-  border-color: #e3e1dd;
+.app .imprint-legal {
+  margin: 28px 0 8px;
+  padding: 18px 22px;
+  background: #fff;
+  border: 1px solid #e3e1dd;
   border-radius: 6px;
-  box-shadow: none;
-}
-
-.app .imprint-section h2 {
-  color: var(--primary);
-}
-
-.app .imprint-section p {
+  font-size: .85rem;
+  line-height: 1.55;
   color: #666;
+}
+
+.app .imprint-legal-intro { margin: 0 0 12px; font-size: .78rem; color: #888; }
+.app .imprint-legal dl { display: grid; grid-template-columns: minmax(0, 210px) 1fr; gap: 8px 20px; margin: 0; }
+.app .imprint-legal dt { font-weight: 700; color: #333; }
+.app .imprint-legal dd { margin: 0; }
+.app .imprint-legal a { color: var(--primary); }
+.app .imprint-disclaimer { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid #eee; font-size: .74rem; color: #888; }
+
+@media (max-width: 560px) {
+  .app .imprint-legal dl { grid-template-columns: 1fr; gap: 2px; }
+  .app .imprint-legal dd { margin-bottom: 8px; }
 }
