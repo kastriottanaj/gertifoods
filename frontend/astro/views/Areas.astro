@@ -12,7 +12,7 @@ import { areas } from '../../src/data/areas.js';
 import heroImage from '../../src/assets/areas-we-serve.webp';
 
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
-const FLAGS = { kosovo: '🇽🇰', albania: '🇦🇱', hungary: '🇭🇺', croatia: '🇭🇷', slovakia: '🇸🇰', germany: '🇩🇪' };
+const FLAGS = { kosovo: '🇽🇰', albania: '🇦🇱', hungary: '🇭🇺', croatia: '🇭🇷', slovakia: '🇸🇰', germany: '🇩🇪', france: '🇫🇷' };
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
@@ -58,7 +58,7 @@ const p = (path) => localePath(lang, path);
 
     {/* The listing used to be hero + six one-line cards + a CTA: ~160 words,
         flagged as thin by both audits. This block is the substance — how
-        supplying six markets from one factory actually works — built only on
+        supplying seven markets from one factory actually works — built only on
         facts stated elsewhere on the site. Per-market logistics belong on the
         country pages, not here. */}
     <section class="areas-how">

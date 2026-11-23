@@ -114,7 +114,7 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   line('- Certification: ISO 22000');
   line('- Bake time on site: 15–20 minutes from frozen');
   line('- Sales model: B2B only, no consumer retail');
-  line('- Markets: Kosovo, Albania, Hungary, Croatia, Slovakia, Germany');
+  line('- Markets: Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France');
   line();
   heading(3, text('about_choose_title') ?? 'Why businesses choose Gerti Foods');
   bullets([

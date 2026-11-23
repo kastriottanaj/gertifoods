@@ -28,6 +28,7 @@ export const areas = [
   { slug: 'croatia', nameKey: 'area_croatia' },
   { slug: 'slovakia', nameKey: 'area_slovakia' },
   { slug: 'germany', nameKey: 'area_germany' },
+  { slug: 'france', nameKey: 'area_france' },
 ];
 
 export const getArea = (slug) => areas.find((a) => a.slug === slug);

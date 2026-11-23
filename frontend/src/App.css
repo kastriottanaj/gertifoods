@@ -951,6 +951,12 @@
 .area-card-4 .area-card-image { background-position: 45% 65%; }
 .area-card-5 .area-card-image { background-position: 62% 58%; }
 .area-card-6 .area-card-image { background-position: 82% 53%; }
+.area-card-7 .area-card-image { background-position: 55% 45%; }
+/* Seven countries since France joined (2026-11-24): the seventh card sits
+   alone on the last row, so it goes under the middle column. */
+@media (min-width: 769px) {
+  .areas-grid > .area-card:last-child:nth-child(3n + 1) { grid-column: 2; }
+}
 .area-card-body { min-height: 74px; padding: 11px 16px; }
 .area-card-body p { margin: 0 0 7px; font-size: .66rem; line-height: 1.35; }
 .area-card-body span { color: #df1828; font-size: .64rem; font-weight: 700; }
