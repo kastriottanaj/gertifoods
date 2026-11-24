@@ -29,8 +29,8 @@ import hungaryHero from '../../src/assets/gerti-foods-hungary.webp';
 import croatiaHero from '../../src/assets/gerti-foods-croatia.webp';
 import slovakiaHero from '../../src/assets/gerti-foods-slovakia.webp';
 import germanyHero from '../../src/assets/gerti-foods-germany.webp';
-// No France photo yet: its banner reuses the Areas page's truck.
-import franceHero from '../../src/assets/areas-we-serve.webp';
+// No France or UK photo yet: their banners reuse the Areas page's truck.
+import truckHero from '../../src/assets/areas-we-serve.webp';
 import bakeryImage from '../../src/assets/bakery-interior.webp';
 import hotelImage from '../../src/assets/gerti-foods-about-us.webp';
 import restaurantImage from '../../src/assets/products/Pie.webp';
@@ -89,8 +89,16 @@ const COUNTRIES = {
   // Same generic copy as Germany: no confirmed logistics, so no supply
   // section or FAQ (see areas.js).
   france: {
-    hero: franceHero,
+    hero: truckHero,
     pageClass: 'kosovo-page hungary-page france-page',
+    benefitsClass: 'kosovo-benefits albania-benefits',
+    hasTime: true,
+    hasLearnMore: true,
+  },
+  // Added 2026-11-24 at Kastriot's request, on the same generic footing.
+  uk: {
+    hero: truckHero,
+    pageClass: 'kosovo-page hungary-page uk-page',
     benefitsClass: 'kosovo-benefits albania-benefits',
     hasTime: true,
     hasLearnMore: true,

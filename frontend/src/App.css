@@ -937,7 +937,11 @@
 .areas-heading h2 { margin: 0; font-size: 1.65rem; }
 .areas-heading h2::after { content: ''; display: block; width: 30px; height: 2px; margin: 6px auto 10px; background: #df1828; }
 .areas-heading p { margin: 0; color: #666; font-size: .72rem; }
-.areas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 22px; }
+/* Rows of three that wrap; an incomplete last row is centred, whatever the
+   number of countries (eight since 2026-11-24). Phones go back to one grid
+   column below. */
+.areas-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 22px; }
+.areas-grid > .area-card { flex: 0 1 calc((100% - 44px) / 3); }
 .area-card { display: block; overflow: hidden; padding: 0; background: #fff; border: 1px solid #ddd; border-radius: 7px; color: #171717; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
 .area-card:hover { color: #171717; transform: none; border-color: #ddd; box-shadow: 0 3px 12px rgba(0,0,0,.09); }
 .area-card-image { height: 90px; display: flex; align-items: center; gap: 10px; padding: 14px 18px; background-size: 235%; background-position: 68% 65%; position: relative; }
@@ -952,11 +956,7 @@
 .area-card-5 .area-card-image { background-position: 62% 58%; }
 .area-card-6 .area-card-image { background-position: 82% 53%; }
 .area-card-7 .area-card-image { background-position: 55% 45%; }
-/* Seven countries since France joined (2026-11-24): the seventh card sits
-   alone on the last row, so it goes under the middle column. */
-@media (min-width: 769px) {
-  .areas-grid > .area-card:last-child:nth-child(3n + 1) { grid-column: 2; }
-}
+.area-card-8 .area-card-image { background-position: 38% 58%; }
 .area-card-body { min-height: 74px; padding: 11px 16px; }
 .area-card-body p { margin: 0 0 7px; font-size: .66rem; line-height: 1.35; }
 .area-card-body span { color: #df1828; font-size: .64rem; font-weight: 700; }
@@ -1156,7 +1156,7 @@
   .areas-listing { width: calc(100% - 24px); padding: 16px 0; }
   .areas-heading h2 { font-size: 1.25rem; }
   .areas-heading p { max-width: 230px; margin: auto; font-size: .65rem; }
-  .areas-grid { grid-template-columns: 1fr; gap: 7px; }
+  .areas-grid { display: grid; grid-template-columns: 1fr; gap: 7px; }
   .areas-how { width: calc(100% - 24px); margin-bottom: 22px; padding-top: 20px; }
   .areas-how .areas-heading p { max-width: none; font-size: .78rem; }
   .areas-how-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }

@@ -2,7 +2,7 @@
 
 > B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets, catering and distributors with ISO 22000 certified half-baked (par-baked) products — byrek (pies) and tortillas — that finish baking fresh in 15 to 20 minutes.
 
-Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 15 to 20 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany and France.
+Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 15 to 20 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France and the United Kingdom.
 
 ## Products
 
@@ -48,6 +48,7 @@ One landing page per buyer type and city for the Albanian-speaking markets (Koso
 - [Slovakia](https://gertifoods.com/areas/slovakia)
 - [Germany](https://gertifoods.com/areas/germany)
 - [France](https://gertifoods.com/areas/france)
+- [United Kingdom](https://gertifoods.com/areas/uk)
 
 ## Blog
 

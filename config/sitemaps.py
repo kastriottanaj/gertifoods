@@ -109,9 +109,9 @@ PAGE_ROUTES = {
 }
 
 # Areas are defined in the frontend (src/data/areas.js); keep this list in sync.
-AREA_SLUGS = ['kosovo', 'albania', 'hungary', 'croatia', 'slovakia', 'germany', 'france']
+AREA_SLUGS = ['kosovo', 'albania', 'hungary', 'croatia', 'slovakia', 'germany', 'france', 'uk']
 
-# One template renders all seven area pages, so they share these sources and are
+# One template renders all eight area pages, so they share these sources and are
 # told apart only by their translation keys (kosovo_*, albania_*, ...).
 AREA_SOURCES = (
     f'{ASTRO}/views/AreaDetail.astro',
