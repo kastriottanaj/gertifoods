@@ -1233,6 +1233,21 @@
   line-height: 1.35;
 }
 
+/* "More about us →" under the facts: the red bold arrow link the site uses
+   for a next step (.blog-related, .albania-learn), not another pill button. */
+.home-heritage-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.home-heritage-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
 /* Right column — image panel + real certifications card */
 .home-heritage-media {
   position: relative;

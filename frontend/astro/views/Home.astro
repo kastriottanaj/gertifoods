@@ -16,6 +16,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/home-classic.css';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { islandMessages } from '../lib/islandMessages.js';
+import LinkedText from '../components/LinkedText.astro';
 import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
 import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
@@ -249,7 +250,7 @@ const messages = islandMessages(lang);
               </li>
               <li>
                 <h3>{t('pain_with_3_title')}</h3>
-                <p>{t('pain_with_3_body')}</p>
+                <p><LinkedText text={t('pain_with_3_body')} lang={lang} /></p>
               </li>
             </ul>
           </div>
@@ -437,6 +438,10 @@ const messages = islandMessages(lang);
               <span class="home-heritage-fact-label">{t('heritage_fact_partners')}</span>
             </div>
           </div>
+
+          {/* The rest of the story is on About, which until 2026-11-24 no
+              page linked to from its text, only from the menus. */}
+          <a href={p('/about')} class="home-heritage-link">{t('heritage_about_link')} →</a>
         </div>
 
         <div class="home-heritage-media">

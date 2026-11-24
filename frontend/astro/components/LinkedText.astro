@@ -1,0 +1,11 @@
+---
+// Prints a copy string, turning each [anchor text](/path) inside it into a
+// link to that page in the reader's language. The format and its rules are in
+// lib/copyLinks.js. Copy without markup comes out exactly as {t(key)} would.
+import { localePath } from '../lib/i18n.js';
+import { copySegments } from '../lib/copyLinks.js';
+
+const { text, lang } = Astro.props;
+---
+
+{copySegments(text).map((s) => (s.href ? <a href={localePath(lang, s.href)} class="text-link">{s.text}</a> : s.text))}

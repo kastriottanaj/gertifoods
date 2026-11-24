@@ -20,6 +20,7 @@
 // The patterns are deliberately narrow. Broad ones false-positive on vendored
 // code: axios ships `window.location.href || 'http://localhost'`, which is
 // legitimate and must not fail a build — hence the required :port below.
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -116,6 +117,48 @@ if (deadButtons.length) {
   process.exit(1);
 }
 
+// Links written inside copy ([text](/path), astro/lib/copyLinks.js) fail
+// silently in two ways, both visible only in dist/: a view that prints a
+// linked key with plain {t(...)} serves the raw markup to readers, and a
+// mistyped path makes a link that 404s. A third rule keeps each language
+// edition linking within itself, the mistake the 2026-11-24 link audit kept
+// suggesting. llms-full.txt is checked for markup too: it strips links line by
+// line, so any left there bypassed that.
+const LINK_MARKUP = /\[[^[\]\n]+\]\(\/(?!\/)[^()\s]*\)/;
+const FILE_LANG = /^(en|de)(?:\/|\.html$)/;
+const HREF_LANG = /^\/(en|de)(?=\/|$)/;
+const linkProblems = [];
+
+for await (const file of glob('**/*.{html,txt}', { cwd: DIST })) {
+  // Executable scripts and styles are code, not copy (minified JS can read
+  // like a[b](/x/)). JSON-LD and island props stay in: they carry copy.
+  const text = (await readFile(join(DIST, file), 'utf8'))
+    .replace(/<script\b(?![^>]*application\/ld\+json)[^>]*>[\s\S]*?<\/script>/g, '')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, '');
+  const stray = text.match(LINK_MARKUP);
+  if (stray) linkProblems.push(`${file}: raw link markup ${stray[0]} (render the key through LinkedText)`);
+  if (!file.endsWith('.html')) continue;
+
+  const pageLang = file.match(FILE_LANG)?.[1] ?? 'sq';
+  for (const [tag] of text.matchAll(/<a\b[^>]*\bclass="text-link"[^>]*>/g)) {
+    const href = tag.match(/\bhref="([^"]*)"/)?.[1] ?? '';
+    const path = href.split(/[?#]/)[0];
+    const page = path === '/' ? 'index.html' : `${path.slice(1)}.html`;
+    if (!existsSync(join(DIST, page))) linkProblems.push(`${file}: links to ${href}, which is not a page in dist/`);
+    const hrefLang = path.match(HREF_LANG)?.[1] ?? 'sq';
+    if (hrefLang !== pageLang) linkProblems.push(`${file}: links to ${href}, outside its own language (${pageLang})`);
+  }
+}
+
+if (linkProblems.length) {
+  console.error(
+    `\nBuild stopped: ${linkProblems.length} problem(s) with links written in copy\n\n` +
+      linkProblems.map((problem) => `  ${problem}`).join('\n') +
+      '\n\n  The format and its rules are in frontend/astro/lib/copyLinks.js.\n'
+  );
+  process.exit(1);
+}
+
 // Skipped under the same escape hatch check-build-env.js honours, so a
 // deliberately reCAPTCHA-free build is not blocked by its own absence.
 if (!markerFound && process.env.ALLOW_NO_RECAPTCHA !== '1') {
@@ -155,4 +198,6 @@ if (hits.length) {
   process.exit(1);
 }
 
-console.log('build output: no development values inlined, every modal button is wired');
+console.log(
+  'build output: no development values inlined, every modal button is wired, every link in copy resolves'
+);

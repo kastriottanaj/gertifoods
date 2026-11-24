@@ -60,6 +60,22 @@ a:hover {
   color: var(--secondary-dark);
 }
 
+/* A link inside running copy (astro/components/LinkedText.astro). The
+   underline is what sets it apart: the brand red on its own is too close to
+   the grey body text to count as a cue (WCAG 1.4.1). On the dark About photo
+   banner it keeps the banner's white instead (App.css, .about-hero-content). */
+.text-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.text-link:hover {
+  color: var(--primary-dark);
+  text-decoration-thickness: 2px;
+}
+
 /* height:auto is load-bearing, not tidiness. Images carry width/height
    attributes so the browser can reserve their space before they load (CLS).
    Those attributes act as presentational hints, so max-width:100% would cap

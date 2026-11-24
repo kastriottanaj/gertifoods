@@ -4,6 +4,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
+import LinkedText from '../components/LinkedText.astro';
 // Classic section style (red headings, pill buttons, old product cards).
 import '../styles/sections-classic.css';
 import { useTranslations, localePath } from '../lib/i18n.js';
@@ -33,7 +34,7 @@ const p = (path) => localePath(lang, path);
       <BannerSwoosh />
       <div class="about-hero-content">
         <h1>{t('about_hero_line_1')}<br />{t('about_hero_line_2')} <strong>{t('about_hero_audience')}</strong></h1>
-        <p>{t('about_hero_body')}</p>
+        <p><LinkedText text={t('about_hero_body')} lang={lang} /></p>
         <div class="about-hero-actions">
           <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t('footer_book_meeting')}</a>
           <a href={p('/products')}>{t('about_see_products')}</a>
@@ -52,7 +53,7 @@ const p = (path) => localePath(lang, path);
     <section class="about-benefits">
       <h2 class="about-mobile-benefits-title">{t('about_choose_title')}</h2>
       <article><i>♢</i><div><h3>{t('about_benefit_quality')}</h3><p>{t('about_benefit_quality_body')}</p></div></article>
-      <article><i>◷</i><div><h3>{t('about_benefit_service')}</h3><p>{t('about_benefit_service_body')}</p></div></article>
+      <article><i>◷</i><div><h3>{t('about_benefit_service')}</h3><p><LinkedText text={t('about_benefit_service_body')} lang={lang} /></p></div></article>
       <article><i>▱</i><div><h3>{t('about_benefit_supply')}</h3><p>{t('about_benefit_supply_body')}</p></div></article>
     </section>
 

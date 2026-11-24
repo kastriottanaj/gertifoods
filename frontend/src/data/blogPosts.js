@@ -2,7 +2,7 @@ export const blogPosts = [
   {
     slug: 'how-half-baked-products-help-businesses',
     published: '2026-08-04',
-    updated: '2026-11-22',
+    updated: '2026-11-24',
     image: 'bakery',
     related: ['reduce-food-waste-with-bake-on-demand', 'choosing-reliable-food-supplier'],
     translations: {
@@ -39,7 +39,7 @@ export const blogPosts = [
             'Kontroll më i mirë i mbetjeve',
             [
               'Stoku i ngrirë qëndron deri në momentin që të nevojitet. Në vend që të piqësh gjithçka në mëngjes dhe të shpresosh se do të shitet, pjek sasi më të vogla gjatë ditës, sipas ritmit real të klientëve.',
-              'Rezultati i parë është më pak produkt i mbetur në mbyllje. Rezultati i dytë është një vitrinë që mban erë furre edhe në orën katër pasdite. Të dyja i ndihmojnë marzhit tënd. Për një metodë hap pas hapi, lexo udhëzuesin tonë për pjekjen sipas kërkesës.',
+              'Rezultati i parë është më pak produkt i mbetur në mbyllje. Rezultati i dytë është një vitrinë që mban erë furre edhe në orën katër pasdite. Të dyja i ndihmojnë marzhit tënd. Për një metodë hap pas hapi, lexo [udhëzuesin tonë për pjekjen sipas kërkesës](/blog/reduce-food-waste-with-bake-on-demand).',
             ],
           ],
           [
@@ -60,7 +60,7 @@ export const blogPosts = [
           [
             'Siguri ushqimore që mund ta dokumentosh',
             [
-              'Klientët e biznesit — zinxhirët hotelierë, supermarketet, kompanitë e kateringut — kërkojnë gjithnjë e më shumë dëshmi për mënyrën si prodhohet ushqimi. Me një prodhim të certifikuar pas teje, përgjigjen e ke gati.',
+              'Klientët e biznesit — zinxhirët hotelierë, supermarketet, kompanitë e kateringut — kërkojnë gjithnjë e më shumë dëshmi për mënyrën si prodhohet ushqimi. Me një [prodhim të certifikuar](/about) pas teje, përgjigjen e ke gati.',
               'Gerti Foods prodhon sipas ISO 22000. Çdo lot gjurmohet nga lënda e parë deri te paketimi. Kur zgjedh një furnizues, kërkoji certifikatat, jo vetëm premtimet.',
             ],
           ],
@@ -106,7 +106,7 @@ export const blogPosts = [
             'Better waste control',
             [
               'Frozen stock keeps until you need it. Instead of baking everything in the morning and hoping it sells, you bake smaller batches through the day, following the real rhythm of your customers.',
-              'The first result is less product left over at closing time. The second is a display that still smells of the oven at four in the afternoon. Both help your margin. For a step-by-step method, read our guide to bake-on-demand.',
+              'The first result is less product left over at closing time. The second is a display that still smells of the oven at four in the afternoon. Both help your margin. For a step-by-step method, read [our guide to bake-on-demand](/blog/reduce-food-waste-with-bake-on-demand).',
             ],
           ],
           [
@@ -127,7 +127,7 @@ export const blogPosts = [
           [
             'Food safety you can document',
             [
-              'Business customers — hotel groups, supermarkets, catering companies — increasingly ask for evidence of how food is produced. With certified production behind you, the answer is ready.',
+              'Business customers — hotel groups, supermarkets, catering companies — increasingly ask for evidence of how food is produced. With [certified production](/about) behind you, the answer is ready.',
               'Gerti Foods produces under ISO 22000. Every batch is traceable from raw material to packaging. When you choose a supplier, ask for the certificates, not just the promises.',
             ],
           ],
@@ -173,7 +173,7 @@ export const blogPosts = [
             'Bessere Kontrolle über Abfälle',
             [
               'Gefrorener Vorrat hält, bis Sie ihn brauchen. Statt morgens alles zu backen und auf den Verkauf zu hoffen, backen Sie über den Tag verteilt kleinere Mengen — im tatsächlichen Rhythmus Ihrer Kunden.',
-              'Das erste Ergebnis: weniger Ware, die bei Ladenschluss übrig bleibt. Das zweite: eine Auslage, die auch um 16 Uhr noch nach Ofen duftet. Beides hilft Ihrer Marge. Eine Schritt-für-Schritt-Methode finden Sie in unserem Leitfaden zum bedarfsgerechten Backen.',
+              'Das erste Ergebnis: weniger Ware, die bei Ladenschluss übrig bleibt. Das zweite: eine Auslage, die auch um 16 Uhr noch nach Ofen duftet. Beides hilft Ihrer Marge. Eine Schritt-für-Schritt-Methode finden Sie in [unserem Leitfaden zum bedarfsgerechten Backen](/blog/reduce-food-waste-with-bake-on-demand).',
             ],
           ],
           [
@@ -194,7 +194,7 @@ export const blogPosts = [
           [
             'Lebensmittelsicherheit, die Sie belegen können',
             [
-              'Geschäftskunden — Hotelgruppen, Supermärkte, Cateringunternehmen — fragen immer öfter nach Nachweisen darüber, wie Lebensmittel hergestellt werden. Mit einer zertifizierten Produktion im Rücken haben Sie die Antwort parat.',
+              'Geschäftskunden — Hotelgruppen, Supermärkte, Cateringunternehmen — fragen immer öfter nach Nachweisen darüber, wie Lebensmittel hergestellt werden. Mit einer [zertifizierten Produktion](/about) im Rücken haben Sie die Antwort parat.',
               'Gerti Foods produziert nach ISO 22000. Jede Charge ist vom Rohstoff bis zur Verpackung rückverfolgbar. Wenn Sie einen Lieferanten auswählen, verlangen Sie die Zertifikate, nicht nur die Versprechen.',
             ],
           ],
@@ -212,7 +212,7 @@ export const blogPosts = [
   {
     slug: 'choosing-reliable-food-supplier',
     published: '2026-07-22',
-    updated: '2026-11-22',
+    updated: '2026-11-24',
     image: 'about',
     related: ['how-half-baked-products-help-businesses', 'reduce-food-waste-with-bake-on-demand'],
     translations: {
@@ -235,14 +235,14 @@ export const blogPosts = [
             '1. Standarde të sigurisë ushqimore që mund t\'i shohësh',
             [
               'Kërko dëshmi, jo përshkrime. Një prodhues serioz ka një sistem të dokumentuar të sigurisë ushqimore, gjurmueshmëri të çdo loti nga lënda e parë deri te paketimi dhe kontrolle të rregullta gjatë prodhimit.',
-              'Certifikimet e bëjnë këtë të verifikueshme nga një palë e tretë. ISO 22000 është standardi ndërkombëtar për menaxhimin e sigurisë ushqimore, nga lënda e parë deri te dërgesa, dhe Gerti Foods është e certifikuar sipas tij. Kërkoje certifikatën dhe kontrollo datën e vlefshmërisë.',
+              'Certifikimet e bëjnë këtë të verifikueshme nga një palë e tretë. ISO 22000 është standardi ndërkombëtar për menaxhimin e sigurisë ushqimore, nga lënda e parë deri te dërgesa, dhe [Gerti Foods është e certifikuar sipas tij](/about). Kërkoje certifikatën dhe kontrollo datën e vlefshmërisë.',
             ],
           ],
           [
             '2. Furnizim të parashikueshëm',
             [
               'Produkti më i mirë nuk vlen asgjë nëse mungon në ditën që ke rezervuar një dasmë. Para se të porosisësh, pyet për kapacitetin real të prodhimit, kohën nga porosia deri te dërgesa, ditët e dërgesës në zonën tënde dhe çfarë ndodh kur duhet ta ndryshosh një porosi me pak ditë para.',
-              'Përgjigjet e qarta ndihmojnë. Ne dërgojmë në Kosovë, Shqipëri dhe në disa tregje të Evropës Qendrore. Një furnizues që u përgjigjet hapur këtyre pyetjeve zakonisht i mban edhe afatet.',
+              'Përgjigjet e qarta ndihmojnë. Ne dërgojmë [në Kosovë, Shqipëri dhe në disa tregje të Evropës Qendrore](/areas). Një furnizues që u përgjigjet hapur këtyre pyetjeve zakonisht i mban edhe afatet.',
             ],
           ],
           [
@@ -301,14 +301,14 @@ export const blogPosts = [
             '1. Food-safety standards you can see',
             [
               'Ask for evidence, not descriptions. A serious producer has a documented food-safety system, traceability of every batch from raw material to packaging, and regular controls during production.',
-              'Certifications make that verifiable by a third party. ISO 22000 is the international standard for food-safety management, from raw material to dispatch, and Gerti Foods is certified to it. Ask for the certificate and check the expiry date.',
+              'Certifications make that verifiable by a third party. ISO 22000 is the international standard for food-safety management, from raw material to dispatch, and [Gerti Foods is certified to it](/about). Ask for the certificate and check the expiry date.',
             ],
           ],
           [
             '2. Predictable supply',
             [
               'The best product is worth nothing if it is missing on the day you have a wedding booked. Before you order, ask about real production capacity, the time from order to delivery, delivery days in your area, and what happens when you need to change an order a few days out.',
-              'Clear answers help. We deliver in Kosovo, Albania and several Central European markets. A supplier who answers these questions openly usually keeps its deadlines too.',
+              'Clear answers help. We deliver [in Kosovo, Albania and several Central European markets](/areas). A supplier who answers these questions openly usually keeps its deadlines too.',
             ],
           ],
           [
@@ -367,14 +367,14 @@ export const blogPosts = [
             '1. Lebensmittelsicherheit, die Sie sehen können',
             [
               'Verlangen Sie Nachweise, keine Beschreibungen. Ein seriöser Hersteller hat ein dokumentiertes System für Lebensmittelsicherheit, Rückverfolgbarkeit jeder Charge vom Rohstoff bis zur Verpackung und regelmäßige Kontrollen während der Produktion.',
-              'Zertifizierungen machen das durch Dritte überprüfbar. ISO 22000 ist der internationale Standard für das Lebensmittelsicherheits-Management, vom Rohstoff bis zum Versand, und Gerti Foods ist danach zertifiziert. Fragen Sie nach dem Zertifikat und prüfen Sie das Gültigkeitsdatum.',
+              'Zertifizierungen machen das durch Dritte überprüfbar. ISO 22000 ist der internationale Standard für das Lebensmittelsicherheits-Management, vom Rohstoff bis zum Versand, und [Gerti Foods ist danach zertifiziert](/about). Fragen Sie nach dem Zertifikat und prüfen Sie das Gültigkeitsdatum.',
             ],
           ],
           [
             '2. Planbare Versorgung',
             [
               'Das beste Produkt nützt nichts, wenn es an dem Tag fehlt, an dem Sie eine Hochzeit gebucht haben. Fragen Sie vor der Bestellung nach der tatsächlichen Produktionskapazität, der Zeit von Bestellung bis Lieferung, den Liefertagen in Ihrer Region und danach, was passiert, wenn Sie eine Bestellung wenige Tage vorher ändern müssen.',
-              'Klare Antworten helfen. Wir liefern im Kosovo, in Albanien und in mehrere mitteleuropäische Märkte. Ein Lieferant, der diese Fragen offen beantwortet, hält in der Regel auch seine Termine.',
+              'Klare Antworten helfen. Wir liefern [im Kosovo, in Albanien und in mehrere mitteleuropäische Märkte](/areas). Ein Lieferant, der diese Fragen offen beantwortet, hält in der Regel auch seine Termine.',
             ],
           ],
           [

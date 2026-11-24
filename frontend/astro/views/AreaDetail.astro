@@ -20,6 +20,7 @@ import '../styles/sections-classic.css';
 // Dark photo banner, as on the old site; this sheet only recolours it.
 import '../styles/areas-classic.css';
 import SupplyLinks from '../components/SupplyLinks.astro';
+import LinkedText from '../components/LinkedText.astro';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, faqSchema, jsonLd } from '../lib/schema.js';
 import { areas } from '../../src/data/areas.js';
@@ -226,7 +227,7 @@ const schema = {
         the last point lists the customers we may name, with their links. */}
     {hasSupply && (
       <section class="area-supply">
-        <div class="area-supply-heading"><h2>{k('supply_title')}</h2><p>{k('supply_intro')}</p></div>
+        <div class="area-supply-heading"><h2>{k('supply_title')}</h2><p><LinkedText text={k('supply_intro')} lang={lang} /></p></div>
         <div class="area-supply-grid">
           {supplyPoints.map((n) => (
             <article>

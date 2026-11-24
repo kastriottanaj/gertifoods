@@ -18,6 +18,7 @@
 // like the pages do. A key missing from every language comes back as its own
 // name; those are dropped rather than printed.
 import { localePath } from './i18n.js';
+import { plainCopy } from './copyLinks.js';
 import { productCopy } from './productCopy.js';
 
 /**
@@ -45,7 +46,9 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   const copy = productCopy(t);
 
   const out = [];
-  const line = (s = '') => out.push(s);
+  // Copy can carry in-text link markup ([text](/path), see copyLinks.js). This
+  // file is plain text, so every line goes out the way a reader sees it.
+  const line = (s = '') => out.push(plainCopy(s));
   const para = (s) => {
     if (s) {
       line(s);

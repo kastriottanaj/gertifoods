@@ -183,11 +183,11 @@ SUPPLY_EXTRA_SOURCES = {
 BLOG_POSTS = {
     'how-half-baked-products-help-businesses': {
         'published': '2026-08-04',
-        'updated': '2026-11-22',
+        'updated': '2026-11-24',
     },
     'choosing-reliable-food-supplier': {
         'published': '2026-07-22',
-        'updated': '2026-11-22',
+        'updated': '2026-11-24',
     },
     'reduce-food-waste-with-bake-on-demand': {
         'published': '2026-07-08',

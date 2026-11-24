@@ -21,6 +21,7 @@ import { useTranslations, localePath, normalizePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import '../styles/tortilla-detail.css';
 import BannerSwoosh from '../components/BannerSwoosh.astro';
+import LinkedText from '../components/LinkedText.astro';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
 // Classic photo banner (2026-11-08): see the note at the top of the file.
@@ -186,7 +187,7 @@ const schema = {
         </article>
         <article>
           <i class="tt-icon tt-icon-red"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="12" width="3.6" height="8" rx="1" fill="currentColor"/><rect x="10.2" y="8" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="16.4" y="4" width="3.6" height="16" rx="1" fill="currentColor"/></svg></i>
-          <div><h3>{t('tt_benefit_volume')}</h3><p>{t('tt_benefit_volume_body')}</p></div>
+          <div><h3>{t('tt_benefit_volume')}</h3><p><LinkedText text={t('tt_benefit_volume_body')} lang={lang} /></p></div>
         </article>
         <article>
           <i class="tt-icon tt-icon-green"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7.5 12.4l3 3 6-6.4"/></svg></i>
