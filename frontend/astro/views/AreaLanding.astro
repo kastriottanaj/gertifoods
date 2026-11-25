@@ -1,11 +1,11 @@
 ---
-// /areas/uk — the United Kingdom page, built to Kastriot's mockup
-// (2026-11-25). The other seven countries keep the shared AreaDetail view;
-// this one has its own layout:
+// The country pages built to Kastriot's mockups of 2026-11-25: /areas/uk and
+// /areas/france (same design, own photo and copy). The other countries keep
+// the shared AreaDetail view. The page has:
 //
-//   - hero: Westminster at sunset, dark on the left for the text, the white
-//     curve rising from the bottom-right. Two buttons (quote, products) and
-//     the phone number.
+//   - hero: the country's landmark at sunset, dark on the left for the text,
+//     the white curve rising from the bottom-right. Two buttons (quote,
+//     products) and the phone number.
 //   - a strip of three points: ISO 22000, byrek for the kitchen, tortillas
 //     for the menu.
 //   - three buyer cards (bakeries, hospitality & catering, retail), each
@@ -13,37 +13,52 @@
 //   - a contact box (phone + quote), and on phones a fixed "Contact" bar.
 //
 // "Request a quote" and the phone bar open the site's sample/offer modal, as
-// on the /furnizim pages, with the lead source `area_uk`.
+// on the /furnizim pages, with the lead source `area_<slug>`.
 //
-// The hero photo came with the white curve already painted into its
-// bottom-right corner. Laid over it is the same curve as SVG, traced from the
-// photo (CURVE below, in the photo's own pixels). It is scaled and anchored
-// like the photo (object-fit: cover from the right ↔ xMaxYMid slice), so the
-// two line up at every size, and it sits above the dark shade the text needs
-// — the shade would otherwise grey the white. See area-uk.css.
+// Copy: <slug>_* keys for what names the country (title, intro, alt, SEO,
+// contact line); area_lp_* keys for the rest, shared by every country here.
+//
+// Each hero photo came with the white curve already painted into its
+// bottom-right corner (both from the same template). Laid over it is the
+// same curve as SVG, traced from the photos (CURVE below, in their pixels).
+// It is scaled and anchored like the photo (object-fit: cover from the right
+// ↔ xMaxYMid slice), so the two line up at every size, and it sits above the
+// dark shade the text needs — the shade would otherwise grey the white. See
+// area-landing.css.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ModalHost from '../islands/ModalHost.jsx';
 import { islandMessages } from '../lib/islandMessages.js';
 import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
-import heroImage from '../../src/assets/gerti-foods-uk.webp';
+import ukHero from '../../src/assets/gerti-foods-uk.webp';
+import franceHero from '../../src/assets/gerti-foods-france.webp';
 import bakeryImage from '../../src/assets/bakery-shelves.webp';
 import wrapImage from '../../src/assets/chicken-wrap.webp';
 import byrekImage from '../../src/assets/spinach-byrek-squares.webp';
-import '../styles/area-uk.css';
+import '../styles/area-landing.css';
 
 const PHONE = '+383 49 111 150';
 const PHONE_HREF = 'tel:+38349111150';
 
-// The white curve in gerti-foods-uk.webp (2098 × 749), traced column by
-// column, smoothed, and lifted 2.5px so it also covers the photo's
-// anti-aliased edge.
-const CURVE = 'M1378 749L1383 745.5L1395 745.1L1407 744.1L1419 743.1L1431 741.5L1443 740.5L1455 738.5L1467 737.2L1479 735.5L1491 733.5L1503 731.5L1515 729.5L1527 727.4L1539 724.9L1551 721.5L1563 719L1575 715.5L1587 712.4L1599 708.5L1611 705.2L1623 701.2L1635 697.2L1647 692.5L1659 688.2L1671 683.5L1683 678.5L1695 673.5L1707 668.1L1719 662.3L1731 656.2L1743 650.2L1755 643.5L1767 636.5L1779 629.3L1791 621.5L1803 614.3L1815 606.2L1827 597.5L1839 588.5L1851 579.5L1863 570.4L1875 560.4L1887 549.5L1899 538.4L1911 526.3L1923 513.5L1935 500.5L1947 486.5L1959 471.5L1971 456.4L1983 439.4L1995 421.2L2007 402.2L2019 382.1L2031 360.1L2043 335.4L2055 307.5L2067 276.3L2079 237.8L2091 186.5L2097 150.5L2098 138.5V749Z';
+// The white curve in gerti-foods-uk.webp and gerti-foods-france.webp (both
+// 2098 × 749; their curves differ by at most 3px), traced column by column,
+// taking the higher of the two, smoothed, and lifted 2.5px so it also covers
+// the photos' anti-aliased edge.
+const CURVE = 'M1378 749L1383 744.9L1395 744.5L1407 743.5L1419 742.5L1431 741.4L1443 739.5L1455 738.3L1467 736.5L1479 734.5L1491 732.5L1503 731.2L1515 729.2L1527 726.5L1539 723.9L1551 721.2L1563 718.4L1575 714.5L1587 711.5L1599 707.5L1611 704L1623 700.1L1635 696.1L1647 691.5L1659 687.3L1671 682.5L1683 677.5L1695 672.4L1707 667.2L1719 661.6L1731 655.4L1743 649.2L1755 642.5L1767 635.5L1779 628.5L1791 621.3L1803 613.5L1815 605.5L1827 597.3L1839 588.5L1851 579.2L1863 569.5L1875 560L1887 549.1L1899 537.7L1911 525.8L1923 513.3L1935 500L1947 485.5L1959 470.5L1971 455.4L1983 438.5L1995 420.5L2007 401.5L2019 381.7L2031 359.6L2043 334.9L2055 307.1L2067 276.1L2079 237L2091 184.5L2097 149.5L2098 137.5V749Z';
 
-const { lang, nameKey } = Astro.props;
+// Photo per country. Both landmarks stand at about the same place in their
+// photo, so the phone layout's shift (area-landing.css) suits both.
+const HEROES = { uk: ukHero, france: franceHero };
+
+const { lang, slug, nameKey } = Astro.props;
 const t = useTranslations(lang);
 const p = (path) => localePath(lang, path);
-const k = (suffix) => t(`uk_${suffix}`);
+const heroImage = HEROES[slug];
+// The country's own key if it has one, else the shared one.
+const k = (suffix) => {
+  const own = `${slug}_${suffix}`;
+  return t(own) !== own ? t(own) : t(`area_lp_${suffix}`);
+};
 const name = t(nameKey);
 const messages = islandMessages(lang);
 
@@ -71,26 +86,26 @@ const schema = {
   title={k('seo_title')}
   description={k('meta')}
   lang={lang}
-  appClass=" uk-landing-app"
+  appClass={` ${slug}-landing-app al-app`}
   brandSuffix={false}
 >
   <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
 
-  <div class="uk">
-    <section class="uk-hero">
-      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="uk-hero-art uk-hero-img" fetchpriority="high" />
-      <div class="uk-hero-shade"></div>
-      <svg class="uk-hero-art uk-hero-curve" viewBox="0 0 2098 749" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+  <div class="al">
+    <section class="al-hero">
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="al-hero-art al-hero-img" fetchpriority="high" />
+      <div class="al-hero-shade"></div>
+      <svg class="al-hero-art al-hero-curve" viewBox="0 0 2098 749" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
         <path d={CURVE} />
       </svg>
-      <div class="uk-wrap uk-hero-inner">
-        <nav class="uk-breadcrumb" aria-label="Breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
+      <div class="al-wrap al-hero-inner">
+        <nav class="al-breadcrumb" aria-label="Breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
         <h1>{k('hero_title')}</h1>
-        <p class="uk-hero-body">{k('hero_body')}</p>
-        <div class="uk-hero-actions">
-          <button type="button" class="uk-btn uk-btn-red" data-open-modal="sample">{k('cta_quote')}</button>
-          <a href={p('/products')} class="uk-btn uk-btn-outline">{k('cta_products')}</a>
-          <a href={PHONE_HREF} class="uk-hero-phone">
+        <p class="al-hero-body">{k('hero_body')}</p>
+        <div class="al-hero-actions">
+          <button type="button" class="al-btn al-btn-red" data-open-modal="sample">{k('cta_quote')}</button>
+          <a href={p('/products')} class="al-btn al-btn-outline">{k('cta_products')}</a>
+          <a href={PHONE_HREF} class="al-hero-phone">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
             {PHONE}
           </a>
@@ -98,8 +113,8 @@ const schema = {
       </div>
     </section>
 
-    <section class="uk-band">
-      <div class="uk-wrap uk-points">
+    <section class="al-band">
+      <div class="al-wrap al-points">
         <article>
           <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.5 3v5.4c0 4.9-3.2 8.7-7.5 10-4.3-1.3-7.5-5.1-7.5-10V5.8z"/><path d="M8.6 12.1l2.4 2.4 4.6-4.8"/></g></svg>
           <div><b>ISO 22000</b><p>{k('iso_body')}</p></div>
@@ -115,14 +130,14 @@ const schema = {
       </div>
     </section>
 
-    <section class="uk-wrap uk-segments">
-      <h2 class="uk-title">{k('serve_title')}</h2>
-      <div class="uk-cards">
+    <section class="al-wrap al-segments">
+      <h2 class="al-title">{k('serve_title')}</h2>
+      <div class="al-cards">
         {SEGMENTS.map(({ key, image, alt, icon }) => (
-          <article class="uk-card">
+          <article class="al-card">
             <img src={image.src} width={image.width} height={image.height} alt={t(alt)} loading="lazy" decoding="async" />
             <div>
-              <span class="uk-card-icon" aria-hidden="true">
+              <span class="al-card-icon" aria-hidden="true">
                 {icon === 'store' && (
                   <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v10h16V10"/><path d="M3 5l1.5-2h15L21 5v2.2a2.6 2.6 0 01-4.5 1.8 2.6 2.6 0 01-4.5 0 2.6 2.6 0 01-4.5 0A2.6 2.6 0 013 7.2z"/><path d="M9.5 20v-5h5v5"/></g></svg>
                 )}
@@ -142,26 +157,29 @@ const schema = {
       </div>
     </section>
 
-    <section class="uk-wrap uk-contact">
-      <span class="uk-contact-icon" aria-hidden="true">
+    <section class="al-wrap al-contact">
+      <span class="al-contact-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.7C4.4 15 3.5 13.1 3.5 11c0-3.9 3.8-7 8.5-7z"/></svg>
       </span>
-      <div class="uk-contact-text">
+      <div class="al-contact-text">
         <h2>{k('contact_title')}</h2>
         <p>{k('contact_body')}</p>
       </div>
-      <div class="uk-contact-actions">
-        <a href={PHONE_HREF} class="uk-btn uk-btn-red">{PHONE}</a>
-        <button type="button" class="uk-btn uk-btn-ghost" data-open-modal="sample">{k('cta_quote')}</button>
+      <div class="al-contact-actions">
+        <a href={PHONE_HREF} class="al-btn al-btn-red">{PHONE}</a>
+        <button type="button" class="al-btn al-btn-ghost" data-open-modal="sample">{k('cta_quote')}</button>
       </div>
     </section>
 
-    <div class="uk-bar">
-      <button type="button" class="uk-btn uk-btn-red" data-open-modal="sample">{k('contact_bar')}</button>
+    <div class="al-bar">
+      <button type="button" class="al-btn al-btn-red" data-open-modal="sample">{k('contact_bar')}</button>
     </div>
   </div>
 
-  <ModalHost client:load lang={lang} messages={messages} sampleSource="area_uk" closeOnSampleSuccess={true} />
+  {/* One literal source per country: leads/tests.py reads these values out
+      of the source to check the backend accepts them. */}
+  {slug === 'uk' && <ModalHost client:load lang={lang} messages={messages} sampleSource="area_uk" closeOnSampleSuccess={true} />}
+  {slug === 'france' && <ModalHost client:load lang={lang} messages={messages} sampleSource="area_france" closeOnSampleSuccess={true} />}
 </BaseLayout>
 
 <script>

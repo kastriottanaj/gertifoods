@@ -120,15 +120,18 @@ AREA_SOURCES = (
     'frontend/src/data/areas.js',
 )
 
-# A country redesigned to its own mockup renders from its own view and
-# stylesheet as well (see VIEWS in pages/areas/[slug].astro); those files
-# date that page only.
+# Countries redesigned to Kastriot's mockups render from AreaLanding (see
+# VIEWS in pages/areas/[slug].astro); its view and stylesheet date those
+# pages only. Their copy is <slug>_* plus the shared area_lp_* keys.
+AREA_LANDING_SOURCES = (
+    f'{ASTRO}/views/AreaLanding.astro',
+    f'{ASTRO}/styles/area-landing.css',
+)
 AREA_EXTRA_SOURCES = {
-    'uk': (
-        f'{ASTRO}/views/AreaUk.astro',
-        f'{ASTRO}/styles/area-uk.css',
-    ),
+    'uk': AREA_LANDING_SOURCES,
+    'france': AREA_LANDING_SOURCES,
 }
+AREA_LANDING_KEYS = 'area_lp'
 
 # Buyer-segment landing pages (/furnizim/<slug>) are defined in
 # frontend/src/data/supply.js; keep this list in sync.
@@ -269,7 +272,13 @@ class AreaSitemap(LocalizedSitemap):
     def lastmod(self, item):
         path, _lang = item
         slug = path.rsplit('/', 1)[1]
-        return last_commit(AREA_SOURCES + AREA_EXTRA_SOURCES.get(slug, ()), slug)
+        sources = AREA_SOURCES + AREA_EXTRA_SOURCES.get(slug, ())
+        dates = [last_commit(sources, slug)]
+        if slug in AREA_EXTRA_SOURCES:
+            # These pages also print the shared area_lp_* strings.
+            dates.append(last_commit(sources, AREA_LANDING_KEYS))
+        dates = [date for date in dates if date is not None]
+        return max(dates) if dates else None
 
 
 class SupplySitemap(LocalizedSitemap):

@@ -194,6 +194,7 @@ class SampleRequest(models.Model):
         ('supply_markete', 'Furnizim: Markete'),
         ('supply_prishtine', 'Furnizim: Prishtinë'),
         ('supply_tirane', 'Furnizim: Tiranë'),
+        ('area_france', 'Area: France'),
         ('area_uk', 'Area: United Kingdom'),
         ('other', 'Other'),
     ]
