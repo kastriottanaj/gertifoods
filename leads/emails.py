@@ -30,7 +30,7 @@ EMAIL_COPY = {
             'Përshëndetje,\n\n'
             'Faleminderit për interesimin tënd! Bashkëngjitur do të gjesh '
             'katalogun e plotë të produkteve të Gerti Foods.\n\n'
-            'Nëse dëshiron mostra falas ose listën e çmimeve me shumicë, '
+            'Nëse dëshiron mostra ose listën e çmimeve me shumicë, '
             'thjesht përgjigju këtij email-i — jemi këtu për ty.\n\n'
             'Gatuar me dashni nga Kosova,\n'
             'Ekipi i Gerti Foods\n'
@@ -40,12 +40,12 @@ EMAIL_COPY = {
         'confirmation_body': (
             'Përshëndetje,\n\n'
             'Faleminderit që na kontaktove! E morëm kërkesën tënde. Ekipi ynë '
-            'të kontakton brenda një dite pune me ofertë dhe mostra falas.\n\n'
+            'të kontakton brenda një dite pune me ofertë dhe mostra.\n\n'
             'Çfarë ndodh tani:\n'
             '1. E shqyrtojmë kërkesën: produktet që të interesojnë dhe sasitë që '
             'i duhen biznesit tënd.\n'
             '2. Të kontaktojmë në telefon ose me email, me çmimet me shumicë.\n'
-            '3. Provon mostrat falas në furrën tënde, para se të vendosësh.\n\n'
+            '3. Provon mostrat në furrën tënde, para se të vendosësh.\n\n'
             'Ke nevojë për përgjigje më shpejt? Na shkruaj në WhatsApp: '
             'https://wa.me/38349111150\n\n'
             'Gatuar me dashni nga Kosova,\n'
@@ -59,7 +59,7 @@ EMAIL_COPY = {
             'Hello,\n\n'
             "Thank you for your interest! Attached you'll find the complete "
             'Gerti Foods product catalog.\n\n'
-            "If you'd like free samples or our wholesale price list, simply "
+            "If you'd like samples or our wholesale price list, simply "
             "reply to this email — we're here to help.\n\n"
             'Baked with love in Kosovo,\n'
             'The Gerti Foods Team\n'
@@ -70,12 +70,12 @@ EMAIL_COPY = {
             'Hello,\n\n'
             "Thank you for getting in touch! We've received your request. Our "
             'team will get back to you within one business day with a quote '
-            'and free samples.\n\n'
+            'and samples.\n\n'
             'What happens next:\n'
             "1. We review your request: the products you're interested in and "
             'the volumes your business needs.\n'
             "2. We get in touch by phone or email with wholesale pricing.\n"
-            '3. You try the samples, free, in your own oven before you commit.\n\n'
+            '3. You try the samples in your own oven before you commit.\n\n'
             'Need an answer sooner? Message us on WhatsApp: '
             'https://wa.me/38349111150\n\n'
             'Baked with love in Kosovo,\n'
@@ -89,7 +89,7 @@ EMAIL_COPY = {
             'Hallo,\n\n'
             'vielen Dank für Ihr Interesse! Im Anhang finden Sie den '
             'vollständigen Produktkatalog von Gerti Foods.\n\n'
-            'Wenn Sie kostenlose Muster oder unsere Großhandelspreisliste '
+            'Wenn Sie Muster oder unsere Großhandelspreisliste '
             'wünschen, antworten Sie einfach auf diese E-Mail — wir sind '
             'für Sie da.\n\n'
             'Mit Liebe gebacken im Kosovo,\n'
@@ -101,13 +101,13 @@ EMAIL_COPY = {
             'Hallo,\n\n'
             'vielen Dank für Ihre Nachricht! Wir haben Ihre Anfrage erhalten. '
             'Unser Team meldet sich innerhalb eines Werktages mit Angebot und '
-            'kostenlosen Mustern.\n\n'
+            'Mustern.\n\n'
             'So geht es weiter:\n'
             '1. Wir prüfen Ihre Anfrage: die gewünschten Produkte und die Mengen, '
             'die Ihr Betrieb benötigt.\n'
             '2. Wir melden uns telefonisch oder per E-Mail mit den '
             'Großhandelspreisen.\n'
-            '3. Sie testen die Muster kostenlos im eigenen Ofen, bevor Sie sich '
+            '3. Sie testen die Muster im eigenen Ofen, bevor Sie sich '
             'entscheiden.\n\n'
             'Sie brauchen schneller eine Antwort? Schreiben Sie uns auf WhatsApp: '
             'https://wa.me/38349111150\n\n'
