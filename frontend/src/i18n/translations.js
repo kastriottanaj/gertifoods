@@ -22,8 +22,8 @@ const translations = {
     blog_related: 'Lexo edhe',
 
     // Home
-    home_seo_title: 'Byrek e tortilla gjysmë të pjekura për biznese | Gerti Foods',
-    home_meta: 'Byrek e tortilla gjysmë të pjekura për furra, byrektore, lokale e markete në Kosovë e Shqipëri. Nga Prizreni, piqen për 15–20 minuta – kërko mostra falas!',
+    home_seo_title: 'Prodhues tortillash e byreku në Prizren | Gerti Foods',
+    home_meta: 'Prodhojmë tortilla të freskëta dhe byrek gjysmë të pjekur për fast food, lounge bare, restorante e markete në Kosovë, Ballkan e Evropë. Kërko mostra!',
     home_hero_eyebrow: 'Prodhues tortillash · Prizren, Kosovë · ISO 22000',
     home_hero_title: 'Prodhojmë tortilla për biznesin tënd. Bëhu partneri ynë.',
     home_hero_subtitle: 'Tortilla të freskëta për fast food, lounge bare, restorante e markete — dhe byrek gjysmë i pjekur, gati për 15–20 minuta. Direkt nga fabrika jonë në Prizren.',
@@ -1023,8 +1023,8 @@ const translations = {
     blog_related: 'Read also',
 
     // Home
-    home_seo_title: 'Half-Baked Byrek & Tortillas for Businesses in Kosovo',
-    home_meta: 'Half-baked byrek and tortillas for bakeries, hotels, restaurants and retailers in Prizren, Kosovo. Bake in 15–20 minutes—request free samples!',
+    home_seo_title: 'Tortilla Manufacturer & Byrek Supplier in Prizren, Kosovo',
+    home_meta: 'We make fresh tortillas and half-baked byrek for fast food outlets, lounge bars, restaurants and supermarkets across the Balkans and Europe. Request samples!',
     home_hero_eyebrow: 'Tortilla producer · Prizren, Kosovo · ISO 22000',
     home_hero_title: 'We make tortillas for your business. Become our partner.',
     home_hero_subtitle: 'Fresh tortillas for fast food outlets, lounge bars, restaurants and supermarkets — plus half-baked byrek, ready in 15–20 minutes. Straight from our factory in Prizren.',
@@ -1999,8 +1999,8 @@ const translations = {
     blog_related: 'Lesen Sie auch',
 
     // Home
-    home_seo_title: 'Halbgebackener Börek & Tortillas für Unternehmen im Kosovo',
-    home_meta: 'Halbgebackener Börek und Tortillas für Bäckereien, Hotels und Handel in Prizren. In 15–20 Minuten fertig – jetzt kostenlose Muster anfordern!',
+    home_seo_title: 'Tortilla-Hersteller & Börek-Lieferant in Prizren, Kosovo',
+    home_meta: 'Frische Tortillas und halbgebackener Börek aus Prizren für Fast-Food, Lounge-Bars, Restaurants und Supermärkte auf dem Balkan und in Europa. Muster anfordern!',
     home_hero_eyebrow: 'Tortilla-Hersteller · Prizren, Kosovo · ISO 22000',
     home_hero_title: 'Wir produzieren Tortillas für Sie. Werden Sie unser Partner.',
     home_hero_subtitle: 'Frische Tortillas für Fast-Food, Lounge-Bars, Restaurants und Supermärkte — dazu halbgebackener Börek, in 15–20 Minuten fertig. Direkt aus unserer Fabrik in Prizren.',
