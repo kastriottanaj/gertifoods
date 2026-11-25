@@ -21,20 +21,27 @@ import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
 import ModalHost from '../islands/ModalHost.jsx';
 import pieImg from '../../src/assets/products/Pie.webp';
 import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
-// Hero video (2026-11-08): Gerti's own footage. These are phone clips from the
-// 6–7 Nov 2026 transfer: hands pressing and dimpling dough in flour, then a
-// filled tortilla rolled and sliced. They were cut into a 13 s silent loop, so
-// pizza clips were left out (pizza is off the site). The old site's hero was a
-// third party's restaurant promo and must not be reused.
-//   desktop: 1080×720 crop of the vertical footage, H.264, ~2.3 MB
-//   mobile:  540×960 full frame, H.264, ~1.75 MB
-//   poster:  the loop's first frame, so nothing jumps when playback starts.
-//            It is the LCP image.
+// Hero video (2026-11-25): tortilla making, at Kastriot's request ("a video
+// of tortilla making" as the home background). Stock footage for now, to be
+// replaced by Gerti's own factory footage when it is filmed. Two Pexels clips
+// (Pexels License: free for commercial use, no attribution, modification
+// allowed; no faces shown), joined into a 14.8 s silent loop with a 0.6 s
+// crossfade:
+//   1. a flour tortilla puffing on a hot plate, pressed by hand
+//      https://www.pexels.com/video/close-up-of-shaping-tortilla-12327836/
+//   2. a dough ball pressed flat in a tortilla press
+//      https://www.pexels.com/video/cook-using-tortilla-press-in-latino-restaurant-9737919/
+// The previous loop (Gerti's own phone clips of flatbread dough and a rolled
+// wrap, 2026-11-08) showed no tortilla being made.
+//   desktop: 1280×720, H.264, ~1.7 MB
+//   mobile:  540×960 centre crop, H.264, ~1.0 MB
+//   poster:  the loop's first frame (the puffed tortilla), so nothing jumps
+//            when playback starts. It is the LCP image.
 // All three are imported rather than served from public/, so their URLs are
 // content-hashed and cached immutably.
-import heroPoster from '../../src/assets/home-hero-poster.webp';
-import heroVideoDesktop from '../../src/assets/home-hero-video-desktop.mp4';
-import heroVideoMobile from '../../src/assets/home-hero-video-mobile.mp4';
+import heroPoster from '../../src/assets/home-hero-tortilla-poster.webp';
+import heroVideoDesktop from '../../src/assets/home-hero-tortilla-desktop.mp4';
+import heroVideoMobile from '../../src/assets/home-hero-tortilla-mobile.mp4';
 import tortillaCardImg from '../../src/assets/home-hero-tortillas.webp';
 
 const CERTS = ['ISO 22000'];
