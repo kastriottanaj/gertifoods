@@ -2,7 +2,7 @@ export const blogPosts = [
   {
     slug: 'how-half-baked-products-help-businesses',
     published: '2026-08-04',
-    updated: '2026-11-24',
+    updated: '2026-11-25',
     image: 'bakery',
     related: ['reduce-food-waste-with-bake-on-demand', 'choosing-reliable-food-supplier'],
     translations: {
@@ -17,7 +17,7 @@ export const blogPosts = [
           [
             'Çfarë do të thotë "gjysmë e pjekur"',
             [
-              'Një produkt gjysmë i pjekur përgatitet plotësisht në fabrikë — brumi, mbushja, forma — piqet pjesërisht dhe pastaj ngrihet. Ti e ruan të ngrirë dhe e përfundon në furrën tënde: rreth 5 minuta përgatitje dhe 15–20 minuta pjekje. Korja, ngjyra dhe aroma krijohen te ti, jo në kamion.',
+              'Një produkt gjysmë i pjekur përgatitet plotësisht në fabrikë — brumi, mbushja, forma — piqet pjesërisht dhe pastaj ngrihet. Ti e ruan të ngrirë dhe e përfundon në furrën tënde: rreth 5 minuta përgatitje dhe 30–35 minuta pjekje. Korja, ngjyra dhe aroma krijohen te ti, jo në kamion.',
               'Ky është dallimi nga produktet e gatshme që vetëm ngrohen. Klienti merr një byrek që sapo ka dalë nga furra, ndërsa ti nuk ke nevojë për një stacion brumi, një bukëpjekës në çdo turn dhe orët e punës që i shoqërojnë.',
             ],
           ],
@@ -84,7 +84,7 @@ export const blogPosts = [
           [
             'What "half-baked" actually means',
             [
-              'A half-baked product is made completely at the factory — dough, filling, shape — baked part of the way, then frozen. You keep it frozen and finish it in your own oven: about 5 minutes of preparation and 15–20 minutes of baking. The crust, the colour and the aroma happen on your premises, not in a truck.',
+              'A half-baked product is made completely at the factory — dough, filling, shape — baked part of the way, then frozen. You keep it frozen and finish it in your own oven: about 5 minutes of preparation and 30–35 minutes of baking. The crust, the colour and the aroma happen on your premises, not in a truck.',
               'That is the difference from ready-made products that only get reheated. Your customer gets a byrek that has just come out of the oven, while you need no dough station, no baker on every shift and none of the hours that go with them.',
             ],
           ],
@@ -151,7 +151,7 @@ export const blogPosts = [
           [
             'Was „halbgebacken“ wirklich bedeutet',
             [
-              'Ein halbgebackenes Produkt wird vollständig in der Fabrik hergestellt — Teig, Füllung, Form — teilweise gebacken und dann tiefgefroren. Sie lagern es gefroren und backen es im eigenen Ofen fertig: etwa 5 Minuten Vorbereitung und 15–20 Minuten Backzeit. Kruste, Farbe und Duft entstehen bei Ihnen, nicht im Lieferwagen.',
+              'Ein halbgebackenes Produkt wird vollständig in der Fabrik hergestellt — Teig, Füllung, Form — teilweise gebacken und dann tiefgefroren. Sie lagern es gefroren und backen es im eigenen Ofen fertig: etwa 5 Minuten Vorbereitung und 30–35 Minuten Backzeit. Kruste, Farbe und Duft entstehen bei Ihnen, nicht im Lieferwagen.',
               'Das ist der Unterschied zu Fertigprodukten, die nur aufgewärmt werden. Ihr Kunde bekommt einen Börek, der gerade aus dem Ofen kommt, während Sie weder eine Teigstation noch einen Bäcker in jeder Schicht brauchen — und auch nicht die Arbeitsstunden, die damit verbunden sind.',
             ],
           ],
@@ -419,7 +419,7 @@ export const blogPosts = [
   {
     slug: 'reduce-food-waste-with-bake-on-demand',
     published: '2026-07-08',
-    updated: '2026-09-13',
+    updated: '2026-11-25',
     image: 'pie',
     related: ['how-half-baked-products-help-businesses', 'choosing-reliable-food-supplier'],
     translations: {
@@ -435,7 +435,7 @@ export const blogPosts = [
             'Nga vjen mbetja në të vërtetë',
             [
               'Pjesa më e madhe e produktit që hidhet në mbyllje nuk vjen nga cilësia e keqe, por nga një vendim i marrë në orën gjashtë të mëngjesit: sa të piqet për gjithë ditën. Kur piqet gjithçka njëherësh, vitrina është e bukur në orën tetë dhe gjysmë e zbrazët ose e ndenjur në orën katër.',
-              'Pjekja sipas kërkesës e ndan këtë vendim në disa vendime më të vogla gjatë ditës. Produktet gjysmë të pjekura e bëjnë të mundur, sepse stoku qëndron i ngrirë dhe çdo turn mund të nxjerrë nga furra vetëm atë që i duhet, për 15–20 minuta.',
+              'Pjekja sipas kërkesës e ndan këtë vendim në disa vendime më të vogla gjatë ditës. Produktet gjysmë të pjekura e bëjnë të mundur, sepse stoku qëndron i ngrirë dhe çdo turn mund të nxjerrë nga furra vetëm atë që i duhet, për 30–35 minuta.',
             ],
           ],
           [
@@ -501,7 +501,7 @@ export const blogPosts = [
             'Where the waste actually comes from',
             [
               'Most of the product thrown away at closing time is not the result of poor quality but of a decision made at six in the morning: how much to bake for the whole day. When everything is baked at once, the display looks great at eight and is half empty or stale by four.',
-              'Bake-on-demand splits that one decision into several smaller ones through the day. Half-baked products make it possible, because stock stays frozen and any shift can pull from the oven only what it needs, in 15–20 minutes.',
+              'Bake-on-demand splits that one decision into several smaller ones through the day. Half-baked products make it possible, because stock stays frozen and any shift can pull from the oven only what it needs, in 30–35 minutes.',
             ],
           ],
           [
@@ -567,7 +567,7 @@ export const blogPosts = [
             'Woher der Abfall wirklich kommt',
             [
               'Der größte Teil der Ware, die bei Ladenschluss weggeworfen wird, ist nicht das Ergebnis schlechter Qualität, sondern einer Entscheidung um sechs Uhr morgens: wie viel für den ganzen Tag gebacken wird. Wird alles auf einmal gebacken, sieht die Auslage um acht großartig aus und ist um vier halb leer oder altbacken.',
-              'Bedarfsgerechtes Backen teilt diese eine Entscheidung in mehrere kleinere über den Tag auf. Halbgebackene Produkte machen das möglich, weil der Vorrat gefroren bleibt und jede Schicht in 15–20 Minuten nur das aus dem Ofen holt, was sie braucht.',
+              'Bedarfsgerechtes Backen teilt diese eine Entscheidung in mehrere kleinere über den Tag auf. Halbgebackene Produkte machen das möglich, weil der Vorrat gefroren bleibt und jede Schicht in 30–35 Minuten nur das aus dem Ofen holt, was sie braucht.',
             ],
           ],
           [

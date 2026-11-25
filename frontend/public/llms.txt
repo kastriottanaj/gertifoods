@@ -1,12 +1,12 @@
 # Gerti Foods
 
-> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets, catering and distributors with ISO 22000 certified half-baked (par-baked) products — byrek (pies) and tortillas — that finish baking fresh in 15 to 20 minutes.
+> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets, catering and distributors with ISO 22000 certified half-baked (par-baked) products — byrek (pies) and tortillas — that finish baking fresh in 30 to 35 minutes.
 
-Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 15 to 20 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France and the United Kingdom.
+Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 30 to 35 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France and the United Kingdom.
 
 ## Products
 
-- [Products catalog](https://gertifoods.com/products): full product list. All byrek are half-baked and delivered frozen, and finish in 15–20 minutes.
+- [Products catalog](https://gertifoods.com/products): full product list. All byrek are half-baked and delivered frozen, and finish in 30–35 minutes.
 - [Cheese byrek](https://gertifoods.com/products/pite-me-djathe): traditional flaky pastry filled with white cheese.
 - [Spinach byrek with cheese](https://gertifoods.com/products/pite-me-spinaq): traditional flaky pastry filled with spinach and cheese.
 - [Meat byrek](https://gertifoods.com/products/pite-me-mish): traditional flaky pastry filled with seasoned minced meat.
@@ -15,7 +15,7 @@ Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, b
 ## Customers Served
 
 - Bakeries: byrek and tortillas ready to bake — no dough, no in-house baker.
-- Hotels & restaurants (HORECA): byrek and tortillas in about 20 minutes, a premium menu without a baker on shift.
+- Hotels & restaurants (HORECA): byrek and tortillas in 30–35 minutes, a premium menu without a baker on shift.
 - Supermarkets & retail: shelf-appeal packaging, fast turnover, higher margin.
 - Catering: industrial volumes with on-time delivery and consistent quality per event.
 
@@ -24,9 +24,9 @@ Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, b
 One landing page per buyer type and city for the Albanian-speaking markets (Kosovo and Albania), each in Albanian, English and German (/en/…, /de/…). The pages share the product range; what differs is the buyer's problem, the delivery facts for that market, and the FAQ.
 
 - [Supply by type of business](https://gertifoods.com/furnizim): the hub listing the seven pages below, with how ordering works for every buyer type.
-- [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — half-baked byrek in three varieties, minimum 50 pieces per variety, oven-ready in 15–20 minutes, free samples on request.
-- [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add half-baked byrek and tortillas to the range without an extra baker; byrek bakes in 15–20 minutes, minimum 50 pieces per variety.
-- [Supply for cafés, restaurants and hotels](https://gertifoods.com/furnizim/lokale-restorante): landing page for HORECA venues in Kosovo and Albania — byrek baked to order in 15–20 minutes with no extra cook, tortillas for wraps on the menu.
+- [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — half-baked byrek in three varieties, minimum 50 pieces per variety, oven-ready in 30–35 minutes, free samples on request.
+- [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add half-baked byrek and tortillas to the range without an extra baker; byrek bakes in 30–35 minutes, minimum 50 pieces per variety.
+- [Supply for cafés, restaurants and hotels](https://gertifoods.com/furnizim/lokale-restorante): landing page for HORECA venues in Kosovo and Albania — byrek baked to order in 30–35 minutes with no extra cook, tortillas for wraps on the menu.
 - [Supply for markets and supermarkets](https://gertifoods.com/furnizim/markete): landing page for retailers in Kosovo and Albania — frozen byrek in retail packaging or single for in-store ovens, plus fresh tortillas; delivered by the company's own truck, minimum one pallet.
 - [Byrek supply in Tirana](https://gertifoods.com/furnizim/tirane): city page for Tirana businesses — own-truck delivery from Prizren within a week of confirmation, no fixed delivery days, minimum one pallet.
 - [Byrek supply in Pristina](https://gertifoods.com/furnizim/prishtine): city page for Pristina businesses — own-truck delivery from Prizren within 24–48 hours of confirmation, no fixed delivery days, minimum one pallet.

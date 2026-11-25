@@ -88,7 +88,7 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
     '> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, ' +
       'supermarkets, catering and distributors with ISO 22000 certified half-baked ' +
       '(par-baked) products — byrek (pies) and tortillas — that finish baking fresh ' +
-      'in 15 to 20 minutes.'
+      'in 30 to 35 minutes.'
   );
   para(
     `This is the full-text edition of ${ORIGIN}/llms.txt: the content of every ` +
@@ -115,7 +115,7 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   line('- Location: Str. Kalaja e Shkupit, 20000 Prizren, Kosovo');
   line('- Founders: three partners from the Hasi region');
   line('- Certification: ISO 22000');
-  line('- Bake time on site: 15–20 minutes from frozen');
+  line('- Bake time on site: 30–35 minutes from frozen');
   line('- Sales model: B2B only, no consumer retail');
   line('- Markets: Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France, United Kingdom');
   line();
