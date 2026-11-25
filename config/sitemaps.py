@@ -200,7 +200,7 @@ BLOG_POSTS = {
     },
     'choosing-reliable-food-supplier': {
         'published': '2026-07-22',
-        'updated': '2026-11-24',
+        'updated': '2026-11-25',
     },
     'reduce-food-waste-with-bake-on-demand': {
         'published': '2026-07-08',

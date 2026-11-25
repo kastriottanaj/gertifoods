@@ -86,9 +86,9 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
   heading(1, 'Gerti Foods');
   para(
     '> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, ' +
-      'supermarkets, catering and distributors with ISO 22000 certified half-baked ' +
-      '(par-baked) products — byrek (pies) and tortillas — that finish baking fresh ' +
-      'in 30 to 35 minutes.'
+      'supermarkets, catering and distributors with ISO 22000 certified fresh ' +
+      'tortillas and unbaked frozen byrek (pies), which bakes fresh in 30 to 35 ' +
+      'minutes.'
   );
   para(
     `This is the full-text edition of ${ORIGIN}/llms.txt: the content of every ` +
@@ -129,8 +129,8 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
     ['about_choose_partner', 'about_choose_partner_body'],
   ]);
 
-  // -------------------------------------------------------- why half-baked
-  heading(2, `Why half-baked (${url(lang, '/')})`);
+  // ------------------------------------------------------------- home page
+  heading(2, `Why Gerti Foods (${url(lang, '/')})`);
   para(text('home_hero_subtitle'));
   if (has('pain_title')) {
     heading(3, text('pain_title'));

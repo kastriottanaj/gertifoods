@@ -7,24 +7,24 @@ export const blogPosts = [
     related: ['reduce-food-waste-with-bake-on-demand', 'choosing-reliable-food-supplier'],
     translations: {
       sq: {
-        title: 'Si i ndihmojnë produktet gjysmë të pjekura bizneset të rriten',
-        description: 'Mësoni si produktet gjysmë të pjekura ulin punën, mbetjet dhe kohën e përgatitjes për furra, hotele dhe restorante.',
-        seoTitle: 'Produktet gjysmë të pjekura: Si ndihmojnë bizneset',
-        seoDescription: 'Zbuloni si produktet gjysmë të pjekura ulin punën, mbetjet dhe kohën e përgatitjes për bizneset ushqimore. Lexoni artikullin!',
+        title: 'Si i ndihmojnë produktet e papjekura e të ngrira bizneset të rriten',
+        description: 'Mësoni si produktet e papjekura e të ngrira ulin punën, mbetjet dhe kohën e përgatitjes për furra, hotele dhe restorante.',
+        seoTitle: 'Produktet e papjekura e të ngrira: Si ndihmojnë bizneset',
+        seoDescription: 'Zbuloni si produktet e papjekura e të ngrira ulin punën, mbetjet dhe kohën e përgatitjes për bizneset ushqimore. Lexoni artikullin!',
         category: 'Këshilla për biznesin',
         readingTime: '4 min lexim',
         sections: [
           [
-            'Çfarë do të thotë "gjysmë e pjekur"',
+            'Çfarë do të thotë "gati për furrë"',
             [
-              'Një produkt gjysmë i pjekur përgatitet plotësisht në fabrikë — brumi, mbushja, forma — piqet pjesërisht dhe pastaj ngrihet. Ti e ruan të ngrirë dhe e përfundon në furrën tënde: rreth 5 minuta përgatitje dhe 30–35 minuta pjekje. Korja, ngjyra dhe aroma krijohen te ti, jo në kamion.',
+              'Një produkt i papjekur përgatitet plotësisht në fabrikë — brumi, mbushja, forma — dhe ngrihet pa u pjekur. Ti e ruan të ngrirë dhe e pjek në furrën tënde: rreth 5 minuta përgatitje dhe 30–35 minuta pjekje. Korja, ngjyra dhe aroma krijohen te ti, jo në kamion.',
               'Ky është dallimi nga produktet e gatshme që vetëm ngrohen. Klienti merr një byrek që sapo ka dalë nga furra, ndërsa ti nuk ke nevojë për një stacion brumi, një bukëpjekës në çdo turn dhe orët e punës që i shoqërojnë.',
             ],
           ],
           [
             'Cilësi e njëjtë në çdo turn',
             [
-              'Në një furrë ose kuzhinë, cilësia varet shpesh nga kush është në turn. Byreku i së hënës në mëngjes del ndryshe nga ai i së shtunës në darkë. Produktet gjysmë të pjekura vijnë nga një proces i standardizuar: e njëjta peshë, e njëjta sasi mbushjeje, i njëjti nivel pjekjeje në çdo copë.',
+              'Në një furrë ose kuzhinë, cilësia varet shpesh nga kush është në turn. Byreku i së hënës në mëngjes del ndryshe nga ai i së shtunës në darkë. Produktet e papjekura vijnë nga një proces i standardizuar: e njëjta peshë, e njëjta sasi mbushjeje, e njëjta formë në çdo copë.',
               'Puna e stafit tënd reduktohet në një hap që nuk ndryshon: furrë, kohë, temperaturë. Kjo ka rëndësi sidomos për hotelet me bufe mëngjesi, për restorantet me disa pika shërbimi dhe për çdo biznes ku klienti kthehet dhe pret pikërisht atë që mori herën e kaluar.',
             ],
           ],
@@ -32,7 +32,7 @@ export const blogPosts = [
             'Më pak punë, më pak trajnim',
             [
               'Petët e byrekut kërkojnë duar me përvojë, kohë dhe hapësirë pune. Një bukëpjekës i mirë është i vështirë për t\'u gjetur dhe i shtrenjtë për t\'u mbajtur, dhe kur mungon, e ndien e gjithë dita.',
-              'Me një produkt gjysmë të pjekur, mjeshtëria qëndron në fabrikë. Çdo anëtar i ekipit mund ta menaxhojë furrën pas një trajnimi të shkurtër. Bukëpjekësi yt, nëse e ke, lirohet për produktet që e bëjnë biznesin tënd të veçantë, dhe kuzhina jote ka nevojë për më pak sipërfaqe dhe më pak pajisje.',
+              'Me një produkt të papjekur, mjeshtëria qëndron në fabrikë. Çdo anëtar i ekipit mund ta menaxhojë furrën pas një trajnimi të shkurtër. Bukëpjekësi yt, nëse e ke, lirohet për produktet që e bëjnë biznesin tënd të veçantë, dhe kuzhina jote ka nevojë për më pak sipërfaqe dhe më pak pajisje.',
             ],
           ],
           [
@@ -67,31 +67,31 @@ export const blogPosts = [
           [
             'Si të fillosh',
             [
-              'Mënyra më e mirë për ta vlerësuar një produkt gjysmë të pjekur është në furrën tënde, jo në letër. Kërko mostra, piqi sipas udhëzimeve, shëno kohën dhe temperaturën që të jep rezultatin më të mirë dhe provoje për një javë në kushte reale.',
+              'Mënyra më e mirë për ta vlerësuar një produkt të papjekur është në furrën tënde, jo në letër. Kërko mostra, piqi sipas udhëzimeve, shëno kohën dhe temperaturën që të jep rezultatin më të mirë dhe provoje për një javë në kushte reale.',
               'Pastaj krahaso: orë pune, produkt i mbetur, reagimi i klientëve. Ne jemi në Prizren dhe furnizojmë biznese në Kosovë, Shqipëri dhe Evropën Qendrore. Fillo me një mostër.',
             ],
           ],
         ],
       },
       en: {
-        title: 'How half-baked products help food businesses grow',
-        description: 'Learn how half-baked products reduce labour, waste and preparation time for bakeries, hotels and restaurants.',
-        seoTitle: 'Half-Baked Products: How They Help Food Businesses Grow',
-        seoDescription: 'Learn how half-baked products cut labour, waste and prep time while improving consistency for food businesses. Read the article!',
+        title: 'How unbaked frozen products help food businesses grow',
+        description: 'Learn how unbaked frozen products reduce labour, waste and preparation time for bakeries, hotels and restaurants.',
+        seoTitle: 'Unbaked Frozen Products: How They Help Food Businesses Grow',
+        seoDescription: 'Learn how unbaked frozen products cut labour, waste and prep time while improving consistency for food businesses. Read the article!',
         category: 'Business advice',
         readingTime: '4 min read',
         sections: [
           [
-            'What "half-baked" actually means',
+            'What "ready to bake" actually means',
             [
-              'A half-baked product is made completely at the factory — dough, filling, shape — baked part of the way, then frozen. You keep it frozen and finish it in your own oven: about 5 minutes of preparation and 30–35 minutes of baking. The crust, the colour and the aroma happen on your premises, not in a truck.',
+              'An unbaked frozen product is made completely at the factory — dough, filling, shape — and frozen before baking. You keep it frozen and bake it in your own oven: about 5 minutes of preparation and 30–35 minutes of baking. The crust, the colour and the aroma happen on your premises, not in a truck.',
               'That is the difference from ready-made products that only get reheated. Your customer gets a byrek that has just come out of the oven, while you need no dough station, no baker on every shift and none of the hours that go with them.',
             ],
           ],
           [
             'Consistent quality on every shift',
             [
-              'In a bakery or kitchen, quality often depends on who is working. Monday morning\'s byrek comes out different from Saturday night\'s. Half-baked products come from a standardised process: the same weight, the same amount of filling, the same degree of baking in every piece.',
+              'In a bakery or kitchen, quality often depends on who is working. Monday morning\'s byrek comes out different from Saturday night\'s. Unbaked frozen products come from a standardised process: the same weight, the same amount of filling, the same shape in every piece.',
               'Your team\'s job shrinks to one step that never changes: oven, time, temperature. That matters most for hotels running a breakfast buffet, for restaurants with several service points, and for any business where the customer comes back expecting exactly what they had last time.',
             ],
           ],
@@ -99,7 +99,7 @@ export const blogPosts = [
             'Less labour, less training',
             [
               'Byrek pastry needs experienced hands, time and workspace. A good baker is hard to find and expensive to keep, and when they are off, the whole day feels it.',
-              'With a half-baked product the craft stays in the factory. Any member of the team can run the oven after a short introduction. Your baker, if you have one, is freed for the items that make your business distinctive, and your kitchen needs less floor space and less equipment.',
+              'With an unbaked frozen product the craft stays in the factory. Any member of the team can run the oven after a short introduction. Your baker, if you have one, is freed for the items that make your business distinctive, and your kitchen needs less floor space and less equipment.',
             ],
           ],
           [
@@ -134,31 +134,31 @@ export const blogPosts = [
           [
             'How to start',
             [
-              'The best place to evaluate a half-baked product is your own oven, not a spec sheet. Request samples, bake them as instructed, note the time and temperature that give you the best result, and run them for a week under real conditions.',
+              'The best place to evaluate an unbaked product is your own oven, not a spec sheet. Request samples, bake them as instructed, note the time and temperature that give you the best result, and run them for a week under real conditions.',
               'Then compare: hours of labour, product left over, what customers say. We are in Prizren and supply businesses in Kosovo, Albania and Central Europe. Start with a sample.',
             ],
           ],
         ],
       },
       de: {
-        title: 'Wie halbgebackene Produkte Lebensmittelbetriebe beim Wachstum unterstützen',
-        description: 'Erfahren Sie, wie halbgebackene Produkte Arbeit, Abfall und Vorbereitungszeit in Bäckereien, Hotels und Restaurants reduzieren.',
-        seoTitle: 'Halbgebackene Produkte: Vorteile für Lebensmittelbetriebe',
-        seoDescription: 'Erfahren Sie, wie halbgebackene Produkte Arbeit, Abfall und Vorbereitungszeit reduzieren und Qualität sichern. Jetzt Artikel lesen!',
+        title: 'Wie ungebackene Tiefkühlprodukte Lebensmittelbetriebe beim Wachstum unterstützen',
+        description: 'Erfahren Sie, wie ungebackene Tiefkühlprodukte Arbeit, Abfall und Vorbereitungszeit in Bäckereien, Hotels und Restaurants reduzieren.',
+        seoTitle: 'Ungebackene Tiefkühlware: Vorteile für Lebensmittelbetriebe',
+        seoDescription: 'Erfahren Sie, wie ungebackene Tiefkühlprodukte Arbeit, Abfall und Vorbereitungszeit reduzieren und Qualität sichern. Jetzt Artikel lesen!',
         category: 'Tipps für Unternehmen',
         readingTime: '4 Min. Lesezeit',
         sections: [
           [
-            'Was „halbgebacken“ wirklich bedeutet',
+            'Was „backfertig“ wirklich bedeutet',
             [
-              'Ein halbgebackenes Produkt wird vollständig in der Fabrik hergestellt — Teig, Füllung, Form — teilweise gebacken und dann tiefgefroren. Sie lagern es gefroren und backen es im eigenen Ofen fertig: etwa 5 Minuten Vorbereitung und 30–35 Minuten Backzeit. Kruste, Farbe und Duft entstehen bei Ihnen, nicht im Lieferwagen.',
+              'Ein ungebackenes Tiefkühlprodukt wird vollständig in der Fabrik hergestellt — Teig, Füllung, Form — und vor dem Backen tiefgefroren. Sie lagern es gefroren und backen es im eigenen Ofen: etwa 5 Minuten Vorbereitung und 30–35 Minuten Backzeit. Kruste, Farbe und Duft entstehen bei Ihnen, nicht im Lieferwagen.',
               'Das ist der Unterschied zu Fertigprodukten, die nur aufgewärmt werden. Ihr Kunde bekommt einen Börek, der gerade aus dem Ofen kommt, während Sie weder eine Teigstation noch einen Bäcker in jeder Schicht brauchen — und auch nicht die Arbeitsstunden, die damit verbunden sind.',
             ],
           ],
           [
             'Gleichbleibende Qualität in jeder Schicht',
             [
-              'In einer Bäckerei oder Küche hängt die Qualität oft davon ab, wer gerade arbeitet. Der Börek vom Montagmorgen fällt anders aus als der vom Samstagabend. Halbgebackene Produkte stammen aus einem standardisierten Prozess: gleiches Gewicht, gleiche Füllmenge, gleicher Backgrad bei jedem Stück.',
+              'In einer Bäckerei oder Küche hängt die Qualität oft davon ab, wer gerade arbeitet. Der Börek vom Montagmorgen fällt anders aus als der vom Samstagabend. Ungebackene Tiefkühlprodukte stammen aus einem standardisierten Prozess: gleiches Gewicht, gleiche Füllmenge, gleiche Form bei jedem Stück.',
               'Die Aufgabe Ihres Teams reduziert sich auf einen Schritt, der sich nie ändert: Ofen, Zeit, Temperatur. Das zählt besonders für Hotels mit Frühstücksbuffet, für Restaurants mit mehreren Ausgabestellen und für jedes Geschäft, in dem Kunden wiederkommen und genau das erwarten, was sie beim letzten Mal bekommen haben.',
             ],
           ],
@@ -166,7 +166,7 @@ export const blogPosts = [
             'Weniger Arbeit, weniger Einarbeitung',
             [
               'Börek-Teig braucht erfahrene Hände, Zeit und Arbeitsfläche. Ein guter Bäcker ist schwer zu finden und teuer zu halten, und wenn er fehlt, spürt das der ganze Tag.',
-              'Bei einem halbgebackenen Produkt bleibt das Handwerk in der Fabrik. Jedes Teammitglied kann den Ofen nach einer kurzen Einweisung bedienen. Ihr Bäcker, falls Sie einen haben, wird frei für die Produkte, die Ihr Geschäft unverwechselbar machen, und Ihre Küche braucht weniger Fläche und weniger Geräte.',
+              'Bei einem ungebackenen Tiefkühlprodukt bleibt das Handwerk in der Fabrik. Jedes Teammitglied kann den Ofen nach einer kurzen Einweisung bedienen. Ihr Bäcker, falls Sie einen haben, wird frei für die Produkte, die Ihr Geschäft unverwechselbar machen, und Ihre Küche braucht weniger Fläche und weniger Geräte.',
             ],
           ],
           [
@@ -201,7 +201,7 @@ export const blogPosts = [
           [
             'So fangen Sie an',
             [
-              'Der beste Ort, ein halbgebackenes Produkt zu beurteilen, ist Ihr eigener Ofen, nicht ein Datenblatt. Fordern Sie Muster an, backen Sie sie nach Anleitung, notieren Sie Zeit und Temperatur mit dem besten Ergebnis und setzen Sie sie eine Woche lang unter realen Bedingungen ein.',
+              'Der beste Ort, ein ungebackenes Produkt zu beurteilen, ist Ihr eigener Ofen, nicht ein Datenblatt. Fordern Sie Muster an, backen Sie sie nach Anleitung, notieren Sie Zeit und Temperatur mit dem besten Ergebnis und setzen Sie sie eine Woche lang unter realen Bedingungen ein.',
               'Dann vergleichen Sie: Arbeitsstunden, übrig gebliebene Ware, Rückmeldungen der Kunden. Wir sitzen in Prizren und beliefern Unternehmen im Kosovo, in Albanien und in Mitteleuropa. Fangen Sie mit einem Muster an.',
             ],
           ],
@@ -212,7 +212,7 @@ export const blogPosts = [
   {
     slug: 'choosing-reliable-food-supplier',
     published: '2026-07-22',
-    updated: '2026-11-24',
+    updated: '2026-11-25',
     image: 'about',
     related: ['how-half-baked-products-help-businesses', 'reduce-food-waste-with-bake-on-demand'],
     translations: {
@@ -277,7 +277,7 @@ export const blogPosts = [
             'Zgjidh një partner, jo një çmim',
             [
               'Një furnizues i besueshëm të kursen kohë çdo javë: më pak telefonata, më pak improvizime, më pak surpriza para klientit. Kjo vlen më shumë se disa cent në copë.',
-              'Nëse po kërkon një furnizues për byrek dhe tortilla gjysmë të pjekura, fillo me një mostër nga Prizreni dhe gjyko vetë.',
+              'Nëse po kërkon një furnizues për byrek të papjekur dhe tortilla të freskëta, fillo me një mostër nga Prizreni dhe gjyko vetë.',
             ],
           ],
         ],
@@ -343,7 +343,7 @@ export const blogPosts = [
             'Choose a partner, not a price',
             [
               'A reliable supplier saves you time every week: fewer phone calls, fewer improvisations, fewer surprises in front of the customer. That is worth more than a few cents per piece.',
-              'If you are looking for a supplier of half-baked byrek and tortillas, start with a sample from Prizren and judge for yourself.',
+              'If you are looking for a supplier of unbaked byrek and fresh tortillas, start with a sample from Prizren and judge for yourself.',
             ],
           ],
         ],
@@ -409,7 +409,7 @@ export const blogPosts = [
             'Wählen Sie einen Partner, keinen Preis',
             [
               'Ein zuverlässiger Lieferant spart Ihnen jede Woche Zeit: weniger Anrufe, weniger Improvisation, weniger Überraschungen vor dem Kunden. Das ist mehr wert als ein paar Cent pro Stück.',
-              'Wenn Sie einen Lieferanten für halbgebackene Börek und Tortillas suchen, fangen Sie mit einem Muster aus Prizren an und urteilen Sie selbst.',
+              'Wenn Sie einen Lieferanten für ungebackenen Börek und frische Tortillas suchen, fangen Sie mit einem Muster aus Prizren an und urteilen Sie selbst.',
             ],
           ],
         ],
@@ -435,7 +435,7 @@ export const blogPosts = [
             'Nga vjen mbetja në të vërtetë',
             [
               'Pjesa më e madhe e produktit që hidhet në mbyllje nuk vjen nga cilësia e keqe, por nga një vendim i marrë në orën gjashtë të mëngjesit: sa të piqet për gjithë ditën. Kur piqet gjithçka njëherësh, vitrina është e bukur në orën tetë dhe gjysmë e zbrazët ose e ndenjur në orën katër.',
-              'Pjekja sipas kërkesës e ndan këtë vendim në disa vendime më të vogla gjatë ditës. Produktet gjysmë të pjekura e bëjnë të mundur, sepse stoku qëndron i ngrirë dhe çdo turn mund të nxjerrë nga furra vetëm atë që i duhet, për 30–35 minuta.',
+              'Pjekja sipas kërkesës e ndan këtë vendim në disa vendime më të vogla gjatë ditës. Produktet e papjekura e të ngrira e bëjnë të mundur, sepse stoku qëndron i ngrirë dhe çdo turn mund të nxjerrë nga furra vetëm atë që i duhet, për 30–35 minuta.',
             ],
           ],
           [
@@ -449,7 +449,7 @@ export const blogPosts = [
             'Hapi 2: Piq në sasi më të vogla, më shpesh',
             [
               'Në vend të një pjekjeje të madhe në mëngjes, planifiko tri ose katër më të vogla: para hapjes, para pikut të drekës, në mes të pasdites. Vitrina mbetet plot, produkti është gjithmonë i ngrohtë dhe aroma e furrës punon për ty gjatë gjithë ditës.',
-              'Me byrek dhe tortilla gjysmë të pjekura, një pjekje e re do të thotë vetëm të hapësh frigoriferin dhe të ndezësh furrën. Nuk ka brumë për të përgatitur dhe nuk ka nevojë për bukëpjekës në turn.',
+              'Me byrek të papjekur e të ngrirë, një pjekje e re do të thotë vetëm të hapësh frigoriferin dhe të ndezësh furrën. Nuk ka brumë për të përgatitur dhe nuk ka nevojë për bukëpjekës në turn.',
             ],
           ],
           [
@@ -484,7 +484,7 @@ export const blogPosts = [
             'Fillo me një produkt',
             [
               'Mos e ndrysho gjithë prodhimin njëherësh. Zgjidh produktin që të mbetet më shpesh, zbato metodën vetëm për të dhe shiko rezultatin pas dy javësh.',
-              'Nëse dëshiron ta provosh me byrek ose tortilla gjysmë të pjekura, kërko mostra dhe testoje në furrën tënde.',
+              'Nëse dëshiron ta provosh me byrek të papjekur, kërko mostra dhe testoje në furrën tënde.',
             ],
           ],
         ],
@@ -501,7 +501,7 @@ export const blogPosts = [
             'Where the waste actually comes from',
             [
               'Most of the product thrown away at closing time is not the result of poor quality but of a decision made at six in the morning: how much to bake for the whole day. When everything is baked at once, the display looks great at eight and is half empty or stale by four.',
-              'Bake-on-demand splits that one decision into several smaller ones through the day. Half-baked products make it possible, because stock stays frozen and any shift can pull from the oven only what it needs, in 30–35 minutes.',
+              'Bake-on-demand splits that one decision into several smaller ones through the day. Unbaked frozen products make it possible, because stock stays frozen and any shift can pull from the oven only what it needs, in 30–35 minutes.',
             ],
           ],
           [
@@ -515,7 +515,7 @@ export const blogPosts = [
             'Step 2: Bake smaller batches, more often',
             [
               'Instead of one big bake in the morning, plan three or four smaller ones: before opening, before the lunch peak, mid-afternoon. The display stays full, the product is always warm, and the smell of the oven works for you all day.',
-              'With half-baked byrek and tortillas, a new bake means opening the freezer and switching on the oven. There is no dough to prepare and no baker needed on shift.',
+              'With unbaked frozen byrek, a new bake means opening the freezer and switching on the oven. There is no dough to prepare and no baker needed on shift.',
             ],
           ],
           [
@@ -550,7 +550,7 @@ export const blogPosts = [
             'Start with one product',
             [
               'Do not change your whole production at once. Pick the product that is left over most often, apply the method to that one only, and look at the result after two weeks.',
-              'If you want to try it with half-baked byrek or tortillas, request samples and test them in your own oven.',
+              'If you want to try it with unbaked byrek, request samples and test them in your own oven.',
             ],
           ],
         ],
@@ -567,7 +567,7 @@ export const blogPosts = [
             'Woher der Abfall wirklich kommt',
             [
               'Der größte Teil der Ware, die bei Ladenschluss weggeworfen wird, ist nicht das Ergebnis schlechter Qualität, sondern einer Entscheidung um sechs Uhr morgens: wie viel für den ganzen Tag gebacken wird. Wird alles auf einmal gebacken, sieht die Auslage um acht großartig aus und ist um vier halb leer oder altbacken.',
-              'Bedarfsgerechtes Backen teilt diese eine Entscheidung in mehrere kleinere über den Tag auf. Halbgebackene Produkte machen das möglich, weil der Vorrat gefroren bleibt und jede Schicht in 30–35 Minuten nur das aus dem Ofen holt, was sie braucht.',
+              'Bedarfsgerechtes Backen teilt diese eine Entscheidung in mehrere kleinere über den Tag auf. Ungebackene Tiefkühlprodukte machen das möglich, weil der Vorrat gefroren bleibt und jede Schicht in 30–35 Minuten nur das aus dem Ofen holt, was sie braucht.',
             ],
           ],
           [
@@ -581,7 +581,7 @@ export const blogPosts = [
             'Schritt 2: Kleinere Chargen backen, dafür öfter',
             [
               'Statt einer großen Backrunde am Morgen planen Sie drei oder vier kleinere: vor der Öffnung, vor der Mittagsspitze, am mittleren Nachmittag. Die Auslage bleibt gefüllt, das Produkt ist immer warm, und der Duft aus dem Ofen arbeitet den ganzen Tag für Sie.',
-              'Mit halbgebackenen Börek und Tortillas bedeutet eine neue Backrunde nur: Tiefkühler öffnen, Ofen einschalten. Es gibt keinen Teig vorzubereiten und keinen Bäcker, der in der Schicht stehen muss.',
+              'Mit ungebackenem Tiefkühl-Börek bedeutet eine neue Backrunde nur: Tiefkühler öffnen, Ofen einschalten. Es gibt keinen Teig vorzubereiten und keinen Bäcker, der in der Schicht stehen muss.',
             ],
           ],
           [
@@ -616,7 +616,7 @@ export const blogPosts = [
             'Mit einem Produkt anfangen',
             [
               'Stellen Sie nicht die ganze Produktion auf einmal um. Wählen Sie das Produkt, das am häufigsten übrig bleibt, wenden Sie die Methode nur darauf an und sehen Sie sich das Ergebnis nach zwei Wochen an.',
-              'Wenn Sie es mit halbgebackenen Börek oder Tortillas ausprobieren möchten, fordern Sie Muster an und testen Sie sie im eigenen Ofen.',
+              'Wenn Sie es mit ungebackenem Börek ausprobieren möchten, fordern Sie Muster an und testen Sie sie im eigenen Ofen.',
             ],
           ],
         ],

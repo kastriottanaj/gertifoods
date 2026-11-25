@@ -1,12 +1,12 @@
 # Gerti Foods
 
-> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets, catering and distributors with ISO 22000 certified half-baked (par-baked) products — byrek (pies) and tortillas — that finish baking fresh in 30 to 35 minutes.
+> B2B factory in Prizren, Kosovo supplying bakeries, hotels, restaurants, supermarkets, catering and distributors with ISO 22000 certified fresh tortillas and unbaked frozen byrek (pies), which bakes fresh in 30 to 35 minutes.
 
-Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, based in Prizren, Kosovo and founded by three partners from the Hasi region. Products arrive frozen and finish baking on-site in 30 to 35 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France and the United Kingdom.
+Gerti Foods is a wholesale producer of fresh tortillas and unbaked frozen byrek, based in Prizren, Kosovo and founded by three partners from the Hasi region. The byrek arrives frozen and bakes on-site in 30 to 35 minutes, so a buyer serves oven-fresh product with the same quality on every shift and no in-house baker. The factory combines that heritage with automated European production lines and is certified to ISO 22000. The company sells B2B only (no consumer retail) and ships across Kosovo, Albania, Hungary, Croatia, Slovakia, Germany, France and the United Kingdom.
 
 ## Products
 
-- [Products catalog](https://gertifoods.com/products): full product list. All byrek are half-baked and delivered frozen, and finish in 30–35 minutes.
+- [Products catalog](https://gertifoods.com/products): full product list. All byrek are unbaked and delivered frozen, and bake in 30–35 minutes.
 - [Cheese byrek](https://gertifoods.com/products/pite-me-djathe): traditional flaky pastry filled with white cheese.
 - [Spinach byrek with cheese](https://gertifoods.com/products/pite-me-spinaq): traditional flaky pastry filled with spinach and cheese.
 - [Meat byrek](https://gertifoods.com/products/pite-me-mish): traditional flaky pastry filled with seasoned minced meat.
@@ -24,13 +24,13 @@ Gerti Foods is a wholesale producer of half-baked (par-baked) bakery products, b
 One landing page per buyer type and city for the Albanian-speaking markets (Kosovo and Albania), each in Albanian, English and German (/en/…, /de/…). The pages share the product range; what differs is the buyer's problem, the delivery facts for that market, and the FAQ.
 
 - [Supply by type of business](https://gertifoods.com/furnizim): the hub listing the seven pages below, with how ordering works for every buyer type.
-- [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — half-baked byrek in three varieties, minimum 50 pieces per variety, oven-ready in 30–35 minutes, samples on request.
-- [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add half-baked byrek and tortillas to the range without an extra baker; byrek bakes in 30–35 minutes, minimum 50 pieces per variety.
+- [Supply for byrek shops](https://gertifoods.com/furnizim/byrektore): landing page for byrektore (byrek shop) owners in Kosovo and Albania — unbaked byrek in three varieties, minimum 50 pieces per variety, oven-ready in 30–35 minutes, samples on request.
+- [Supply for bakeries](https://gertifoods.com/furnizim/furra-buke): landing page for bakeries (furra buke) in Kosovo and Albania — add unbaked byrek and fresh tortillas to the range without an extra baker; byrek bakes in 30–35 minutes, minimum 50 pieces per variety.
 - [Supply for cafés, restaurants and hotels](https://gertifoods.com/furnizim/lokale-restorante): landing page for HORECA venues in Kosovo and Albania — byrek baked to order in 30–35 minutes with no extra cook, tortillas for wraps on the menu.
 - [Supply for markets and supermarkets](https://gertifoods.com/furnizim/markete): landing page for retailers in Kosovo and Albania — frozen byrek in retail packaging or single for in-store ovens, plus fresh tortillas; delivered by the company's own truck, minimum one pallet.
 - [Byrek supply in Tirana](https://gertifoods.com/furnizim/tirane): city page for Tirana businesses — own-truck delivery from Prizren within a week of confirmation, no fixed delivery days, minimum one pallet.
 - [Byrek supply in Pristina](https://gertifoods.com/furnizim/prishtine): city page for Pristina businesses — own-truck delivery from Prizren within 24–48 hours of confirmation, no fixed delivery days, minimum one pallet.
-- [Lakror wholesale for southern Albania](https://gertifoods.com/furnizim/lakror): the same half-baked byrek presented in the southern-Albanian vocabulary (lakror) for buyers in Korçë, Gjirokastër and the south; bakes in a standard oven, not a saç.
+- [Lakror wholesale for southern Albania](https://gertifoods.com/furnizim/lakror): the same unbaked byrek presented in the southern-Albanian vocabulary (lakror) for buyers in Korçë, Gjirokastër and the south; bakes in a standard oven, not a saç.
 
 ## Key Pages
 
@@ -53,7 +53,7 @@ One landing page per buyer type and city for the Albanian-speaking markets (Koso
 ## Blog
 
 - [Blog index](https://gertifoods.com/blog): practical guidance for food businesses on sourcing, efficiency and bake-on-demand operations.
-- [Half-Baked Products: How They Help Food Businesses Grow](https://gertifoods.com/blog/how-half-baked-products-help-businesses)
+- [Unbaked Frozen Products: How They Help Food Businesses Grow](https://gertifoods.com/blog/how-half-baked-products-help-businesses)
 - [Reliable Food Supplier: 5 Things Businesses Should Check](https://gertifoods.com/blog/choosing-reliable-food-supplier)
 - [Bake-On-Demand: How to Cut Food Waste in Your Business](https://gertifoods.com/blog/reduce-food-waste-with-bake-on-demand)
 

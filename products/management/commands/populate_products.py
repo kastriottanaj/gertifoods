@@ -6,9 +6,9 @@ PRODUCTS = [
     {
         'category': {'name': 'Byrek', 'slug': 'pite', 'description': 'Traditional Balkan byrek — cheese, spinach and meat'},
         'items': [
-            {'name': 'Byrek me Djathë', 'slug': 'pite-me-djathe', 'description': 'Traditional flaky pastry filled with white cheese. Half-baked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
-            {'name': 'Byrek me Spinaq', 'slug': 'pite-me-spinaq', 'description': 'Traditional flaky pastry filled with spinach and cheese. Half-baked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
-            {'name': 'Byrek me Mish', 'slug': 'pite-me-mish', 'description': 'Traditional flaky pastry filled with seasoned minced meat. Half-baked.', 'price': '1.60', 'unit': 'piece', 'min_order_quantity': 50},
+            {'name': 'Byrek me Djathë', 'slug': 'pite-me-djathe', 'description': 'Traditional flaky pastry filled with white cheese. Unbaked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
+            {'name': 'Byrek me Spinaq', 'slug': 'pite-me-spinaq', 'description': 'Traditional flaky pastry filled with spinach and cheese. Unbaked.', 'price': '1.40', 'unit': 'piece', 'min_order_quantity': 50},
+            {'name': 'Byrek me Mish', 'slug': 'pite-me-mish', 'description': 'Traditional flaky pastry filled with seasoned minced meat. Unbaked.', 'price': '1.60', 'unit': 'piece', 'min_order_quantity': 50},
         ]
     },
     # TODO: Tortilla line — waiting on the variant list (plain / vegetable /

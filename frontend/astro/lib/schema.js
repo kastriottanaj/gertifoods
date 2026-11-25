@@ -23,7 +23,7 @@ export const organizationSchema = {
       telephone: '+383 49 111 150',
       foundingDate: '2024-01',
       description:
-        'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with ISO 22000 certified half-baked products.',
+        'Gerti Foods supplies bakeries, hotels, restaurants and supermarkets with ISO 22000 certified fresh tortillas and unbaked frozen byrek.',
       address: {
         '@type': 'PostalAddress',
         streetAddress: 'Str. Kalaja e Shkupit',
@@ -67,10 +67,10 @@ export const organizationSchema = {
     },
     {
       '@type': 'Service',
-      name: 'Half-baked product supply',
-      serviceType: 'Wholesale supply of half-baked bakery products',
+      name: 'Tortilla and byrek supply',
+      serviceType: 'Wholesale supply of tortillas and frozen byrek',
       description:
-        'Wholesale supply of ISO 22000 certified half-baked products — byrek (pies) and tortillas — for bakeries, hotels, restaurants and supermarkets.',
+        'Wholesale supply of ISO 22000 certified fresh tortillas and unbaked frozen byrek (pies) for bakeries, hotels, restaurants and supermarkets.',
       provider: { '@id': 'https://gertifoods.com/#organization' },
       areaServed: {
         '@type': 'Country',
