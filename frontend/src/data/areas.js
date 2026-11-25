@@ -1,5 +1,6 @@
 // Countries Gerti Foods serves. Each entry maps a URL slug to the
-// translation key for its display name.
+// translation key for its display name, and carries its flag (used by /areas
+// and the home page's countries strip).
 //
 // `customers` lists businesses in that market we are allowed to name, with
 // the link the page shows. It is data rather than copy because it is the same
@@ -16,20 +17,22 @@ export const areas = [
   {
     slug: 'kosovo',
     nameKey: 'area_kosovo',
+    flag: '🇽🇰',
     customers: [{ name: 'Interex', url: 'https://interex-rks.com/' }],
     supplyPages: ['byrektore', 'furra-buke', 'lokale-restorante', 'markete', 'prishtine'],
   },
   {
     slug: 'albania',
     nameKey: 'area_albania',
+    flag: '🇦🇱',
     supplyPages: ['byrektore', 'furra-buke', 'lokale-restorante', 'markete', 'tirane', 'lakror'],
   },
-  { slug: 'hungary', nameKey: 'area_hungary' },
-  { slug: 'croatia', nameKey: 'area_croatia' },
-  { slug: 'slovakia', nameKey: 'area_slovakia' },
-  { slug: 'germany', nameKey: 'area_germany' },
-  { slug: 'france', nameKey: 'area_france' },
-  { slug: 'uk', nameKey: 'area_uk' },
+  { slug: 'hungary', nameKey: 'area_hungary', flag: '🇭🇺' },
+  { slug: 'croatia', nameKey: 'area_croatia', flag: '🇭🇷' },
+  { slug: 'slovakia', nameKey: 'area_slovakia', flag: '🇸🇰' },
+  { slug: 'germany', nameKey: 'area_germany', flag: '🇩🇪' },
+  { slug: 'france', nameKey: 'area_france', flag: '🇫🇷' },
+  { slug: 'uk', nameKey: 'area_uk', flag: '🇬🇧' },
 ];
 
 export const getArea = (slug) => areas.find((a) => a.slug === slug);

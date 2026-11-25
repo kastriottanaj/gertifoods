@@ -142,11 +142,11 @@ const translations = {
     process_step_3_body: 'Çmime shumice, dërgesa e rregullt në Kosovë dhe rajon, kushte pagese të qarta. Zero surpriza në faturë.',
     process_cta: 'Fillo me mostrat falas',
 
-    // Capacity / numbers band
-    capacity_eyebrow: 'KAPACITETI YNË',
-    capacity_title: 'Numrat që qëndrojnë pas premtimeve',
-    capacity_subtitle: 'Fabrika jonë në Prizren prodhon me shkallë industriale, pa lëshuar dorën nga cilësia artizanale.',
-    capacity_stat_byrek: 'Byrek në orë',
+    // Delivery countries strip (replaced the capacity band, 2026-11-25)
+    countries_eyebrow: 'Zonat që mbulojmë',
+    countries_title: 'Nga Prizreni, në Ballkan e Evropë',
+    countries_subtitle: 'Nga fabrika jonë në Prizren furnizojmë biznese në Ballkan dhe Evropë. Zgjidh vendin tënd për të parë si punojmë atje.',
+    countries_cta: 'Shiko zonat që mbulojmë',
 
     // Heritage / founder story
     heritage_eyebrow: 'HISTORIA JONË',
@@ -1143,11 +1143,11 @@ const translations = {
     process_step_3_body: 'Wholesale pricing, regular delivery across Kosovo and the region, clear payment terms. Zero invoice surprises.',
     process_cta: 'Start with free samples',
 
-    // Capacity / numbers band
-    capacity_eyebrow: 'OUR CAPACITY',
-    capacity_title: 'The numbers behind the promise',
-    capacity_subtitle: 'Our Prizren factory runs at industrial scale without giving up on artisan quality.',
-    capacity_stat_byrek: 'Byrek per hour',
+    // Delivery countries strip (replaced the capacity band, 2026-11-25)
+    countries_eyebrow: 'Where we deliver',
+    countries_title: 'From Prizren to the Balkans and Europe',
+    countries_subtitle: 'From our factory in Prizren we supply businesses across the Balkans and Europe. Pick your country to see how we work there.',
+    countries_cta: 'See all delivery areas',
 
     // Heritage / founder story
     heritage_eyebrow: 'OUR STORY',
@@ -2119,11 +2119,11 @@ const translations = {
     process_step_3_body: 'Großhandelspreise, regelmäßige Lieferung im Kosovo und der Region, klare Zahlungsbedingungen. Null Überraschungen auf der Rechnung.',
     process_cta: 'Mit kostenlosen Mustern starten',
 
-    // Capacity / numbers band
-    capacity_eyebrow: 'UNSERE KAPAZITÄT',
-    capacity_title: 'Die Zahlen hinter dem Versprechen',
-    capacity_subtitle: 'Unsere Fabrik in Prizren produziert im Industriemaßstab, ohne die handwerkliche Qualität zu verlieren.',
-    capacity_stat_byrek: 'Börek pro Stunde',
+    // Delivery countries strip (replaced the capacity band, 2026-11-25)
+    countries_eyebrow: 'Liefergebiete',
+    countries_title: 'Von Prizren auf den Balkan und nach Europa',
+    countries_subtitle: 'Aus unserer Fabrik in Prizren beliefern wir Unternehmen auf dem Balkan und in Europa. Wählen Sie Ihr Land, um zu sehen, wie wir dort arbeiten.',
+    countries_cta: 'Alle Liefergebiete ansehen',
 
     // Heritage / founder story
     heritage_eyebrow: 'UNSERE GESCHICHTE',

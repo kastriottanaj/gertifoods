@@ -1064,9 +1064,11 @@
 }
 
 /* ========================================
-   Home — Capacity / numbers band (green)
+   Home — Delivery countries (green band)
+   Replaced the capacity / numbers band on 2026-11-25: same band, with one
+   chip per country (areas.js) instead of the 800-an-hour figure.
    ======================================== */
-.home-capacity {
+.home-countries {
   padding: 80px 32px;
   background:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
@@ -1077,13 +1079,13 @@
   color: white;
 }
 
-.home-capacity-inner {
+.home-countries-inner {
   max-width: 1100px;
   margin: 0 auto;
   text-align: center;
 }
 
-.home-capacity-eyebrow {
+.home-countries-eyebrow {
   display: inline-block;
   color: #6fe3a1;
   font-size: 0.76rem;
@@ -1093,7 +1095,7 @@
   margin-bottom: 14px;
 }
 
-.home-capacity-title {
+.home-countries-title {
   font-size: 2.1rem;
   font-weight: 800;
   line-height: 1.15;
@@ -1103,50 +1105,57 @@
   text-wrap: balance;
 }
 
-.home-capacity-subtitle {
+.home-countries-subtitle {
   font-size: 1.05rem;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.82);
   max-width: 680px;
-  margin: 0 auto 56px;
+  margin: 0 auto 36px;
 }
 
-/* One stat since 2026-11-18 (the CMO had the 3,000 tortillas an hour
-   removed): a single centred tile, as wide as one of the former two. */
-.home-capacity-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  max-width: 350px;
-  margin: 0 auto;
-}
-
-.home-capacity-stat {
+.home-countries-list {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 28px 16px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(2px);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
 }
 
-.home-capacity-value {
-  font-size: 3rem;
-  font-weight: 800;
+.home-countries-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: white;
-  letter-spacing: -1.2px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.home-countries-list a:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.home-countries-flag {
+  font-size: 1.25rem;
   line-height: 1;
 }
 
-.home-capacity-label {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.82);
-  letter-spacing: 0.3px;
-  text-align: center;
-  line-height: 1.4;
+.home-countries-link {
+  display: inline-block;
+  margin-top: 28px;
+  color: white;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ========================================
@@ -1558,23 +1567,17 @@
     padding: 24px 22px;
   }
 
-  .home-capacity {
+  .home-countries {
     padding: 56px 20px;
   }
-  .home-capacity-title {
+  .home-countries-title {
     font-size: 1.7rem;
   }
-  .home-capacity-subtitle {
-    margin-bottom: 36px;
+  .home-countries-subtitle {
+    margin-bottom: 28px;
   }
-  .home-capacity-grid {
-    gap: 14px;
-  }
-  .home-capacity-value {
-    font-size: 2.4rem;
-  }
-  .home-capacity-stat {
-    padding: 22px 12px;
+  .home-countries-list {
+    gap: 10px;
   }
 
   .home-heritage {
@@ -1661,11 +1664,12 @@
     font-size: 1.5rem;
   }
 
-  .home-capacity-title {
+  .home-countries-title {
     font-size: 1.45rem;
   }
-  .home-capacity-grid {
-    grid-template-columns: 1fr;
+  .home-countries-list a {
+    padding: 9px 14px;
+    font-size: 0.9rem;
   }
 
   .home-heritage-title {

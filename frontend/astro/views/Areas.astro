@@ -12,7 +12,6 @@ import { areas } from '../../src/data/areas.js';
 import heroImage from '../../src/assets/areas-we-serve.webp';
 
 const CALENDLY_URL = 'https://calendly.com/arlinda-gertifoods/30min';
-const FLAGS = { kosovo: '🇽🇰', albania: '🇦🇱', hungary: '🇭🇺', croatia: '🇭🇷', slovakia: '🇸🇰', germany: '🇩🇪', france: '🇫🇷', uk: '🇬🇧' };
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
@@ -48,7 +47,7 @@ const p = (path) => localePath(lang, path);
         {areas.map((area, index) => (
           <a href={p(`/areas/${area.slug}`)} class={`area-card area-card-${index + 1}`}>
             <div class="area-card-image" style={`background-image: url(${heroImage.src})`}>
-              <span>{FLAGS[area.slug]}</span><h3>{t(area.nameKey)}</h3>
+              <span>{area.flag}</span><h3>{t(area.nameKey)}</h3>
             </div>
             <div class="area-card-body"><p>{t(`areas_${area.slug}_body`)}</p><span>{t('areas_card_cta')} →</span></div>
           </a>

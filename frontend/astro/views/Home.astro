@@ -15,6 +15,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 // it overrides. Keep it that way when editing.
 import '../styles/home-classic.css';
 import { useTranslations, localePath } from '../lib/i18n.js';
+import { areas } from '../../src/data/areas.js';
 import { islandMessages } from '../lib/islandMessages.js';
 import LinkedText from '../components/LinkedText.astro';
 import HeroLeadFormIsland from '../islands/HeroLeadFormIsland.jsx';
@@ -424,18 +425,23 @@ const messages = islandMessages(lang);
       </div>
     </section>
 
-    <section class="home-capacity">
-      <div class="home-capacity-inner">
-        <span class="home-capacity-eyebrow">{t('capacity_eyebrow')}</span>
-        <h2 class="home-capacity-title">{t('capacity_title')}</h2>
-        <p class="home-capacity-subtitle">{t('capacity_subtitle')}</p>
-
-        <div class="home-capacity-grid">
-          <div class="home-capacity-stat">
-            <span class="home-capacity-value">800</span>
-            <span class="home-capacity-label">{t('capacity_stat_byrek')}</span>
-          </div>
-        </div>
+    {/* Delivery countries (2026-11-25), in place of the capacity band and its
+        800-an-hour figure: the same green band, one chip per country from
+        areas.js, each to its own page. The heading names no number, so a new
+        country needs no copy change. */}
+    <section class="home-countries">
+      <div class="home-countries-inner">
+        <span class="home-countries-eyebrow">{t('countries_eyebrow')}</span>
+        <h2 class="home-countries-title">{t('countries_title')}</h2>
+        <p class="home-countries-subtitle">{t('countries_subtitle')}</p>
+        <ul class="home-countries-list">
+          {areas.map((area) => (
+            <li>
+              <a href={p(`/areas/${area.slug}`)}><span class="home-countries-flag" aria-hidden="true">{area.flag}</span>{t(area.nameKey)}</a>
+            </li>
+          ))}
+        </ul>
+        <a href={p('/areas')} class="home-countries-link">{t('countries_cta')} →</a>
       </div>
     </section>
 
