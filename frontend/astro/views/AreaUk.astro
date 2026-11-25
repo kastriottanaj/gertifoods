@@ -1,0 +1,178 @@
+---
+// /areas/uk — the United Kingdom page, built to Kastriot's mockup
+// (2026-11-25). The other seven countries keep the shared AreaDetail view;
+// this one has its own layout:
+//
+//   - hero: Westminster at sunset, dark on the left for the text, the white
+//     curve rising from the bottom-right. Two buttons (quote, products) and
+//     the phone number.
+//   - a strip of three points: ISO 22000, byrek for the kitchen, tortillas
+//     for the menu.
+//   - three buyer cards (bakeries, hospitality & catering, retail), each
+//     linking to the product range.
+//   - a contact box (phone + quote), and on phones a fixed "Contact" bar.
+//
+// "Request a quote" and the phone bar open the site's sample/offer modal, as
+// on the /furnizim pages, with the lead source `area_uk`.
+//
+// The hero photo came with the white curve already painted into its
+// bottom-right corner. Laid over it is the same curve as SVG, traced from the
+// photo (CURVE below, in the photo's own pixels). It is scaled and anchored
+// like the photo (object-fit: cover from the right ↔ xMaxYMid slice), so the
+// two line up at every size, and it sits above the dark shade the text needs
+// — the shade would otherwise grey the white. See area-uk.css.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModalHost from '../islands/ModalHost.jsx';
+import { islandMessages } from '../lib/islandMessages.js';
+import { useTranslations, localePath } from '../lib/i18n.js';
+import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
+import heroImage from '../../src/assets/gerti-foods-uk.webp';
+import bakeryImage from '../../src/assets/bakery-shelves.webp';
+import wrapImage from '../../src/assets/chicken-wrap.webp';
+import byrekImage from '../../src/assets/spinach-byrek-squares.webp';
+import '../styles/area-uk.css';
+
+const PHONE = '+383 49 111 150';
+const PHONE_HREF = 'tel:+38349111150';
+
+// The white curve in gerti-foods-uk.webp (2098 × 749), traced column by
+// column, smoothed, and lifted 2.5px so it also covers the photo's
+// anti-aliased edge.
+const CURVE = 'M1378 749L1383 745.5L1395 745.1L1407 744.1L1419 743.1L1431 741.5L1443 740.5L1455 738.5L1467 737.2L1479 735.5L1491 733.5L1503 731.5L1515 729.5L1527 727.4L1539 724.9L1551 721.5L1563 719L1575 715.5L1587 712.4L1599 708.5L1611 705.2L1623 701.2L1635 697.2L1647 692.5L1659 688.2L1671 683.5L1683 678.5L1695 673.5L1707 668.1L1719 662.3L1731 656.2L1743 650.2L1755 643.5L1767 636.5L1779 629.3L1791 621.5L1803 614.3L1815 606.2L1827 597.5L1839 588.5L1851 579.5L1863 570.4L1875 560.4L1887 549.5L1899 538.4L1911 526.3L1923 513.5L1935 500.5L1947 486.5L1959 471.5L1971 456.4L1983 439.4L1995 421.2L2007 402.2L2019 382.1L2031 360.1L2043 335.4L2055 307.5L2067 276.3L2079 237.8L2091 186.5L2097 150.5L2098 138.5V749Z';
+
+const { lang, nameKey } = Astro.props;
+const t = useTranslations(lang);
+const p = (path) => localePath(lang, path);
+const k = (suffix) => t(`uk_${suffix}`);
+const name = t(nameKey);
+const messages = islandMessages(lang);
+
+// Every card goes to the product range ("view the range"). The /furnizim
+// segment pages address buyers in Kosovo and Albania, so they don't fit here.
+const SEGMENTS = [
+  { key: 'bakeries', image: bakeryImage, alt: 'img_alt_bakery_shelves', icon: 'store' },
+  { key: 'catering', image: wrapImage, alt: 'img_alt_chicken_wrap', icon: 'cloche' },
+  { key: 'retail', image: byrekImage, alt: 'img_alt_spinach_byrek', icon: 'cart' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    breadcrumbSchema([
+      { name: t('footer_home'), url: new URL(p('/'), Astro.site).href },
+      { name: t('areas_title'), url: new URL(p('/areas'), Astro.site).href },
+      { name },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title={k('seo_title')}
+  description={k('meta')}
+  lang={lang}
+  appClass=" uk-landing-app"
+  brandSuffix={false}
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={jsonLd(schema)} />
+
+  <div class="uk">
+    <section class="uk-hero">
+      <img src={heroImage.src} width={heroImage.width} height={heroImage.height} alt={k('hero_alt')} class="uk-hero-art uk-hero-img" fetchpriority="high" />
+      <div class="uk-hero-shade"></div>
+      <svg class="uk-hero-art uk-hero-curve" viewBox="0 0 2098 749" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+        <path d={CURVE} />
+      </svg>
+      <div class="uk-wrap uk-hero-inner">
+        <nav class="uk-breadcrumb" aria-label="Breadcrumb"><a href={p('/areas')}>{t('areas_title')}</a> / <span>{name}</span></nav>
+        <h1>{k('hero_title')}</h1>
+        <p class="uk-hero-body">{k('hero_body')}</p>
+        <div class="uk-hero-actions">
+          <button type="button" class="uk-btn uk-btn-red" data-open-modal="sample">{k('cta_quote')}</button>
+          <a href={p('/products')} class="uk-btn uk-btn-outline">{k('cta_products')}</a>
+          <a href={PHONE_HREF} class="uk-hero-phone">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
+            {PHONE}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="uk-band">
+      <div class="uk-wrap uk-points">
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.5 3v5.4c0 4.9-3.2 8.7-7.5 10-4.3-1.3-7.5-5.1-7.5-10V5.8z"/><path d="M8.6 12.1l2.4 2.4 4.6-4.8"/></g></svg>
+          <div><b>ISO 22000</b><p>{k('iso_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14.5v5h10v-5"/><path d="M7 14.5a4 4 0 01-1.2-7.8 4.3 4.3 0 018.4-1.4 4.3 4.3 0 013.9 1.2A4 4 0 0117 14.5z"/><path d="M7 17h10"/></g></svg>
+          <div><b>{k('kitchen')}</b><p>{k('kitchen_body')}</p></div>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a2 2 0 002 2h0a2 2 0 002-2V3M8 3v18"/><path d="M17.5 21V3c-2 1.2-3 3.6-3 6.5V13h3"/></g></svg>
+          <div><b>{k('menu')}</b><p>{k('menu_body')}</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="uk-wrap uk-segments">
+      <h2 class="uk-title">{k('serve_title')}</h2>
+      <div class="uk-cards">
+        {SEGMENTS.map(({ key, image, alt, icon }) => (
+          <article class="uk-card">
+            <img src={image.src} width={image.width} height={image.height} alt={t(alt)} loading="lazy" decoding="async" />
+            <div>
+              <span class="uk-card-icon" aria-hidden="true">
+                {icon === 'store' && (
+                  <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v10h16V10"/><path d="M3 5l1.5-2h15L21 5v2.2a2.6 2.6 0 01-4.5 1.8 2.6 2.6 0 01-4.5 0 2.6 2.6 0 01-4.5 0A2.6 2.6 0 013 7.2z"/><path d="M9.5 20v-5h5v5"/></g></svg>
+                )}
+                {icon === 'cloche' && (
+                  <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M4.5 17a7.5 7.5 0 0115 0"/><path d="M12 9.5V7.5M10.5 7.5h3"/><path d="M4 20h16"/></g></svg>
+                )}
+                {icon === 'cart' && (
+                  <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 10.5h10.6L20.5 7H7"/><circle cx="9.5" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></g></svg>
+                )}
+              </span>
+              <h3>{k(`segment_${key}`)}</h3>
+              <p>{k(`segment_${key}_body`)}</p>
+              <a href={p('/products')}>{k('segment_cta')} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="uk-wrap uk-contact">
+      <span class="uk-contact-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.7C4.4 15 3.5 13.1 3.5 11c0-3.9 3.8-7 8.5-7z"/></svg>
+      </span>
+      <div class="uk-contact-text">
+        <h2>{k('contact_title')}</h2>
+        <p>{k('contact_body')}</p>
+      </div>
+      <div class="uk-contact-actions">
+        <a href={PHONE_HREF} class="uk-btn uk-btn-red">{PHONE}</a>
+        <button type="button" class="uk-btn uk-btn-ghost" data-open-modal="sample">{k('cta_quote')}</button>
+      </div>
+    </section>
+
+    <div class="uk-bar">
+      <button type="button" class="uk-btn uk-btn-red" data-open-modal="sample">{k('contact_bar')}</button>
+    </div>
+  </div>
+
+  <ModalHost client:load lang={lang} messages={messages} sampleSource="area_uk" closeOnSampleSuccess={true} />
+</BaseLayout>
+
+<script>
+  // Same modal bridge as the /furnizim pages: the static buttons dispatch the
+  // event the ModalHost island listens for, and the pending slot covers a
+  // click that lands before the island has hydrated.
+  document.querySelectorAll<HTMLElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.openModal;
+      (window as any).__gfPendingModal = name;
+      window.dispatchEvent(new CustomEvent('gf:open-modal', { detail: name }));
+    });
+  });
+</script>

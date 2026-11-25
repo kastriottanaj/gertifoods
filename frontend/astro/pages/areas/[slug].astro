@@ -1,6 +1,7 @@
 ---
 // /areas/kosovo … /areas/germany in Albanian.
 import AreaDetail from '../../views/AreaDetail.astro';
+import AreaUk from '../../views/AreaUk.astro';
 import { DEFAULT_LANG } from '../../lib/i18n.js';
 import { areas } from '../../../src/data/areas.js';
 
@@ -13,6 +14,10 @@ export function getStaticPaths() {
 
 const { slug } = Astro.params;
 const { nameKey } = Astro.props;
+// A country redesigned to its own mockup gets its own view; the rest share
+// AreaDetail. Add an entry here when the next one gets its design.
+const VIEWS = { uk: AreaUk };
+const View = VIEWS[slug] ?? AreaDetail;
 ---
 
-<AreaDetail lang={DEFAULT_LANG} slug={slug} nameKey={nameKey} />
+<View lang={DEFAULT_LANG} slug={slug} nameKey={nameKey} />

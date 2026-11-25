@@ -120,6 +120,16 @@ AREA_SOURCES = (
     'frontend/src/data/areas.js',
 )
 
+# A country redesigned to its own mockup renders from its own view and
+# stylesheet as well (see VIEWS in pages/areas/[slug].astro); those files
+# date that page only.
+AREA_EXTRA_SOURCES = {
+    'uk': (
+        f'{ASTRO}/views/AreaUk.astro',
+        f'{ASTRO}/styles/area-uk.css',
+    ),
+}
+
 # Buyer-segment landing pages (/furnizim/<slug>) are defined in
 # frontend/src/data/supply.js; keep this list in sync.
 SUPPLY_SLUGS = [
@@ -258,7 +268,8 @@ class AreaSitemap(LocalizedSitemap):
 
     def lastmod(self, item):
         path, _lang = item
-        return last_commit(AREA_SOURCES, path.rsplit('/', 1)[1])
+        slug = path.rsplit('/', 1)[1]
+        return last_commit(AREA_SOURCES + AREA_EXTRA_SOURCES.get(slug, ()), slug)
 
 
 class SupplySitemap(LocalizedSitemap):
