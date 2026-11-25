@@ -6,10 +6,13 @@
 //   - hero: the country's landmark at sunset, dark on the left for the text,
 //     the white curve rising from the bottom-right. Two buttons (quote,
 //     products) and the phone number.
-//   - a strip of three points: ISO 22000, byrek for the kitchen, tortillas
-//     for the menu.
+//   - a strip of three points: ISO 22000, tortillas for the kitchen and for
+//     the menu.
 //   - three buyer cards (bakeries, hospitality & catering, retail), each
-//     linking to the product range.
+//     linking to the tortilla page.
+//
+// Tortillas only: Gerti Foods does not export byrek to these markets
+// (Kastriot, 2026-11-25), so nothing here offers it.
 //   - a contact box (phone + quote), and on phones a fixed "Contact" bar.
 //
 // "Request a quote" and the phone bar open the site's sample/offer modal, as
@@ -34,7 +37,7 @@ import ukHero from '../../src/assets/gerti-foods-uk.webp';
 import franceHero from '../../src/assets/gerti-foods-france.webp';
 import bakeryImage from '../../src/assets/bakery-shelves.webp';
 import wrapImage from '../../src/assets/chicken-wrap.webp';
-import byrekImage from '../../src/assets/spinach-byrek-squares.webp';
+import tortillaImage from '../../src/assets/tortilla-stack.webp';
 import '../styles/area-landing.css';
 
 const PHONE = '+383 49 111 150';
@@ -62,12 +65,12 @@ const k = (suffix) => {
 const name = t(nameKey);
 const messages = islandMessages(lang);
 
-// Every card goes to the product range ("view the range"). The /furnizim
+// Every card goes to the tortilla page ("view the range"). The /furnizim
 // segment pages address buyers in Kosovo and Albania, so they don't fit here.
 const SEGMENTS = [
   { key: 'bakeries', image: bakeryImage, alt: 'img_alt_bakery_shelves', icon: 'store' },
   { key: 'catering', image: wrapImage, alt: 'img_alt_chicken_wrap', icon: 'cloche' },
-  { key: 'retail', image: byrekImage, alt: 'img_alt_spinach_byrek', icon: 'cart' },
+  { key: 'retail', image: tortillaImage, alt: 'img_alt_tortilla_stack', icon: 'cart' },
 ];
 
 const schema = {
@@ -104,7 +107,7 @@ const schema = {
         <p class="al-hero-body">{k('hero_body')}</p>
         <div class="al-hero-actions">
           <button type="button" class="al-btn al-btn-red" data-open-modal="sample">{k('cta_quote')}</button>
-          <a href={p('/products')} class="al-btn al-btn-outline">{k('cta_products')}</a>
+          <a href={p('/products/tortilla')} class="al-btn al-btn-outline">{k('cta_products')}</a>
           <a href={PHONE_HREF} class="al-hero-phone">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01z"/></svg>
             {PHONE}
@@ -150,7 +153,7 @@ const schema = {
               </span>
               <h3>{k(`segment_${key}`)}</h3>
               <p>{k(`segment_${key}_body`)}</p>
-              <a href={p('/products')}>{k('segment_cta')} <span aria-hidden="true">→</span></a>
+              <a href={p('/products/tortilla')}>{k('segment_cta')} <span aria-hidden="true">→</span></a>
             </div>
           </article>
         ))}
