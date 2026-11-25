@@ -11,8 +11,14 @@ from products.models import Product
 # file showed a "Family Pizza" box (pizza is not sold). /media/ is served with a
 # 30-day max-age, so a replacement photo needs a new filename. Overwriting the
 # old file would leave returning visitors on their cached copy for a month.
+#
+# Spinach and meat have their own pack photos since 2026-11-25 (until then all
+# three byrek showed the cheese pack); the cheese pack, pie.webp, stays the
+# default for every other byrek. Both keywords must precede 'pite'/'byrek'.
 IMAGE_MAP = {
     'family pack': 'products/family-pack-pite.webp',
+    'spinaq': 'products/pite-me-spinaq.webp',
+    'mish': 'products/pite-me-mish.webp',
     'pite': 'products/pie.webp',
     'byrek': 'products/pie.webp',
 }

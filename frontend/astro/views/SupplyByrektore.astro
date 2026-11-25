@@ -23,6 +23,11 @@ import { useTranslations, localePath } from '../lib/i18n.js';
 import { breadcrumbSchema, jsonLd } from '../lib/schema.js';
 import heroImage from '../../src/assets/bakery-interior.webp';
 import pieImage from '../../src/assets/products/Pie.webp';
+// Each variety's own pack in its round thumbnail (2026-11-25): 400px-wide
+// copies of the meat and spinach pack photos, framed like Pie.webp so the
+// shared .bk-thumb crop fits all three. The thumbnails are 72px.
+import meatThumb from '../../src/assets/products/meat-pie-thumb.webp';
+import spinachThumb from '../../src/assets/products/spinach-pie-thumb.webp';
 import '../styles/supply-byrektore.css';
 // Classic section style (red headings, pill buttons, old cards).
 import '../styles/sections-classic.css';
@@ -32,9 +37,9 @@ const PHONE_HREF = 'tel:+38349111150';
 
 // The three varieties, in catalogue order; names from the shared product keys.
 const VARIETIES = [
-  ['pite-me-djathe', 'products_name_pite_me_djathe'],
-  ['pite-me-spinaq', 'products_name_pite_me_spinaq'],
-  ['pite-me-mish', 'products_name_pite_me_mish'],
+  ['pite-me-djathe', 'products_name_pite_me_djathe', pieImage],
+  ['pite-me-spinaq', 'products_name_pite_me_spinaq', spinachThumb],
+  ['pite-me-mish', 'products_name_pite_me_mish', meatThumb],
 ];
 
 const { lang } = Astro.props;
@@ -140,9 +145,9 @@ const schema = {
           <b>{t('products_name_pite_me_djathe')}</b>
         </a>
         <div class="bk-variety-grid">
-          {VARIETIES.map(([slug, nameKey]) => (
+          {VARIETIES.map(([slug, nameKey, thumb]) => (
             <a href={p(`/products/${slug}`)} class="bk-variety">
-              <span class="bk-thumb" style={`background-image:url(${pieImage.src})`} aria-hidden="true"></span>
+              <span class="bk-thumb" style={`background-image:url(${thumb.src})`} aria-hidden="true"></span>
               <span>
                 <b>{t(nameKey)}</b>
                 <i>{k('product_cta')} →</i>

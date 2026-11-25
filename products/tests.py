@@ -14,6 +14,8 @@ from products.management.commands import ping_indexnow
 from products.models import Category, Product
 
 PIE = 'products/pie.webp'
+MEAT = 'products/pite-me-mish.webp'
+SPINACH = 'products/pite-me-spinaq.webp'
 FAMILY_PACK = 'products/family-pack-pite.webp'
 
 
@@ -71,11 +73,9 @@ class SetProductImagesTests(TestCase):
         product.refresh_from_db()
         self.assertEqual(product.image.name, FAMILY_PACK)
 
-    def test_individual_products_get_the_pie_photo(self):
+    def test_other_byrek_get_the_cheese_pack_photo(self):
         names = {
             'pite-me-djathe': 'Pite me Djathë',
-            'pite-me-mish': 'Pite me Mish',
-            'pite-me-spinaq': 'Pite me Spinaq',
             'pite-me-tuna': 'Pite me Tuna',
             'byrek-me-djathe': 'Byrek me Djathë',
         }
@@ -86,6 +86,26 @@ class SetProductImagesTests(TestCase):
 
         for slug in names:
             self.assertEqual(Product.objects.get(slug=slug).image.name, PIE, slug)
+
+    def test_meat_and_spinach_get_their_own_pack_photos(self):
+        """
+        Since 2026-11-25 meat and spinach have their own photos. Their names
+        also contain 'pite' or 'byrek', so 'mish' and 'spinaq' must come first
+        or both would silently fall back to the cheese pack.
+        """
+        expected = {
+            'pite-me-mish': ('Pite me Mish', MEAT),
+            'pite-me-spinaq': ('Pite me Spinaq', SPINACH),
+            'byrek-me-mish': ('Byrek me Mish', MEAT),
+            'byrek-me-spinaq': ('Byrek me Spinaq', SPINACH),
+        }
+        for slug, (name, _) in expected.items():
+            self._product(name, slug)
+
+        self._run()
+
+        for slug, (_, image) in expected.items():
+            self.assertEqual(Product.objects.get(slug=slug).image.name, image, slug)
 
     def test_unmatched_products_are_left_alone(self):
         """
