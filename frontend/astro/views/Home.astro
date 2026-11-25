@@ -42,6 +42,32 @@ import bakeryInteriorImg from '../../src/assets/bakery-interior.webp';
 import heroPoster from '../../src/assets/home-hero-tortilla-poster.webp';
 import heroVideoDesktop from '../../src/assets/home-hero-tortilla-desktop.mp4';
 import heroVideoMobile from '../../src/assets/home-hero-tortilla-mobile.mp4';
+// The four tortilla varieties for the band under the hero. Small photos
+// (about 170x80), the same ones the tortilla page uses.
+import tortillaPlainImg from '../../src/assets/tortilla/plain.webp';
+import tortillaVegetableImg from '../../src/assets/tortilla/vegetable.webp';
+import tortillaFruitImg from '../../src/assets/tortilla/fruit.webp';
+import tortillaCinnamonImg from '../../src/assets/tortilla/cinnamon.webp';
+const TORTILLA_VARIANTS = [
+  ['plain', tortillaPlainImg],
+  ['vegetable', tortillaVegetableImg],
+  ['fruit', tortillaFruitImg],
+  ['cinnamon', tortillaCinnamonImg],
+];
+// Home "who we serve" cards: [group label key, [[key, path, icon SVG], ...]].
+// Icons: the old cards' restaurant, bag and truck, plus Material Icons
+// (Apache 2.0) "fastfood" and "local_bar". Static markup, so set:html is safe.
+const SEGMENT_GROUPS = [
+  ['segments_group_kosovo', [
+    ['fastfood', '/products/tortilla', '<path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-8-15.03-8-15.03 0h15.03zM1.02 17h15v2h-15z"/>'],
+    ['lounge', '/furnizim/lokale-restorante', '<path d="M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5l8-9zM7.43 7L5.66 5h12.69l-1.78 2H7.43z"/>'],
+    ['restaurants', '/furnizim/lokale-restorante', '<path d="M8.1 13.34l2.83-2.83L3.91 3.5a4 4 0 000 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>'],
+  ]],
+  ['segments_group_europe', [
+    ['distributors', '/areas', '<path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm12.5-9.5l1.96 2.5H17V9h1.5zM18 18.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>'],
+    ['supermarkets', '/furnizim/markete', '<path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5z"/>'],
+  ]],
+];
 import tortillaCardImg from '../../src/assets/home-hero-tortillas.webp';
 
 const CERTS = ['ISO 22000'];
@@ -149,73 +175,55 @@ const messages = islandMessages(lang);
       </svg>
     </section>
 
+    {/* Tortilla varieties (2026-11-25): straight after the banner, so the
+        first thing below it says "tortillas" (company change list: a visitor
+        must see at once that Gerti makes tortillas). Names and lines are the
+        tortilla page's own tt_variant_* keys; the photos stay near their own
+        small size. */}
+    <section class="home-tortilla-band">
+      <div class="home-tortilla-band-inner">
+        <h2 class="home-tortilla-band-title">{t('home_tortilla_band_title')}</h2>
+        <div class="home-tortilla-band-grid">
+          {TORTILLA_VARIANTS.map(([key, img]) => (
+            <a href={p('/products/tortilla')} class="home-tortilla-variant">
+              <img src={img.src} width={img.width} height={img.height} alt={t(`tt_variant_${key}_alt`)} loading="lazy" decoding="async" />
+              <h3>{t(`tt_variant_${key}`)}</h3>
+              <p>{t(`tt_variant_${key}_body`)}</p>
+            </a>
+          ))}
+        </div>
+        <a href={p('/products/tortilla')} class="home-tortilla-band-link">{t('home_tortilla_band_cta')} →</a>
+      </div>
+    </section>
+
     <section class="home-segments">
       <div class="home-segments-inner">
         <span class="home-segments-eyebrow">{t('segments_eyebrow')}</span>
         <h2 class="home-segments-title">{t('segments_title')}</h2>
         <p class="home-segments-subtitle">{t('segments_subtitle')}</p>
 
-        <div class="home-segments-grid">
-          <a href={p('/furnizim/furra-buke')} class="home-segment">
-            <span class="home-segment-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2c-1.1 0-2 .9-2 2 0 .38.1.73.29 1.03L8 8v13h2v-7h4v7h2V8l-2.29-2.97c.19-.3.29-.65.29-1.03 0-1.1-.9-2-2-2zm-6 8c-1.1 0-2 .9-2 2v9h2v-9zm12 0v11h2v-9c0-1.1-.9-2-2-2z"/>
-              </svg>
-            </span>
-            <h3 class="home-segment-title">{t('segment_bakeries_title')}</h3>
-            <p class="home-segment-body">{t('segment_bakeries_body')}</p>
-            <span class="home-segment-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-              </svg>
-            </span>
-          </a>
-
-          <a href={p('/furnizim/lokale-restorante')} class="home-segment">
-            <span class="home-segment-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8.1 13.34l2.83-2.83L3.91 3.5a4 4 0 000 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
-              </svg>
-            </span>
-            <h3 class="home-segment-title">{t('segment_horeca_title')}</h3>
-            <p class="home-segment-body">{t('segment_horeca_body')}</p>
-            <span class="home-segment-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-              </svg>
-            </span>
-          </a>
-
-          <a href={p('/furnizim/markete')} class="home-segment">
-            <span class="home-segment-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5z"/>
-              </svg>
-            </span>
-            <h3 class="home-segment-title">{t('segment_retail_title')}</h3>
-            <p class="home-segment-body">{t('segment_retail_body')}</p>
-            <span class="home-segment-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-              </svg>
-            </span>
-          </a>
-
-          <a href="#products" class="home-segment">
-            <span class="home-segment-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm12.5-9.5l1.96 2.5H17V9h1.5zM18 18.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
-              </svg>
-            </span>
-            <h3 class="home-segment-title">{t('segment_catering_title')}</h3>
-            <p class="home-segment-body">{t('segment_catering_body')}</p>
-            <span class="home-segment-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-              </svg>
-            </span>
-          </a>
-        </div>
+        {/* Who we serve, aimed at the ad audiences (2026-11-25): venues in
+            Kosovo first, then distributors and supermarkets across the
+            Balkans and Europe. Rows of three that centre a short last row. */}
+        {SEGMENT_GROUPS.map(([labelKey, cards]) => (
+          <div class="home-segments-group">
+            <p class="home-segments-group-label">{t(labelKey)}</p>
+            <div class="home-segments-grid home-segments-grid--group">
+              {cards.map(([key, href, icon]) => (
+                <a href={p(href)} class="home-segment">
+                  <span class="home-segment-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" set:html={icon} />
+                  </span>
+                  <h3 class="home-segment-title">{t(`segment_${key}_title`)}</h3>
+                  <p class="home-segment-body">{t(`segment_${key}_body`)}</p>
+                  <span class="home-segment-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" /></svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -330,29 +338,6 @@ const messages = islandMessages(lang);
         </div>
 
         <div class="home-categories-grid">
-          <a href={p('/products')} class="home-category">
-            <div class="home-category-image">
-              <img
-                src={pieImg.src}
-                alt={t('category_pite_alt')}
-                width="1500"
-                height="1600"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div class="home-category-body">
-              <h3>{t('category_pite_title')}</h3>
-              <p>{t('category_pite_desc')}</p>
-              <span class="home-category-cta">
-                {t('categories_view_range')}
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
-              </span>
-            </div>
-          </a>
-
           <a href={p('/products/tortilla')} class="home-category">
             {/* The licensed Pexels tortilla photo (the homepage hero until the
                 video; also the tortilla page's banner). It replaces the icon
@@ -371,6 +356,28 @@ const messages = islandMessages(lang);
             <div class="home-category-body">
               <h3>{t('category_tortilla_title')}</h3>
               <p>{t('category_tortilla_desc')}</p>
+              <span class="home-category-cta">
+                {t('categories_view_range')}
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+          <a href={p('/products')} class="home-category">
+            <div class="home-category-image">
+              <img
+                src={pieImg.src}
+                alt={t('category_pite_alt')}
+                width="1500"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="home-category-body">
+              <h3>{t('category_pite_title')}</h3>
+              <p>{t('category_pite_desc')}</p>
               <span class="home-category-cta">
                 {t('categories_view_range')}
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">

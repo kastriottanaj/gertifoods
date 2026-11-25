@@ -169,10 +169,11 @@ export function buildLlmsFull({ origin, lang, t, products, blogPosts, areas, sup
     heading(2, text('segments_title'));
     para(text('segments_subtitle'));
     bullets([
-      ['segment_bakeries_title', 'segment_bakeries_body'],
-      ['segment_horeca_title', 'segment_horeca_body'],
-      ['segment_retail_title', 'segment_retail_body'],
-      ['segment_catering_title', 'segment_catering_body'],
+      ['segment_fastfood_title', 'segment_fastfood_body'],
+      ['segment_lounge_title', 'segment_lounge_body'],
+      ['segment_restaurants_title', 'segment_restaurants_body'],
+      ['segment_distributors_title', 'segment_distributors_body'],
+      ['segment_supermarkets_title', 'segment_supermarkets_body'],
     ]);
   }
 
